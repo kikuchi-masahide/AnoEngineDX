@@ -18,7 +18,7 @@ void Log::Init()
 	boost::log::core::get()->add_global_attribute("TimeStamp", attrs::local_clock());
 }
 
-void Log::OutputTrivial(std::string _str)
+void Log::OutputTrivial(std::string& _str)
 {
 #ifdef _DEBUG
 	BOOST_LOG_TRIVIAL(info) << _str;
@@ -26,7 +26,25 @@ void Log::OutputTrivial(std::string _str)
 #endif
 }
 
-void Log::OutputCritical(std::string _str)
+void Log::OutputCritical(std::string& _str)
+{
+	BOOST_LOG_TRIVIAL(info) << "\n<critical!>" << _str << "\n";
+#ifdef _DEBUG
+	std::cout << "================================================================================\n";
+	std::cout << "<critical!>\n\t" << _str << "\n";
+	std::cout << "================================================================================\n";
+#endif
+}
+
+void Log::OutputTrivial(const char _str[])
+{
+#ifdef _DEBUG
+	BOOST_LOG_TRIVIAL(info) << _str;
+	std::cout << _str << "\n";
+#endif
+}
+
+void Log::OutputCritical(const char _str[])
 {
 	BOOST_LOG_TRIVIAL(info) << "\n<critical!>" << _str << "\n";
 #ifdef _DEBUG
