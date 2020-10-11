@@ -1,4 +1,5 @@
 #include "window.h"
+#include "Game.h"
 
 LRESULT WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
@@ -7,9 +8,12 @@ int main() {
 #else
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
-	Log::Init();
 	Log::OutputTrivial("program entry");
-	Window window((WNDPROC)WindowProcedure,TEXT("WndClass"), 1024, 768, TEXT("Title here"));
+	Game game;
+	if (!game.Initialize())return -1;
+	game.AddWindow((WNDPROC)WindowProcedure, TEXT("WndClass"), 1024, 768, TEXT("Title here"));
+	game.RunLoop();
+	game.Shutdown();
 	return 0;
 }
 

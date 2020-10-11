@@ -21,35 +21,29 @@ void Log::Init()
 void Log::OutputTrivial(std::string& _str)
 {
 #ifdef _DEBUG
-	BOOST_LOG_TRIVIAL(info) << _str;
-	std::cout << _str << "\n";
+	BOOST_LOG_TRIVIAL(info) << _str.c_str();
 #endif
 }
 
 void Log::OutputCritical(std::string& _str)
 {
-	BOOST_LOG_TRIVIAL(info) << "\n<critical!>" << _str << "\n";
-#ifdef _DEBUG
-	std::cout << "================================================================================\n";
-	std::cout << "<critical!>\n\t" << _str << "\n";
-	std::cout << "================================================================================\n";
-#endif
+	BOOST_LOG_TRIVIAL(info)
+		<< "\n================================================================================\n"
+		<< "<critical!>" << _str.c_str()
+		<< "\n================================================================================";
 }
 
 void Log::OutputTrivial(const char _str[])
 {
 #ifdef _DEBUG
 	BOOST_LOG_TRIVIAL(info) << _str;
-	std::cout << _str << "\n";
 #endif
 }
 
 void Log::OutputCritical(const char _str[])
 {
-	BOOST_LOG_TRIVIAL(info) << "\n<critical!>" << _str << "\n";
-#ifdef _DEBUG
-	std::cout << "================================================================================\n";
-	std::cout << "<critical!>\n\t" << _str << "\n";
-	std::cout << "================================================================================\n";
-#endif
+	BOOST_LOG_TRIVIAL(info) 
+		<< "\n================================================================================\n" 
+		<< "<critical!>" << _str
+		<< "\n================================================================================";
 }
