@@ -17,7 +17,7 @@ public:
 	void RunLoop();
 	void Shutdown();
 	Game();
-	void ChangeScene(Scene* _scene);
+	void ChangeScene(boost::shared_ptr<Scene> _scene);
 	/// <summary>
 	/// このインスタンスで_windownum番目のウィンドウを返す
 	/// </summary>
@@ -37,11 +37,10 @@ private:
 	void UpdateGame();
 	bool GenerateOutput();
 	bool mIsRunning;
-	Scene* mCurrentScene;
-	Scene* mPandingScene;
+	boost::shared_ptr<Scene> mCurrentScene;
+	boost::shared_ptr<Scene> mPandingScene;
 	bool mIsSceneChangable;
 	std::vector<boost::shared_ptr<Window>> mWindows;
 	void BeforeOutput();
 	bool AfterOutput();
-	void DeleteScene(Scene* _scene);
 };

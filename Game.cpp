@@ -25,7 +25,7 @@ Game::Game()
 {
 }
 
-void Game::ChangeScene(Scene* _scene)
+void Game::ChangeScene(boost::shared_ptr<Scene> _scene)
 {
 	if (!mIsSceneChangable) mPandingScene = _scene;
 	else mCurrentScene = _scene;
@@ -76,9 +76,8 @@ bool Game::GenerateOutput()
 	//mCurrentScene->Output(_dt);
 	if (!AfterOutput())return false;
 	if (mPandingScene) {
-		DeleteScene(mCurrentScene);
 		mCurrentScene = mPandingScene;
-		mPandingScene = nullptr;
+		mPandingScene.reset();
 	}
 	mIsSceneChangable = true;
 	return true;
@@ -139,9 +138,4 @@ void Game::BeforeOutput()
 bool Game::AfterOutput()
 {
 	return true;
-}
-
-void Game::DeleteScene(Scene* _scene)
-{
-	delete _scene;
 }
