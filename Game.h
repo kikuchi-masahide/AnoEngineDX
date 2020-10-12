@@ -1,14 +1,6 @@
 #pragma once
 
-class Texture;
-class VArray;
-class Shader;
-struct GLFWwindow;
 class Scene;
-class FBTexture;
-class FlipAnimationData;
-class MouseInput;
-class KeyboardInput;
 class Window;
 
 class Game {

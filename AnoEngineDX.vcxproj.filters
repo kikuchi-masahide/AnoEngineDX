@@ -7,6 +7,9 @@
     <Filter Include="Engine\DirectX">
       <UniqueIdentifier>{ece87b5f-b510-4e2c-afa7-75b96eea12e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\math">
+      <UniqueIdentifier>{2a475255-ae17-44f5-adc8-aca86ba75b3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Log.cpp">
@@ -17,6 +20,25 @@
     <ClCompile Include="window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Layer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Rect2.cpp">
+      <Filter>Engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="vector.cpp">
+      <Filter>Engine\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -25,6 +47,25 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="window.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Layer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect2.h">
+      <Filter>Engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
+      <Filter>Engine\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
