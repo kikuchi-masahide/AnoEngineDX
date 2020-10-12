@@ -67,5 +67,9 @@
     <ClInclude Include="vector.h">
       <Filter>Engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="Scene1.h" />
+    <ClInclude Include="Layer1.h" />
+    <ClInclude Include="Object1.h" />
+    <ClInclude Include="Component1.h" />
   </ItemGroup>
 </Project>

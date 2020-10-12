@@ -5,9 +5,9 @@
 
 Layer::~Layer() {}
 
-void Layer::SetWeakThis(boost::shared_ptr<Layer>& _this)
+void Layer::SetWeakThis(boost::shared_ptr<Layer> _this)
 {
-	if (mThis.expired() != 0)
+	if (!mThis.empty())
 	{
 		Log::OutputCritical("Resetting of weak this pointer");
 		assert(0);
@@ -43,8 +43,8 @@ void Layer::SetClientPosition(Rect2 _rect)
 
 void Layer::Update()
 {
-	CommonUpdate();
 	UniqueUpdate();
+	CommonUpdate();
 }
 
 void Layer::CommonUpdate() {
@@ -106,7 +106,7 @@ void Layer::DeleteObjects()
 	}
 }
 
-Layer::Layer(boost::weak_ptr<Scene> const _scene, Rect2 _rect, int _order)
+Layer::Layer(boost::weak_ptr<Scene> _scene, Rect2 _rect, int _order)
 	:mScene(_scene), mRect(_rect), mUpdPriority(_order), mIsObjAddable(true)
 	,mThis(boost::weak_ptr<Layer>()) {}
 

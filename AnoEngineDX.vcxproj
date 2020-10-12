@@ -171,12 +171,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Component1.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="Layer1.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Object1.h" />
     <ClInclude Include="Rect2.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Scene1.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="window.h" />

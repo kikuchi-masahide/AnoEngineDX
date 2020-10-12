@@ -10,7 +10,7 @@ class Scene;
 /// </summary>
 class GameObject {
 public:
-	GameObject(boost::weak_ptr<Layer>& _layer, Vector2 _pos, double _scale, double _angle, int _prio);
+	GameObject(boost::weak_ptr<Layer> _layer, Vector2 _pos, double _scale, double _angle, int _prio);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -48,7 +48,7 @@ public:
 	boost::weak_ptr<Scene> GetScene() const;
 	boost::weak_ptr<Game> GetGame() const;
 	boost::weak_ptr<GameObject> GetWeakThis() const;
-	void SetWeakThis(boost::shared_ptr<GameObject>& _this);
+	void SetWeakThis(boost::shared_ptr<GameObject> _this);
 protected:
 	/// <summary>
 	/// オブジェクトの中心座標

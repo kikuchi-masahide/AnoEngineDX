@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "window.h"
-//#include "Scene.h"
+#include "Scene.h"
 
 #pragma comment(lib,"winmm.lib")
 
@@ -11,6 +11,7 @@
 bool Game::Initialize()
 {
 	Log::Init();
+	mIsSceneChangable = true;
 	return true;
 }
 
@@ -63,7 +64,7 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {
 	mIsSceneChangable = false;
-	//mCurrentScene->Update(_dt);
+	mCurrentScene->Update();
 }
 
 /// <summary>
@@ -73,7 +74,7 @@ bool Game::GenerateOutput()
 {
 	//サブシステムの出力準備
 	BeforeOutput();
-	//mCurrentScene->Output(_dt);
+	mCurrentScene->Output();
 	if (!AfterOutput())return false;
 	if (mPandingScene) {
 		mCurrentScene = mPandingScene;
@@ -88,7 +89,6 @@ bool Game::GenerateOutput()
 /// </summary>
 void Game::RunLoop()
 {
-	DWORD start = timeGetTime();
 	MSG msg = {};
 	//"微妙に"たまっている時間
 	double millisec = 0;
@@ -97,6 +97,7 @@ void Game::RunLoop()
 	{
 		mWindows[i]->ShowWindow();
 	}
+	DWORD start = timeGetTime();
 	//メッセージループ
 	while (true)
 	{

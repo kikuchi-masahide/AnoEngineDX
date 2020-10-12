@@ -42,7 +42,7 @@ public:
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	virtual ~Layer();
-	void SetWeakThis(boost::shared_ptr<Layer>& _this);
+	void SetWeakThis(boost::shared_ptr<Layer> _this);
 	boost::weak_ptr<Layer> GetWeakThis() const;
 	boost::weak_ptr<Game> GetGame() const;
 protected:

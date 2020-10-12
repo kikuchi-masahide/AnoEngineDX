@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "Game.h"
 
-GameObject::GameObject(boost::weak_ptr<Layer>& _layer, Vector2 _pos, double _scale, double _angle, int _prio = 0)
+GameObject::GameObject(boost::weak_ptr<Layer> _layer, Vector2 _pos, double _scale, double _angle, int _prio = 0)
 	:mLayer(_layer), mPosition(_pos), mScale(_scale), mRotation(_angle),
 	mUpdPriority(_prio), mDeleteFlag(false), mThis(boost::weak_ptr<GameObject>()) {}
 
@@ -116,9 +116,9 @@ boost::weak_ptr<GameObject> GameObject::GetWeakThis() const
 	return mThis;
 }
 
-void GameObject::SetWeakThis(boost::shared_ptr<GameObject>& _this)
+void GameObject::SetWeakThis(boost::shared_ptr<GameObject> _this)
 {
-	if (mThis.expired() != 0)
+	if (!mThis.empty())
 	{
 		Log::OutputCritical("Resetting of weak this pointer");
 		assert(0);

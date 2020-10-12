@@ -8,7 +8,7 @@ class Layer;
 /// </summary>
 class Scene {
 public:
-	Scene(boost::weak_ptr<Game> const _game);
+	Scene(boost::weak_ptr<Game> _game);
 	/// <summary>
 	/// 更新関数
 	/// </summary>
@@ -25,7 +25,7 @@ public:
 	/// レイヤーを加える
 	/// </summary>
 	void AddLayer(boost::shared_ptr<Layer> _layer);
-	const boost::shared_ptr<Game> mGame;
+	const boost::weak_ptr<Game> mGame;
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	virtual ~Scene();

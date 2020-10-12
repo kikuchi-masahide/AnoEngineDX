@@ -12,7 +12,7 @@ class Game;
 class Component {
 public:
 	/// <param name="_order">優先度 高いほど先に呼び出される</param>
-	Component(boost::weak_ptr<GameObject>& _owner, int _order = 0);
+	Component(boost::weak_ptr<GameObject> _owner, int _order = 0);
 	/// <summary>
 	/// 自身の終了処理を行う
 	/// (基底クラスで持ち主のRemoveComponent(this)をする)
@@ -29,7 +29,7 @@ public:
 	boost::weak_ptr<Layer> GetLayer() const;
 	boost::weak_ptr<Scene> GetScene() const;
 	boost::weak_ptr<Game> GetGame() const;
-	void SetWeakThis(boost::shared_ptr<Component>& _this);
+	void SetWeakThis(boost::shared_ptr<Component> _this);
 	boost::weak_ptr<Component> GetWeakThis() const;
 	const boost::weak_ptr<GameObject> mOwner;
 protected:

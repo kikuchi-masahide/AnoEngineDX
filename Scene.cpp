@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Layer.h"
 
-Scene::Scene(boost::weak_ptr<Game> const _game)
+Scene::Scene(boost::weak_ptr<Game> _game)
 	:mGame(_game), mIsLayerAddable(true),mThis(boost::weak_ptr<Scene>()) {}
 
 void Scene::Update()
@@ -80,7 +80,7 @@ boost::weak_ptr<Scene> Scene::GetWeakThis() const
 
 void Scene::SetWeakThis(boost::shared_ptr<Scene> _this)
 {
-	if (mThis.expired() != 0)
+	if (!mThis.empty())
 	{
 		Log::OutputCritical("Resetting of weak this pointer");
 		assert(0);
