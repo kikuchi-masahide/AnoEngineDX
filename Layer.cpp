@@ -26,6 +26,23 @@ boost::weak_ptr<Game> Layer::GetGame() const
 	return scene->mGame;
 }
 
+int Layer::GetWindowID() const
+{
+	return mWindowID;
+}
+
+void Layer::SetWindowID(int _id)
+{
+	if (!mIsWindowIDChangable)
+	{
+		mPandingWindowID = _id;
+	}
+	else
+	{
+		mWindowID = _id;
+	}
+}
+
 int Layer::GetUpdPriority() const
 {
 	return mUpdPriority;
@@ -43,6 +60,7 @@ void Layer::SetClientPosition(Rect2 _rect)
 
 void Layer::Update()
 {
+	mIsWindowIDChangable = false;
 	UniqueUpdate();
 	CommonUpdate();
 }
@@ -63,6 +81,13 @@ void Layer::UpdateObjects() {
 void Layer::Output() {
 	CommonOutput();
 	UniqueOutput();
+	//windowIDÇÃç∑Çµë÷Ç¶
+	if (mPandingWindowID != -1)
+	{
+		mWindowID = mPandingWindowID;
+		mPandingWindowID = -1;
+	}
+	mIsWindowIDChangable = true;
 }
 
 void Layer::CommonOutput() {
@@ -106,9 +131,10 @@ void Layer::DeleteObjects()
 	}
 }
 
-Layer::Layer(boost::weak_ptr<Scene> _scene, Rect2 _rect, int _order)
+Layer::Layer(boost::weak_ptr<Scene> _scene, Rect2 _rect, int _window, int _order)
 	:mScene(_scene), mRect(_rect), mUpdPriority(_order), mIsObjAddable(true)
-	,mThis(boost::weak_ptr<Layer>()) {}
+	,mThis(boost::weak_ptr<Layer>()),mWindowID(_window),mPandingWindowID(-1)
+	,mIsWindowIDChangable(true){}
 
 void Layer::AddObject(boost::shared_ptr<GameObject> _obj)
 {

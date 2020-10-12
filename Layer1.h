@@ -7,7 +7,7 @@ class Layer1 :public Layer
 {
 public:
 	Layer1(boost::weak_ptr<Scene> _scene)
-		:Layer(_scene, Rect2(0, 100, 0, 100))
+		:Layer(_scene, Rect2(0, 100, 0, 100),0)
 	{
 		//Log::OutputTrivial("Layer1 Initialization");
 	}

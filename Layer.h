@@ -23,8 +23,9 @@ public:
 	/// </summary>
 	/// <param name="">所属シーン</param>
 	/// <param name="">クライアント座標での占有範囲</param>
+	/// <param name="_window">ウィンドウID</param>
 	/// <param name="">優先度(大きければ大きいほど先に更新出力が行われる)</param>
-	Layer(boost::weak_ptr<Scene> _scene, Rect2 _rect, int _order = 0);
+	Layer(boost::weak_ptr<Scene> _scene, Rect2 _rect, int _window, int _order = 0);
 	/// <summary>
 	/// オブジェクトを追加する
 	/// </summary>
@@ -45,6 +46,9 @@ public:
 	void SetWeakThis(boost::shared_ptr<Layer> _this);
 	boost::weak_ptr<Layer> GetWeakThis() const;
 	boost::weak_ptr<Game> GetGame() const;
+	int GetWindowID() const;
+	//セットしたIDは次回フレームから適用される
+	void SetWindowID(int _id);
 protected:
 	/// <summary>
 	/// 全オブジェクトのUpdate()を呼び出す
@@ -68,4 +72,8 @@ protected:
 	bool mDeleteFlag;
 	void DeleteObjects();
 	boost::weak_ptr<Layer> mThis;
+	int mWindowID;
+	int mPandingWindowID;
+	//falseの間mWindowIDの差し替えは行われない
+	bool mIsWindowIDChangable;
 };
