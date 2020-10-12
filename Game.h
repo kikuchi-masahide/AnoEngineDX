@@ -1,4 +1,5 @@
 #pragma once
+#include "DX12.h"
 
 class Scene;
 class Window;
@@ -24,6 +25,7 @@ public:
 	const double mTimeEps = (double)1000 / (double)60;
 	//‘O‚Ìˆ—‚Æ‚ÌŠÔ·‚ª‚±‚ÌŠÔ‚ğ’´‚¦‚½ê‡‚±‚Ì’l‚É‹¸³‚·‚é
 	const double mProcessTimeLimit = mTimeEps * 3;
+	DX12 mdx12;
 private:
 	void ProcessInput();
 	void UpdateGame();

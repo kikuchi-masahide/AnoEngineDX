@@ -20,7 +20,6 @@
     <ClCompile Include="window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Layer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -39,6 +38,15 @@
     <ClCompile Include="vector.cpp">
       <Filter>Engine\math</Filter>
     </ClCompile>
+    <ClCompile Include="DX12.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Pimple.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -48,7 +56,6 @@
     <ClInclude Include="window.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
     <ClInclude Include="Layer.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -71,5 +78,14 @@
     <ClInclude Include="Layer1.h" />
     <ClInclude Include="Object1.h" />
     <ClInclude Include="Component1.h" />
+    <ClInclude Include="DX12.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Pimple.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

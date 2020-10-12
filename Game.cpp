@@ -11,6 +11,12 @@
 bool Game::Initialize()
 {
 	Log::Init();
+	try {
+		mdx12.Initialize();
+	}
+	catch (...) {
+		assert(0);
+	}
 	mIsSceneChangable = true;
 	return true;
 }
@@ -20,6 +26,7 @@ bool Game::Initialize()
 /// </summary>
 void Game::Shutdown()
 {
+	mdx12.CleanUp();
 }
 
 Game::Game()
