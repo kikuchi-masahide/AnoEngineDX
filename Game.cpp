@@ -49,13 +49,13 @@ boost::shared_ptr<Window> Game::GetWindow(int _windownum)
 	return mWindows[_windownum];
 }
 
-int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)
+unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)
 {
 	boost::shared_ptr<Window> ptr(
 		new Window(_wndproc,_classID,_width,_height,_windowTitle)
 	);
 	mWindows.push_back(ptr);
-	return mWindows.size() - 1;
+	return (unsigned int)mWindows.size() - 1;
 }
 
 /// <summary>

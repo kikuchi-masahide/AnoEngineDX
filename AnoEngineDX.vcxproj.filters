@@ -47,6 +47,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="SwapChainManager.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="SwapChainManager.h">
+      <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

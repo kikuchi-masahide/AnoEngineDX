@@ -14,3 +14,8 @@ void DX12::CleanUp()
 	mPimple->CleanUp();
 	delete mPimple;
 }
+
+unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height)
+{
+	return mPimple->CreateSwapChain(_hwnd, _width, _height);
+}

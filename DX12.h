@@ -13,4 +13,9 @@ public:
 	DX12();
 	void Initialize();
 	void CleanUp();
+	/// <summary>
+	/// スワップチェーンを作る
+	/// </summary>
+	/// <returns>スワップチェーンのキー</returns>
+	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height);
 };

@@ -19,7 +19,7 @@ public:
 	/// ウィンドウをGameに追加する
 	/// </summary>
 	/// <returns>Gameで何番目のウィンドウか(ウィンドウの指定にはこの番号を使う)</returns>
-	int AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height,
+	unsigned int AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height,
 		LPCWSTR _windowTitle);
 	//1フレーム当たりの時間
 	const double mTimeEps = (double)1000 / (double)60;
@@ -37,4 +37,5 @@ private:
 	std::vector<boost::shared_ptr<Window>> mWindows;
 	void BeforeOutput();
 	bool AfterOutput();
+	std::map<int, unsigned int> mWindowID2SwapChainID;
 };
