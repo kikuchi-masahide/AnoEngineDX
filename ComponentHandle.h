@@ -11,7 +11,7 @@ public:
 	ComponentHandle();
 	~ComponentHandle();
 	Component* operator->() const noexcept;
-	bool IsValid();
+	bool IsValid() const;
 	void Reset(Component* _comp);
 private:
 	//ハンドルが指すコンポーネント

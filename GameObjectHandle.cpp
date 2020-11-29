@@ -29,7 +29,7 @@ GameObject* GameObjectHandle::operator->() const noexcept {
 	return mObject;
 }
 
-bool GameObjectHandle::IsValid()
+bool GameObjectHandle::IsValid() const
 {
 	return (mObject != nullptr);
 }

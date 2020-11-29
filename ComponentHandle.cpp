@@ -37,7 +37,7 @@ Component* ComponentHandle::operator->() const noexcept {
 	return mComp;
 }
 
-bool ComponentHandle::IsValid()
+bool ComponentHandle::IsValid() const
 {
 	return (mComp != nullptr);
 }

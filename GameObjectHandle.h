@@ -18,7 +18,7 @@ public:
 	//このハンドラが指すGameObjectのみがResetを呼び出せる(_objがmObjectと一致しなければassert)
 	void Reset(GameObject* _obj);
 	GameObject* operator->() const noexcept;
-	bool IsValid();
+	bool IsValid() const;
 private:
 	//このハンドルが指すオブジェクト
 	GameObject* mObject;

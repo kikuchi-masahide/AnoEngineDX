@@ -50,6 +50,12 @@
     <ClCompile Include="SwapChainManager.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectHandle.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentHandle.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -92,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="SwapChainManager.h">
       <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectHandle.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentHandle.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

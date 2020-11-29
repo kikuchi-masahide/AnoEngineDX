@@ -3,44 +3,27 @@
 #include "Layer.h"
 #include "Scene.h"
 #include "Game.h"
+#include "ComponentHandle.h"
 
-Component::Component(boost::weak_ptr<GameObject> _owner, int _order)
-	: mOwner(_owner), mUpdPriority(_order), mDeleteFlag(false),
-	mThis(boost::weak_ptr<Component>()) {}
+Component::~Component() {
+	std::for_each(mHandles->begin(), mHandles->end(), [this](ComponentHandle* _obj) {
+		_obj->Reset(this);
+	});
+}
 
-Component::~Component() {}
+Component::Component(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _order)
+	: mOwner(*_owner), mHandles(_hset), mUpdPriority(_order), mDeleteFlag(false),
+{}
 
 void Component::Update() {}
 
-boost::weak_ptr<Layer> Component::GetLayer() const
+Scene& Component::GetScene() const
 {
-	boost::shared_ptr<GameObject> obj(mOwner);
-	return obj->mLayer;
+	return mOwner.mScene;
 }
 
-boost::weak_ptr<Scene> Component::GetScene() const
+Game& Component::GetGame() const
 {
-	boost::shared_ptr<Layer> layer(GetLayer());
-	return layer->mScene;
+	return mOwner.mScene.mGame;
 }
 
-boost::weak_ptr<Game> Component::GetGame() const
-{
-	boost::shared_ptr<Scene> scene(GetScene());
-	return scene->mGame;
-}
-
-void Component::SetWeakThis(boost::shared_ptr<Component> _this)
-{
-	if (!mThis.empty())
-	{
-		Log::OutputCritical("Resetting of weak this pointer");
-		assert(0);
-	}
-	mThis = boost::weak_ptr<Component>(_this);
-}
-
-boost::weak_ptr<Component> Component::GetWeakThis() const
-{
-	return mThis;
-}
