@@ -10,7 +10,12 @@ public:
 	void RunLoop();
 	void Shutdown();
 	Game();
-	void ChangeScene(boost::shared_ptr<Scene> _scene);
+	/// <summary>
+	/// 次フレームからどのシーンに移行するか指定する．
+	/// (実際にシーンが変わるのは次フレームからだが，次シーンの初期化が行われるのは呼び出し時なのが困る)
+	/// </summary>
+	template<class S,class... Args>
+	void ChangeScene(Args... _args);
 	/// <summary>
 	/// このインスタンスで_windownum番目のウィンドウを返す
 	/// </summary>
@@ -31,8 +36,8 @@ private:
 	void UpdateGame();
 	bool GenerateOutput();
 	bool mIsRunning;
-	boost::shared_ptr<Scene> mCurrentScene;
-	boost::shared_ptr<Scene> mPandingScene;
+	Scene* mCurrentScene;
+	Scene* mPandingScene;
 	bool mIsSceneChangable;
 	std::vector<boost::shared_ptr<Window>> mWindows;
 	void BeforeOutput();

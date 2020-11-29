@@ -3,6 +3,8 @@
 #include <map>
 #include <Windows.h>
 #include <vector>
+#include <list>
+#include <set>
 
 #include <boost/qvm/vec.hpp>
 #include <boost/qvm/vec_access.hpp>

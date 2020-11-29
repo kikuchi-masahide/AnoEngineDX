@@ -33,10 +33,17 @@ Game::Game()
 {
 }
 
-void Game::ChangeScene(boost::shared_ptr<Scene> _scene)
+template<class S,class... Args>
+void Game::ChangeScene(Args... _args)
 {
-	if (!mIsSceneChangable) mPandingScene = _scene;
-	else mCurrentScene = _scene;
+	if (!mIsSceneChangable) {
+		if (mPandingScene != nullptr)delete mPandingScene;
+		mPandingScene = new S(this, args...);
+	}
+	else {
+		if (mCurrentScene != nullptr)delete mCurrentScene;
+		mCurrentScene = new S(this, args...);
+	}
 }
 
 boost::shared_ptr<Window> Game::GetWindow(int _windownum)
@@ -84,8 +91,9 @@ bool Game::GenerateOutput()
 	mCurrentScene->Output();
 	if (!AfterOutput())return false;
 	if (mPandingScene) {
+		delete mCurrentScene;
 		mCurrentScene = mPandingScene;
-		mPandingScene.reset();
+		mPandingScene = nullptr;
 	}
 	mIsSceneChangable = true;
 	return true;
