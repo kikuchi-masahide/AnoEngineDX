@@ -1,7 +1,7 @@
 #pragma once
 
 class GameObject;
-class Layer;
+class ComponentHandle;
 class Scene;
 class Game;
 
@@ -22,14 +22,13 @@ public:
 	/// </summary>
 	/// <param name="">Œo‰ßŽžŠÔ</param>
 	virtual void Update() = 0;
-	int GetUpdPriority() const { return mUpdPriority; };
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	virtual ~Component();
 	Scene& GetScene() const;
 	Game& GetGame() const;
+	const int mUpdPriority;
 protected:
-	int mUpdPriority;
 	bool mDeleteFlag;
 	GameObject& mOwner;
 private:

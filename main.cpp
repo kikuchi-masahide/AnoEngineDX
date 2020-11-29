@@ -10,17 +10,16 @@ int main() {
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
 	Log::OutputTrivial("program entry");
-	boost::shared_ptr<Game> game(new Game());
+	Game* game = new Game;
 	if (!game->Initialize())return -1;
 	game->AddWindow((WNDPROC)WindowProcedure, TEXT("WndClass"), 1024, 768, TEXT("Title here"));
 	auto windowptr = game->GetWindow(0);
 	game->mdx12.CreateSwapChain(windowptr->GetWindowHandle(), 1024, 768);
-	boost::shared_ptr<Scene1> scene(new Scene1(game));
-	scene->SetWeakThis(scene);
-	scene->Set();
-	game->ChangeScene(scene);
+	game->ChangeScene<Scene1>();
 	game->RunLoop();
 	game->Shutdown();
+
+	delete game;
 	return 0;
 }
 

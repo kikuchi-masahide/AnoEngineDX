@@ -9,20 +9,6 @@ GameObject::GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandl
 	:mScene(*_scene), mHandles(_hset), mPosition(_pos), mScale(_scale), mRotation(_angle),mDeleteFlag(false)
 {}
 
-template<class T,class... Args>
-ComponentHandle GameObject::AddUpdateComponent(Args... _args) {
-	boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
-	boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
-	mUpdateComponents.push_back(compp);
-}
-
-template<class T, class... Args>
-ComponentHandle GameObject::AddOutputComponent(Args... _args) {
-	boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
-	boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
-	mOutputComponents.push_back(compp);
-}
-
 Vector2 GameObject::GetPosition() const
 {
 	return mPosition;

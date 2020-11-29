@@ -27,24 +27,27 @@ bool Game::Initialize()
 void Game::Shutdown()
 {
 	mdx12.CleanUp();
+	//ÉVÅ[ÉìÇÃçÌèú
+	delete mPandingScene;
+	delete mCurrentScene;
 }
 
 Game::Game()
 {
 }
 
-template<class S,class... Args>
-void Game::ChangeScene(Args... _args)
-{
-	if (!mIsSceneChangable) {
-		if (mPandingScene != nullptr)delete mPandingScene;
-		mPandingScene = new S(this, args...);
-	}
-	else {
-		if (mCurrentScene != nullptr)delete mCurrentScene;
-		mCurrentScene = new S(this, args...);
-	}
-}
+//template<class S,class... Args>
+//void Game::ChangeScene(Args... _args)
+//{
+//	if (!mIsSceneChangable) {
+//		if (mPandingScene != nullptr)delete mPandingScene;
+//		mPandingScene = new S(this, _args...);
+//	}
+//	else {
+//		if (mCurrentScene != nullptr)delete mCurrentScene;
+//		mCurrentScene = new S(this, _args...);
+//	}
+//}
 
 boost::shared_ptr<Window> Game::GetWindow(int _windownum)
 {

@@ -84,7 +84,6 @@
       <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="Scene1.h" />
-    <ClInclude Include="Layer1.h" />
     <ClInclude Include="Object1.h" />
     <ClInclude Include="Component1.h" />
     <ClInclude Include="DX12.h">
@@ -105,5 +104,6 @@
     <ClInclude Include="ComponentHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Component2.h" />
   </ItemGroup>
 </Project>

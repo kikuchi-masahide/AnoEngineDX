@@ -1,14 +1,14 @@
 #pragma once
 
-class Layer;
+#include "Scene.h"
+
 class Component;
 class Game;
-class Scene;
 class GameObjectHandle;
 class ComponentHandle;
 
 /// <summary>
-/// レイヤーに含まれるオブジェクトを表すクラス
+/// シーンに含まれるオブジェクトを表すクラス
 /// </summary>
 class GameObject final {
 public:
@@ -16,14 +16,6 @@ public:
 	/// Scene::AddChildから呼び出されるコンストラクタ
 	/// </summary>
 	GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandle*>> _hset, Vector2 _pos, double _scale, double _angle);
-	///// <summary>
-	///// 更新関数
-	///// </summary>
-	//void Update();
-	///// <summary>
-	///// 出力関数
-	///// </summary>
-	//void Output();
 	Vector2 GetPosition() const;
 	Vector2 SetPosition(Vector2 _pos);
 	double GetScale() const;
@@ -34,10 +26,33 @@ public:
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	~GameObject();
+	//テンプレートの混じる関数の定義を.hを置かないといけないのは何故か一応調べる
 	template<class T,class... Args>
-	ComponentHandle AddUpdateComponent(Args... _args);
+	ComponentHandle AddUpdateComponent(Args... _args) {
+		//このコンポーネントを指すハンドルの集合
+		boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
+		//コンポーネント自身
+		boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
+		mUpdateComponents.push_back(compp);
+		//返すハンドル
+		ComponentHandle comph(compp.get(), comphsetp);
+		//シーンに追加
+		mScene.AddUpdateComponent(this,comph);
+		return comph;
+	};
 	template<class T, class... Args>
-	ComponentHandle AddOutputComponent(Args... _args);
+	ComponentHandle AddOutputComponent(Args... _args) {
+		//このコンポーネントを指すハンドルの集合
+		boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
+		//コンポーネント自身
+		boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
+		mOutputComponents.push_back(compp);
+		//返すハンドル
+		ComponentHandle comph(compp.get(), comphsetp);
+		//シーンに追加
+		mScene.AddOutputComponent(this,comph);
+		return comph;
+	};
 private:
 	/// <summary>
 	/// オブジェクトの中心座標

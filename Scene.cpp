@@ -18,15 +18,6 @@ void Scene::Update()
 
 void Scene::UniqueUpdate() {}
 
-void Scene::UpdateLayers()
-{
-	mIsObjCompAddable = true;
-	for (int i = 0; i < mLayers.size(); i++)
-	{
-		mLayers[i]->Update();
-	}
-}
-
 void Scene::Output()
 {
 	LaunchOutputComponents();
@@ -37,34 +28,6 @@ void Scene::Output()
 }
 
 void Scene::UniqueOutput() {}
-
-void Scene::OutputLayers()
-{
-	for (auto layer : mLayers)
-	{
-		layer->Output();
-	}
-}
-
-void Scene::InsertLayer(boost::shared_ptr<Layer> _layer)
-{
-	int prio = _layer->GetUpdPriority();
-	int i = 0;
-	for (; i < mLayers.size(); i++) {
-		if (mLayers[i]->GetUpdPriority() < prio)break;
-	}
-	mLayers.insert(mLayers.begin() + i, _layer);
-}
-
-void Scene::AddLayer(boost::shared_ptr<Layer> _layer)
-{
-	if (mIsObjCompAddable) {
-		mLayers.push_back(_layer);
-	}
-	else {
-		mPendingLayers.push_back(_layer);
-	}
-}
 
 GameObjectHandle Scene::AddObject(Vector2 _pos, double _scale, double _angle)
 {
@@ -93,16 +56,6 @@ void Scene::AddUpdateComponent(GameObject* _obj, ComponentHandle& _handle)
 	else mPandingUpdateComponents.push_back(_handle);
 }
 
-void Scene::DeleteLayers()
-{
-	for (int n = 0; n < mLayers.size(); n++) {
-		if (mLayers[n]->GetDeleteFlag()) {
-			mLayers.erase(mLayers.begin() + n);
-			n--;
-		}
-	}
-}
-
 void Scene::LaunchUpdateComponents()
 {
 	for (auto itr = mUpdateComponents.begin(); itr != mUpdateComponents.end(); itr++)
@@ -129,11 +82,11 @@ void Scene::DeleteAndProcessPandingObjComp()
 	for (auto& handle : mPandingUpdateComponents) {
 		mUpdateComponents.insert(handle);
 	}
-	mUpdateComponents.clear();
+	mPandingUpdateComponents.clear();
 	for (auto& handle : mPandingOutputComponents) {
 		mOutputComponents.insert(handle);
 	}
-	mOutputComponents.clear();
+	mPandingOutputComponents.clear();
 	//フラグが立っているオブジェクトの削除
 	mObjs.remove_if([](boost::shared_ptr<GameObject>& _obj) {
 		return _obj->GetDeleteFlag();
@@ -154,10 +107,3 @@ void Scene::DeleteAndProcessPandingObjComp()
 		else itr++;
 	}
 }
-
-class ComponentHandleCompare {
-public:
-	bool operator()(const ComponentHandle& left, const ComponentHandle& right) {
-		return left->GetUpdPriority() < right->GetUpdPriority();
-	}
-};

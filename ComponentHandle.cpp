@@ -41,10 +41,3 @@ bool ComponentHandle::IsValid() const
 {
 	return (mComp != nullptr);
 }
-
-void ComponentHandle::Reset(Component* _comp)
-{
-	assert(mComp == _comp);
-	mComp = nullptr;
-	mHandleSet.reset();
-}

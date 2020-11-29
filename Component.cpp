@@ -12,7 +12,7 @@ Component::~Component() {
 }
 
 Component::Component(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _order)
-	: mOwner(*_owner), mHandles(_hset), mUpdPriority(_order), mDeleteFlag(false),
+	: mOwner(*_owner), mHandles(_hset), mUpdPriority(_order), mDeleteFlag(false)
 {}
 
 void Component::Update() {}

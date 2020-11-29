@@ -14,8 +14,17 @@ public:
 	/// 次フレームからどのシーンに移行するか指定する．
 	/// (実際にシーンが変わるのは次フレームからだが，次シーンの初期化が行われるのは呼び出し時なのが困る)
 	/// </summary>
-	template<class S,class... Args>
-	void ChangeScene(Args... _args);
+	template<class S, class... Args>
+	void ChangeScene(Args... _args) {
+		if (!mIsSceneChangable) {
+			if (mPandingScene != nullptr)delete mPandingScene;
+			mPandingScene = new S(this, _args...);
+		}
+		else {
+			if (mCurrentScene != nullptr)delete mCurrentScene;
+			mCurrentScene = new S(this, _args...);
+		}
+	};
 	/// <summary>
 	/// このインスタンスで_windownum番目のウィンドウを返す
 	/// </summary>
