@@ -87,23 +87,26 @@ void Scene::DeleteAndProcessPandingObjComp()
 		mOutputComponents.insert(handle);
 	}
 	mPandingOutputComponents.clear();
-	//フラグが立っているオブジェクトの削除
-	mObjs.remove_if([](boost::shared_ptr<GameObject>& _obj) {
-		return _obj->GetDeleteFlag();
-	});
-	//ダングリングハンドルまたはフラグが立っているコンポーネントを指すハンドル
+	//全オブジェクトを回る
+	auto objitr = mObjs.begin();
+	while (objitr != mObjs.end()) {
+		//そのオブジェクトのフラグが立っているならば消去
+		if ((*objitr)->GetDeleteFlag())objitr = mObjs.erase(objitr);
+		else {
+			//オブジェクトにいらないコンポーネントを削除させる
+			(*objitr)->DeleteFlagedComponents(this);
+			objitr++;
+		}
+	}
+	//ダングリングハンドル削除
 	auto itr = mUpdateComponents.begin();
 	while (itr != mUpdateComponents.end()) {
-		//ダングリングハンドル
-		if (!(itr->IsValid()))mUpdateComponents.erase(itr);
-		//フラグが立っている
-		else if ((*itr)->GetDeleteFlag())mUpdateComponents.erase(itr);
+		if (!(itr->IsValid()))itr = mUpdateComponents.erase(itr);
 		else itr++;
 	}
 	itr = mOutputComponents.begin();
 	while (itr != mOutputComponents.end()) {
-		if (!(itr->IsValid()))mOutputComponents.erase(itr);
-		else if ((*itr)->GetDeleteFlag())mOutputComponents.erase(itr);
+		if (!(itr->IsValid()))itr = mOutputComponents.erase(itr);
 		else itr++;
 	}
 }

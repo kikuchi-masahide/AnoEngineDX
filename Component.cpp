@@ -19,11 +19,11 @@ void Component::Update() {}
 
 Scene& Component::GetScene() const
 {
-	return mOwner.mScene;
+	return mOwner.GetScene();
 }
 
 Game& Component::GetGame() const
 {
-	return mOwner.mScene.mGame;
+	return mOwner.GetScene().mGame;
 }
 

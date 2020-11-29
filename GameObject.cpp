@@ -6,7 +6,7 @@
 #include "Game.h"
 
 GameObject::GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandle*>> _hset, Vector2 _pos, double _scale, double _angle)
-	:mScene(*_scene), mHandles(_hset), mPosition(_pos), mScale(_scale), mRotation(_angle),mDeleteFlag(false)
+	:mScene(_scene), mHandles(_hset), mPosition(_pos), mScale(_scale), mRotation(_angle),mDeleteFlag(false)
 {}
 
 Vector2 GameObject::GetPosition() const
@@ -43,4 +43,26 @@ double GameObject::SetRotation(double _ro)
 	return mRotation;
 }
 
-GameObject::~GameObject() {}
+GameObject::~GameObject() {
+	Log::OutputCritical("GameObject Delete");
+}
+
+void GameObject::DeleteFlagedComponents(Scene* _scene)
+{
+	assert(_scene == mScene);
+	auto itr = mUpdateComponents.begin();
+	while (itr != mUpdateComponents.end()) {
+		if ((*itr)->GetDeleteFlag())itr = mUpdateComponents.erase(itr);
+		else itr++;
+	}
+	itr = mOutputComponents.begin();
+	while (itr != mOutputComponents.end()) {
+		if ((*itr)->GetDeleteFlag())itr = mOutputComponents.erase(itr);
+		else itr++;
+	}
+}
+
+Game& GameObject::GetGame() const
+{
+	return mScene->mGame;
+}

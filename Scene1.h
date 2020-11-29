@@ -14,10 +14,10 @@ public:
 	{
 		Log::OutputTrivial("Scene1 Initializer");
 		auto handle = AddObject(GetVector2(0,0),1.0,0.0);
-		handle->AddOutputComponent<Component1>(10,0);
-		//handle->AddOutputComponent<Component1>(60,1);
-		//handle->AddUpdateComponent<Component2>(20, 1);
-		//handle->AddUpdateComponent<Component2>(60, 0);
+		auto handlec11 = handle->AddOutputComponent<Component1>(10,0);
+		auto handlec12 = handle->AddOutputComponent<Component1>(60,1);
+		handle->AddUpdateComponent<Component2>(60, 0,handle);
+		handle->AddUpdateComponent<Component2>(20, 1,handle);
 	}
 	void UniqueOutput()
 	{

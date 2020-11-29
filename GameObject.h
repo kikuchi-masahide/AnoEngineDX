@@ -22,7 +22,6 @@ public:
 	double SetScale(double _sc);
 	double GetRotation() const;
 	double SetRotation(double _ro);
-	Scene& mScene;
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	~GameObject();
@@ -37,7 +36,7 @@ public:
 		//返すハンドル
 		ComponentHandle comph(compp.get(), comphsetp);
 		//シーンに追加
-		mScene.AddUpdateComponent(this,comph);
+		mScene->AddUpdateComponent(this,comph);
 		return comph;
 	};
 	template<class T, class... Args>
@@ -50,10 +49,15 @@ public:
 		//返すハンドル
 		ComponentHandle comph(compp.get(), comphsetp);
 		//シーンに追加
-		mScene.AddOutputComponent(this,comph);
+		mScene->AddOutputComponent(this,comph);
 		return comph;
 	};
+	//フラグが立っているコンポーネントを削除
+	void DeleteFlagedComponents(Scene* _scene);
+	Scene& GetScene() const { return *mScene; };
+	Game& GetGame() const;
 private:
+	Scene* mScene;
 	/// <summary>
 	/// オブジェクトの中心座標
 	/// </summary>

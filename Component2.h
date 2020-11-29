@@ -1,13 +1,14 @@
 #pragma once
 #include "Component.h"
 #include "ComponentHandle.h"
+#include "GameObject.h"
+#include "GameObjectHandle.h"
 
 //test update-component
-class Component2 :Component {
+class Component2 : public Component {
 public:
-	Component2(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _lim, int _id)
-		:Component(_owner, _hset, _id), mID(_id), mLimit(_lim),mCounter(0)
-	{
+	Component2(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _lim, int _id, GameObjectHandle _handle)
+		:Component(_owner, _hset, _id), mCounter(0), mLimit(_lim), mID(_id),mOwner(_handle) {
 		std::string str("Component2 Initialization(id=");
 		str += std::to_string(mID);
 		str += ")";
@@ -28,8 +29,9 @@ public:
 			str += std::to_string(mCounter);
 			str += ")";
 			Log::OutputCritical(str);
+			mOwner->SetDeleteFlag();
 		}
-		std::string str("Component1 Update(id=");
+		std::string str("Component2 Update(id=");
 		str += std::to_string(mID);
 		str += ")";
 		Log::OutputTrivial(str);
@@ -37,4 +39,5 @@ public:
 	int mID;
 	int mCounter;
 	int mLimit;
+	GameObjectHandle mOwner;
 };
