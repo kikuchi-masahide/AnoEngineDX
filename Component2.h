@@ -29,7 +29,7 @@ public:
 			str += std::to_string(mCounter);
 			str += ")";
 			Log::OutputCritical(str);
-			mOwner->SetDeleteFlag();
+			mOwner->AddOutputComponent<Component1>(120, mID+100);
 		}
 		std::string str("Component2 Update(id=");
 		str += std::to_string(mID);

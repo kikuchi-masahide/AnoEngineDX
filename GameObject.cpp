@@ -1,13 +1,15 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentHandle.h"
-#include "Layer.h"
 #include "Scene.h"
 #include "Game.h"
 
 GameObject::GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandle*>> _hset, Vector2 _pos, double _scale, double _angle)
 	:mScene(_scene), mHandles(_hset), mPosition(_pos), mScale(_scale), mRotation(_angle),mDeleteFlag(false)
-{}
+{
+	assert(_scene != nullptr);
+	assert(_hset != nullptr);
+}
 
 Vector2 GameObject::GetPosition() const
 {
@@ -49,7 +51,9 @@ GameObject::~GameObject() {
 
 void GameObject::DeleteFlagedComponents(Scene* _scene)
 {
+	//ちゃんと親シーンから呼び出されているかのチェック
 	assert(_scene == mScene);
+	//コンポーネントを巡回しフラグが立っているものを削除
 	auto itr = mUpdateComponents.begin();
 	while (itr != mUpdateComponents.end()) {
 		if ((*itr)->GetDeleteFlag())itr = mUpdateComponents.erase(itr);

@@ -20,9 +20,6 @@
     <ClCompile Include="window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -65,9 +62,6 @@
     <ClInclude Include="window.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -84,7 +78,6 @@
       <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="Scene1.h" />
-    <ClInclude Include="Object1.h" />
     <ClInclude Include="Component1.h" />
     <ClInclude Include="DX12.h">
       <Filter>Engine\DirectX</Filter>

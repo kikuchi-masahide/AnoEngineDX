@@ -1,12 +1,13 @@
 #include "Scene.h"
-#include "Layer.h"
 #include "GameObject.h"
 #include "GameObjectHandle.h"
 #include "Component.h"
 #include "ComponentHandle.h"
 
 Scene::Scene(Game* _game)
-	:mGame(*_game), mIsObjCompAddable(true) {}
+	:mGame(*_game), mIsObjCompAddable(true) {
+	assert(_game != nullptr);
+}
 
 void Scene::Update()
 {
@@ -52,6 +53,7 @@ void Scene::AddOutputComponent(GameObject* _obj, ComponentHandle& _handle)
 void Scene::AddUpdateComponent(GameObject* _obj, ComponentHandle& _handle)
 {
 	assert(_obj != nullptr);
+	assert(_handle.IsValid());
 	if (mIsObjCompAddable)mUpdateComponents.insert(_handle);
 	else mPandingUpdateComponents.push_back(_handle);
 }

@@ -60,4 +60,5 @@ private:
 	bool mIsObjCompAddable;
 	//Deleteフラグが立っているコンポーネント・オブジェクトや保留中のそれらの処理
 	void DeleteAndProcessPandingObjComp();
+	GameObject* operator&() const noexcept;
 };

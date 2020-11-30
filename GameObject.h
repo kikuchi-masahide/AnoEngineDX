@@ -7,6 +7,11 @@ class Game;
 class GameObjectHandle;
 class ComponentHandle;
 
+template<class T>
+concept ComponentInheritenc = requires (T & x) {
+
+}
+
 /// <summary>
 /// シーンに含まれるオブジェクトを表すクラス
 /// </summary>
@@ -73,4 +78,5 @@ private:
 	//このオブジェクトを指すハンドルのset
 	boost::shared_ptr<std::set<GameObjectHandle*>> mHandles;
 	bool mDeleteFlag;
+	GameObject* operator&() const noexcept;
 };
