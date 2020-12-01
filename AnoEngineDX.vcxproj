@@ -160,7 +160,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ComponentHandle.cpp" />
     <ClCompile Include="DX12.cpp" />
     <ClCompile Include="DX12Pimple.cpp" />
     <ClCompile Include="Game.cpp" />
