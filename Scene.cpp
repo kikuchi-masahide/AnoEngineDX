@@ -43,21 +43,6 @@ GameObjectHandle Scene::AddObject(Vector2 _pos, double _scale, double _angle)
 
 Scene::~Scene() {}
 
-void Scene::AddOutputComponent(GameObject* _obj, ComponentHandle& _handle)
-{
-	assert(_obj != nullptr);
-	if (mIsObjCompAddable)mOutputComponents.insert(_handle);
-	else mPandingOutputComponents.push_back(_handle);
-}
-
-void Scene::AddUpdateComponent(GameObject* _obj, ComponentHandle& _handle)
-{
-	assert(_obj != nullptr);
-	assert(_handle.IsValid());
-	if (mIsObjCompAddable)mUpdateComponents.insert(_handle);
-	else mPandingUpdateComponents.push_back(_handle);
-}
-
 void Scene::LaunchUpdateComponents()
 {
 	for (auto itr = mUpdateComponents.begin(); itr != mUpdateComponents.end(); itr++)

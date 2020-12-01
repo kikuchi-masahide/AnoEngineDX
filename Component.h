@@ -1,7 +1,6 @@
 #pragma once
 
 class GameObject;
-class ComponentHandle;
 class Scene;
 class Game;
 
@@ -12,7 +11,7 @@ class Game;
 class Component {
 public:
 	/// <param name="_order">優先度 高いほど先に呼び出される</param>
-	Component(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _order = 0);
+	Component(GameObject* _owner, boost::shared_ptr<std::set<void*>> _hset, int _order = 0);
 	/// <summary>
 	/// コンポ－ネントの更新処理
 	/// </summary>
@@ -27,8 +26,8 @@ public:
 protected:
 	bool mDeleteFlag;
 private:
-	//自分を指すハンドルの集合のポインタ
-	boost::shared_ptr<std::set<ComponentHandle*>> mHandles;
+	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
+	boost::shared_ptr<std::set<void*>> mHandles;
 	//&でインスタンスのポインタを取得させない
 	Component* operator&() const noexcept;
 };

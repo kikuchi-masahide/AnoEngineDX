@@ -1,16 +1,11 @@
 #pragma once
 
 #include "Scene.h"
-
 class Component;
 class Game;
 class GameObjectHandle;
-class ComponentHandle;
-
 template<class T>
-concept ComponentInheritenc = requires (T & x) {
-
-}
+class ComponentHandle;
 
 /// <summary>
 /// シーンに含まれるオブジェクトを表すクラス
@@ -30,33 +25,37 @@ public:
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	~GameObject();
-	//テンプレートの混じる関数の定義を.hを置かないといけないのは何故か一応調べる
+	//このオブジェクトにT型のUpdateComponentを追加(_argsはコンストラクタに渡す引数)
+	//concept等でTの正当性を後々(静的に)評価したい
 	template<class T,class... Args>
-	ComponentHandle AddUpdateComponent(Args... _args) {
+	ComponentHandle<T> AddUpdateComponent(Args... _args) {
 		//このコンポーネントを指すハンドルの集合
-		boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
+		boost::shared_ptr<std::set<void*>> comphsetp(new std::set<void*>());
 		//コンポーネント自身
-		boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
+		T* comppn = new T(this, comphsetp, _args...);
+		boost::shared_ptr<Component> compp(comppn);
 		mUpdateComponents.push_back(compp);
 		//返すハンドル
-		ComponentHandle comph(compp.get(), comphsetp);
+		ComponentHandle<T> comph(comppn, comphsetp);
 		//シーンに追加
-		mScene->AddUpdateComponent(this,comph);
+		mScene->AddUpdateComponent(this, comph);
 		return comph;
-	};
+	}
 	template<class T, class... Args>
-	ComponentHandle AddOutputComponent(Args... _args) {
+	ComponentHandle<T> AddOutputComponent(Args... _args) {
 		//このコンポーネントを指すハンドルの集合
-		boost::shared_ptr<std::set<ComponentHandle*>> comphsetp(new std::set<ComponentHandle*>());
+		boost::shared_ptr<std::set<void*>> comphsetp(new std::set<void*>());
 		//コンポーネント自身
-		boost::shared_ptr<Component> compp(new T(this, comphsetp, _args...));
+		T* comppn = new T(this, comphsetp, _args...);
+		boost::shared_ptr<Component> compp(comppn);
 		mOutputComponents.push_back(compp);
 		//返すハンドル
-		ComponentHandle comph(compp.get(), comphsetp);
+		ComponentHandle<T> comph(comppn, comphsetp);
 		//シーンに追加
-		mScene->AddOutputComponent(this,comph);
+		mScene->AddOutputComponent(this, comph);
 		return comph;
 	};
+
 	//フラグが立っているコンポーネントを削除
 	void DeleteFlagedComponents(Scene* _scene);
 	Scene& GetScene() const { return *mScene; };

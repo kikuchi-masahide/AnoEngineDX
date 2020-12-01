@@ -46,6 +46,9 @@ double GameObject::SetRotation(double _ro)
 }
 
 GameObject::~GameObject() {
+	//自分を消す前にコンポーネントたちを消しておく
+	mUpdateComponents.clear();
+	mOutputComponents.clear();
 	Log::OutputCritical("GameObject Delete");
 }
 

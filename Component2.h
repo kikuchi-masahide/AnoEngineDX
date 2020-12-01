@@ -7,7 +7,7 @@
 //test update-component
 class Component2 : public Component {
 public:
-	Component2(GameObject* _owner, boost::shared_ptr<std::set<ComponentHandle*>> _hset, int _lim, int _id, GameObjectHandle _handle)
+	Component2(GameObject* _owner, boost::shared_ptr<std::set<void*>> _hset, int _lim, int _id, GameObjectHandle _handle)
 		:Component(_owner, _hset, _id), mCounter(0), mLimit(_lim), mID(_id),mOwner(_handle) {
 		std::string str("Component2 Initialization(id=");
 		str += std::to_string(mID);
