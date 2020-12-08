@@ -6,16 +6,8 @@
 #include "DX12CmdQueue.h"
 #include "SwapChainManager.h"
 
-DX12::DX12()
-	:mFactory(new DX12Factory()), mDevice(new DX12Device()), mCmdList(new DX12CmdList()),
-	mCmdAllocator(new DX12CmdAllocator()), mCmdQueue(new DX12CmdQueue()),
-	mSwapChainManager(new SwapChainManager())
-{}
-
-void DX12::Initialize()
+void DX12::EnableDebugLayer()
 {
-	//デバッグレイヤの有効化
-#ifdef _DEBUG
 	ComPtr<ID3D12Debug> debugLayer;
 	if (FAILED(
 		D3D12GetDebugInterface(
@@ -27,6 +19,25 @@ void DX12::Initialize()
 		throw 0;
 	}
 	debugLayer->EnableDebugLayer();
+}
+
+DX12::DX12()
+	:mFactory(new DX12Factory()), mDevice(new DX12Device()), mCmdList(new DX12CmdList()),
+	mCmdAllocator(new DX12CmdAllocator()), mCmdQueue(new DX12CmdQueue()),
+	mSwapChainManager(new SwapChainManager())
+{}
+
+void DX12::Initialize()
+{
+	//デバッグレイヤの有効化
+#ifdef _DEBUG
+	try {
+		EnableDebugLayer();
+	}
+	catch (...)
+	{
+		throw;
+	}
 #endif
 	try {
 		//Direct3Dデバイス
@@ -48,12 +59,18 @@ void DX12::Initialize()
 
 void DX12::CleanUp()
 {
+	mSwapChainManager->CleanUp();
 	delete mSwapChainManager;
-	delete mFactory;
-	delete mDevice;
-	delete mCmdAllocator;
-	delete mCmdList;
+	mCmdQueue->CleanUp();
 	delete mCmdQueue;
+	mCmdList->CleanUp();
+	delete mCmdList;
+	mCmdAllocator->CleanUp();
+	delete mCmdAllocator;
+	mFactory->CleanUp();
+	delete mFactory;
+	mDevice->CleanUp();
+	delete mDevice;
 }
 
 unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height)

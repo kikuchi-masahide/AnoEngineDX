@@ -2,6 +2,14 @@
 #include "DX12Factory.h"
 #include "DX12CmdQueue.h"
 
+void SwapChainManager::Initialize()
+{
+}
+
+void SwapChainManager::CleanUp()
+{
+}
+
 unsigned int SwapChainManager::AddSwapChain(
 	DX12Factory* _factory, DX12CmdQueue* _cmdqueue, HWND _hwnd, UINT _width, UINT _height)
 {

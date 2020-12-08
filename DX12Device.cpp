@@ -21,3 +21,11 @@ ComPtr<ID3D12Device> DX12Device::GetDevice()
 {
 	return mDevice;
 }
+
+void DX12Device::CleanUp()
+{
+	if (mDevice.Reset() != 0)
+	{
+		Log::OutputCritical("DX12Device::mDevice's refcount != 1");
+	}
+}

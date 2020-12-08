@@ -24,3 +24,10 @@ ComPtr<ID3D12GraphicsCommandList> DX12CmdList::GetCmdList()
 {
 	return mCmdList;
 }
+
+void DX12CmdList::CleanUp() {
+	if (mCmdList.Reset() != 0)
+	{
+		Log::OutputTrivial("DX12CmdList::mCmdList's refcount != 1");
+	}
+}

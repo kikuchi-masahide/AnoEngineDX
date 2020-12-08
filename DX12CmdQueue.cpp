@@ -27,3 +27,11 @@ ComPtr<ID3D12CommandQueue> DX12CmdQueue::GetCmdQueue()
 {
 	return mCmdQueue;
 }
+
+void DX12CmdQueue::CleanUp()
+{
+	if (mCmdQueue.Reset() != 0)
+	{
+		Log::OutputCritical("DX12CmdQueue::mCmdQueue's refcount != 1");
+	}
+}

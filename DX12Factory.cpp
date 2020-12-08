@@ -33,3 +33,11 @@ ComPtr<IDXGIFactory6> DX12Factory::GetFactory()
 {
 	return mFactory;
 }
+
+void DX12Factory::CleanUp()
+{
+	if (mFactory.Reset() != 0)
+	{
+		Log::OutputTrivial("DX12Factory::mFactory's refcount != 1");
+	}
+}

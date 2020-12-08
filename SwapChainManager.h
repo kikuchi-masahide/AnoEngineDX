@@ -13,12 +13,14 @@ class DX12CmdQueue;
 /// <summary>
 /// スワップチェーンのマネージャ
 /// </summary>
-class SwapChainManager : public boost::noncopyable{
+class SwapChainManager final: public boost::noncopyable{
 private:
 	std::vector<ComPtr<IDXGISwapChain1>> mSwapChains;
 	//スワップチェーンの設定のうち共通するもの
 	static DXGI_SWAP_CHAIN_DESC1 mBaseDesc;
 public:
+	void Initialize();
+	void CleanUp();
 	/// <summary>
 	/// スワップチェーンを加える
 	/// </summary>

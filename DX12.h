@@ -23,6 +23,7 @@ private:
 	DX12CmdList* mCmdList;
 	DX12CmdQueue* mCmdQueue;
 	SwapChainManager* mSwapChainManager;
+	void EnableDebugLayer();
 public:
 	DX12();
 	void Initialize();
