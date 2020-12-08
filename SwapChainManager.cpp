@@ -3,14 +3,14 @@
 #include "DX12CmdQueue.h"
 
 unsigned int SwapChainManager::AddSwapChain(
-	DX12Factory& _factory, DX12CmdQueue& _cmdqueue, HWND _hwnd, UINT _width, UINT _height)
+	DX12Factory* _factory, DX12CmdQueue* _cmdqueue, HWND _hwnd, UINT _width, UINT _height)
 {
 	mBaseDesc.Width = _width;
 	mBaseDesc.Height = _height;
 	mSwapChains.emplace_back(nullptr);
 	if (FAILED(
-		_factory.GetFactory()->CreateSwapChainForHwnd(
-			_cmdqueue.GetCmdQueue().Get(), _hwnd, &mBaseDesc, nullptr, nullptr,
+		_factory->GetFactory()->CreateSwapChainForHwnd(
+			_cmdqueue->GetCmdQueue().Get(), _hwnd, &mBaseDesc, nullptr, nullptr,
 			(IDXGISwapChain1**)mSwapChains.back().ReleaseAndGetAddressOf()
 		)
 	))

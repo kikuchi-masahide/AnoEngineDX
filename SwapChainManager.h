@@ -24,5 +24,5 @@ public:
 	/// </summary>
 	/// <returns>ÉLÅ[</returns>
 	unsigned int AddSwapChain(
-		DX12Factory& _factory, DX12CmdQueue& _cmdqueue,HWND _hwnd, UINT _width, UINT _height);
+		DX12Factory* _factory, DX12CmdQueue* _cmdqueue,HWND _hwnd, UINT _width, UINT _height);
 };

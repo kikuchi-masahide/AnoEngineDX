@@ -1,6 +1,15 @@
 #pragma once
 
-class DX12Pimple;
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"DirectXTex.lib")
+
+class DX12Factory;
+class DX12Device;
+class DX12CmdAllocator;
+class DX12CmdList;
+class DX12CmdQueue;
+class SwapChainManager;
 
 /// <summary>
 /// Gameに含まれる，DirectX12をラップしたクラス
@@ -8,7 +17,12 @@ class DX12Pimple;
 class DX12:public boost::noncopyable
 {
 private:
-	DX12Pimple* mPimple;
+	DX12Factory* mFactory;
+	DX12Device* mDevice;
+	DX12CmdAllocator* mCmdAllocator;
+	DX12CmdList* mCmdList;
+	DX12CmdQueue* mCmdQueue;
+	SwapChainManager* mSwapChainManager;
 public:
 	DX12();
 	void Initialize();

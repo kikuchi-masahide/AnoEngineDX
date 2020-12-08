@@ -13,7 +13,7 @@ class DX12CmdAllocator;
 class DX12CmdList :public boost::noncopyable{
 public:
 	DX12CmdList();
-	void Initialize(DX12Device& _device, DX12CmdAllocator& _cmdalloc);
+	void Initialize(DX12Device* _device, DX12CmdAllocator* _cmdalloc);
 	ComPtr<ID3D12GraphicsCommandList> GetCmdList();
 private:
 	ComPtr<ID3D12GraphicsCommandList> mCmdList;

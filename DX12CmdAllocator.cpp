@@ -5,10 +5,10 @@ DX12CmdAllocator::DX12CmdAllocator()
 	:mCmdAllocator()
 {}
 
-void DX12CmdAllocator::Initialize(DX12Device& _device)
+void DX12CmdAllocator::Initialize(DX12Device* _device)
 {
 	if (FAILED(
-		_device.GetDevice()->CreateCommandAllocator(
+		_device->GetDevice()->CreateCommandAllocator(
 			D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(mCmdAllocator.ReleaseAndGetAddressOf())
 		)
 	))

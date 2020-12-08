@@ -96,7 +96,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Boost\lib\Win32;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Boost\lib\Win32;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Debug;d3d12.lib;dxgi.lib;DirectXTex.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -166,7 +166,6 @@
     <ClCompile Include="DX12CmdQueue.cpp" />
     <ClCompile Include="DX12Device.cpp" />
     <ClCompile Include="DX12Factory.cpp" />
-    <ClCompile Include="DX12Pimple.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectHandle.cpp" />
@@ -192,7 +191,6 @@
     <ClInclude Include="DX12CmdQueue.h" />
     <ClInclude Include="DX12Device.h" />
     <ClInclude Include="DX12Factory.h" />
-    <ClInclude Include="DX12Pimple.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectHandle.h" />

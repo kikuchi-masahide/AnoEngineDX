@@ -12,7 +12,7 @@ class DX12Device;
 class DX12CmdQueue :public boost::noncopyable{
 public:
 	DX12CmdQueue();
-	void Initialize(DX12Device& _device);
+	void Initialize(DX12Device* _device);
 	ComPtr<ID3D12CommandQueue> GetCmdQueue();
 private:
 	ComPtr<ID3D12CommandQueue> mCmdQueue;
