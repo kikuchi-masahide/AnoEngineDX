@@ -27,3 +27,8 @@ void DX12CmdAllocator::CleanUp()
 {
 	mCmdAllocator.Reset();
 }
+
+void DX12CmdAllocator::Reset()
+{
+	mCmdAllocator->Reset();
+}

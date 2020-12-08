@@ -45,4 +45,12 @@ public:
 	/// <param name="_num">所有ディスクリプタの数</param>
 	/// <returns>ディスクリプタヒープを表すshared_ptr</returns>
 	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num);
+	/// <summary>
+	/// 各フレームで必要なコマンドを追加しきったあと呼び出す
+	/// </summary>
+	void ProcessCommands();
+	/// <summary>
+	/// _idの指すスワップチェーンをレンダーターゲットに指定し背景色塗りつぶし
+	/// </summary>
+	void SetAndClearRenderTarget(unsigned int _id,float _r,float _g,float _b);
 };

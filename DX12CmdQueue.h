@@ -8,6 +8,7 @@
 using namespace Microsoft::WRL;
 
 class DX12Device;
+class DX12CmdList;
 
 class DX12CmdQueue final:public boost::noncopyable{
 public:
@@ -15,6 +16,7 @@ public:
 	void Initialize(DX12Device* _device);
 	ComPtr<ID3D12CommandQueue> GetCmdQueue();
 	void CleanUp();
+	void ExecuteCmdLists(DX12CmdList* _list);
 private:
 	ComPtr<ID3D12CommandQueue> mCmdQueue;
 };

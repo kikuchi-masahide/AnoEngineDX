@@ -28,3 +28,13 @@ ComPtr<ID3D12GraphicsCommandList> DX12CmdList::GetCmdList()
 void DX12CmdList::CleanUp() {
 	mCmdList.Reset();
 }
+
+void DX12CmdList::Close()
+{
+	mCmdList->Close();
+}
+
+void DX12CmdList::Reset(DX12CmdAllocator* _cmdallocator)
+{
+	mCmdList->Reset(_cmdallocator->GetCmdAllocator().Get(), nullptr);
+}

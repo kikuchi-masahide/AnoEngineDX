@@ -1,5 +1,6 @@
 #include "DX12CmdQueue.h"
 #include "DX12Device.h"
+#include "DX12CmdList.h"
 
 DX12CmdQueue::DX12CmdQueue()
 	:mCmdQueue()
@@ -31,4 +32,10 @@ ComPtr<ID3D12CommandQueue> DX12CmdQueue::GetCmdQueue()
 void DX12CmdQueue::CleanUp()
 {
 	mCmdQueue.Reset();
+}
+
+void DX12CmdQueue::ExecuteCmdLists(DX12CmdList* _list)
+{
+	ID3D12CommandList* cmdlists[] = { _list->GetCmdList().Get() };
+	mCmdQueue->ExecuteCommandLists(1, cmdlists);
 }

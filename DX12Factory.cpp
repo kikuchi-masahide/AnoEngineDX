@@ -37,7 +37,4 @@ ComPtr<IDXGIFactory6> DX12Factory::GetFactory()
 void DX12Factory::CleanUp()
 {
 	mFactory.Reset();
-	{
-		Log::OutputTrivial("DX12Factory::mFactory's refcount != 1");
-	}
 }

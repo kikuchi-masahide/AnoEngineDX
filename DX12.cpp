@@ -87,3 +87,22 @@ boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::Des
 		new DX12DescriptorHeap(_type, _vis, _num, mDevice)
 		);
 }
+
+void DX12::ProcessCommands()
+{
+	//命令のクローズ
+	mCmdList->Close();
+	//コマンドリスト実行
+	mCmdQueue->ExecuteCmdLists(mCmdList);
+	//キューをクリア
+	mCmdAllocator->Reset();
+	//再びコマンドリストをためる準備
+	mCmdList->Reset(mCmdAllocator);
+	//全スワップチェーンのスワップ
+	mSwapChainManager->FlipAll();
+}
+
+void DX12::SetAndClearRenderTarget(unsigned int _id, float _r, float _g, float _b)
+{
+	mSwapChainManager->SetAndClearRenderTarget(_id, mCmdList, _r, _g, _b);
+}

@@ -154,9 +154,12 @@ void Game::RunLoop()
 
 void Game::BeforeOutput()
 {
+	//とりあえずレンダーターゲットのクリアのみ
+	mdx12.SetAndClearRenderTarget(0, 0.0f, 1.0f, 0.0f);
 }
 
 bool Game::AfterOutput()
 {
+	mdx12.ProcessCommands();
 	return true;
 }

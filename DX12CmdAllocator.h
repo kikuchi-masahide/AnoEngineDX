@@ -15,6 +15,7 @@ public:
 	void Initialize(DX12Device* _device);
 	ComPtr<ID3D12CommandAllocator> GetCmdAllocator();
 	void CleanUp();
+	void Reset();
 private:
 	ComPtr<ID3D12CommandAllocator> mCmdAllocator;
 };
