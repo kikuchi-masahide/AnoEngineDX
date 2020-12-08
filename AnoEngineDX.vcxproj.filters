@@ -62,6 +62,9 @@
     <ClCompile Include="DX12CmdQueue.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DX12DescriptorHeap.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -117,6 +120,12 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DX12CmdQueue.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12DescriptorHeap.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12ConfigEnums.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>

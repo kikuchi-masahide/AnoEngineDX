@@ -26,10 +26,12 @@ bool Game::Initialize()
 /// </summary>
 void Game::Shutdown()
 {
-	mdx12.CleanUp();
 	//シーンの削除
 	delete mPandingScene;
 	delete mCurrentScene;
+
+	//DX12まわりのクリーンアップ
+	mdx12.CleanUp();
 }
 
 Game::Game()

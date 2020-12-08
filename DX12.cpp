@@ -5,6 +5,7 @@
 #include "DX12CmdAllocator.h"
 #include "DX12CmdQueue.h"
 #include "SwapChainManager.h"
+#include "DX12DescriptorHeap.h"
 
 void DX12::EnableDebugLayer()
 {
@@ -73,7 +74,16 @@ void DX12::CleanUp()
 	delete mDevice;
 }
 
-unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height)
+unsigned int DX12::CreateSwapChain(
+	HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap
+)
 {
-	return mSwapChainManager->AddSwapChain(mFactory, mCmdQueue, _hwnd, _width, _height);
+	return mSwapChainManager->AddSwapChain(mFactory, mCmdQueue, mDevice, _hwnd, _width, _height, _descheap);
+}
+
+boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num)
+{
+	return boost::shared_ptr<DX12DescriptorHeap>(
+		new DX12DescriptorHeap(_type, _vis, _num, mDevice)
+		);
 }

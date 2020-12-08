@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DX12ConfigEnums.h"
+
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"DirectXTex.lib")
@@ -10,11 +12,12 @@ class DX12CmdAllocator;
 class DX12CmdList;
 class DX12CmdQueue;
 class SwapChainManager;
+class DX12DescriptorHeap;
 
 /// <summary>
 /// Gameに含まれる，DirectX12をラップしたクラス
 /// </summary>
-class DX12:public boost::noncopyable
+class DX12 :public boost::noncopyable
 {
 private:
 	DX12Factory* mFactory;
@@ -31,6 +34,15 @@ public:
 	/// <summary>
 	/// スワップチェーンを作る
 	/// </summary>
+	/// <param name="_descheap">スワップチェーンと紐づけるディスクリプタヒープ</param>
 	/// <returns>スワップチェーンのキー</returns>
-	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height);
+	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
+	/// <summary>
+	/// ディスクリプタヒープを作る
+	/// </summary>
+	/// <param name="_type">ディスクリプタヒープの種別</param>
+	/// <param name="_vis">シェーダから可視か否か</param>
+	/// <param name="_num">所有ディスクリプタの数</param>
+	/// <returns>ディスクリプタヒープを表すshared_ptr</returns>
+	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num);
 };

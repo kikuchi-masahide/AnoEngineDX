@@ -1,6 +1,8 @@
 #include "SwapChainManager.h"
 #include "DX12Factory.h"
+#include "DX12Device.h"
 #include "DX12CmdQueue.h"
+#include "DX12DescriptorHeap.h"
 
 void SwapChainManager::Initialize()
 {
@@ -11,7 +13,7 @@ void SwapChainManager::CleanUp()
 }
 
 unsigned int SwapChainManager::AddSwapChain(
-	DX12Factory* _factory, DX12CmdQueue* _cmdqueue, HWND _hwnd, UINT _width, UINT _height)
+	DX12Factory* _factory, DX12CmdQueue* _cmdqueue, DX12Device* _device, HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap)
 {
 	mBaseDesc.Width = _width;
 	mBaseDesc.Height = _height;
@@ -31,6 +33,21 @@ unsigned int SwapChainManager::AddSwapChain(
 	msg += std::to_string((unsigned int)mSwapChains.size() - 1);
 	Log::OutputTrivial(msg);
 #endif
+	//ディスクリプタヒープにレンダーターゲットを作成しスワップチェーンと紐づけ
+
+	auto dev = _device->GetDevice();
+	for (int n = 0; n < 2; n++) {
+		ID3D12Resource* _backbuffer;
+		if (FAILED(
+			mSwapChains.back()->GetBuffer(n, IID_PPV_ARGS(&_backbuffer))
+		)) {
+			Log::OutputCritical("mapping of backbuffers and RTV failed");
+			throw 0;
+		}
+		auto handle = _descheap->GetCPUDescriptorHandle(n);
+		dev->CreateRenderTargetView(_backbuffer, nullptr, handle);
+	}
+
 	return (unsigned int)mSwapChains.size() - 1;
 }
 

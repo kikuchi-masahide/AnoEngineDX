@@ -25,8 +25,5 @@ ComPtr<ID3D12CommandAllocator> DX12CmdAllocator::GetCmdAllocator()
 
 void DX12CmdAllocator::CleanUp()
 {
-	if (mCmdAllocator.Reset() != 0)
-	{
-		Log::OutputCritical("DX12CmdAllocator::mCmdAllocator's refcount != 1");
-	}
+	mCmdAllocator.Reset();
 }
