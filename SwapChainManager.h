@@ -7,6 +7,9 @@
 
 using namespace Microsoft::WRL;
 
+class DX12Factory;
+class DX12CmdQueue;
+
 /// <summary>
 /// スワップチェーンのマネージャ
 /// </summary>
@@ -21,6 +24,5 @@ public:
 	/// </summary>
 	/// <returns>キー</returns>
 	unsigned int AddSwapChain(
-		ComPtr<IDXGIFactory6>& _factory, ComPtr<ID3D12CommandQueue>& _cmdqueue,
-		HWND _hwnd, UINT _width, UINT _height);
+		DX12Factory& _factory, DX12CmdQueue& _cmdqueue,HWND _hwnd, UINT _width, UINT _height);
 };

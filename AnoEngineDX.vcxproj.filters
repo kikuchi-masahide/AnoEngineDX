@@ -50,6 +50,21 @@
     <ClCompile Include="GameObjectHandle.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="DX12Device.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12Factory.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CmdAllocator.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CmdList.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12CmdQueue.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -95,5 +110,20 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Component2.h" />
+    <ClInclude Include="DX12Device.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Factory.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CmdAllocator.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CmdList.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CmdQueue.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
