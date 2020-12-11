@@ -21,6 +21,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	game->ChangeScene<Scene1>();
 	//頂点バッファ(仮置き)
 	InitiateVertexBuffer(game);
+	auto vertex = game->mdx12.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
+	auto pixel = game->mdx12.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
 	game->RunLoop();
 	game->Shutdown();
 

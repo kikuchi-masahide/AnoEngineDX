@@ -5,5 +5,6 @@
 #include <d3dx12.h>
 #include <DirectXTex.h>
 #include <DirectXMath.h>
+#include <d3dcompiler.h>
 
 using namespace Microsoft::WRL;

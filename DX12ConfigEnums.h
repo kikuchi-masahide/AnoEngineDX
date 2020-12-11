@@ -25,4 +25,10 @@ namespace DX12Config {
 		READBACK,//CPUから読み取れる
 		size
 	};
+	//シェーダのタイプ
+	enum class ShaderType {
+		VERTEX,
+		PIXEL,
+		size
+	};
 }

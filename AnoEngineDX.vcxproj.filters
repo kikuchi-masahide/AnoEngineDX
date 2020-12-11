@@ -68,6 +68,9 @@
     <ClCompile Include="DX12Resource.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DX12ShaderObject.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -131,11 +134,22 @@
     <ClInclude Include="DX12ConfigEnums.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="DX12CommonInclude.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="DX12Resource.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="DX12CommonInclude.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12ShaderObject.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BasicVertexShader.hlsl">
+      <Filter>Engine\DirectX</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPixelShader.hlsl">
+      <Filter>Engine\DirectX</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

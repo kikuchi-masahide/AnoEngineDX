@@ -5,6 +5,7 @@
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"DirectXTex.lib")
+#pragma comment(lib,"d3dcompiler.lib")
 
 class DX12Factory;
 class DX12Device;
@@ -14,6 +15,7 @@ class DX12CmdQueue;
 class SwapChainManager;
 class DX12DescriptorHeap;
 class DX12Resource;
+class DX12ShaderObject;
 
 /// <summary>
 /// Gameに含まれる，DirectX12をラップしたクラス
@@ -61,4 +63,6 @@ public:
 	//リソースのマップ
 	void* Map(boost::shared_ptr<DX12Resource> _resource);
 	void Unmap(boost::shared_ptr<DX12Resource> _resource);
+	//シェーダ読み込み
+	boost::shared_ptr<DX12ShaderObject> LoadShader(LPCWSTR _filename, DX12Config::ShaderType _shaderType);
 };

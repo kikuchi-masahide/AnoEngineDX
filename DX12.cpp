@@ -7,6 +7,7 @@
 #include "SwapChainManager.h"
 #include "DX12DescriptorHeap.h"
 #include "DX12Resource.h"
+#include "DX12ShaderObject.h"
 
 void DX12::EnableDebugLayer()
 {
@@ -143,4 +144,11 @@ void* DX12::Map(boost::shared_ptr<DX12Resource> _resource)
 void DX12::Unmap(boost::shared_ptr<DX12Resource> _resource)
 {
 	_resource->Unmap();
+}
+
+boost::shared_ptr<DX12ShaderObject> DX12::LoadShader(LPCWSTR _filename, DX12Config::ShaderType _shaderType)
+{
+	return boost::shared_ptr<DX12ShaderObject>(
+		new DX12ShaderObject(_filename,_shaderType)
+		);
 }
