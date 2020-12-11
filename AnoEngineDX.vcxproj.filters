@@ -65,6 +65,9 @@
     <ClCompile Include="DX12DescriptorHeap.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DX12Resource.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -126,6 +129,12 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DX12ConfigEnums.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12CommonInclude.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Resource.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,4 +18,11 @@ namespace DX12Config {
 		NONE,
 		size
 	};
+	//リソースのヒープのCPUからのアクセスの可不可の設定
+	enum class ResourceHeapType {
+		DEFAULT,//CPUからアクセスできない
+		UPLOAD,//CPUからアクセスできる
+		READBACK,//CPUから読み取れる
+		size
+	};
 }

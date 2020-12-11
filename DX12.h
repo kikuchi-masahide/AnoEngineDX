@@ -13,6 +13,7 @@ class DX12CmdList;
 class DX12CmdQueue;
 class SwapChainManager;
 class DX12DescriptorHeap;
+class DX12Resource;
 
 /// <summary>
 /// Gameに含まれる，DirectX12をラップしたクラス
@@ -55,4 +56,9 @@ public:
 	/// _idの指すスワップチェーンをレンダーターゲットに指定し背景色塗りつぶし
 	/// </summary>
 	void SetAndClearRenderTarget(unsigned int _id,float _r,float _g,float _b);
+	//頂点バッファ作成
+	boost::shared_ptr<DX12Resource> CreateVertexBuffer(UINT64 _width);
+	//リソースのマップ
+	void* Map(boost::shared_ptr<DX12Resource> _resource);
+	void Unmap(boost::shared_ptr<DX12Resource> _resource);
 };

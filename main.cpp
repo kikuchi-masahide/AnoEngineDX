@@ -3,6 +3,7 @@
 #include "Scene1.h"
 
 LRESULT WindowProcedure(HWND, UINT, WPARAM, LPARAM);
+boost::shared_ptr<DX12Resource> InitiateVertexBuffer(Game* _game);
 
 #ifdef _DEBUG
 int main() {
@@ -18,11 +19,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		= game->mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::RTV, DX12Config::ShaderVisibility::NONE, 2);
 	game->mdx12.CreateSwapChain(windowptr->GetWindowHandle(), 1024, 768,swapchaindescheap);
 	game->ChangeScene<Scene1>();
+	//頂点バッファ(仮置き)
+	InitiateVertexBuffer(game);
 	game->RunLoop();
 	game->Shutdown();
 
 	delete game;
 	return 0;
+}
+
+boost::shared_ptr<DX12Resource> InitiateVertexBuffer(Game* _game) {
+	Vector3 vertices[] = {
+		GetVector3(-1,-1,0),
+		GetVector3(-1,1,0),
+		GetVector3(1,-1,0)
+	};
+	auto resource = _game->mdx12.CreateVertexBuffer(sizeof(float) * 3 * 3);
+	return resource;
 }
 
 LRESULT WindowProcedure(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {

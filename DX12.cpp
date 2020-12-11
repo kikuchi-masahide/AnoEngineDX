@@ -6,6 +6,7 @@
 #include "DX12CmdQueue.h"
 #include "SwapChainManager.h"
 #include "DX12DescriptorHeap.h"
+#include "DX12Resource.h"
 
 void DX12::EnableDebugLayer()
 {
@@ -125,4 +126,21 @@ void DX12::ProcessCommands()
 void DX12::SetAndClearRenderTarget(unsigned int _id, float _r, float _g, float _b)
 {
 	mSwapChainManager->SetAndClearRenderTarget(_id, mCmdList, _r, _g, _b);
+}
+
+boost::shared_ptr<DX12Resource> DX12::CreateVertexBuffer(UINT64 _width)
+{
+	return boost::shared_ptr<DX12Resource>(
+		new DX12Resource(mDevice, DX12Config::ResourceHeapType::UPLOAD, _width, 1)
+		);
+}
+
+void* DX12::Map(boost::shared_ptr<DX12Resource> _resource)
+{
+	return _resource->Map();
+}
+
+void DX12::Unmap(boost::shared_ptr<DX12Resource> _resource)
+{
+	_resource->Unmap();
 }
