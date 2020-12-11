@@ -39,3 +39,8 @@ void DX12CmdQueue::ExecuteCmdLists(DX12CmdList* _list)
 	ID3D12CommandList* cmdlists[] = { _list->GetCmdList().Get() };
 	mCmdQueue->ExecuteCommandLists(1, cmdlists);
 }
+
+void DX12CmdQueue::Signal(ComPtr<ID3D12Fence> _fence, UINT64 _value)
+{
+	mCmdQueue->Signal(_fence.Get(), _value);
+}

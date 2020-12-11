@@ -22,8 +22,12 @@ private:
 	//各スワップチェーンに対するビューを持つディスクリプタヒープ
 	//(1つのディスクリプタヒープで1つのスワップチェーンを管理すると確約する)
 	std::vector<boost::shared_ptr<DX12DescriptorHeap>> mDescHeaps;
+	//リソース(mBackBuffers[BackBuffer何枚目か][id])
+	std::vector<ComPtr<ID3D12Resource>> mBackBuffers[2];
 	//スワップチェーンの設定のうち共通するもの
 	static DXGI_SWAP_CHAIN_DESC1 mBaseDesc;
+	//リソースバリアの設定を行う構造体
+	static D3D12_RESOURCE_BARRIER mResourceBarrierDesc;
 public:
 	void Initialize();
 	void CleanUp();
@@ -38,7 +42,7 @@ public:
 	/// </summary>
 	void FlipAll();
 	/// <summary>
-	/// _idの指すスワップチェーンをレンダーターゲットに指定し，背景色も同時に設定する
+	/// _idの指すスワップチェーンをレンダーターゲットに指定しリソースバリアを設定．背景色も同時に設定する
 	/// </summary>
 	void SetAndClearRenderTarget(unsigned int _id,DX12CmdList* _list,float _r,float _g,float _b);
 };

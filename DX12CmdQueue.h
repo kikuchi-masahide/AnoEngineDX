@@ -17,6 +17,7 @@ public:
 	ComPtr<ID3D12CommandQueue> GetCmdQueue();
 	void CleanUp();
 	void ExecuteCmdLists(DX12CmdList* _list);
+	void Signal(ComPtr<ID3D12Fence> _fence, UINT64 _value);
 private:
 	ComPtr<ID3D12CommandQueue> mCmdQueue;
 };

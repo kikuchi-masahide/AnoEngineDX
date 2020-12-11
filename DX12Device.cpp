@@ -26,3 +26,10 @@ void DX12Device::CleanUp()
 {
 	mDevice.Reset();
 }
+
+ComPtr<ID3D12Fence> DX12Device::CreateFence(UINT64 _initialvalue)
+{
+	ComPtr<ID3D12Fence> fence;
+	mDevice->CreateFence(_initialvalue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.ReleaseAndGetAddressOf()));
+	return fence;
+}

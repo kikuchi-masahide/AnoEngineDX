@@ -27,6 +27,8 @@ private:
 	DX12CmdQueue* mCmdQueue;
 	SwapChainManager* mSwapChainManager;
 	void EnableDebugLayer();
+	//ProcessCommands‚ÉŠÜ‚Ü‚ê‚éƒtƒFƒ“ƒX‚É‚æ‚é‘Ò‚¿ŽžŠÔ‚Ì•”•ª
+	void FenceWaitingInProcessCommands();
 public:
 	DX12();
 	void Initialize();

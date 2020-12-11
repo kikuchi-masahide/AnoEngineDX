@@ -22,6 +22,24 @@ void DX12::EnableDebugLayer()
 	debugLayer->EnableDebugLayer();
 }
 
+void DX12::FenceWaitingInProcessCommands()
+{
+	static ComPtr<ID3D12Fence> fence;
+	static UINT64 fenceVal = 0;
+	//初実行時のみ初期化
+	if (!fence) {
+		fence = mDevice->CreateFence(fenceVal);
+	}
+	mCmdQueue->Signal(fence, ++fenceVal);
+	if (fence->GetCompletedValue() != fenceVal)
+	{
+		auto event = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, event);
+		WaitForSingleObject(event, INFINITE);
+		CloseHandle(event);
+	}
+}
+
 DX12::DX12()
 	:mFactory(new DX12Factory()), mDevice(new DX12Device()), mCmdList(new DX12CmdList()),
 	mCmdAllocator(new DX12CmdAllocator()), mCmdQueue(new DX12CmdQueue()),
@@ -94,6 +112,8 @@ void DX12::ProcessCommands()
 	mCmdList->Close();
 	//コマンドリスト実行
 	mCmdQueue->ExecuteCmdLists(mCmdList);
+	//Resetの前にフェンスをはさむ
+	FenceWaitingInProcessCommands();
 	//キューをクリア
 	mCmdAllocator->Reset();
 	//再びコマンドリストをためる準備
