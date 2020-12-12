@@ -71,6 +71,12 @@
     <ClCompile Include="DX12ShaderObject.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DX12GraphicsPipeline.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12RootSignature.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -141,6 +147,15 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DX12ShaderObject.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12GraphicsPipeline.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12VertexLayoutUnit.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12RootSignature.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>

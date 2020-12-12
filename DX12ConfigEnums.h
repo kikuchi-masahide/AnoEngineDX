@@ -34,12 +34,20 @@ namespace DX12Config {
 	//頂点レイアウトの情報フォーマット
 	enum class VertexLayoutFormat {
 		R32G32B32_FLOAT,
+		R8G8B8A8_UNORM,
 		size
 	};
 	//頂点レイアウトのinput_classificastion
 	enum class VertexLayoutInputClassification {
 		INPUT_CLASSIFICATION_PER_VERTEX_DATA,
 		INPUT_CLASSIFICATION_PER_INSTANCE_DATA,
+		size
+	};
+	//プリミティブトポロジ
+	enum class PrimitiveTopologyType {
+		POINT,
+		LINE,
+		TRIANGLE,
 		size
 	};
 }

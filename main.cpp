@@ -20,9 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	game->mdx12.CreateSwapChain(windowptr->GetWindowHandle(), 1024, 768,swapchaindescheap);
 	game->ChangeScene<Scene1>();
 	//頂点バッファ(仮置き)
-	InitiateVertexBuffer(game);
-	auto vertex = game->mdx12.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
-	auto pixel = game->mdx12.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
+	auto vertbuf = InitiateVertexBuffer(game);
 	game->RunLoop();
 	game->Shutdown();
 
@@ -31,6 +29,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 }
 
 boost::shared_ptr<DX12Resource> InitiateVertexBuffer(Game* _game) {
+	auto vertex = _game->mdx12.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
+	auto pixel = _game->mdx12.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
 	Vector3 vertices[] = {
 		GetVector3(-1,-1,0),
 		GetVector3(-1,1,0),
@@ -38,7 +38,14 @@ boost::shared_ptr<DX12Resource> InitiateVertexBuffer(Game* _game) {
 	};
 	auto resource = _game->mdx12.CreateVertexBuffer(sizeof(float) * 3 * 3);
 	DX12VertexLayout layout;
-	layout.push_back(DX12VertexLayoutUnit("POSITION", DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0, DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 1));
+	layout.push_back(DX12VertexLayoutUnit(
+		"POSITION", DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0, 
+		DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 1
+	));
+	auto rootsignature = _game->mdx12.CreateRootSignature();
+	auto graphicspipeline = _game->mdx12.CreateGraphicsPipeline(
+		vertex, pixel, layout, DX12Config::PrimitiveTopologyType::TRIANGLE, 1,rootsignature
+	);
 	return resource;
 }
 

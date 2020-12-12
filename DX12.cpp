@@ -8,6 +8,8 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12Resource.h"
 #include "DX12ShaderObject.h"
+#include "DX12GraphicsPipeline.h"
+#include "DX12RootSignature.h"
 
 void DX12::EnableDebugLayer()
 {
@@ -150,5 +152,25 @@ boost::shared_ptr<DX12ShaderObject> DX12::LoadShader(LPCWSTR _filename, DX12Conf
 {
 	return boost::shared_ptr<DX12ShaderObject>(
 		new DX12ShaderObject(_filename,_shaderType)
+		);
+}
+
+boost::shared_ptr<DX12GraphicsPipeline> DX12::CreateGraphicsPipeline(
+	boost::shared_ptr<DX12ShaderObject> _vertexShader,
+	boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
+	DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
+	boost::shared_ptr<DX12RootSignature> _rootsignature)
+{
+	return boost::shared_ptr<DX12GraphicsPipeline>(
+		new DX12GraphicsPipeline(
+			mDevice, _vertexShader, _pixelShader, _vertexLayout,_primitive, _numrt,
+			_rootsignature)
+	);
+}
+
+boost::shared_ptr<DX12RootSignature> DX12::CreateRootSignature()
+{
+	return boost::shared_ptr<DX12RootSignature>(
+		new DX12RootSignature(mDevice)
 		);
 }

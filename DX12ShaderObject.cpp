@@ -24,6 +24,16 @@ DX12ShaderObject::DX12ShaderObject(LPCWSTR _filename, DX12Config::ShaderType _sh
 	}
 }
 
+const void* DX12ShaderObject::GetBufferPointer()
+{
+	return mBlob->GetBufferPointer();
+}
+
+SIZE_T DX12ShaderObject::GetBufferSize()
+{
+	return mBlob->GetBufferSize();
+}
+
 LPCSTR DX12ShaderObject::mShaderTypeCorrespond[(unsigned char)DX12Config::ShaderType::size] = {
 	"vs_5_0","ps_5_0"
 };

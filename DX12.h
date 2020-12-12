@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DX12ConfigEnums.h"
-#include "VertexLayoutUnit.h"
+#include "DX12VertexLayoutUnit.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -17,6 +17,8 @@ class SwapChainManager;
 class DX12DescriptorHeap;
 class DX12Resource;
 class DX12ShaderObject;
+class DX12GraphicsPipeline;
+class DX12RootSignature;
 
 /// <summary>
 /// Gameに含まれる，DirectX12をラップしたクラス
@@ -66,4 +68,19 @@ public:
 	void Unmap(boost::shared_ptr<DX12Resource> _resource);
 	//シェーダ読み込み
 	boost::shared_ptr<DX12ShaderObject> LoadShader(LPCWSTR _filename, DX12Config::ShaderType _shaderType);
+	/// <summary>
+	/// グラフィックスパイプラインの作成
+	/// </summary>
+	/// <param name="_vertexShader">頂点シェーダ</param>
+	/// <param name="_pixelShader">ピクセルシェーダ</param>
+	/// <param name="_vertexLayout">頂点レイアウト</param>
+	/// <param name="_primitive">プリミティブ型</param>
+	/// <param name="_numrt">レンダーターゲット数</param>
+	boost::shared_ptr<DX12GraphicsPipeline> CreateGraphicsPipeline(
+		boost::shared_ptr<DX12ShaderObject> _vertexShader,
+		boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
+		DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
+		boost::shared_ptr<DX12RootSignature> _rootsignature);
+	//ルートシグネチャの作成(暫定)
+	boost::shared_ptr<DX12RootSignature> CreateRootSignature();
 };
