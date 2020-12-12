@@ -37,6 +37,8 @@ boost::shared_ptr<DX12Resource> InitiateVertexBuffer(Game* _game) {
 		GetVector3(1,-1,0)
 	};
 	auto resource = _game->mdx12.CreateVertexBuffer(sizeof(float) * 3 * 3);
+	DX12VertexLayout layout;
+	layout.push_back(DX12VertexLayoutUnit("POSITION", DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0, DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 1));
 	return resource;
 }
 

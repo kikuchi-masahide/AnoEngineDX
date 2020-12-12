@@ -31,4 +31,15 @@ namespace DX12Config {
 		PIXEL,
 		size
 	};
+	//頂点レイアウトの情報フォーマット
+	enum class VertexLayoutFormat {
+		R32G32B32_FLOAT,
+		size
+	};
+	//頂点レイアウトのinput_classificastion
+	enum class VertexLayoutInputClassification {
+		INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+		INPUT_CLASSIFICATION_PER_INSTANCE_DATA,
+		size
+	};
 }
