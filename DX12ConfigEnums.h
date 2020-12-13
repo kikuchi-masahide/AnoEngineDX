@@ -48,6 +48,7 @@ namespace DX12Config {
 		POINT,
 		LINE,
 		TRIANGLE,
+		TRIANGLESTRIP,
 		size
 	};
 }

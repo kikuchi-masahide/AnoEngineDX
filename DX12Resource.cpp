@@ -1,5 +1,6 @@
 #include "DX12Resource.h"
 #include "DX12Device.h"
+#include "DX12CmdList.h"
 
 DX12Resource::DX12Resource(DX12Device* _device, DX12Config::ResourceHeapType _heaptype, UINT64 _width, UINT _height)
 {
@@ -45,6 +46,24 @@ void DX12Resource::Unmap()
 D3D12_GPU_VIRTUAL_ADDRESS DX12Resource::GetGPUVirtualAddress()
 {
 	return mResource->GetGPUVirtualAddress();
+}
+
+void DX12Resource::SetVertexBuffers(DX12CmdList* _list, unsigned int _slotid, SIZE_T _allsize, SIZE_T _sizepervertex)
+{
+	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	vbView.BufferLocation = mResource->GetGPUVirtualAddress();
+	vbView.SizeInBytes = _allsize;
+	vbView.StrideInBytes = _sizepervertex;
+	_list->GetCmdList()->IASetVertexBuffers(_slotid, 1, &vbView);
+}
+
+void DX12Resource::SetIndexBuffers(DX12CmdList* _list, unsigned int _vertnum)
+{
+	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	ibView.BufferLocation = mResource->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R32_UINT;
+	ibView.SizeInBytes = sizeof(unsigned int) * _vertnum;
+	_list->GetCmdList()->IASetIndexBuffer(&ibView);
 }
 
 D3D12_HEAP_TYPE DX12Resource::mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size] = {

@@ -5,6 +5,30 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12CmdList.h"
 
+void SwapChainManager::ClearRenderTarget(DX12CmdList* _list, float _r, float _g, float _b)
+{
+	auto list = _list->GetCmdList();
+	//バックバッファのインデックス
+	auto bbidx = mSwapChains[mCurrentBBid]->GetCurrentBackBufferIndex();
+	//ハンドルを取る
+	auto handle = mDescHeaps[mCurrentBBid]->GetCPUDescriptorHandle(bbidx);
+	//画面クリア
+	float clearcolor[] = { _r,_g,_b,1.0f };
+	list->ClearRenderTargetView(handle, clearcolor, 0, nullptr);
+}
+
+void SwapChainManager::CloseRenderTarget(DX12CmdList* _list)
+{
+	auto list = _list->GetCmdList();
+	//バックバッファのインデックス
+	auto bbidx = mSwapChains[mCurrentBBid]->GetCurrentBackBufferIndex();
+	//今から塗りつぶす方のバックバッファのリソースバリアの設定
+	mResourceBarrierDesc.Transition.pResource = mBackBuffers[bbidx][mCurrentBBid].Get();
+	mResourceBarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	mResourceBarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	list->ResourceBarrier(1, &mResourceBarrierDesc);
+}
+
 void SwapChainManager::Initialize()
 {
 	//リソースバリア
@@ -14,8 +38,7 @@ void SwapChainManager::Initialize()
 }
 
 void SwapChainManager::CleanUp()
-{
-}
+{}
 
 unsigned int SwapChainManager::AddSwapChain(
 	DX12Factory* _factory, DX12CmdQueue* _cmdqueue, DX12Device* _device, HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap)
@@ -64,27 +87,21 @@ void SwapChainManager::FlipAll()
 	}
 }
 
-void SwapChainManager::SetAndClearRenderTarget(unsigned int _id, DX12CmdList* _list, float _r, float _g, float _b)
+void SwapChainManager::OpenRenderTarget(unsigned int _id, DX12CmdList* _list)
 {
 	auto list = _list->GetCmdList();
+	mCurrentBBid = _id;
 	//バックバッファのインデックス
 	auto bbidx = mSwapChains[_id]->GetCurrentBackBufferIndex();
 	//今から塗りつぶす方のバックバッファのリソースバリアの設定
 	mResourceBarrierDesc.Transition.pResource = mBackBuffers[bbidx][_id].Get();
 	mResourceBarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	mResourceBarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	list->ResourceBarrier(1,&mResourceBarrierDesc);
+	list->ResourceBarrier(1, &mResourceBarrierDesc);
 	//ハンドルを取る
 	auto handle = mDescHeaps[_id]->GetCPUDescriptorHandle(bbidx);
 	//設定
 	list->OMSetRenderTargets(1, &handle, false, nullptr);
-	//画面クリア
-	float clearcolor[] = { _r,_g,_b,1.0f };
-	list->ClearRenderTargetView(handle,clearcolor,0,nullptr);
-	//今塗ったバックバッファをPRESENTに
-	mResourceBarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
-	mResourceBarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
-	list->ResourceBarrier(1, &mResourceBarrierDesc);
 }
 
 DXGI_SWAP_CHAIN_DESC1 SwapChainManager::mBaseDesc = {

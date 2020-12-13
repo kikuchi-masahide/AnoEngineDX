@@ -1,5 +1,6 @@
 #include "DX12RootSignature.h"
 #include "DX12Device.h"
+#include "DX12CmdList.h"
 
 DX12RootSignature::DX12RootSignature(DX12Device* _device)
 {
@@ -21,4 +22,9 @@ DX12RootSignature::DX12RootSignature(DX12Device* _device)
 		0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(mRootSignature.ReleaseAndGetAddressOf())
 	);
+}
+
+void DX12RootSignature::SetRootSignature(DX12CmdList* _list)
+{
+	_list->GetCmdList()->SetComputeRootSignature(mRootSignature.Get());
 }

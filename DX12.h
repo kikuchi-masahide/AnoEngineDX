@@ -58,10 +58,9 @@ public:
 	/// </summary>
 	void ProcessCommands();
 	/// <summary>
-	/// _idの指すスワップチェーンをレンダーターゲットに指定し背景色塗りつぶし
+	/// 頂点バッファの作成
 	/// </summary>
-	void SetAndClearRenderTarget(unsigned int _id,float _r,float _g,float _b);
-	//頂点バッファ作成
+	/// <param name="_width">頂点バッファの全サイズ</param>
 	boost::shared_ptr<DX12Resource> CreateVertexBuffer(UINT64 _width);
 	//リソースのマップ
 	void* Map(boost::shared_ptr<DX12Resource> _resource);
@@ -83,4 +82,68 @@ public:
 		boost::shared_ptr<DX12RootSignature> _rootsignature);
 	//ルートシグネチャの作成(暫定)
 	boost::shared_ptr<DX12RootSignature> CreateRootSignature();
+	//パイプラインステートのセット
+	void SetGraphicsPipeline(boost::shared_ptr<DX12GraphicsPipeline> _pipeline);
+	//ルートシグネチャのセット
+	void SetRootSignature(boost::shared_ptr<DX12RootSignature> _root);
+	//プリミティブのコマンドリストへのセット
+	void SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim);
+	/// <summary>
+	/// 頂点バッファをコマンドリストへセット
+	/// </summary>
+	/// <param name="_allsize">頂点バッファ全体のサイズ</param>
+	/// <param name="_sizepervertex">1頂点バッファあたりのサイズ</param>
+	void SetVertexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _slotid,
+		SIZE_T _allsize, SIZE_T _sizepervertex);
+	/// <summary>
+	/// コマンドリストへ描画命令を投げる
+	/// </summary>
+	/// <param name="_vertnum">頂点数</param>
+	/// <param name="_instnum">インスタンス数</param>
+	/// <param name="_vdataoffset">頂点データのオフセット</param>
+	/// <param name="_instoffset">インスタンスのオフセット</param>
+	void DrawInstanced(UINT _vertnum, UINT _instnum, UINT _vdataoffset, UINT _instoffset);
+	/// <summary>
+	/// コマンドリストへ描画命令を投げる
+	/// </summary>
+	/// <param name="_indexnumperinst">インスタンスごとの，頂点インデックス数</param>
+	/// <param name="_instnum">インスタンス数</param>
+	/// <param name="_indoffset">頂点インデックスのオフセット</param>
+	/// <param name="_vdataoffset">頂点データのオフセット</param>
+	/// <param name="_instoffset">インスタンスのオフセット</param>
+	void DrawIndexedInstanced(UINT _indexnumperinst, UINT _instnum, UINT _indoffset,
+		UINT _vdataoffset, UINT _instoffset);
+	/// <summary>
+	/// ビューポートのセット
+	/// </summary>
+	/// <param name="_widthpx">幅のpx</param>
+	/// <param name="_heightpx">高さのpx</param>
+	void SetViewports(UINT _widthpx, UINT _heightpx, int _topleftx, int _toplefty,
+		float _maxdepth, float _mindepth);
+	/// <summary>
+	/// シザー矩形のセット
+	/// </summary>
+	void SetScissorrect(float _top, float _bottom, float _left, float _right);
+	/// <summary>
+	/// _idをレンダーターゲットに指定
+	/// </summary>
+	void SetRenderTarget(unsigned int _id);
+	/// <summary>
+	/// レンダーターゲットを指定色でクリア
+	/// </summary>
+	void ClearRenderTarget(float _r, float _g, float _b);
+	/// <summary>
+	/// 現在のレンダーターゲットをPRESENTになるようバリアを設定
+	/// </summary>
+	void CloseRenderTarget();
+	/// <summary>
+	/// 対象リソースを頂点インデックスバッファに指定
+	/// </summary>
+	/// <param name="_vertnum">インデックスバッファの含む全頂点数</param>
+	void SetIndexBuffers(boost::shared_ptr<DX12Resource> _resource,unsigned int _vertnum);
+	/// <summary>
+	/// インデックスバッファの作成
+	/// </summary>
+	/// <param name="_size">総頂点数</param>
+	boost::shared_ptr<DX12Resource> CreateIndexBuffer(unsigned int _vertnum);
 };

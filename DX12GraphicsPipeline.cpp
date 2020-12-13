@@ -2,6 +2,7 @@
 #include "DX12Device.h"
 #include "DX12ShaderObject.h"
 #include "DX12RootSignature.h"
+#include "DX12CmdList.h"
 
 DX12GraphicsPipeline::DX12GraphicsPipeline(
 	DX12Device* _device, boost::shared_ptr<DX12ShaderObject> _vertexShader,
@@ -58,6 +59,11 @@ DX12GraphicsPipeline::DX12GraphicsPipeline(
 	}
 }
 
+void DX12GraphicsPipeline::SetGraphicsPipeline(DX12CmdList* _list)
+{
+	_list->GetCmdList()->SetPipelineState(mState.Get());
+}
+
 DXGI_FORMAT DX12GraphicsPipeline::mVertexLayoutFormatCorrespond[(unsigned char)DX12Config::VertexLayoutFormat::size] = {
 	DXGI_FORMAT_R32G32B32_FLOAT,
 	DXGI_FORMAT_R8G8B8A8_UNORM
@@ -71,5 +77,6 @@ D3D12_INPUT_CLASSIFICATION DX12GraphicsPipeline::mVertexLayoutInputClassificatio
 D3D12_PRIMITIVE_TOPOLOGY_TYPE DX12GraphicsPipeline::mPrimitiveTopologyTypeCorrespond[(unsigned char)DX12Config::PrimitiveTopologyType::size] = {
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT,
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
 };

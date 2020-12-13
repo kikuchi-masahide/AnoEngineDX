@@ -112,6 +112,7 @@ boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::Des
 
 void DX12::ProcessCommands()
 {
+	CloseRenderTarget();
 	//命令のクローズ
 	mCmdList->Close();
 	//コマンドリスト実行
@@ -124,11 +125,6 @@ void DX12::ProcessCommands()
 	mCmdList->Reset(mCmdAllocator);
 	//全スワップチェーンのスワップ
 	mSwapChainManager->FlipAll();
-}
-
-void DX12::SetAndClearRenderTarget(unsigned int _id, float _r, float _g, float _b)
-{
-	mSwapChainManager->SetAndClearRenderTarget(_id, mCmdList, _r, _g, _b);
 }
 
 boost::shared_ptr<DX12Resource> DX12::CreateVertexBuffer(UINT64 _width)
@@ -172,5 +168,72 @@ boost::shared_ptr<DX12RootSignature> DX12::CreateRootSignature()
 {
 	return boost::shared_ptr<DX12RootSignature>(
 		new DX12RootSignature(mDevice)
+		);
+}
+
+void DX12::SetGraphicsPipeline(boost::shared_ptr<DX12GraphicsPipeline> _pipeline)
+{
+	_pipeline->SetGraphicsPipeline(mCmdList);
+}
+
+void DX12::SetRootSignature(boost::shared_ptr<DX12RootSignature> _root)
+{
+	_root->SetRootSignature(mCmdList);
+}
+
+void DX12::SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim)
+{
+	mCmdList->SetPrimitive(_prim);
+}
+
+void DX12::SetVertexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _slotid, SIZE_T _allsize, SIZE_T _sizepervertex)
+{
+	_resource->SetVertexBuffers(mCmdList, _slotid, _allsize, _sizepervertex);
+}
+
+void DX12::DrawInstanced(UINT _vertnum, UINT _instnum, UINT _vdataoffset, UINT _instoffset)
+{
+	mCmdList->DrawInstanced(_vertnum, _instnum, _vdataoffset, _instoffset);
+}
+
+void DX12::DrawIndexedInstanced(UINT _indexnumperinst, UINT _instnum, UINT _indoffset, UINT _vdataoffset, UINT _instoffset)
+{
+	mCmdList->DrawIndexedInstanced(_indexnumperinst, _instnum, _indoffset, _vdataoffset, _instoffset);
+}
+
+void DX12::SetViewports(UINT _widthpx, UINT _heightpx, int _topleftx, int _toplefty, float _maxdepth, float _mindepth)
+{
+	mCmdList->SetViewports(_widthpx, _heightpx, _topleftx, _toplefty, _maxdepth, _mindepth);
+}
+
+void DX12::SetScissorrect(float _top, float _bottom, float _left, float _right)
+{
+	mCmdList->SetScissorrect(_top, _bottom, _left, _right);
+}
+
+void DX12::SetRenderTarget(unsigned int _id)
+{
+	mSwapChainManager->OpenRenderTarget(_id,mCmdList);
+}
+
+void DX12::ClearRenderTarget(float _r, float _g, float _b)
+{
+	mSwapChainManager->ClearRenderTarget(mCmdList,_r, _g, _b);
+}
+
+void DX12::CloseRenderTarget()
+{
+	mSwapChainManager->CloseRenderTarget(mCmdList);
+}
+
+void DX12::SetIndexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _vertnum)
+{
+	_resource->SetIndexBuffers(mCmdList, _vertnum);
+}
+
+boost::shared_ptr<DX12Resource> DX12::CreateIndexBuffer(unsigned int _vertnum)
+{
+	return boost::shared_ptr<DX12Resource>(
+		new DX12Resource(mDevice, DX12Config::ResourceHeapType::UPLOAD, sizeof(unsigned int) * _vertnum, 1)
 		);
 }

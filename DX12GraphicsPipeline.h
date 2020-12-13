@@ -7,6 +7,7 @@
 class DX12Device;
 class DX12ShaderObject;
 class DX12RootSignature;
+class DX12CmdList;
 
 class DX12GraphicsPipeline final :public boost::noncopyable {
 public:
@@ -22,6 +23,7 @@ public:
 		boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
 		DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
 		boost::shared_ptr<DX12RootSignature> _rootsignature);
+	void SetGraphicsPipeline(DX12CmdList* _list);
 private:
 	ComPtr<ID3D12PipelineState> mState;
 	static DXGI_FORMAT mVertexLayoutFormatCorrespond[(unsigned char)DX12Config::VertexLayoutFormat::size];

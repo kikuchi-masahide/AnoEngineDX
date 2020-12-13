@@ -23,6 +23,7 @@ private:
 	static DXGI_SWAP_CHAIN_DESC1 mBaseDesc;
 	//リソースバリアの設定を行う構造体
 	static D3D12_RESOURCE_BARRIER mResourceBarrierDesc;
+	int mCurrentBBid;
 public:
 	void Initialize();
 	void CleanUp();
@@ -37,7 +38,15 @@ public:
 	/// </summary>
 	void FlipAll();
 	/// <summary>
-	/// _idの指すスワップチェーンをレンダーターゲットに指定しリソースバリアを設定．背景色も同時に設定する
+	/// _idの指すスワップチェーンをレンダーターゲットに指定しリソースバリアを設定．
 	/// </summary>
-	void SetAndClearRenderTarget(unsigned int _id,DX12CmdList* _list,float _r,float _g,float _b);
+	/// <param name="_id"></param>
+	/// <param name="_list"></param>
+	void OpenRenderTarget(unsigned int _id, DX12CmdList* _list);
+	/// <summary>
+	/// 現在のレンダーターゲットの背景色を設定する
+	/// </summary>
+	void ClearRenderTarget(DX12CmdList* _list,float _r,float _g,float _b);
+	//リソースバリアをPRESENTに戻す
+	void CloseRenderTarget(DX12CmdList* _list);
 };
