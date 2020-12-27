@@ -16,6 +16,7 @@ namespace DX12Config {
 	//シェーダからの可視範囲に関する定数
 	enum class ShaderVisibility :unsigned char {
 		NONE,
+		SHADER_VISIBLE,
 		size
 	};
 	//リソースのヒープのCPUからのアクセスの可不可の設定
@@ -35,6 +36,7 @@ namespace DX12Config {
 	enum class VertexLayoutFormat {
 		R32G32B32_FLOAT,
 		R8G8B8A8_UNORM,
+		R32G32_FLOAT,
 		size
 	};
 	//頂点レイアウトのinput_classificastion

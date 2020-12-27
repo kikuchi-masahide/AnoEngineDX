@@ -167,4 +167,9 @@
       <Filter>Engine\DirectX</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="BasicShaderHeader.hlsli">
+      <Filter>Engine\DirectX</Filter>
+    </None>
+  </ItemGroup>
 </Project>

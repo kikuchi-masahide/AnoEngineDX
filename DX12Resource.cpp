@@ -9,8 +9,8 @@ DX12Resource::DX12Resource(DX12Device* _device, DX12Config::ResourceHeapType _he
 	heapProp.Type = mResourceHeapTypeCorrespond[(unsigned char)_heaptype];
 	heapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 	heapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-	//heapProp.CreationNodeMask = 0;
-	//heapProp.VisibleNodeMask = 0;
+	heapProp.CreationNodeMask = 0;
+	heapProp.VisibleNodeMask = 0;
 	//リソース設定
 	D3D12_RESOURCE_DESC resourceDesc = {};
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -20,12 +20,44 @@ DX12Resource::DX12Resource(DX12Device* _device, DX12Config::ResourceHeapType _he
 	resourceDesc.MipLevels = 1;
 	resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
 	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.SampleDesc.Quality = 0;
 	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	auto dev = _device->GetDevice();
 	auto res = dev->CreateCommittedResource(&heapProp, D3D12_HEAP_FLAG_NONE, &resourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(mResource.ReleaseAndGetAddressOf()));
 	if (FAILED(res)) {
+		throw 0;
+		Log::OutputTrivial("Resource's initializing failed");
+	}
+}
+
+DX12Resource::DX12Resource(DX12Device* _device, DirectX::TexMetadata& _metadata)
+{
+	D3D12_HEAP_PROPERTIES texHeapProp = {};
+	texHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;//テクスチャ用
+	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+	texHeapProp.CreationNodeMask = 0;//単一アダプタのため0
+	texHeapProp.VisibleNodeMask = 0;//単一アダプタのため0
+	D3D12_RESOURCE_DESC texResourceDesc = {};
+	texResourceDesc.Format = _metadata.format;
+	texResourceDesc.Width = _metadata.width;//幅
+	texResourceDesc.Height = _metadata.height;//高さ
+	texResourceDesc.DepthOrArraySize = _metadata.arraySize;//2Dで配列でもないので１
+	texResourceDesc.MipLevels = _metadata.mipLevels;//ミップマップしないのでミップ数は１つ
+	texResourceDesc.Dimension = static_cast<D3D12_RESOURCE_DIMENSION>(_metadata.dimension);//2Dテクスチャ用
+	texResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	auto dev = _device->GetDevice();
+	auto result = dev->CreateCommittedResource(
+		&texHeapProp,
+		D3D12_HEAP_FLAG_NONE,//特に指定なし
+		&texResourceDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,//コピー先
+		nullptr,
+		IID_PPV_ARGS(mResource.ReleaseAndGetAddressOf())
+	);
+	if (FAILED(result)) {
 		throw 0;
 		Log::OutputTrivial("Resource's initializing failed");
 	}

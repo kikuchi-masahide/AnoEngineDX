@@ -5,6 +5,7 @@
 #include "DX12ConfigEnums.h"
 
 class DX12Device;
+class DX12Resource;
 
 class DX12DescriptorHeap final :public boost::noncopyable {
 public:

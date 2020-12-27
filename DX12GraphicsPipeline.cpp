@@ -66,7 +66,8 @@ void DX12GraphicsPipeline::SetGraphicsPipeline(DX12CmdList* _list)
 
 DXGI_FORMAT DX12GraphicsPipeline::mVertexLayoutFormatCorrespond[(unsigned char)DX12Config::VertexLayoutFormat::size] = {
 	DXGI_FORMAT_R32G32B32_FLOAT,
-	DXGI_FORMAT_R8G8B8A8_UNORM
+	DXGI_FORMAT_R8G8B8A8_UNORM,
+	DXGI_FORMAT_R32G32_FLOAT
 };
 
 D3D12_INPUT_CLASSIFICATION DX12GraphicsPipeline::mVertexLayoutInputClassificationCorrespond[(unsigned char)DX12Config::VertexLayoutInputClassification::size] = {

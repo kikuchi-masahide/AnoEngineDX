@@ -146,4 +146,14 @@ public:
 	/// </summary>
 	/// <param name="_size">総頂点数</param>
 	boost::shared_ptr<DX12Resource> CreateIndexBuffer(unsigned int _vertnum);
+	/// <summary>
+	/// テクスチャのアップロード用バッファを作る
+	/// </summary>
+	/// <param name="_wholesize">総サイズ</param>
+	boost::shared_ptr<DX12Resource> CreateTextureUploadBuffer(unsigned int _wholesize);
+	/// <summary>
+	/// テクスチャ読み込み
+	/// </summary>
+	/// <returns>ディスクリプタ1つを含むディスクリプタテーブル</returns>
+	boost::shared_ptr<DX12DescriptorHeap> LoadTexture(const wchar_t* _filename);
 };

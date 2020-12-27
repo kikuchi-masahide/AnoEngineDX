@@ -9,6 +9,7 @@ class DX12CmdList;
 class DX12Resource final :public boost::noncopyable {
 public:
 	DX12Resource(DX12Device* _device, DX12Config::ResourceHeapType _heaptype,UINT64 _width,UINT _height);
+	DX12Resource(DX12Device* _device, DirectX::TexMetadata& _metadata);
 	void* Map();
 	void Unmap();
 	//バッファの仮想アドレス
@@ -18,7 +19,7 @@ public:
 		SIZE_T _sizepervertex);
 	//コマンドリストにインデックスバッファをセット
 	void SetIndexBuffers(DX12CmdList* _list, unsigned int _vertnum);
+	ComPtr<ID3D12Resource> mResource;
 private:
 	static D3D12_HEAP_TYPE mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size];
-	ComPtr<ID3D12Resource> mResource;
 };

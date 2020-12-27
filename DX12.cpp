@@ -73,6 +73,11 @@ void DX12::Initialize()
 		mCmdList->Initialize(mDevice, mCmdAllocator);
 		//コマンドキュー
 		mCmdQueue->Initialize(mDevice);
+		//テクスチャロード用のCOM初期化
+		if (FAILED(CoInitializeEx(0, COINIT_MULTITHREADED)))
+		{
+			throw 0;
+		}
 	}
 	catch (...)
 	{
@@ -236,4 +241,106 @@ boost::shared_ptr<DX12Resource> DX12::CreateIndexBuffer(unsigned int _vertnum)
 	return boost::shared_ptr<DX12Resource>(
 		new DX12Resource(mDevice, DX12Config::ResourceHeapType::UPLOAD, sizeof(unsigned int) * _vertnum, 1)
 		);
+}
+
+boost::shared_ptr<DX12Resource> DX12::CreateTextureUploadBuffer(unsigned int _wholesize)
+{
+	return boost::shared_ptr<DX12Resource>(new DX12Resource(
+		mDevice,DX12Config::ResourceHeapType::UPLOAD,_wholesize,1
+	));
+}
+
+boost::shared_ptr<DX12DescriptorHeap> DX12::LoadTexture(const wchar_t* _filename)
+{
+	auto dev = mDevice->GetDevice();
+	//WICテクスチャのロード
+	DirectX::TexMetadata metadata = {};
+	DirectX::ScratchImage scratchImg = {};
+	auto result = LoadFromWICFile(_filename, DirectX::WIC_FLAGS::WIC_FLAGS_NONE, &metadata, scratchImg);
+	if (FAILED(result))throw 0;
+	auto img = scratchImg.GetImage(0, 0, 0);//生データ抽出
+
+	auto alignmentedSize = (img->rowPitch + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1) / D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
+	alignmentedSize *= D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
+	auto uploadResource = CreateTextureUploadBuffer(alignmentedSize);
+
+
+	//読み取り用バッファ
+	auto texResource = boost::shared_ptr<DX12Resource>(
+		new DX12Resource(mDevice, metadata)
+		);
+
+	//転送用リソースにマップ
+	uint8_t* mapforImg = (uint8_t*)uploadResource->Map();
+	auto srcAddress = img->pixels;
+	auto rowPitch = alignmentedSize;
+	for (int y = 0; y < img->height; ++y) {
+		std::copy_n(srcAddress,
+			rowPitch,
+			mapforImg);//コピー
+		//1行ごとの辻褄を合わせてやる
+		srcAddress += img->rowPitch;
+		mapforImg += rowPitch;
+	}
+	uploadResource->Unmap();//アンマップ
+
+	auto texResourcerow = texResource->mResource.Get();
+	auto uploadResourcerow = uploadResource->mResource.Get();
+
+
+	//uploadからtexへのコピー
+	D3D12_TEXTURE_COPY_LOCATION src = {}, dst = {};
+	dst.pResource = texResourcerow;
+	dst.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+	dst.SubresourceIndex = 0;
+	src.pResource = uploadResourcerow;//中間バッファ
+	src.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;//フットプリント指定
+	D3D12_PLACED_SUBRESOURCE_FOOTPRINT footprint = {};
+	UINT nrow;
+	UINT64 rowsize, size;
+	auto desc = texResourcerow->GetDesc();
+	dev->GetCopyableFootprints(&desc, 0, 1, 0, &footprint, &nrow, &rowsize, &size);
+	src.PlacedFootprint = footprint;
+	src.PlacedFootprint.Offset = 0;
+	src.PlacedFootprint.Footprint.Width = metadata.width;
+	src.PlacedFootprint.Footprint.Height = metadata.height;
+	src.PlacedFootprint.Footprint.Depth = metadata.depth;
+	src.PlacedFootprint.Footprint.RowPitch = alignmentedSize;
+	src.PlacedFootprint.Footprint.Format = img->format;
+	auto commandlist = mCmdList->GetCmdList();
+	commandlist->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+
+	//リソースバリア
+	D3D12_RESOURCE_BARRIER BarrierDesc = {};
+	BarrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	BarrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	BarrierDesc.Transition.pResource = dst.pResource;
+	BarrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+	BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+
+	commandlist->ResourceBarrier(1, &BarrierDesc);
+	commandlist->Close();
+	//コマンドリストの実行
+	ID3D12CommandList* cmdlists[] = { commandlist.Get() };
+	auto commandqueue = mCmdQueue->GetCmdQueue();
+	commandqueue->ExecuteCommandLists(1, cmdlists);
+	FenceWaitingInProcessCommands();
+	mCmdAllocator->GetCmdAllocator()->Reset();//キューをクリア
+	commandlist->Reset(mCmdAllocator->GetCmdAllocator().Get(), nullptr);
+
+	//ディスクリプタヒープ
+	boost::shared_ptr<DX12DescriptorHeap> descHeap(new DX12DescriptorHeap(
+		DX12Config::DescriptorHeapType::SRV, DX12Config::ShaderVisibility::SHADER_VISIBLE,1,mDevice
+	));
+
+	//ディスクリプタ
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = metadata.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	dev->CreateShaderResourceView(texResourcerow, &srvDesc, descHeap->GetCPUDescriptorHandle(0));
+
+	return descHeap;
 }

@@ -18,25 +18,31 @@ public:
 		auto handlec12 = handle->AddOutputComponent<Component1>(60,1);
 		handle->AddUpdateComponent<Component2>(60, 0,handle);
 		handle->AddUpdateComponent<Component2>(20, 1,handle);
-		Vector3 vertices[] = {
-			GetVector3(-0.4f,-0.7f,0.0f),
-			GetVector3(-0.4f,0.7f,0.0f),
-			GetVector3(0.4f,-0.7f,0.0f),
-			GetVector3(0.4f,0.7f,0.0f)
+		VertexLayout vertices[] = {
+			{GetVector3(-0.4f,-0.7f,0.0f),GetVector2(0.0f,1.0f)},
+			{GetVector3(-0.4f,0.7f,0.0f),GetVector2(0.0f,0.0f)},
+			{GetVector3(0.4f,-0.7f,0.0f),GetVector2(1.0f,1.0f)},
+			{GetVector3(0.4f,0.7f,0.0f),GetVector2(1.0f,0.0f)}
 		};
 		mVS = mGame.mdx12.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
 		mPS = mGame.mdx12.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
-		mResource = _game->mdx12.CreateVertexBuffer(sizeof(float) * 3 * 4);
+		mResource = _game->mdx12.CreateVertexBuffer(sizeof(float) * 5 * 4);
 		float* resmap = (float*)_game->mdx12.Map(mResource);
 		for (unsigned int n = 0; n < 4; n++) {
-			resmap[3 * n] = boost::qvm::X(vertices[n]);
-			resmap[3 * n + 1] = boost::qvm::Y(vertices[n]);
-			resmap[3 * n + 2] = boost::qvm::Z(vertices[n]);
+			resmap[5 * n] = boost::qvm::X(vertices[n].mPos);
+			resmap[5 * n + 1] = boost::qvm::Y(vertices[n].mPos);
+			resmap[5 * n + 2] = boost::qvm::Z(vertices[n].mPos);
+			resmap[5 * n + 3] = boost::qvm::X(vertices[n].mUV);
+			resmap[5 * n + 4] = boost::qvm::Y(vertices[n].mUV);
 		}
 		_game->mdx12.Unmap(mResource);
 		mLayout.push_back(DX12VertexLayoutUnit(
 			"POSITION", DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0,
-			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 1
+			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		));
+		mLayout.push_back(DX12VertexLayoutUnit(
+			"TEXCOORD", DX12Config::VertexLayoutFormat::R32G32_FLOAT, 0,
+			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		));
 		mRootSignature = _game->mdx12.CreateRootSignature();
 		mPipeline = _game->mdx12.CreateGraphicsPipeline(
@@ -52,6 +58,14 @@ public:
 			indresmap[n] = indeces[n];
 		}
 		_game->mdx12.Unmap(mIndeces);
+		texturedata.resize(256 * 256);
+		for (auto& rgba : texturedata)
+		{
+			rgba.R = rand() % 256;
+			rgba.G = rand() % 256;
+			rgba.B = rand() % 256;
+			rgba.A = 255;
+		}
 	}
 	void UniqueOutput()
 	{
@@ -59,7 +73,7 @@ public:
 		mGame.mdx12.SetGraphicsPipeline(mPipeline);
 		mGame.mdx12.SetRootSignature(mRootSignature);
 		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopologyType::TRIANGLESTRIP);
-		mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 12, sizeof(float) * 3);
+		mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 5*4, sizeof(float) * 5);
 		mGame.mdx12.SetIndexBuffers(mIndeces, 6);
 		mGame.mdx12.SetViewports(1024, 768, 0, 0, 1.0f, 0.0f);
 		mGame.mdx12.SetScissorrect(0, 768, 0, 1024);
@@ -80,4 +94,13 @@ private:
 	boost::shared_ptr<DX12GraphicsPipeline> mPipeline;
 	boost::shared_ptr<DX12RootSignature> mRootSignature;
 	DX12VertexLayout mLayout;
+	struct VertexLayout {
+	public:
+		Vector3 mPos;
+		Vector2 mUV;
+	};
+	struct TexRGBA {
+		unsigned char R, G, B, A;
+	};
+	std::vector<TexRGBA> texturedata;
 };

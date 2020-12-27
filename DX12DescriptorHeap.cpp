@@ -1,5 +1,6 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12Device.h"
+#include "DX12Resource.h"
 
 DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num, DX12Device* _device)
 	:mNum(_num), mType(_type), mShaderVisibility(_vis)
@@ -37,5 +38,6 @@ D3D12_DESCRIPTOR_HEAP_TYPE DX12DescriptorHeap::mDescriptorHeapTypeCorrespond[] =
 };
 
 D3D12_DESCRIPTOR_HEAP_FLAGS DX12DescriptorHeap::mShaderVisibilityCorrespond[] = {
-	D3D12_DESCRIPTOR_HEAP_FLAG_NONE
+	D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
+	D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE
 };
