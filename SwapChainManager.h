@@ -32,21 +32,21 @@ public:
 	/// </summary>
 	/// <returns>キー</returns>
 	unsigned int AddSwapChain(
-		DX12Factory* _factory, DX12CmdQueue* _cmdqueue, DX12Device* _device, HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
+		ComPtr<IDXGIFactory6> _factory, ComPtr<ID3D12CommandQueue> _cmdqueue, ComPtr<ID3D12Device> _device, HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
 	/// <summary>
 	/// 全スワップチェーンをフリップ
 	/// </summary>
-	void FlipAll(DX12Device* _dev);
+	void FlipAll(ComPtr<ID3D12Device> _dev);
 	/// <summary>
 	/// _idの指すスワップチェーンをレンダーターゲットに指定しリソースバリアを設定．
 	/// </summary>
 	/// <param name="_id"></param>
 	/// <param name="_list"></param>
-	void OpenRenderTarget(unsigned int _id, DX12CmdList* _list);
+	void OpenRenderTarget(unsigned int _id, ComPtr<ID3D12GraphicsCommandList> _list);
 	/// <summary>
 	/// 現在のレンダーターゲットの背景色を設定する
 	/// </summary>
-	void ClearRenderTarget(DX12CmdList* _list,float _r,float _g,float _b);
+	void ClearRenderTarget(ComPtr<ID3D12GraphicsCommandList> _list,float _r,float _g,float _b);
 	//リソースバリアをPRESENTに戻す
-	void CloseRenderTarget(DX12CmdList* _list);
+	void CloseRenderTarget(ComPtr<ID3D12GraphicsCommandList> _list);
 };

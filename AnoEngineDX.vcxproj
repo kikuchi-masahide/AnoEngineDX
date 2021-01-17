@@ -167,6 +167,7 @@
     <ClCompile Include="DX12DescriptorHeap.cpp" />
     <ClCompile Include="DX12Device.cpp" />
     <ClCompile Include="DX12Factory.cpp" />
+    <ClCompile Include="DX12Pimple.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="DX12DescriptorHeap.h" />
     <ClInclude Include="DX12Device.h" />
     <ClInclude Include="DX12Factory.h" />
+    <ClInclude Include="DX12Pimple.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12RootParameter.h" />
     <ClInclude Include="Game.h" />

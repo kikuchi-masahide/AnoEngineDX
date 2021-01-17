@@ -77,6 +77,9 @@
     <ClCompile Include="DX12RootSignature.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DX12Pimple.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -159,6 +162,9 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DX12RootParameter.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12Pimple.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>

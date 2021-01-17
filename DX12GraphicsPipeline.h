@@ -19,11 +19,11 @@ public:
 	/// <param name="_vertexLayout">頂点レイアウト</param>
 	/// <param name="_primitive">プリミティブ型</param>
 	/// <param name="_numrt">レンダーターゲット数</param>
-	DX12GraphicsPipeline(DX12Device* _device, boost::shared_ptr<DX12ShaderObject> _vertexShader,
+	DX12GraphicsPipeline(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12ShaderObject> _vertexShader,
 		boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
 		DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
 		boost::shared_ptr<DX12RootSignature> _rootsignature);
-	void SetGraphicsPipeline(DX12CmdList* _list);
+	void SetGraphicsPipeline(ComPtr<ID3D12GraphicsCommandList> _list);
 private:
 	ComPtr<ID3D12PipelineState> mState;
 	static DXGI_FORMAT mVertexLayoutFormatCorrespond[(unsigned char)DX12Config::VertexLayoutFormat::size];

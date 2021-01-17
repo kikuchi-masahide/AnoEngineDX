@@ -1,4 +1,5 @@
 #include "DX12ShaderObject.h"
+#include "DX12Pimple.h"
 
 DX12ShaderObject::DX12ShaderObject(LPCWSTR _filename, DX12Config::ShaderType _shaderType)
 {
@@ -37,3 +38,10 @@ SIZE_T DX12ShaderObject::GetBufferSize()
 LPCSTR DX12ShaderObject::mShaderTypeCorrespond[(unsigned char)DX12Config::ShaderType::size] = {
 	"vs_5_0","ps_5_0"
 };
+
+boost::shared_ptr<DX12ShaderObject> DX12Pimple::LoadShader(LPCWSTR _filename, DX12Config::ShaderType _shaderType)
+{
+	return boost::shared_ptr<DX12ShaderObject>(new DX12ShaderObject(
+		_filename, _shaderType
+	));
+}

@@ -2,17 +2,17 @@
 #include "DX12Device.h"
 #include "DX12Resource.h"
 #include "DX12CmdList.h"
+#include "DX12Pimple.h"
 
-DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num, DX12Device* _device)
+DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num, ComPtr<ID3D12Device> _device)
 	:mNum(_num), mType(_type), mShaderVisibility(_vis)
 {
 	//mHeapDescStr‚Ì‘Î‰ž‰ÓŠ•ÏX
 	mHeapDescStr.Type = mDescriptorHeapTypeCorrespond[(unsigned char)_type];
 	mHeapDescStr.Flags = mShaderVisibilityCorrespond[(unsigned char)_vis];
 	mHeapDescStr.NumDescriptors = _num;
-	auto dev = _device->GetDevice();
-	dev->CreateDescriptorHeap(&mHeapDescStr, IID_PPV_ARGS(mDescHeap.ReleaseAndGetAddressOf()));
-	mDescriptorHandleSize = dev->GetDescriptorHandleIncrementSize(mDescriptorHeapTypeCorrespond[(unsigned char)_type]);
+	_device->CreateDescriptorHeap(&mHeapDescStr, IID_PPV_ARGS(mDescHeap.ReleaseAndGetAddressOf()));
+	mDescriptorHandleSize = _device->GetDescriptorHandleIncrementSize(mDescriptorHeapTypeCorrespond[(unsigned char)_type]);
 }
 
 DX12DescriptorHeap::~DX12DescriptorHeap()
@@ -26,10 +26,10 @@ D3D12_CPU_DESCRIPTOR_HANDLE DX12DescriptorHeap::GetCPUDescriptorHandle(unsigned 
 	return handle;
 }
 
-void DX12DescriptorHeap::SetDescriptorHeap(DX12CmdList* _cmdlist)
+void DX12DescriptorHeap::SetDescriptorHeap(ComPtr<ID3D12GraphicsCommandList> _cmdlist)
 {
 	ID3D12DescriptorHeap* descHeapArray = { mDescHeap.Get() };
-	_cmdlist->GetCmdList()->SetDescriptorHeaps(1,&descHeapArray);
+	_cmdlist->SetDescriptorHeaps(1,&descHeapArray);
 }
 
 const DX12Config::DescriptorHeapType DX12DescriptorHeap::GetDescriptorHeapType()
@@ -49,6 +49,13 @@ D3D12_GPU_DESCRIPTOR_HANDLE DX12DescriptorHeap::GetGPUDescriptorHandle(unsigned 
 	return handle;
 }
 
+boost::shared_ptr<DX12DescriptorHeap> DX12Pimple::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num)
+{
+	return boost::shared_ptr<DX12DescriptorHeap>(
+		new DX12DescriptorHeap(_type, _vis, _num, mDevice)
+		);
+}
+
 D3D12_DESCRIPTOR_HEAP_DESC DX12DescriptorHeap::mHeapDescStr = {
 	D3D12_DESCRIPTOR_HEAP_TYPE_RTV,0,D3D12_DESCRIPTOR_HEAP_FLAG_NONE,0
 };
@@ -65,3 +72,8 @@ D3D12_DESCRIPTOR_HEAP_FLAGS DX12DescriptorHeap::mShaderVisibilityCorrespond[] = 
 	D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
 	D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE
 };
+
+void DX12Pimple::SetDescriptorHeap(boost::shared_ptr<DX12DescriptorHeap> _descHeap)
+{
+	_descHeap->SetDescriptorHeap(mCmdList);
+}

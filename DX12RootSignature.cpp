@@ -1,11 +1,12 @@
 #include "DX12RootSignature.h"
 #include "DX12Device.h"
 #include "DX12CmdList.h"
+#include "DX12Pimple.h"
 
-DX12RootSignature::DX12RootSignature(DX12Device* _device, DX12RootParameter& _rootparam)
+DX12RootSignature::DX12RootSignature(ComPtr<ID3D12Device> _device, DX12RootParameter& _rootparam)
 {
 	D3D12_ROOT_SIGNATURE_DESC RSDesc = {};
-	
+
 	RSDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	D3D12_DESCRIPTOR_RANGE* descTblRng = nullptr;
 	//ルートパラメタが空でない場合
@@ -48,7 +49,7 @@ DX12RootSignature::DX12RootSignature(DX12Device* _device, DX12RootParameter& _ro
 	ComPtr<ID3DBlob> errorBlob;
 	auto result = D3D12SerializeRootSignature(&RSDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
-	if(descTblRng)delete[] descTblRng;
+	if (descTblRng)delete[] descTblRng;
 	if (FAILED(result)) {
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
@@ -57,8 +58,7 @@ DX12RootSignature::DX12RootSignature(DX12Device* _device, DX12RootParameter& _ro
 		throw 0;
 	}
 
-	auto dev = _device->GetDevice();
-	result = dev->CreateRootSignature(
+	result = _device->CreateRootSignature(
 		0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
 		IID_PPV_ARGS(mRootSignature.ReleaseAndGetAddressOf())
 	);
@@ -68,9 +68,9 @@ DX12RootSignature::DX12RootSignature(DX12Device* _device, DX12RootParameter& _ro
 	}
 }
 
-void DX12RootSignature::SetRootSignature(DX12CmdList* _list)
+void DX12RootSignature::SetRootSignature(ComPtr<ID3D12GraphicsCommandList> _list)
 {
-	_list->GetCmdList()->SetGraphicsRootSignature(mRootSignature.Get());
+	_list->SetGraphicsRootSignature(mRootSignature.Get());
 }
 
 D3D12_SHADER_VISIBILITY DX12RootSignature::mShaderVisibilityCorrespond[(unsigned char)DX12Config::ShaderVisibility::size] = {
@@ -85,3 +85,15 @@ D3D12_DESCRIPTOR_RANGE_TYPE DX12RootSignature::mDescRngTypeCorrespond[(unsigned 
 	D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
 	D3D12_DESCRIPTOR_RANGE_TYPE_CBV
 };
+
+boost::shared_ptr<DX12RootSignature> DX12Pimple::CreateRootSignature(DX12RootParameter& _rootparam)
+{
+	return boost::shared_ptr<DX12RootSignature>(new DX12RootSignature(
+		mDevice, _rootparam
+	));
+}
+
+void DX12Pimple::SetRootSignature(boost::shared_ptr<DX12RootSignature> _root)
+{
+	_root->SetRootSignature(mCmdList);
+}

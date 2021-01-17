@@ -3,9 +3,10 @@
 #include "DX12ShaderObject.h"
 #include "DX12RootSignature.h"
 #include "DX12CmdList.h"
+#include "DX12Pimple.h"
 
 DX12GraphicsPipeline::DX12GraphicsPipeline(
-	DX12Device* _device, boost::shared_ptr<DX12ShaderObject> _vertexShader,
+	ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12ShaderObject> _vertexShader,
 	boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
 	DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
 	boost::shared_ptr<DX12RootSignature> _rootsignature)
@@ -50,19 +51,32 @@ DX12GraphicsPipeline::DX12GraphicsPipeline(
 	gpipeline.SampleDesc.Count = 1;
 	gpipeline.SampleDesc.Quality = 0;
 	gpipeline.pRootSignature = _rootsignature->mRootSignature.Get();
-	auto dev = _device->GetDevice();
-	auto result = dev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(mState.ReleaseAndGetAddressOf()));
+	auto result = _device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(mState.ReleaseAndGetAddressOf()));
 	delete[] layouts;
 	if (FAILED(result))
 	{
 		Log::OutputTrivial("GraphicsPipeLine Initialising failed");
+		throw 0;
 	}
 }
 
-void DX12GraphicsPipeline::SetGraphicsPipeline(DX12CmdList* _list)
+void DX12GraphicsPipeline::SetGraphicsPipeline(ComPtr<ID3D12GraphicsCommandList> _list)
 {
-	_list->GetCmdList()->SetPipelineState(mState.Get());
+	_list->SetPipelineState(mState.Get());
 }
+
+boost::shared_ptr<DX12GraphicsPipeline> DX12Pimple::CreateGraphicsPipeline(
+	boost::shared_ptr<DX12ShaderObject> _vertexShader,
+	boost::shared_ptr<DX12ShaderObject> _pixelShader, DX12VertexLayout& _vertexLayout,
+	DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
+	boost::shared_ptr<DX12RootSignature> _rootsignature) {
+		return boost::shared_ptr<DX12GraphicsPipeline>(
+			new DX12GraphicsPipeline(
+				mDevice, _vertexShader, _pixelShader, _vertexLayout,_primitive, _numrt,
+				_rootsignature)
+		);
+}
+
 
 DXGI_FORMAT DX12GraphicsPipeline::mVertexLayoutFormatCorrespond[(unsigned char)DX12Config::VertexLayoutFormat::size] = {
 	DXGI_FORMAT_R32G32B32_FLOAT,
@@ -81,3 +95,8 @@ D3D12_PRIMITIVE_TOPOLOGY_TYPE DX12GraphicsPipeline::mPrimitiveTopologyTypeCorres
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
 };
+
+void DX12Pimple::SetGraphicsPipeline(boost::shared_ptr<DX12GraphicsPipeline> _pipeline)
+{
+	_pipeline->SetGraphicsPipeline(mCmdList);
+}
