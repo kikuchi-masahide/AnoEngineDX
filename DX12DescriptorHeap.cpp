@@ -1,7 +1,5 @@
 #include "DX12DescriptorHeap.h"
-#include "DX12Device.h"
 #include "DX12Resource.h"
-#include "DX12CmdList.h"
 #include "DX12Pimple.h"
 
 DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num, ComPtr<ID3D12Device> _device)

@@ -130,6 +130,13 @@ void DX12Pimple::CleanUp() {
 	delete mSwapChainManager;
 }
 
+DX12Pimple::~DX12Pimple()
+{
+	//ComPtr<ID3D12DebugDevice> mDebugDevice;
+	//mDevice->QueryInterface(mDebugDevice.GetAddressOf());
+	//mDebugDevice->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL);
+}
+
 unsigned int DX12Pimple::CreateSwapChain(
 	HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap
 )

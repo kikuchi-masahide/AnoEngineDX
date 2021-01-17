@@ -1,6 +1,4 @@
 #include "DX12RootSignature.h"
-#include "DX12Device.h"
-#include "DX12CmdList.h"
 #include "DX12Pimple.h"
 
 DX12RootSignature::DX12RootSignature(ComPtr<ID3D12Device> _device, DX12RootParameter& _rootparam)

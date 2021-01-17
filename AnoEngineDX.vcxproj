@@ -161,12 +161,8 @@
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DX12.cpp" />
-    <ClCompile Include="DX12CmdAllocator.cpp" />
     <ClCompile Include="DX12CmdList.cpp" />
-    <ClCompile Include="DX12CmdQueue.cpp" />
     <ClCompile Include="DX12DescriptorHeap.cpp" />
-    <ClCompile Include="DX12Device.cpp" />
-    <ClCompile Include="DX12Factory.cpp" />
     <ClCompile Include="DX12Pimple.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -193,14 +189,9 @@
     <ClInclude Include="Component2.h" />
     <ClInclude Include="ComponentHandle.h" />
     <ClInclude Include="DX12.h" />
-    <ClInclude Include="DX12CmdAllocator.h" />
-    <ClInclude Include="DX12CmdList.h" />
-    <ClInclude Include="DX12CmdQueue.h" />
     <ClInclude Include="DX12CommonInclude.h" />
     <ClInclude Include="DX12ConfigEnums.h" />
     <ClInclude Include="DX12DescriptorHeap.h" />
-    <ClInclude Include="DX12Device.h" />
-    <ClInclude Include="DX12Factory.h" />
     <ClInclude Include="DX12Pimple.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12RootParameter.h" />

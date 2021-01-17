@@ -25,6 +25,7 @@ public:
 	DX12Pimple();
 	void Initialize();
 	void CleanUp();
+	~DX12Pimple();
 	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
 	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num);
 	void ProcessCommands();

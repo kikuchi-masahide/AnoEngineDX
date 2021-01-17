@@ -12,6 +12,11 @@ void DX12::CleanUp() {
 	mPimple->CleanUp();
 }
 
+DX12::~DX12()
+{
+	delete mPimple;
+}
+
 unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap)
 {
 	return mPimple->CreateSwapChain(_hwnd, _width, _height, _descheap);

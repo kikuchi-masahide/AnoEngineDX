@@ -1,8 +1,6 @@
 #include "DX12GraphicsPipeline.h"
-#include "DX12Device.h"
 #include "DX12ShaderObject.h"
 #include "DX12RootSignature.h"
-#include "DX12CmdList.h"
 #include "DX12Pimple.h"
 
 DX12GraphicsPipeline::DX12GraphicsPipeline(

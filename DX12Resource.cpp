@@ -1,6 +1,4 @@
 #include "DX12Resource.h"
-#include "DX12Device.h"
-#include "DX12CmdList.h"
 #include "DX12Pimple.h"
 
 DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, DX12Config::ResourceHeapType _heaptype, UINT64 _width, UINT _height)

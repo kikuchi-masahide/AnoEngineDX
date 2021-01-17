@@ -1,9 +1,5 @@
 #include "SwapChainManager.h"
-#include "DX12Factory.h"
-#include "DX12Device.h"
-#include "DX12CmdQueue.h"
 #include "DX12DescriptorHeap.h"
-#include "DX12CmdList.h"
 #include "DX12Pimple.h"
 
 void SwapChainManager::ClearRenderTarget(ComPtr<ID3D12GraphicsCommandList> _list, float _r, float _g, float _b)
