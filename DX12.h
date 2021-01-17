@@ -2,6 +2,7 @@
 
 #include "DX12ConfigEnums.h"
 #include "DX12VertexLayoutUnit.h"
+#include "DX12RootParameter.h"
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -81,7 +82,7 @@ public:
 		DX12Config::PrimitiveTopologyType _primitive, UINT _numrt,
 		boost::shared_ptr<DX12RootSignature> _rootsignature);
 	//ルートシグネチャの作成(暫定)
-	boost::shared_ptr<DX12RootSignature> CreateRootSignature();
+	boost::shared_ptr<DX12RootSignature> CreateRootSignature(DX12RootParameter& _rootparam);
 	//パイプラインステートのセット
 	void SetGraphicsPipeline(boost::shared_ptr<DX12GraphicsPipeline> _pipeline);
 	//ルートシグネチャのセット
@@ -150,10 +151,23 @@ public:
 	/// テクスチャのアップロード用バッファを作る
 	/// </summary>
 	/// <param name="_wholesize">総サイズ</param>
-	boost::shared_ptr<DX12Resource> CreateTextureUploadBuffer(unsigned int _wholesize);
+	boost::shared_ptr<DX12Resource> CreateTextureUploadBuffer(unsigned int _rowpitch, unsigned int _height);
 	/// <summary>
-	/// テクスチャ読み込み
+	/// テクスチャを読み込みディスクリプタを作成
 	/// </summary>
-	/// <returns>ディスクリプタ1つを含むディスクリプタテーブル</returns>
-	boost::shared_ptr<DX12DescriptorHeap> LoadTexture(const wchar_t* _filename);
+	/// <param name="_desc">ディスクリプタヒープ</param>
+	/// <param name="_num">ディスクリプタヒープの何番目にディスクリプタを作成するか</param>
+	/// <returns>GPU上の読み取り専用バッファを示すDX12Resource</returns>
+	boost::shared_ptr<DX12Resource> LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc,unsigned int _num);
+	/// <summary>
+	/// コマンドリストに対するディスクリプタヒープの指定
+	/// </summary>
+	void SetDescriptorHeap(boost::shared_ptr<DX12DescriptorHeap> _descHeap);
+	/// <summary>
+	/// ディスクリプタテーブルの設定
+	/// </summary>
+	/// <param name="_rootParamIndex">何番のルートパラメータを設定するか</param>
+	/// <param name="_descHeap">ディスクリプタヒープ</param>
+	/// <param name="_descHeapIndex">ディスクリプタヒープの何番を設定するか</param>
+	void SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::shared_ptr<DX12DescriptorHeap> _descHeap, unsigned int _descHeapIndex);
 };

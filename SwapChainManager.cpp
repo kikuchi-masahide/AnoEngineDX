@@ -79,11 +79,16 @@ unsigned int SwapChainManager::AddSwapChain(
 	return (unsigned int)mSwapChains.size() - 1;
 }
 
-void SwapChainManager::FlipAll()
+void SwapChainManager::FlipAll(DX12Device* _dev)
 {
+	auto dev = _dev->GetDevice();
 	for (auto p : mSwapChains)
 	{
 		p->Present(1, 0);
+		auto result = dev->GetDeviceRemovedReason();
+		if (FAILED(result)) {
+			throw 0;
+		}
 	}
 }
 

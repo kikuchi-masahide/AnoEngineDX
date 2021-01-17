@@ -180,6 +180,7 @@
     <ClCompile Include="DX12ShaderObject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SwapChainManager.cpp" />
     <ClCompile Include="vector.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="DX12Device.h" />
     <ClInclude Include="DX12Factory.h" />
     <ClInclude Include="DX12Resource.h" />
+    <ClInclude Include="DX12RootParameter.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectHandle.h" />

@@ -129,7 +129,7 @@ void DX12::ProcessCommands()
 	//再びコマンドリストをためる準備
 	mCmdList->Reset(mCmdAllocator);
 	//全スワップチェーンのスワップ
-	mSwapChainManager->FlipAll();
+	mSwapChainManager->FlipAll(mDevice);
 }
 
 boost::shared_ptr<DX12Resource> DX12::CreateVertexBuffer(UINT64 _width)
@@ -169,10 +169,10 @@ boost::shared_ptr<DX12GraphicsPipeline> DX12::CreateGraphicsPipeline(
 	);
 }
 
-boost::shared_ptr<DX12RootSignature> DX12::CreateRootSignature()
+boost::shared_ptr<DX12RootSignature> DX12::CreateRootSignature(DX12RootParameter& _rootparam)
 {
 	return boost::shared_ptr<DX12RootSignature>(
-		new DX12RootSignature(mDevice)
+		new DX12RootSignature(mDevice,_rootparam)
 		);
 }
 
@@ -243,15 +243,20 @@ boost::shared_ptr<DX12Resource> DX12::CreateIndexBuffer(unsigned int _vertnum)
 		);
 }
 
-boost::shared_ptr<DX12Resource> DX12::CreateTextureUploadBuffer(unsigned int _wholesize)
+boost::shared_ptr<DX12Resource> DX12::CreateTextureUploadBuffer(unsigned int _rowpitch,unsigned int _height)
 {
+	auto aligned = _rowpitch + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - _rowpitch % D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
 	return boost::shared_ptr<DX12Resource>(new DX12Resource(
-		mDevice,DX12Config::ResourceHeapType::UPLOAD,_wholesize,1
+		mDevice,DX12Config::ResourceHeapType::UPLOAD,aligned*_height,1
 	));
 }
 
-boost::shared_ptr<DX12DescriptorHeap> DX12::LoadTexture(const wchar_t* _filename)
+boost::shared_ptr<DX12Resource> DX12::LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num)
 {
+	assert(
+		_desc->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV &&
+		_desc->GetShaderVisibility() == DX12Config::ShaderVisibility::SHADER_VISIBLE
+	);
 	auto dev = mDevice->GetDevice();
 	//WICテクスチャのロード
 	DirectX::TexMetadata metadata = {};
@@ -260,9 +265,8 @@ boost::shared_ptr<DX12DescriptorHeap> DX12::LoadTexture(const wchar_t* _filename
 	if (FAILED(result))throw 0;
 	auto img = scratchImg.GetImage(0, 0, 0);//生データ抽出
 
-	auto alignmentedSize = (img->rowPitch + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1) / D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
-	alignmentedSize *= D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
-	auto uploadResource = CreateTextureUploadBuffer(alignmentedSize);
+	auto alignmentedSize = img->rowPitch + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - img->rowPitch % D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
+	auto uploadResource = CreateTextureUploadBuffer(img->rowPitch,img->height);
 
 
 	//読み取り用バッファ
@@ -276,12 +280,13 @@ boost::shared_ptr<DX12DescriptorHeap> DX12::LoadTexture(const wchar_t* _filename
 	auto rowPitch = alignmentedSize;
 	for (int y = 0; y < img->height; ++y) {
 		std::copy_n(srcAddress,
-			rowPitch,
+			rowPitch, 
 			mapforImg);//コピー
 		//1行ごとの辻褄を合わせてやる
 		srcAddress += img->rowPitch;
 		mapforImg += rowPitch;
 	}
+
 	uploadResource->Unmap();//アンマップ
 
 	auto texResourcerow = texResource->mResource.Get();
@@ -329,18 +334,23 @@ boost::shared_ptr<DX12DescriptorHeap> DX12::LoadTexture(const wchar_t* _filename
 	mCmdAllocator->GetCmdAllocator()->Reset();//キューをクリア
 	commandlist->Reset(mCmdAllocator->GetCmdAllocator().Get(), nullptr);
 
-	//ディスクリプタヒープ
-	boost::shared_ptr<DX12DescriptorHeap> descHeap(new DX12DescriptorHeap(
-		DX12Config::DescriptorHeapType::SRV, DX12Config::ShaderVisibility::SHADER_VISIBLE,1,mDevice
-	));
-
 	//ディスクリプタ
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.Format = metadata.format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-	dev->CreateShaderResourceView(texResourcerow, &srvDesc, descHeap->GetCPUDescriptorHandle(0));
+	dev->CreateShaderResourceView(texResourcerow, &srvDesc, _desc->GetCPUDescriptorHandle(_num));
 
-	return descHeap;
+	return texResource;
+}
+
+void DX12::SetDescriptorHeap(boost::shared_ptr<DX12DescriptorHeap> _descHeap)
+{
+	_descHeap->SetDescriptorHeap(mCmdList);
+}
+
+void DX12::SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::shared_ptr<DX12DescriptorHeap> _descHeap, unsigned int _descHeapIndex)
+{
+	mCmdList->GetCmdList()->SetGraphicsRootDescriptorTable(_rootParamIndex, _descHeap->GetGPUDescriptorHandle(_descHeapIndex));
 }

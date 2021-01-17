@@ -48,6 +48,9 @@ DX12Resource::DX12Resource(DX12Device* _device, DirectX::TexMetadata& _metadata)
 	texResourceDesc.MipLevels = _metadata.mipLevels;//ミップマップしないのでミップ数は１つ
 	texResourceDesc.Dimension = static_cast<D3D12_RESOURCE_DIMENSION>(_metadata.dimension);//2Dテクスチャ用
 	texResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	texResourceDesc.SampleDesc.Count = 1;
+	texResourceDesc.SampleDesc.Quality = 0;
+	texResourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 	auto dev = _device->GetDevice();
 	auto result = dev->CreateCommittedResource(
 		&texHeapProp,

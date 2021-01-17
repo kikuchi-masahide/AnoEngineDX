@@ -36,7 +36,7 @@ public:
 	/// <summary>
 	/// 全スワップチェーンをフリップ
 	/// </summary>
-	void FlipAll();
+	void FlipAll(DX12Device* _dev);
 	/// <summary>
 	/// _idの指すスワップチェーンをレンダーターゲットに指定しリソースバリアを設定．
 	/// </summary>

@@ -44,7 +44,15 @@ public:
 			"TEXCOORD", DX12Config::VertexLayoutFormat::R32G32_FLOAT, 0,
 			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		));
-		mRootSignature = _game->mdx12.CreateRootSignature();
+		mTextureDescHeap = _game->mdx12.CreateDescriptorHeap(
+			DX12Config::DescriptorHeapType::SRV, DX12Config::ShaderVisibility::SHADER_VISIBLE, 1
+		);
+		mTexReadResource = _game->mdx12.LoadTexture(L"textest.png", mTextureDescHeap, 0);
+		DX12DescriptorRange range1(1, DX12Config::DescriptorHeapType::SRV, 0);
+		DX12RootParameter rootparam;
+		rootparam.mShaderVisibility = DX12Config::ShaderVisibility::SHADER_VISIBLE;
+		rootparam.mDescRanges.push_back(range1);
+		mRootSignature = _game->mdx12.CreateRootSignature(rootparam);
 		mPipeline = _game->mdx12.CreateGraphicsPipeline(
 			mVS, mPS, mLayout, DX12Config::PrimitiveTopologyType::TRIANGLESTRIP, 1, mRootSignature
 		);
@@ -72,6 +80,8 @@ public:
 		Log::OutputTrivial("Scene1 UniqueOutput");
 		mGame.mdx12.SetGraphicsPipeline(mPipeline);
 		mGame.mdx12.SetRootSignature(mRootSignature);
+		mGame.mdx12.SetDescriptorHeap(mTextureDescHeap);
+		mGame.mdx12.SetGraphicsRootDescriptorTable(0, mTextureDescHeap, 0);
 		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopologyType::TRIANGLESTRIP);
 		mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 5*4, sizeof(float) * 5);
 		mGame.mdx12.SetIndexBuffers(mIndeces, 6);
@@ -93,6 +103,8 @@ private:
 	boost::shared_ptr<DX12ShaderObject> mVS, mPS;
 	boost::shared_ptr<DX12GraphicsPipeline> mPipeline;
 	boost::shared_ptr<DX12RootSignature> mRootSignature;
+	boost::shared_ptr<DX12DescriptorHeap> mTextureDescHeap;
+	boost::shared_ptr<DX12Resource> mTexReadResource;
 	DX12VertexLayout mLayout;
 	struct VertexLayout {
 	public:

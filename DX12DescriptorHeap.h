@@ -6,6 +6,7 @@
 
 class DX12Device;
 class DX12Resource;
+class DX12CmdList;
 
 class DX12DescriptorHeap final :public boost::noncopyable {
 public:
@@ -16,11 +17,16 @@ public:
 	/// _n番目のCPUハンドル取得
 	/// </summary>
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(unsigned int _n);
+	//コマンドリストに対するディスクリプタヒープの指定
+	void SetDescriptorHeap(DX12CmdList* _cmdlist);
+	const DX12Config::DescriptorHeapType GetDescriptorHeapType();
+	const DX12Config::ShaderVisibility GetShaderVisibility();
+	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(unsigned int _n);
 private:
 	//所有ディスクリプタの数
-	int mNum;
-	DX12Config::DescriptorHeapType mType;
-	DX12Config::ShaderVisibility mShaderVisibility;
+	const unsigned int mNum;
+	const DX12Config::DescriptorHeapType mType;
+	const DX12Config::ShaderVisibility mShaderVisibility;
 	ComPtr<ID3D12DescriptorHeap> mDescHeap;
 	//1ディスクリプタ当たりのディスクリプタハンドルハンドル
 	SIZE_T mDescriptorHandleSize;

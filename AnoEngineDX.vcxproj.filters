@@ -158,6 +158,9 @@
     <ClInclude Include="DX12RootSignature.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="DX12RootParameter.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicVertexShader.hlsl">

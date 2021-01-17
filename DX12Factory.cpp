@@ -7,11 +7,9 @@ DX12Factory::DX12Factory()
 void DX12Factory::Initialize()
 {
 #ifdef _DEBUG
-	if (FAILED(
-		CreateDXGIFactory2(
-			DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(mFactory.ReleaseAndGetAddressOf())
-		)
-	))
+	auto result = CreateDXGIFactory2(
+		DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(mFactory.ReleaseAndGetAddressOf()));
+	if (FAILED(result))
 	{
 		Log::OutputCritical("IDXGIFactory6 Initialization failed");
 		throw 0;
