@@ -20,6 +20,9 @@ public:
 	//コマンドリストにインデックスバッファをセット
 	void SetIndexBuffers(ComPtr<ID3D12GraphicsCommandList> _list, unsigned int _vertnum);
 	ComPtr<ID3D12Resource> mResource;
+	//リソースバリアのセット
+	void SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> _list, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after);
 private:
 	static D3D12_HEAP_TYPE mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size];
+	static D3D12_RESOURCE_STATES mResourceStateCorrespond[(unsigned char)DX12Config::ResourceBarrierState::size];
 };

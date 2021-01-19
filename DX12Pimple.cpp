@@ -261,15 +261,8 @@ boost::shared_ptr<DX12Resource> DX12Pimple::LoadTexture(const wchar_t* _filename
 	mCmdList->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 
 	//リソースバリア
-	D3D12_RESOURCE_BARRIER BarrierDesc = {};
-	BarrierDesc.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	BarrierDesc.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	BarrierDesc.Transition.pResource = dst.pResource;
-	BarrierDesc.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-	BarrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
-	BarrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+	SetResourceBarrier(texResource, DX12Config::ResourceBarrierState::COPY_DEST, DX12Config::ResourceBarrierState::PIXEL_SHADER_RESOURCE);
 
-	mCmdList->ResourceBarrier(1, &BarrierDesc);
 	mCmdList->Close();
 	//コマンドリストの実行
 	ID3D12CommandList* cmdlists[] = { mCmdList.Get() };

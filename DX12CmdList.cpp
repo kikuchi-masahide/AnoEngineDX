@@ -46,3 +46,8 @@ void DX12Pimple::SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, bo
 {
 	mCmdList->SetGraphicsRootDescriptorTable(_rootParamIndex, _descHeap->GetGPUDescriptorHandle(_descHeapIndex));
 }
+
+void DX12Pimple::SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)
+{
+	_resource->SetResourceBarrier(mCmdList, _before, _after);
+}

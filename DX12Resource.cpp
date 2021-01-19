@@ -98,9 +98,29 @@ void DX12Resource::SetIndexBuffers(ComPtr<ID3D12GraphicsCommandList> _list, unsi
 	_list->IASetIndexBuffer(&ibView);
 }
 
+void DX12Resource::SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> _list, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)
+{
+	D3D12_RESOURCE_BARRIER barrier = {};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.Transition.pResource = mResource.Get();
+	barrier.Transition.StateBefore = mResourceStateCorrespond[(unsigned char)_before];
+	barrier.Transition.StateAfter = mResourceStateCorrespond[(unsigned char)_after];
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	_list->ResourceBarrier(1, &barrier);
+}
+
 D3D12_HEAP_TYPE DX12Resource::mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size] = {
 		D3D12_HEAP_TYPE_DEFAULT,D3D12_HEAP_TYPE_UPLOAD,D3D12_HEAP_TYPE_READBACK
 };
+
+D3D12_RESOURCE_STATES DX12Resource::mResourceStateCorrespond[(unsigned char)DX12Config::ResourceBarrierState::size] = {
+	D3D12_RESOURCE_STATE_PRESENT,
+	D3D12_RESOURCE_STATE_RENDER_TARGET,
+	D3D12_RESOURCE_STATE_COPY_DEST,
+	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+};
+
 
 boost::shared_ptr<DX12Resource> DX12Pimple::CreateVertexBuffer(UINT64 _width)
 {

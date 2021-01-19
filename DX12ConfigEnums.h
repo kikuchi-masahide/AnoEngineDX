@@ -74,4 +74,12 @@ namespace DX12Config {
 		PIXEL,
 		size
 	};
+	//リソースバリアの遷移前後の定数
+	enum class ResourceBarrierState :unsigned char {
+		PRESENT,
+		RENDER_TARGET,
+		COPY_DEST,
+		PIXEL_SHADER_RESOURCE,
+		size
+	};
 }

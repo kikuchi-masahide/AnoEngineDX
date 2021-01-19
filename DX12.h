@@ -141,4 +141,7 @@ public:
 	/// <param name="_descHeap">ディスクリプタヒープ</param>
 	/// <param name="_descHeapIndex">ディスクリプタヒープの何番を設定するか</param>
 	void SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::shared_ptr<DX12DescriptorHeap> _descHeap, unsigned int _descHeapIndex);
+	/// <summary>
+	/// リソースバリアをリストにセット
+	void SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after);
 };

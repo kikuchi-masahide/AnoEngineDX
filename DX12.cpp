@@ -134,3 +134,8 @@ void DX12::SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::s
 {
 	mPimple->SetGraphicsRootDescriptorTable(_rootParamIndex, _descHeap, _descHeapIndex);
 }
+
+void DX12::SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)
+{
+	mPimple->SetResourceBarrier(_resource, _before, _after);
+}
