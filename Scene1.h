@@ -78,6 +78,7 @@ public:
 	void UniqueOutput()
 	{
 		Log::OutputTrivial("Scene1 UniqueOutput");
+		mGame.OpenSwapChain(0);
 		mGame.mdx12.SetGraphicsPipeline(mPipeline);
 		mGame.mdx12.SetRootSignature(mRootSignature);
 		mGame.mdx12.SetDescriptorHeap(mTextureDescHeap);

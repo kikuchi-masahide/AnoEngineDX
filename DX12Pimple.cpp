@@ -6,10 +6,9 @@
 #include "DX12RootSignature.h"
 #include "DX12ShaderObject.h"
 #include "DX12VertexLayoutUnit.h"
-#include "SwapChainManager.h"
 
 DX12Pimple::DX12Pimple() 
-:mSwapChainManager(new SwapChainManager()){}
+{}
 
 void DX12Pimple::Initialize() {
 	//デバッグレイヤの有効化
@@ -126,8 +125,6 @@ void DX12Pimple::Initialize() {
 }
 
 void DX12Pimple::CleanUp() {
-	mSwapChainManager->CleanUp();
-	delete mSwapChainManager;
 }
 
 DX12Pimple::~DX12Pimple()
@@ -137,16 +134,8 @@ DX12Pimple::~DX12Pimple()
 	//mDebugDevice->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL);
 }
 
-unsigned int DX12Pimple::CreateSwapChain(
-	HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap
-)
-{
-	return mSwapChainManager->AddSwapChain(mFactory, mCmdQueue, mDevice, _hwnd, _width, _height, _descheap);
-}
-
 void DX12Pimple::ProcessCommands()
 {
-	mSwapChainManager->CloseRenderTarget(mCmdList);
 	//命令のクローズ
 	mCmdList->Close();
 	//コマンドリスト実行
@@ -157,8 +146,6 @@ void DX12Pimple::ProcessCommands()
 	mCmdAllocator->Reset();
 	//再びコマンドリストをためる準備
 	ResetCmdAllocator();
-	//全スワップチェーンのスワップ
-	mSwapChainManager->FlipAll(mDevice);
 }
 
 void DX12Pimple::ResetCmdAllocator()

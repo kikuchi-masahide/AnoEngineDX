@@ -1,5 +1,6 @@
 #include "DX12Resource.h"
 #include "DX12Pimple.h"
+#include "DX12DescriptorHeap.h"
 
 DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, DX12Config::ResourceHeapType _heaptype, UINT64 _width, UINT _height)
 {
@@ -63,6 +64,16 @@ DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, DirectX::TexMetadata& _
 	}
 }
 
+DX12Resource::DX12Resource(ComPtr<IDXGISwapChain4> _swapchain, UINT _n)
+{
+	if (FAILED(
+		_swapchain->GetBuffer(_n, IID_PPV_ARGS(mResource.ReleaseAndGetAddressOf()))
+	)) {
+		Log::OutputCritical("mapping of backbuffers failed");
+		throw 0;
+	}
+}
+
 void* DX12Resource::Map()
 {
 	void* map;
@@ -108,6 +119,12 @@ void DX12Resource::SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> _list, D
 	barrier.Transition.StateAfter = mResourceStateCorrespond[(unsigned char)_after];
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 	_list->ResourceBarrier(1, &barrier);
+}
+
+void DX12Resource::CreateRenderTargetView(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
+{
+	auto handle = _descheap->GetCPUDescriptorHandle(_n);
+	_device->CreateRenderTargetView(mResource.Get(), nullptr, handle);
 }
 
 D3D12_HEAP_TYPE DX12Resource::mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size] = {

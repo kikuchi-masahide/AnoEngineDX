@@ -41,9 +41,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="SwapChainManager.cpp">
-      <Filter>Engine\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjectHandle.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -66,6 +63,9 @@
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="DX12Pimple.cpp">
+      <Filter>Engine\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DX12SwapChain.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
@@ -99,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="SwapChainManager.h">
-      <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectHandle.h">
       <Filter>Engine</Filter>
@@ -138,6 +135,9 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="DX12Pimple.h">
+      <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX12SwapChain.h">
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
   </ItemGroup>

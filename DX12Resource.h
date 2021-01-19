@@ -5,11 +5,13 @@
 
 class DX12Device;
 class DX12CmdList;
+class DX12DescriptorHeap;
 
 class DX12Resource final :public boost::noncopyable {
 public:
 	DX12Resource(ComPtr<ID3D12Device> _device, DX12Config::ResourceHeapType _heaptype,UINT64 _width,UINT _height);
 	DX12Resource(ComPtr<ID3D12Device> _device, DirectX::TexMetadata& _metadata);
+	DX12Resource(ComPtr<IDXGISwapChain4> _swapchain,UINT _n);
 	void* Map();
 	void Unmap();
 	//バッファの仮想アドレス
@@ -22,6 +24,11 @@ public:
 	ComPtr<ID3D12Resource> mResource;
 	//リソースバリアのセット
 	void SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> _list, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after);
+	/// <summary>
+	/// 指定ディスクリプタヒープ上にこのリソースのレンダーターゲットビューを作る
+	/// </summary>
+	/// <param name="_n">ディスクリプタヒープの何番目にビューを作るか</param>
+	void CreateRenderTargetView(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
 private:
 	static D3D12_HEAP_TYPE mResourceHeapTypeCorrespond[(unsigned char)DX12Config::ResourceHeapType::size];
 	static D3D12_RESOURCE_STATES mResourceStateCorrespond[(unsigned char)DX12Config::ResourceBarrierState::size];

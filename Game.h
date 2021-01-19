@@ -40,6 +40,10 @@ public:
 	//前の処理との時間差がこの時間を超えた場合この値に矯正する
 	const double mProcessTimeLimit = mTimeEps * 3;
 	DX12 mdx12;
+	/// <summary>
+	/// 前に開いていたスワップチェーンを閉じ，このウィンドウに付随するスワップチェーンを開く
+	/// </summary>
+	void OpenSwapChain(unsigned int _winnum);
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -52,4 +56,6 @@ private:
 	void BeforeOutput();
 	bool AfterOutput();
 	std::map<int, unsigned int> mWindowID2SwapChainID;
+	std::vector<boost::shared_ptr<DX12SwapChain>> mSwapChains;
+	unsigned int mCurrentSwapChain;
 };

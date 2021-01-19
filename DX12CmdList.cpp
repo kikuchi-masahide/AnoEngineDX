@@ -1,6 +1,7 @@
 #include "DX12Resource.h"
 #include "DX12DescriptorHeap.h"
 #include "DX12Pimple.h"
+#include "DX12SwapChain.h"
 
 D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopologyTypeCorrespond[(unsigned char)DX12Config::PrimitiveTopology::size] = {
 	D3D_PRIMITIVE_TOPOLOGY_POINTLIST,
@@ -50,4 +51,14 @@ void DX12Pimple::SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, bo
 void DX12Pimple::SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)
 {
 	_resource->SetResourceBarrier(mCmdList, _before, _after);
+}
+
+boost::shared_ptr<DX12SwapChain> DX12Pimple::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height)
+{
+	return boost::shared_ptr<DX12SwapChain>(new DX12SwapChain(mFactory, mCmdQueue, mDevice, _hwnd, _width, _height));
+}
+
+void DX12Pimple::FlipSwapChain(boost::shared_ptr<DX12SwapChain> _swapchain)
+{
+	_swapchain->Filp();
 }

@@ -14,9 +14,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	if (!game->Initialize())return -1;
 	game->AddWindow((WNDPROC)WindowProcedure, TEXT("WndClass"), 1024, 768, TEXT("Title here"));
 	auto windowptr = game->GetWindow(0);
-	boost::shared_ptr<DX12DescriptorHeap> swapchaindescheap
-		= game->mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::RTV, DX12Config::DescriptorHeapShaderVisibility::NONE, 2);
-	game->mdx12.CreateSwapChain(windowptr->GetWindowHandle(), 1024, 768,swapchaindescheap);
 	game->ChangeScene<Scene1>();
 	game->RunLoop();
 	game->Shutdown();

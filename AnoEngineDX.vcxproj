@@ -179,7 +179,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SwapChainManager.cpp" />
+    <ClCompile Include="DX12SwapChain.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -195,6 +195,7 @@
     <ClInclude Include="DX12Pimple.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12RootParameter.h" />
+    <ClInclude Include="DX12SwapChain.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectHandle.h" />
@@ -206,7 +207,6 @@
     <ClInclude Include="Scene1.h" />
     <ClInclude Include="DX12ShaderObject.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="SwapChainManager.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="DX12VertexLayoutUnit.h" />
     <ClInclude Include="window.h" />

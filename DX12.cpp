@@ -17,11 +17,6 @@ DX12::~DX12()
 	delete mPimple;
 }
 
-unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap)
-{
-	return mPimple->CreateSwapChain(_hwnd, _width, _height, _descheap);
-}
-
 boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num)
 {
 	return mPimple->CreateDescriptorHeap(_type, _vis, _num);
@@ -95,21 +90,6 @@ void DX12::SetScissorrect(float _top, float _bottom, float _left, float _right)
 	mPimple->SetScissorrect(_top, _bottom, _left, _right);
 }
 
-void DX12::SetRenderTarget(unsigned int _id)
-{
-	mPimple->SetRenderTarget(_id);
-}
-
-void DX12::ClearRenderTarget(float _r, float _g, float _b)
-{
-	mPimple->ClearRenderTarget(_r, _g, _b);
-}
-
-void DX12::CloseRenderTarget()
-{
-	mPimple->CloseRenderTarget();
-}
-
 void DX12::SetIndexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _vertnum)
 {
 	mPimple->SetIndexBuffers(_resource, _vertnum);
@@ -138,4 +118,29 @@ void DX12::SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::s
 void DX12::SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)
 {
 	mPimple->SetResourceBarrier(_resource, _before, _after);
+}
+
+boost::shared_ptr<DX12SwapChain> DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height)
+{
+	return mPimple->CreateSwapChain(_hwnd, _width, _height);
+}
+
+void DX12::FlipSwapChain(boost::shared_ptr<DX12SwapChain> _swapchain)
+{
+	mPimple->FlipSwapChain(_swapchain);
+}
+
+void DX12::OpenRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain)
+{
+	mPimple->OpenRenderTarget(_swapchain);
+}
+
+void DX12::CloseRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain)
+{
+	mPimple->CloseRenderTarget(_swapchain);
+}
+
+void DX12::ClearRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain, float _r, float _g, float _b)
+{
+	mPimple->ClearRenderTarget(_swapchain, _r, _g, _b);
 }

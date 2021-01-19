@@ -18,6 +18,7 @@ bool Game::Initialize()
 		assert(0);
 	}
 	mIsSceneChangable = true;
+	mCurrentSwapChain = -1;
 	return true;
 }
 
@@ -63,11 +64,27 @@ boost::shared_ptr<Window> Game::GetWindow(int _windownum)
 
 unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)
 {
+	//ウィンドウの追加
 	boost::shared_ptr<Window> ptr(
 		new Window(_wndproc,_classID,_width,_height,_windowTitle)
 	);
 	mWindows.push_back(ptr);
+	//ウィンドウに付随するスワップチェーンの追加
+	boost::shared_ptr<DX12SwapChain> swapchain = mdx12.CreateSwapChain(ptr->GetWindowHandle(), _width, _height);
+	mSwapChains.push_back(swapchain);
 	return (unsigned int)mWindows.size() - 1;
+}
+
+void Game::OpenSwapChain(unsigned int _winnum)
+{
+	assert(
+		_winnum < mWindows.size()
+	);
+	if (mCurrentSwapChain != -1) {
+		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
+	}
+	mdx12.OpenRenderTarget(mSwapChains[_winnum]);
+	mCurrentSwapChain = _winnum;
 }
 
 /// <summary>
@@ -155,12 +172,22 @@ void Game::RunLoop()
 void Game::BeforeOutput()
 {
 	//とりあえずレンダーターゲットのクリアのみ
-	mdx12.SetRenderTarget(0);
-	mdx12.ClearRenderTarget(1.0f, 1.0f, 1.0f);
+	for (auto swapchain : mSwapChains) {
+		mdx12.ClearRenderTarget(swapchain, 1.0f, 1.0f, 1.0f);
+	}
 }
 
 bool Game::AfterOutput()
 {
+	//スワップチェーンのクローズ
+	if (mCurrentSwapChain != -1) {
+		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
+	}
+	mCurrentSwapChain = -1;
 	mdx12.ProcessCommands();
+	//全てのスワップチェーンのフリップ
+	for (auto swap : mSwapChains) {
+		mdx12.FlipSwapChain(swap);
+	}
 	return true;
 }

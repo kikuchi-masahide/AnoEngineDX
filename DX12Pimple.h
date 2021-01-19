@@ -9,7 +9,7 @@ struct DX12DescriptorRange;
 struct DX12RootParameter;
 class DX12RootSignature;
 class DX12ShaderObject;
-class SwapChainManager;
+class DX12SwapChain;
 
 class DX12Pimple final:public boost::noncopyable {
 private:
@@ -18,7 +18,6 @@ private:
 	ComPtr<ID3D12CommandQueue> mCmdQueue;
 	ComPtr<ID3D12Device> mDevice;
 	ComPtr<IDXGIFactory6> mFactory;
-	SwapChainManager* mSwapChainManager;
 	void FenceWaitingInProcessCommands();
 	boost::shared_ptr<DX12Resource> CreateTextureUploadBuffer(unsigned int _rowpitch, unsigned int _height);
 public:
@@ -26,8 +25,6 @@ public:
 	void Initialize();
 	void CleanUp();
 	~DX12Pimple();
-	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
-	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num);
 	void ProcessCommands();
 	void ResetCmdAllocator();
 	void ExecuteCmdLists();
@@ -51,13 +48,16 @@ public:
 	void SetViewports(UINT _widthpx, UINT _heightpx, int _topleftx, int _toplefty,
 		float _maxdepth, float _mindepth);
 	void SetScissorrect(float _top, float _bottom, float _left, float _right);
-	void SetRenderTarget(unsigned int _id);
-	void ClearRenderTarget(float _r, float _g, float _b);
-	void CloseRenderTarget();
 	void SetIndexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _vertnum);
 	boost::shared_ptr<DX12Resource> CreateIndexBuffer(unsigned int _vertnum);
 	boost::shared_ptr<DX12Resource> LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num);
 	void SetDescriptorHeap(boost::shared_ptr<DX12DescriptorHeap> _descHeap);
 	void SetGraphicsRootDescriptorTable(unsigned int _rootParamIndex, boost::shared_ptr<DX12DescriptorHeap> _descHeap, unsigned int _descHeapIndex);
 	void SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after);
+	boost::shared_ptr<DX12SwapChain> CreateSwapChain(HWND _hwnd, UINT _width, UINT _height);
+	void FlipSwapChain(boost::shared_ptr<DX12SwapChain> _swapchain);
+	void OpenRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain);
+	void CloseRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain);
+	void ClearRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain, float _r, float _g, float _b);
+	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num);
 };

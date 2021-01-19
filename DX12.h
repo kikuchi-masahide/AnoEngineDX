@@ -8,6 +8,7 @@ class DX12DescriptorHeap;
 class DX12ShaderObject;
 class DX12GraphicsPipeline;
 class DX12RootSignature;
+class DX12SwapChain;
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -24,12 +25,6 @@ public:
 	void Initialize();
 	void CleanUp();
 	~DX12();
-	/// <summary>
-	/// スワップチェーンを作る
-	/// </summary>
-	/// <param name="_descheap">スワップチェーンと紐づけるディスクリプタヒープ</param>
-	/// <returns>スワップチェーンのキー</returns>
-	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
 	/// <summary>
 	/// ディスクリプタヒープを作る
 	/// </summary>
@@ -102,18 +97,6 @@ public:
 	/// </summary>
 	void SetScissorrect(float _top, float _bottom, float _left, float _right);
 	/// <summary>
-	/// _idをレンダーターゲットに指定
-	/// </summary>
-	void SetRenderTarget(unsigned int _id);
-	/// <summary>
-	/// レンダーターゲットを指定色でクリア
-	/// </summary>
-	void ClearRenderTarget(float _r, float _g, float _b);
-	/// <summary>
-	/// 現在のレンダーターゲットをPRESENTになるようバリアを設定
-	/// </summary>
-	void CloseRenderTarget();
-	/// <summary>
 	/// 対象リソースを頂点インデックスバッファに指定
 	/// </summary>
 	/// <param name="_vertnum">インデックスバッファの含む全頂点数</param>
@@ -144,4 +127,21 @@ public:
 	/// <summary>
 	/// リソースバリアをリストにセット
 	void SetResourceBarrier(boost::shared_ptr<DX12Resource> _resource, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after);
+	boost::shared_ptr<DX12SwapChain> CreateSwapChain(HWND _hwnd, UINT _width, UINT _height);
+	/// <summary>
+	/// スワップチェーンのフリップ
+	/// </summary>
+	void FlipSwapChain(boost::shared_ptr<DX12SwapChain> _swapchain);
+	/// <summary>
+	/// レンダーターゲットを開く(リソースバリアの設定込み)
+	/// </summary>
+	void OpenRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain);
+	/// <summary>
+	/// レンダーターゲットを閉じる(リソースバリアの設定込み)
+	/// </summary>
+	void CloseRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain);
+	/// <summary>
+	/// 指定色でレンダーターゲットをクリア
+	/// </summary>
+	void ClearRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain, float _r, float _g, float _b);
 };
