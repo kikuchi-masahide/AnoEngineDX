@@ -365,3 +365,6 @@ logs
 
 # frame capture of PIX
 *.wpix
+
+# blue step counter
+*.bst
