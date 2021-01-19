@@ -15,13 +15,13 @@ DX12RootSignature::DX12RootSignature(ComPtr<ID3D12Device> _device, DX12RootParam
 			descTblRng[n] = {};
 			descTblRng[n].NumDescriptors = _rootparam.mDescRanges[n].mNumDescriptors;
 			descTblRng[n].BaseShaderRegister = _rootparam.mDescRanges[n].mBaseShaderRegister;
-			descTblRng[n].RangeType = mDescRngTypeCorrespond[(unsigned int)_rootparam.mDescRanges[n].mType];
+			descTblRng[n].RangeType = mDescRngTypeCorrespond[(unsigned char)_rootparam.mDescRanges[n].mType];
 			descTblRng[n].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 		}
 
 		D3D12_ROOT_PARAMETER rootparam = {};
 		rootparam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-		rootparam.ShaderVisibility = mShaderVisibilityCorrespond[(unsigned int)_rootparam.mShaderVisibility];
+		rootparam.ShaderVisibility = mShaderVisibilityCorrespond[(unsigned char)_rootparam.mShaderVisibility];
 		rootparam.DescriptorTable.pDescriptorRanges = descTblRng;
 		rootparam.DescriptorTable.NumDescriptorRanges = _rootparam.mDescRanges.size();
 
@@ -71,17 +71,16 @@ void DX12RootSignature::SetRootSignature(ComPtr<ID3D12GraphicsCommandList> _list
 	_list->SetGraphicsRootSignature(mRootSignature.Get());
 }
 
-D3D12_SHADER_VISIBILITY DX12RootSignature::mShaderVisibilityCorrespond[(unsigned char)DX12Config::ShaderVisibility::size] = {
+D3D12_SHADER_VISIBILITY DX12RootSignature::mShaderVisibilityCorrespond[(unsigned char)DX12Config::RootParameterShaderVisibility::size] = {
 	D3D12_SHADER_VISIBILITY_ALL,
-	D3D12_SHADER_VISIBILITY_ALL
+	D3D12_SHADER_VISIBILITY_PIXEL,
+	D3D12_SHADER_VISIBILITY_VERTEX
 };
 
-D3D12_DESCRIPTOR_RANGE_TYPE DX12RootSignature::mDescRngTypeCorrespond[(unsigned char)DX12Config::DescriptorHeapType::size] = {
-	D3D12_DESCRIPTOR_RANGE_TYPE_CBV,
+D3D12_DESCRIPTOR_RANGE_TYPE DX12RootSignature::mDescRngTypeCorrespond[(unsigned char)DX12Config::DescriptorRangeType::size] = {
 	D3D12_DESCRIPTOR_RANGE_TYPE_CBV,
 	D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-	D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
-	D3D12_DESCRIPTOR_RANGE_TYPE_CBV
+	D3D12_DESCRIPTOR_RANGE_TYPE_UAV
 };
 
 boost::shared_ptr<DX12RootSignature> DX12Pimple::CreateRootSignature(DX12RootParameter& _rootparam)

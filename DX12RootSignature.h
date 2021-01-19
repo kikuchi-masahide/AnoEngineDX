@@ -13,6 +13,6 @@ public:
 	ComPtr<ID3D12RootSignature> mRootSignature;
 	void SetRootSignature(ComPtr<ID3D12GraphicsCommandList> _list);
 private:
-	static D3D12_SHADER_VISIBILITY mShaderVisibilityCorrespond[(unsigned char)DX12Config::ShaderVisibility::size];
-	static D3D12_DESCRIPTOR_RANGE_TYPE mDescRngTypeCorrespond[(unsigned char)DX12Config::DescriptorHeapType::size];
+	static D3D12_SHADER_VISIBILITY mShaderVisibilityCorrespond[(unsigned char)DX12Config::RootParameterShaderVisibility::size];
+	static D3D12_DESCRIPTOR_RANGE_TYPE mDescRngTypeCorrespond[(unsigned char)DX12Config::DescriptorRangeType::size];
 };

@@ -37,7 +37,7 @@ public:
 	/// <param name="_vis">シェーダから可視か否か</param>
 	/// <param name="_num">所有ディスクリプタの数</param>
 	/// <returns>ディスクリプタヒープを表すshared_ptr</returns>
-	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num);
+	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num);
 	/// <summary>
 	/// 各フレームで必要なコマンドを追加しきったあと呼び出す
 	/// </summary>
@@ -72,7 +72,7 @@ public:
 	//ルートシグネチャのセット
 	void SetRootSignature(boost::shared_ptr<DX12RootSignature> _root);
 	//プリミティブのコマンドリストへのセット
-	void SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim);
+	void SetPrimitiveTopology(DX12Config::PrimitiveTopology _prim);
 	/// <summary>
 	/// 頂点バッファをコマンドリストへセット
 	/// </summary>

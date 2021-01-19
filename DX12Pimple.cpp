@@ -202,7 +202,7 @@ boost::shared_ptr<DX12Resource> DX12Pimple::LoadTexture(const wchar_t* _filename
 {
 	assert(
 		_desc->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV &&
-		_desc->GetShaderVisibility() == DX12Config::ShaderVisibility::SHADER_VISIBLE
+		_desc->GetShaderVisibility() == DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE
 	);
 	//WICテクスチャのロード
 	DirectX::TexMetadata metadata = {};

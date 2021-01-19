@@ -27,7 +27,7 @@ public:
 	void CleanUp();
 	~DX12Pimple();
 	unsigned int CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost::shared_ptr<DX12DescriptorHeap> _descheap);
-	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num);
+	boost::shared_ptr<DX12DescriptorHeap> CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num);
 	void ProcessCommands();
 	void ResetCmdAllocator();
 	void ExecuteCmdLists();
@@ -43,7 +43,7 @@ public:
 	boost::shared_ptr<DX12RootSignature> CreateRootSignature(DX12RootParameter& _rootparam);
 	void SetGraphicsPipeline(boost::shared_ptr<DX12GraphicsPipeline> _pipeline);
 	void SetRootSignature(boost::shared_ptr<DX12RootSignature> _root);
-	void SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim);
+	void SetPrimitiveTopology(DX12Config::PrimitiveTopology _prim);
 	void SetVertexBuffers(boost::shared_ptr<DX12Resource> _resource, unsigned int _slotid,
 		SIZE_T _allsize, SIZE_T _sizepervertex);
 	void DrawIndexedInstanced(UINT _indexnumperinst, UINT _instnum, UINT _indoffset,

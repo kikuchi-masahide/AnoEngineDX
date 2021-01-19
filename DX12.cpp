@@ -22,7 +22,7 @@ unsigned int DX12::CreateSwapChain(HWND _hwnd, UINT _width, UINT _height, boost:
 	return mPimple->CreateSwapChain(_hwnd, _width, _height, _descheap);
 }
 
-boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num)
+boost::shared_ptr<DX12DescriptorHeap> DX12::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num)
 {
 	return mPimple->CreateDescriptorHeap(_type, _vis, _num);
 }
@@ -70,7 +70,7 @@ void DX12::SetRootSignature(boost::shared_ptr<DX12RootSignature> _root)
 	mPimple->SetRootSignature(_root);
 }
 
-void DX12::SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim)
+void DX12::SetPrimitiveTopology(DX12Config::PrimitiveTopology _prim)
 {
 	mPimple->SetPrimitiveTopology(_prim);
 }

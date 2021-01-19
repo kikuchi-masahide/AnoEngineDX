@@ -2,14 +2,14 @@
 #include "DX12DescriptorHeap.h"
 #include "DX12Pimple.h"
 
-D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopologyTypeCorrespond[(unsigned char)DX12Config::PrimitiveTopologyType::size] = {
+D3D12_PRIMITIVE_TOPOLOGY PrimitiveTopologyTypeCorrespond[(unsigned char)DX12Config::PrimitiveTopology::size] = {
 	D3D_PRIMITIVE_TOPOLOGY_POINTLIST,
 	D3D_PRIMITIVE_TOPOLOGY_LINELIST,
 	D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
 	D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP
 };
 
-void DX12Pimple::SetPrimitiveTopology(DX12Config::PrimitiveTopologyType _prim)
+void DX12Pimple::SetPrimitiveTopology(DX12Config::PrimitiveTopology _prim)
 {
 	mCmdList->IASetPrimitiveTopology(PrimitiveTopologyTypeCorrespond[(unsigned char)_prim]);
 }

@@ -45,16 +45,16 @@ public:
 			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		));
 		mTextureDescHeap = _game->mdx12.CreateDescriptorHeap(
-			DX12Config::DescriptorHeapType::SRV, DX12Config::ShaderVisibility::SHADER_VISIBLE, 1
+			DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1
 		);
 		mTexReadResource = _game->mdx12.LoadTexture(L"textest.png", mTextureDescHeap, 0);
-		DX12DescriptorRange range1(1, DX12Config::DescriptorHeapType::SRV, 0);
+		DX12DescriptorRange range1(1, DX12Config::DescriptorRangeType::SRV, 0);
 		DX12RootParameter rootparam;
-		rootparam.mShaderVisibility = DX12Config::ShaderVisibility::SHADER_VISIBLE;
+		rootparam.mShaderVisibility = DX12Config::RootParameterShaderVisibility::ALL;
 		rootparam.mDescRanges.push_back(range1);
 		mRootSignature = _game->mdx12.CreateRootSignature(rootparam);
 		mPipeline = _game->mdx12.CreateGraphicsPipeline(
-			mVS, mPS, mLayout, DX12Config::PrimitiveTopologyType::TRIANGLESTRIP, 1, mRootSignature
+			mVS, mPS, mLayout, DX12Config::PrimitiveTopologyType::TRIANGLE, 1, mRootSignature
 		);
 		unsigned int indeces[] = {
 			0,1,2,
@@ -82,7 +82,7 @@ public:
 		mGame.mdx12.SetRootSignature(mRootSignature);
 		mGame.mdx12.SetDescriptorHeap(mTextureDescHeap);
 		mGame.mdx12.SetGraphicsRootDescriptorTable(0, mTextureDescHeap, 0);
-		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopologyType::TRIANGLESTRIP);
+		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopology::TRIANGLESTRIP);
 		mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 5*4, sizeof(float) * 5);
 		mGame.mdx12.SetIndexBuffers(mIndeces, 6);
 		mGame.mdx12.SetViewports(1024, 768, 0, 0, 1.0f, 0.0f);

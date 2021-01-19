@@ -2,7 +2,7 @@
 #include "DX12Resource.h"
 #include "DX12Pimple.h"
 
-DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num, ComPtr<ID3D12Device> _device)
+DX12DescriptorHeap::DX12DescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num, ComPtr<ID3D12Device> _device)
 	:mNum(_num), mType(_type), mShaderVisibility(_vis)
 {
 	//mHeapDescStrÇÃëŒâûâ”èäïœçX
@@ -35,7 +35,7 @@ const DX12Config::DescriptorHeapType DX12DescriptorHeap::GetDescriptorHeapType()
 	return mType;
 }
 
-const DX12Config::ShaderVisibility DX12DescriptorHeap::GetShaderVisibility()
+const DX12Config::DescriptorHeapShaderVisibility DX12DescriptorHeap::GetShaderVisibility()
 {
 	return mShaderVisibility;
 }
@@ -47,7 +47,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE DX12DescriptorHeap::GetGPUDescriptorHandle(unsigned 
 	return handle;
 }
 
-boost::shared_ptr<DX12DescriptorHeap> DX12Pimple::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::ShaderVisibility _vis, unsigned int _num)
+boost::shared_ptr<DX12DescriptorHeap> DX12Pimple::CreateDescriptorHeap(DX12Config::DescriptorHeapType _type, DX12Config::DescriptorHeapShaderVisibility _vis, unsigned int _num)
 {
 	return boost::shared_ptr<DX12DescriptorHeap>(
 		new DX12DescriptorHeap(_type, _vis, _num, mDevice)
