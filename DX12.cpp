@@ -149,3 +149,13 @@ boost::shared_ptr<DX12Resource> DX12::CreateClearTexture(UINT64 _width, UINT64 _
 {
 	return mPimple->CreateClearTexture(_width, _height, _r, _g, _b,_alpha);
 }
+
+void DX12::CreateRenderTargetView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
+{
+	mPimple->CreateRenderTargetView(_resource, _descheap, _n);
+}
+
+void DX12::CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
+{
+	mPimple->CreateShaderResourceView(_resource, _descheap, _n);
+}

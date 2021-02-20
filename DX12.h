@@ -148,4 +148,14 @@ public:
 	/// 指定の大きさ・色を持つ空のテクスチャを作成(初期状態はPIXEL_SHADER_RESOURCE)
 	/// </summary>
 	boost::shared_ptr<DX12Resource> CreateClearTexture(UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha);
+	/// <summary>
+/// 指定ディスクリプタヒープ上にこのリソースのレンダーターゲットビューを作る
+/// </summary>
+/// <param name="_n">ディスクリプタヒープの何番目にビューを作るか</param>
+	void CreateRenderTargetView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
+	/// <summary>
+	/// 指定ディスクリプタヒープ上にこのリソースのレンダーターゲットビューを作る
+	/// </summary>
+	/// <param name="_n">ディスクリプタヒープの何番目にビューを作るか</param>
+	void CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
 };
