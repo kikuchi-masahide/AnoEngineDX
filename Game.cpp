@@ -76,6 +76,18 @@ unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int
 	return (unsigned int)mWindows.size() - 1;
 }
 
+void Game::OpenSwapChain(unsigned int _winnum)
+{
+	assert(
+		_winnum < mWindows.size()
+	);
+	if (mCurrentSwapChain != -1) {
+		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
+	}
+	mdx12.OpenRenderTarget(mSwapChains[_winnum]);
+	mCurrentSwapChain = _winnum;
+}
+
 /// <summary>
 /// “ü—Íˆ—
 /// </summary>
