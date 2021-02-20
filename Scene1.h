@@ -48,7 +48,6 @@ public:
 		mTextureDescHeap = _game->mdx12.CreateDescriptorHeap(
 			DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1
 		);
-		mTextureID = _game->mTexManager.LoadTexture(L"textest.png", mTextureDescHeap, 0);
 		DX12DescriptorRange range1(1, DX12Config::DescriptorRangeType::SRV, 0);
 		DX12RootParameter rootparam;
 		rootparam.mShaderVisibility = DX12Config::RootParameterShaderVisibility::ALL;
@@ -82,8 +81,8 @@ public:
 		mGame.OpenSwapChain(0);
 		mGame.mdx12.SetGraphicsPipeline(mPipeline);
 		mGame.mdx12.SetRootSignature(mRootSignature);
-		auto descheap = mGame.mTexManager.GetDX12DescriptorHeap(mTextureID).first;
-		auto descid = mGame.mTexManager.GetDX12DescriptorHeap(mTextureID).second;
+		auto descheap = mGame.mTexManager.GetDX12DescriptorHeap(0).first;
+		auto descid = mGame.mTexManager.GetDX12DescriptorHeap(0).second;
 		mGame.mdx12.SetDescriptorHeap(descheap);
 		mGame.mdx12.SetGraphicsRootDescriptorTable(0, descheap, descid);
 		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopology::TRIANGLESTRIP);
@@ -118,5 +117,4 @@ private:
 		unsigned char R, G, B, A;
 	};
 	std::vector<TexRGBA> texturedata;
-	unsigned int mTextureID;
 };

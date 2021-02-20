@@ -8,16 +8,16 @@ TextureManager::TextureManager(Game* const _game)
 	assert(_game != nullptr);
 }
 
-unsigned int TextureManager::LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num)
+void TextureManager::LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num, unsigned int _textureid)
 {
-	//Ÿ‚Ég‚¤ID
-	static unsigned int nextid = 0;
+	auto itr = mTexturesmap.find(_textureid);
+	assert(itr == mTexturesmap.end());
 	Texture texture;
 	texture.mDescHeap = _desc;
 	texture.mDescID = _num;
 	texture.mResource = mGame->mdx12.LoadTexture(_filename, _desc, _num);
-	mTexturesmap.insert(std::pair<unsigned int,Texture>(nextid,texture));
-	return nextid++;
+	mTexturesmap.insert(std::pair<unsigned int,Texture>(_textureid,texture));
+	return;
 }
 
 void TextureManager::UnloadTexture(unsigned int _textureid)
