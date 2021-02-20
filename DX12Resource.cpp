@@ -74,6 +74,30 @@ DX12Resource::DX12Resource(ComPtr<IDXGISwapChain4> _swapchain, UINT _n)
 	}
 }
 
+DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha)
+{
+	//リソース設定はバックバッファとほぼ共通にする
+	D3D12_RESOURCE_DESC resdesc = {};
+	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	resdesc.Width = _width;
+	resdesc.Height = _height;
+	resdesc.DepthOrArraySize = 1;
+	resdesc.MipLevels = 1;
+	resdesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	resdesc.SampleDesc.Count = 1;
+	resdesc.SampleDesc.Quality = 0;
+	resdesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	resdesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+	auto heapprop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	float clsClr[4] = { _r,_g,_b,_alpha };
+	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM, clsClr);
+	auto result = _device->CreateCommittedResource(&heapprop, D3D12_HEAP_FLAG_NONE, &resdesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, &clearValue, IID_PPV_ARGS(mResource.ReleaseAndGetAddressOf()));
+	if (FAILED(result)) {
+		Log::OutputCritical("Initialization of clear buffer failed\n");
+		throw 0;
+	}
+}
+
 void* DX12Resource::Map()
 {
 	void* map;
@@ -171,4 +195,11 @@ boost::shared_ptr<DX12Resource> DX12Pimple::CreateIndexBuffer(unsigned int _vert
 	return boost::shared_ptr<DX12Resource>(
 		new DX12Resource(mDevice, DX12Config::ResourceHeapType::UPLOAD, sizeof(unsigned int) * _vertnum, 1)
 		);
+}
+
+boost::shared_ptr<DX12Resource> DX12Pimple::CreateClearTexture(UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha)
+{
+	return boost::shared_ptr<DX12Resource>(new DX12Resource(
+		mDevice, _width, _height, _r, _g, _b, _alpha
+	));
 }

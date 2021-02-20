@@ -144,4 +144,8 @@ public:
 	/// 指定色でレンダーターゲットをクリア
 	/// </summary>
 	void ClearRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain, float _r, float _g, float _b);
+	/// <summary>
+	/// 指定の大きさ・色を持つ空のテクスチャを作成(初期状態はPIXEL_SHADER_RESOURCE)
+	/// </summary>
+	boost::shared_ptr<DX12Resource> CreateClearTexture(UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha);
 };

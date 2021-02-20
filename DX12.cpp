@@ -144,3 +144,8 @@ void DX12::ClearRenderTarget(boost::shared_ptr<DX12SwapChain> _swapchain, float 
 {
 	mPimple->ClearRenderTarget(_swapchain, _r, _g, _b);
 }
+
+boost::shared_ptr<DX12Resource> DX12::CreateClearTexture(UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha)
+{
+	return mPimple->CreateClearTexture(_width, _height, _r, _g, _b,_alpha);
+}
