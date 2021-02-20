@@ -1,5 +1,6 @@
 #pragma once
 #include "DX12.h"
+#include "TextureManager.h"
 
 class Scene;
 class Window;
@@ -44,6 +45,7 @@ public:
 	/// 前に開いていたスワップチェーンを閉じ，このウィンドウに付随するスワップチェーンを開く
 	/// </summary>
 	void OpenSwapChain(unsigned int _winnum);
+	TextureManager mTexManager;
 private:
 	void ProcessInput();
 	void UpdateGame();

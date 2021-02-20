@@ -36,6 +36,7 @@ void Game::Shutdown()
 }
 
 Game::Game()
+	:mTexManager(this)
 {
 }
 

@@ -68,6 +68,9 @@
     <ClCompile Include="DX12SwapChain.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="DX12SwapChain.h">
       <Filter>Engine\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
