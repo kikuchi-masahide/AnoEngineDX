@@ -44,10 +44,11 @@ public:
 			"TEXCOORD", DX12Config::VertexLayoutFormat::R32G32_FLOAT, 0,
 			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		));
+		boost::shared_ptr<DX12DescriptorHeap> mTextureDescHeap;
 		mTextureDescHeap = _game->mdx12.CreateDescriptorHeap(
 			DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1
 		);
-		mTexReadResource = _game->mdx12.LoadTexture(L"textest.png", mTextureDescHeap, 0);
+		mTextureID = _game->mTexManager.LoadTexture(L"textest.png", mTextureDescHeap, 0);
 		DX12DescriptorRange range1(1, DX12Config::DescriptorRangeType::SRV, 0);
 		DX12RootParameter rootparam;
 		rootparam.mShaderVisibility = DX12Config::RootParameterShaderVisibility::ALL;
@@ -81,8 +82,10 @@ public:
 		mGame.OpenSwapChain(0);
 		mGame.mdx12.SetGraphicsPipeline(mPipeline);
 		mGame.mdx12.SetRootSignature(mRootSignature);
-		mGame.mdx12.SetDescriptorHeap(mTextureDescHeap);
-		mGame.mdx12.SetGraphicsRootDescriptorTable(0, mTextureDescHeap, 0);
+		auto descheap = mGame.mTexManager.GetDX12DescriptorHeap(mTextureID).first;
+		auto descid = mGame.mTexManager.GetDX12DescriptorHeap(mTextureID).second;
+		mGame.mdx12.SetDescriptorHeap(descheap);
+		mGame.mdx12.SetGraphicsRootDescriptorTable(0, descheap, descid);
 		mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopology::TRIANGLESTRIP);
 		mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 5*4, sizeof(float) * 5);
 		mGame.mdx12.SetIndexBuffers(mIndeces, 6);
@@ -104,7 +107,6 @@ private:
 	boost::shared_ptr<DX12ShaderObject> mVS, mPS;
 	boost::shared_ptr<DX12GraphicsPipeline> mPipeline;
 	boost::shared_ptr<DX12RootSignature> mRootSignature;
-	boost::shared_ptr<DX12DescriptorHeap> mTextureDescHeap;
 	boost::shared_ptr<DX12Resource> mTexReadResource;
 	DX12VertexLayout mLayout;
 	struct VertexLayout {
@@ -116,4 +118,5 @@ private:
 		unsigned char R, G, B, A;
 	};
 	std::vector<TexRGBA> texturedata;
+	unsigned int mTextureID;
 };
