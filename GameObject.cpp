@@ -59,12 +59,16 @@ void GameObject::DeleteFlagedComponents(Scene* _scene)
 	//コンポーネントを巡回しフラグが立っているものを削除
 	auto itr = mUpdateComponents.begin();
 	while (itr != mUpdateComponents.end()) {
-		if ((*itr)->GetDeleteFlag())itr = mUpdateComponents.erase(itr);
+		if ((*itr)->GetDeleteFlag()) {
+			itr = mUpdateComponents.erase(itr);
+		}
 		else itr++;
 	}
 	itr = mOutputComponents.begin();
 	while (itr != mOutputComponents.end()) {
-		if ((*itr)->GetDeleteFlag())itr = mOutputComponents.erase(itr);
+		if ((*itr)->GetDeleteFlag()) {
+			itr = mOutputComponents.erase(itr);
+		}
 		else itr++;
 	}
 }

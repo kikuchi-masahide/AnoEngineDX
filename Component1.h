@@ -35,3 +35,32 @@ public:
 	int mLimit;
 	int mID;
 };
+
+class Component3 :public Component1 {
+public:
+	Component3(GameObject* _owner, boost::shared_ptr<std::set<void*>> _hset, int _lim, int _id)
+		:Component1(_owner, _hset, _lim, _id)
+	{
+		std::string str("Component3 Initialization(id=");
+		str += std::to_string(mID);
+		str += ")";
+		Log::OutputTrivial(str);
+	}
+	virtual void Update()
+	{
+		mCounter++;
+		std::string str("Component3 Update(id=");
+		str += std::to_string(mID);
+		str += "),mCounter=";
+		str += std::to_string(mCounter);
+		str += ")";
+		Log::OutputTrivial(str);
+	}
+	~Component3()
+	{
+		std::string str("Component3 Delete(id=");
+		str += std::to_string(mID);
+		str += ")";
+		Log::OutputCritical(str);
+	}
+};

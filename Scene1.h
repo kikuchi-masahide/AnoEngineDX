@@ -15,9 +15,15 @@ public:
 		Log::OutputTrivial("Scene1 Initializer");
 		auto handle = AddObject(GetVector2(0,0),1.0,0.0);
 		auto handlec11 = handle->AddOutputComponent<Component1>(10,0);
+		auto temp = &handlec11;
 		auto handlec12 = handle->AddOutputComponent<Component1>(60,1);
+		temp = &handlec12;
 		handle->AddUpdateComponent<Component2>(60, 0,handle);
 		handle->AddUpdateComponent<Component2>(20, 1,handle);
+		auto handlec1123 = handlec11;
+		auto handlec3 = handle->AddOutputComponent<Component3>(100, 2);
+		auto temp2 = &handlec3;
+		handlec1123 = (ComponentHandle<Component1>)handlec3;
 		VertexLayout vertices[] = {
 			{GetVector3(-0.4f,-0.7f,0.0f),GetVector2(0.0f,1.0f)},
 			{GetVector3(-0.4f,0.7f,0.0f),GetVector2(0.0f,0.0f)},

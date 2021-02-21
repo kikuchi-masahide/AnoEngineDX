@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include <set>
+#include <typeinfo>
 
 #include <boost/qvm/vec.hpp>
 #include <boost/qvm/vec_access.hpp>
