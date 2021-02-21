@@ -40,3 +40,12 @@ void GameObjectHandle::Reset(GameObject* _obj)
 	mObject = nullptr;
 	mHandleSet.reset();
 }
+
+GameObjectHandle& GameObjectHandle::operator=(const GameObjectHandle& handle)
+{
+	mHandleSet->erase(this);
+	mObject = handle.mObject;
+	mHandleSet = handle.mHandleSet;
+	mHandleSet->insert(this);
+	return *this;
+}

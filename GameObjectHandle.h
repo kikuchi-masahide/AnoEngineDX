@@ -19,6 +19,7 @@ public:
 	void Reset(GameObject* _obj);
 	GameObject* operator->() const noexcept;
 	bool IsValid() const;
+	GameObjectHandle& operator=(const GameObjectHandle& handle);
 private:
 	//このハンドルが指すオブジェクト
 	GameObject* mObject;
