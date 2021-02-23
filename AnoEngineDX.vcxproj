@@ -169,6 +169,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectHandle.cpp" />
     <ClCompile Include="DX12GraphicsPipeline.cpp" />
+    <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="LayerHandle.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rect2.cpp" />
@@ -201,6 +203,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectHandle.h" />
     <ClInclude Include="DX12GraphicsPipeline.h" />
+    <ClInclude Include="Layer.h" />
+    <ClInclude Include="LayerHandle.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Rect2.h" />
     <ClInclude Include="DX12RootSignature.h" />

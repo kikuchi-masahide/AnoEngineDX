@@ -71,6 +71,12 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Layer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="LayerHandle.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -144,6 +150,12 @@
       <Filter>Engine\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Layer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
