@@ -55,7 +55,6 @@ public:
 		mScene->AddOutputComponent(this, comph);
 		return comph;
 	};
-
 	//フラグが立っているコンポーネントを削除
 	void DeleteFlagedComponents(Scene* _scene);
 	Scene& GetScene() const { return *mScene; };

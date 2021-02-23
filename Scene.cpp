@@ -22,6 +22,7 @@ void Scene::UniqueUpdate() {}
 void Scene::Output()
 {
 	LaunchOutputComponents();
+	OutputLayer();
 	UniqueOutput();
 	mIsObjCompAddable = true;
 	//保留していたオブジェクト・コンポーネントの処理を行う
@@ -96,4 +97,46 @@ void Scene::DeleteAndProcessPandingObjComp()
 		if (!(itr->IsValid()))itr = mOutputComponents.erase(itr);
 		else itr++;
 	}
+}
+
+void Scene::OutputLayer()
+{
+	//zの変更があったLayerを引き抜き，そうでない元はRectを更新
+	std::set<boost::shared_ptr<Layer>, LayerCompare> zchanged;
+	auto itr = mLayers.begin();
+	while (itr != mLayers.end())
+	{
+		if ((*itr)->HasZChanged())
+		{
+			zchanged.insert(*itr);
+			mLayers.erase(itr);
+		}
+		else {
+			(*itr)->FlushZRectChange(itr->get());
+			itr++;
+		}
+	}
+	//z変更したLayerをフラッシュし，mLayersに戻す
+	itr = zchanged.begin();
+	while (itr != zchanged.end())
+	{
+		(*itr)->FlushZRectChange(itr->get());
+		mLayers.insert(*itr);
+		itr++;
+	}
+	//mLayersのOutputを呼び出す
+	itr = mLayers.begin();
+	while (itr != mLayers.end())
+	{
+		(*itr)->Draw();
+		itr++;
+	}
+	//全保留レイヤーをフラッシュし追加
+	itr = mPandingLayers.begin();
+	while (itr != mPandingLayers.end())
+	{
+		(*itr)->FlushZRectChange(itr->get());
+		mLayers.insert(*itr);
+	}
+	mPandingLayers.clear();
 }

@@ -2,20 +2,12 @@
 
 #include "Component.h"
 #include "ComponentHandle.h"
+#include "Layer.h"
+#include "LayerHandle.h"
 
-//class Component;
-//template<class T>
-//class ComponentHandle;
 class Game;
 class GameObject;
 class GameObjectHandle;
-
-class ComponentHandleCompare {
-public:
-	bool operator()(const ComponentHandle<Component>& left, const ComponentHandle<Component>& right) const {
-		return left->mUpdPriority < right->mUpdPriority;
-	}
-};
 
 /// <summary>
 /// シーンを表すクラス
@@ -58,9 +50,34 @@ public:
 		if (mIsObjCompAddable)mUpdateComponents.insert(static_cast<ComponentHandle<Component>>(_handle));
 		else mPandingUpdateComponents.push_back(static_cast<ComponentHandle<Component>>(_handle));
 	}
+	template<class T, class... Args>
+	LayerHandle<T> AddLayer(Args... _args)
+	{
+		boost::shared_ptr<std::set<void*>> handlesetp(new std::set<void*>());
+		boost::shared_ptr<Layer> layerp(new T(this, ...));
+		//直接追加してよいならばそうする
+		if (mIsObjCompAddable)mLayers.insert(layerp);
+		else mPandingLayers.insert(layerp);
+		LayerHandle<T> layerh(layerp.get(), handlesetp);
+		return layerh;
+	}
 protected:
 	bool mDeleteFlag;
 private:
+	class ComponentHandleCompare {
+	public:
+		bool operator()(const ComponentHandle<Component>& left, const ComponentHandle<Component>& right) const {
+			return left->mUpdPriority < right->mUpdPriority;
+		}
+	};
+
+	class LayerCompare {
+	public:
+		bool operator()(const boost::shared_ptr<Layer>& left, const boost::shared_ptr<Layer>& right) const {
+			return left->GetZ() > right->GetZ();
+		}
+	};
+
 	//自身の持つGameObjectのリスト及び保留中のオブジェクト
 	std::list<boost::shared_ptr<GameObject>> mObjs;
 	std::vector<boost::shared_ptr<GameObject>> mPandingObjs;
@@ -78,4 +95,9 @@ private:
 	//Deleteフラグが立っているコンポーネント・オブジェクトや保留中のそれらの処理
 	void DeleteAndProcessPandingObjComp();
 	GameObject* operator&() const noexcept;
+	//自分の持つLayerのOutput等の処理
+	void OutputLayer();
+	//Z座標降順で取り出す
+	std::set<boost::shared_ptr<Layer>,LayerCompare> mLayers;
+	std::set<boost::shared_ptr<Layer>, LayerCompare> mPandingLayers;
 };

@@ -29,6 +29,11 @@ double Layer::GetZ()
 	return z;
 }
 
+bool Layer::HasZChanged()
+{
+	return mWasZChanged;
+}
+
 Game& Layer::GetGame() const
 {
 	return mScene.mGame;

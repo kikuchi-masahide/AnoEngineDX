@@ -18,6 +18,8 @@ public:
 	//z座標が本当に変更されるのはDraw実行前
 	void SetZ(double _z);
 	double GetZ();
+	//z座標の変更があったか
+	bool HasZChanged();
 	//親シーン
 	Scene& mScene;
 	Game& GetGame() const;
