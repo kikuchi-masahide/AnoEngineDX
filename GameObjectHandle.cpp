@@ -23,9 +23,7 @@ GameObjectHandle::~GameObjectHandle() {
 
 GameObject* GameObjectHandle::operator->() const noexcept {
 	//ダングリングポインタならばassertを出す
-	if (mObject == nullptr) {
-		Log::OutputCritical("Dungling Pointer");
-	}
+	BOOST_ASSERT_MSG(mObject != nullptr, "GameObjectHandle dungling pointer");
 	return mObject;
 }
 
@@ -36,7 +34,7 @@ bool GameObjectHandle::IsValid() const
 
 void GameObjectHandle::Reset(GameObject* _obj)
 {
-	assert(mObject == _obj);
+	BOOST_ASSERT_MSG(mObject == _obj, "GameObjectHandle::Reset() should be called in GameObject::~GameObject()");
 	mObject = nullptr;
 	mHandleSet.reset();
 }

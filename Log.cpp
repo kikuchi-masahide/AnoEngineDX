@@ -1,4 +1,3 @@
-#include "Log.h"
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/attributes.hpp>
@@ -60,4 +59,39 @@ void Log::OutputCritical(const char _str[])
 		<< "<critical!>" << _str
 		<< "\n================================================================================\n";
 #endif
+}
+
+namespace boost {
+	void assertion_failed(
+		const char* _expr, const char* _function, const char* _file, long _line
+	)
+	{
+		std::string str("BOOST_ASSERT!\n\tExpression : ");
+		str += _expr;
+		str += "\n\tFunction : ";
+		str += _function;
+		str += "\n\tFile : ";
+		str += _file;
+		str += "\n\tLine : ";
+		str += std::to_string(_line);
+		Log::OutputCritical(str.c_str());
+		std::abort();
+	}
+	void assertion_failed_msg(
+		const char* _expr, const char* _msg, const char* _function, const char* _file, long _line
+	)
+	{
+		std::string str("BOOST_ASSERT_MSG!\n\tExpression : ");
+		str += _expr;
+		str += "\n\tMessage : ";
+		str += _msg;
+		str += "\n\tFunction : ";
+		str += _function;
+		str += "\n\tFile : ";
+		str += _file;
+		str += "\n\tLine : ";
+		str += std::to_string(_line);
+		Log::OutputCritical(str.c_str());
+		std::abort();
+	}
 }

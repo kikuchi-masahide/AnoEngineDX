@@ -38,15 +38,14 @@ public:
 	template<class T>
 	void AddOutputComponent(GameObject* _obj, ComponentHandle<T> _handle)
 	{
-		assert(_obj != nullptr);
+		BOOST_ASSERT(_obj != nullptr);
 		if (mIsObjCompAddable)mOutputComponents.insert(static_cast<ComponentHandle<Component>>(_handle));
 		else mPandingOutputComponents.push_back(static_cast<ComponentHandle<Component>>(_handle));
 	}
 	template<class T>
 	void AddUpdateComponent(GameObject* _obj, ComponentHandle<T> _handle)
 	{
-		assert(_obj != nullptr);
-		assert(_handle.IsValid());
+		BOOST_ASSERT(_obj != nullptr);
 		if (mIsObjCompAddable)mUpdateComponents.insert(static_cast<ComponentHandle<Component>>(_handle));
 		else mPandingUpdateComponents.push_back(static_cast<ComponentHandle<Component>>(_handle));
 	}

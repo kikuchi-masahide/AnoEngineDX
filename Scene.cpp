@@ -6,7 +6,7 @@
 
 Scene::Scene(Game* _game)
 	:mGame(*_game), mIsObjCompAddable(true) {
-	assert(_game != nullptr);
+	BOOST_ASSERT(_game != nullptr);
 }
 
 void Scene::Update()

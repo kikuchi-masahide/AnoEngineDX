@@ -147,14 +147,14 @@ void DX12Resource::SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> _list, D
 
 void DX12Resource::CreateRenderTargetView(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
 {
-	assert(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::RTV);
+	BOOST_ASSERT_MSG(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::RTV,"DescriptorHeapType incorrect");
 	auto handle = _descheap->GetCPUDescriptorHandle(_n);
 	_device->CreateRenderTargetView(mResource.Get(), nullptr, handle);
 }
 
 void DX12Resource::CreateShaderResourceView(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
 {
-	assert(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV);
+	BOOST_ASSERT_MSG(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV,"DescriptorHeapType incorrect");
 	auto handle = _descheap->GetCPUDescriptorHandle(_n);
 	//SRVÇÃê›íË
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
