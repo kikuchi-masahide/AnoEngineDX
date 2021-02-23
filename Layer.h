@@ -25,6 +25,14 @@ public:
 	Game& GetGame() const;
 	//Sceneからのみ呼び出せる，Rect，zの変更フラッシュ用の関数
 	void FlushZRectChange(Layer* _layer);
+	bool GetDeleteFlag() const
+	{
+		return mDeleteFlag;
+	}
+	void SetDeleteFlag()
+	{
+		mDeleteFlag = true;
+	}
 private:
 	double z;
 	//クライアント上の専有領域
@@ -39,4 +47,5 @@ private:
 	bool mWasRectChanged;
 	Rect2 mRectAfter;
 	unsigned int mSwapchainID;
+	bool mDeleteFlag;
 };

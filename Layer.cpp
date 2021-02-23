@@ -11,6 +11,10 @@ Layer::Layer(Scene* _scene, boost::shared_ptr<std::set<void*>> _hset, Rect2 _rec
 
 Layer::~Layer()
 {
+	std::for_each(mHandles->begin(), mHandles->end(), [this](void* _obj) {
+		//–³—‚â‚è
+		((LayerHandle<Layer>*)_obj)->Reset(this);
+	});
 }
 
 void Layer::SetRect(Rect2 _rect)

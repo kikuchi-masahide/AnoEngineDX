@@ -27,6 +27,7 @@ void Scene::Output()
 	mIsObjCompAddable = true;
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	DeleteAndProcessPandingObjComp();
+	DeleteAndProcessPandingLayers();
 }
 
 void Scene::UniqueOutput() {}
@@ -131,12 +132,29 @@ void Scene::OutputLayer()
 		(*itr)->Draw();
 		itr++;
 	}
-	//全保留レイヤーをフラッシュし追加
-	itr = mPandingLayers.begin();
+}
+
+void Scene::DeleteAndProcessPandingLayers()
+{
+	//PandingのLayerをフラッシュしmLayerに追加
+	auto itr = mPandingLayers.begin();
 	while (itr != mPandingLayers.end())
 	{
 		(*itr)->FlushZRectChange(itr->get());
 		mLayers.insert(*itr);
+		itr++;
 	}
 	mPandingLayers.clear();
+	//DeleteフラグついてるLayerを削除
+	itr = mLayers.begin();
+	while (itr != mLayers.end())
+	{
+		if ((*itr)->GetDeleteFlag())
+		{
+			mLayers.erase(*itr);
+		}
+		else {
+			itr++;
+		}
+	}
 }

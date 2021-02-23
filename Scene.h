@@ -54,7 +54,7 @@ public:
 	LayerHandle<T> AddLayer(Args... _args)
 	{
 		boost::shared_ptr<std::set<void*>> handlesetp(new std::set<void*>());
-		boost::shared_ptr<Layer> layerp(new T(this, ...));
+		boost::shared_ptr<Layer> layerp(new T(this, _args...));
 		//直接追加してよいならばそうする
 		if (mIsObjCompAddable)mLayers.insert(layerp);
 		else mPandingLayers.insert(layerp);
@@ -95,9 +95,11 @@ private:
 	//Deleteフラグが立っているコンポーネント・オブジェクトや保留中のそれらの処理
 	void DeleteAndProcessPandingObjComp();
 	GameObject* operator&() const noexcept;
-	//自分の持つLayerのOutput等の処理
-	void OutputLayer();
 	//Z座標降順で取り出す
 	std::set<boost::shared_ptr<Layer>,LayerCompare> mLayers;
 	std::set<boost::shared_ptr<Layer>, LayerCompare> mPandingLayers;
+	//自分の持つLayerのOutputを行う
+	void OutputLayer();
+	//DeleteFlag立ってるLayerの処理
+	void DeleteAndProcessPandingLayers();
 };
