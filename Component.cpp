@@ -15,8 +15,8 @@ Component::Component(GameObject* _owner, boost::shared_ptr<std::set<void*>> _hse
 	: mOwner(*_owner), mHandles(_hset), mUpdPriority(_order), mDeleteFlag(false)
 {
 	//_owner‚ªnullptr‚É‚È‚Á‚Ä‚éê‡‚Æ‚©‚ğ‚Í‚¶‚­
-	assert(_owner != nullptr);
-	assert(_hset != nullptr);
+	BOOST_ASSERT_MSG(_owner != nullptr,"Component::Component() should be called in GameObject::AddOutput/UpdateComponent()");
+	BOOST_ASSERT_MSG(_hset != nullptr, "Component::Component() should be called in GameObject::AddOutput/UpdateComponent()");
 }
 
 void Component::Update() {}

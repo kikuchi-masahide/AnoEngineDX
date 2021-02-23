@@ -39,7 +39,7 @@ public:
 	}
 	void Reset(Component* const _comp)
 	{
-		assert(mComp == _comp);
+		BOOST_ASSERT_MSG(mComp == _comp, "ComponentHandle::Reset() should be called in Component::~Component()");
 		mComp = nullptr;
 		mHandleSet.reset();
 	}

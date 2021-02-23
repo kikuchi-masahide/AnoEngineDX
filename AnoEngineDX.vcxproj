@@ -202,7 +202,6 @@
     <ClInclude Include="GameObjectHandle.h" />
     <ClInclude Include="DX12GraphicsPipeline.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="myassert.h" />
     <ClInclude Include="Rect2.h" />
     <ClInclude Include="DX12RootSignature.h" />
     <ClInclude Include="Scene.h" />

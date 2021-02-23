@@ -10,11 +10,7 @@ Window::Window() :mHwnd(NULL), mWindowClass({}) {}
 
 void Window::Create(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)
 {
-	if (mHwnd != NULL)
-	{
-		Log::OutputCritical("recreating window");
-		assert(0);
-	}
+	BOOST_ASSERT_MSG(mHwnd == NULL, "recreating window");
 	RECT wrc = {};
 	wrc.left = 0;
 	wrc.top = 0;
@@ -31,11 +27,7 @@ void Window::Create(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height,
 		CW_USEDEFAULT, CW_USEDEFAULT, wrc.right - wrc.left, wrc.bottom - wrc.top,
 		nullptr, nullptr, mWindowClass.hInstance, nullptr
 	);
-	if (mHwnd == 0) {
-		std::string errmsg("WindowInitializing failed");
-		Log::OutputCritical(errmsg);
-		assert(0);
-	}
+	BOOST_ASSERT_MSG(mHwnd != 0, "WindowInitializing failed");
 }
 
 Window::~Window()

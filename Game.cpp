@@ -11,12 +11,7 @@
 bool Game::Initialize()
 {
 	Log::Init();
-	try {
-		mdx12.Initialize();
-	}
-	catch (...) {
-		assert(0);
-	}
+	mdx12.Initialize();
 	mIsSceneChangable = true;
 	mCurrentSwapChain = -1;
 	return true;
@@ -53,13 +48,9 @@ Game::Game()
 //	}
 //}
 
-boost::shared_ptr<Window> Game::GetWindow(int _windownum)
+boost::shared_ptr<Window> Game::GetWindow(unsigned int _windownum)
 {
-	if (_windownum >= mWindows.size())
-	{
-		Log::OutputCritical("Window Index out of range");
-		assert(0);
-	}
+	BOOST_ASSERT_MSG(_windownum < mWindows.size(), "Window Index out of range");
 	return mWindows[_windownum];
 }
 
@@ -78,9 +69,7 @@ unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int
 
 void Game::OpenSwapChain(unsigned int _winnum)
 {
-	assert(
-		_winnum < mWindows.size()
-	);
+	BOOST_ASSERT_MSG(_winnum < mWindows.size(), "Window Index out of range");
 	if (mCurrentSwapChain != -1) {
 		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
 	}

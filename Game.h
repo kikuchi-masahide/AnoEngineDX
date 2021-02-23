@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// このインスタンスで_windownum番目のウィンドウを返す
 	/// </summary>
-	boost::shared_ptr<Window> GetWindow(int _windownum);
+	boost::shared_ptr<Window> GetWindow(unsigned int _windownum);
 	/// <summary>
 	/// ウィンドウをGameに追加する
 	/// </summary>

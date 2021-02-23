@@ -187,9 +187,10 @@ boost::shared_ptr<DX12Resource> DX12Pimple::CreateTextureUploadBuffer(unsigned i
 
 boost::shared_ptr<DX12Resource> DX12Pimple::LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num)
 {
-	assert(
+	BOOST_ASSERT_MSG(
 		_desc->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV &&
-		_desc->GetShaderVisibility() == DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE
+		_desc->GetShaderVisibility() == DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE,
+		"DescriptorHeapType or DescriptorShaderVisibility incorrect"
 	);
 	//WICテクスチャのロード
 	DirectX::TexMetadata metadata = {};
