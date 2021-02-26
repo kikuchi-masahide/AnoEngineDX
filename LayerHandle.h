@@ -30,9 +30,7 @@ public:
 	T* operator->() const noexcept
 	{
 		//ダングリングポインタならばassertを出す
-		if (mLayer == nullptr) {
-			Log::OutputCritical("Dungling Pointer");
-		}
+		BOOST_ASSERT_MSG(mLayer != nullptr, "LayerHandle dungling pointer");
 		return mLayer;
 	}
 	bool IsValid() const
@@ -41,7 +39,7 @@ public:
 	}
 	void Reset(Layer* const _layer)
 	{
-		assert(mLayer == _layer);
+		BOOST_ASSERT_MSG(mLayer == _layer, "LayerHandle::Reset() should be called in Layer::~Layer()");
 		mLayer = nullptr;
 		mHandleSet.reset();
 	}

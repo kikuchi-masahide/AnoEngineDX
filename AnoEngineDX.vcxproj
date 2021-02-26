@@ -170,7 +170,6 @@
     <ClCompile Include="GameObjectHandle.cpp" />
     <ClCompile Include="DX12GraphicsPipeline.cpp" />
     <ClCompile Include="Layer.cpp" />
-    <ClCompile Include="LayerHandle.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Rect2.cpp" />

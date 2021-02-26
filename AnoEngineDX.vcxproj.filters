@@ -74,9 +74,6 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="LayerHandle.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">

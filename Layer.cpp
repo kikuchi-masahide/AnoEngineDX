@@ -5,8 +5,8 @@
 Layer::Layer(Scene* _scene, boost::shared_ptr<std::set<void*>> _hset, Rect2 _rect, double _z, unsigned int _swap)
 	:mScene(*_scene), mRect(_rect), z(_z),mHandles(_hset),mSwapchainID(_swap)
 {
-	assert(_scene != nullptr);
-	assert(_hset != nullptr);
+	BOOST_ASSERT(_scene != nullptr);
+	BOOST_ASSERT(_hset != nullptr);
 }
 
 Layer::~Layer()
