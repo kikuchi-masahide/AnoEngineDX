@@ -74,6 +74,8 @@
     <ClCompile Include="Layer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Layer2D.cpp" />
+    <ClCompile Include="Layer2DComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -155,6 +157,8 @@
     <ClInclude Include="LayerHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Layer2D.h" />
+    <ClInclude Include="Layer2DComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicVertexShader.hlsl">
@@ -163,10 +167,19 @@
     <FxCompile Include="BasicPixelShader.hlsl">
       <Filter>Engine\DirectX</Filter>
     </FxCompile>
+    <FxCompile Include="Layer2DVertexShader.hlsl">
+      <Filter>Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="Layer2DPixelShader.hlsl">
+      <Filter>Engine</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BasicShaderHeader.hlsli">
       <Filter>Engine\DirectX</Filter>
+    </None>
+    <None Include="Layer2DHeader.hlsli">
+      <Filter>Engine</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -53,7 +53,7 @@ public:
 	LayerHandle<T> AddLayer(Args... _args)
 	{
 		boost::shared_ptr<std::set<void*>> handlesetp(new std::set<void*>());
-		boost::shared_ptr<Layer> layerp(new T(this, _args...));
+		boost::shared_ptr<T> layerp(new T(this, handlesetp, _args...));
 		//’¼Ú’Ç‰Á‚µ‚Ä‚æ‚¢‚È‚ç‚Î‚»‚¤‚·‚é
 		if (mIsObjCompAddable)mLayers.insert(layerp);
 		else mPandingLayers.insert(layerp);

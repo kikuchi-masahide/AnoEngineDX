@@ -55,6 +55,11 @@ void Layer::FlushZRectChange(Layer* _layer)
 	}
 }
 
+unsigned int Layer::GetSwapchainID()
+{
+	return mSwapchainID;
+}
+
 void Layer::SetZ(double _z)
 {
 	mWasZChanged = true;

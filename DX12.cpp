@@ -159,3 +159,13 @@ void DX12::CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, b
 {
 	mPimple->CreateShaderResourceView(_resource, _descheap, _n);
 }
+
+void DX12::OpenRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id)
+{
+	mPimple->OpenRenderTarget(_heap, _id);
+}
+
+void DX12::ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id, float _r, float _g, float _b, float _alpha)
+{
+	mPimple->ClearRenderTarget(_heap, _id, _r, _g, _b, _alpha);
+}

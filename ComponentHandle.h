@@ -21,6 +21,11 @@ public:
 	ComponentHandle()
 		: mComp(nullptr), mHandleSet(nullptr)
 	{}
+	ComponentHandle(const T* comp)
+		:mComp(comp), mHandleSet(comp->mHandles)
+	{
+		mHandleSet->insert((void*)this);
+	}
 	~ComponentHandle()
 	{
 		if (mHandleSet != nullptr)mHandleSet->erase((void*)this);

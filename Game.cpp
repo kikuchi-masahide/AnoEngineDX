@@ -70,11 +70,17 @@ unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int
 void Game::OpenSwapChain(unsigned int _winnum)
 {
 	BOOST_ASSERT_MSG(_winnum < mWindows.size(), "Window Index out of range");
-	if (mCurrentSwapChain != -1) {
-		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
-	}
 	mdx12.OpenRenderTarget(mSwapChains[_winnum]);
 	mCurrentSwapChain = _winnum;
+}
+
+void Game::CloseSwapChain()
+{
+	if (mCurrentSwapChain != -1)
+	{
+		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
+		mCurrentSwapChain = -1;
+	}
 }
 
 /// <summary>
@@ -163,17 +169,14 @@ void Game::BeforeOutput()
 {
 	//とりあえずレンダーターゲットのクリアのみ
 	for (auto swapchain : mSwapChains) {
+		mdx12.OpenRenderTarget(swapchain);
 		mdx12.ClearRenderTarget(swapchain, 1.0f, 1.0f, 1.0f);
+		mdx12.CloseRenderTarget(swapchain);
 	}
 }
 
 bool Game::AfterOutput()
 {
-	//スワップチェーンのクローズ
-	if (mCurrentSwapChain != -1) {
-		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
-	}
-	mCurrentSwapChain = -1;
 	mdx12.ProcessCommands();
 	//全てのスワップチェーンのフリップ
 	for (auto swap : mSwapChains) {

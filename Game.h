@@ -45,6 +45,7 @@ public:
 	/// 前に開いていたスワップチェーンを閉じ，このウィンドウに付随するスワップチェーンを開く
 	/// </summary>
 	void OpenSwapChain(unsigned int _winnum);
+	void CloseSwapChain();
 	TextureManager mTexManager;
 private:
 	void ProcessInput();

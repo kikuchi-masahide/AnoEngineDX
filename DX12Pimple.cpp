@@ -279,5 +279,6 @@ void DX12Pimple::OpenRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, u
 void DX12Pimple::ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id, float _r, float _g, float _b, float _alpha)
 {
 	auto handle = _heap->GetCPUDescriptorHandle(_id);
-	mCmdList->OMSetRenderTargets(1, &handle, false, nullptr);
+	float clearcolor[] = { _r,_g,_b,_alpha };
+	mCmdList->ClearRenderTargetView(handle, clearcolor, 0, nullptr);
 }

@@ -33,18 +33,20 @@ public:
 	{
 		mDeleteFlag = true;
 	}
+	unsigned int GetSwapchainID();
+protected:
 private:
-	double z;
-	//クライアント上の専有領域
-	Rect2 mRect;
 	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
 	boost::shared_ptr<std::set<void*>> mHandles;
 	//&によるポインタ取得を禁止
 	Layer* operator&() const noexcept;
 	//Draw実行前の変更のストックとそのフラグ
 	bool mWasZChanged;
-	double mZAfter;
 	bool mWasRectChanged;
+	double z;
+	double mZAfter;
+	//クライアント上の専有領域
+	Rect2 mRect;
 	Rect2 mRectAfter;
 	unsigned int mSwapchainID;
 	bool mDeleteFlag;

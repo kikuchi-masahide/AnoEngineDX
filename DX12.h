@@ -158,4 +158,7 @@ public:
 	/// </summary>
 	/// <param name="_n">ディスクリプタヒープの何番目にビューを作るか</param>
 	void CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
+	//ディスクリプタヒープとIDを指定してレンダーターゲットをopen(バリアの設定は無し)
+	void OpenRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id);
+	void ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id, float _r, float _g, float _b, float _alpha);
 };
