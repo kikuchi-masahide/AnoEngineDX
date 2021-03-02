@@ -31,7 +31,7 @@ void Game::Shutdown()
 }
 
 Game::Game()
-	:mTexManager(this)
+	:mTexManager(this),mShaderManager(this)
 {
 }
 

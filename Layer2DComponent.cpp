@@ -48,8 +48,8 @@ void Layer2DComponent::Draw()
 		mIndMap[4] = 1;
 		mIndMap[5] = 3;
 		GetGame().mdx12.Unmap(mIndexResource);
-		mVS = GetGame().mdx12.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
-		mPS = GetGame().mdx12.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
+		auto mVS = GetGame().mShaderManager.GetDX12ShaderObject(0);
+		auto mPS = GetGame().mShaderManager.GetDX12ShaderObject(1);
 		mVertLayout.push_back(DX12VertexLayoutUnit(
 			"POSITION", DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0,
 			DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0

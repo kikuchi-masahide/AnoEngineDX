@@ -70,8 +70,8 @@ void Layer2D::GraphicalInit()
 			{GetVector3(1.0f,-1.0f,0.0f),GetVector2(1.0f,1.0f)},
 			{GetVector3(1.0f,1.0f,0.0f),GetVector2(1.0f,0.0f)}
 	};
-	mVS = GetGame().mdx12.LoadShader(L"Layer2DVertexShader.hlsl", DX12Config::ShaderType::VERTEX);
-	mPS = GetGame().mdx12.LoadShader(L"Layer2DPixelShader.hlsl", DX12Config::ShaderType::PIXEL);
+	auto mVS = GetGame().mShaderManager.GetDX12ShaderObject(2);
+	auto mPS = GetGame().mShaderManager.GetDX12ShaderObject(3);
 	mVertResource = GetGame().mdx12.CreateVertexBuffer(sizeof(float) * 5 * 4);
 	float* resmap = (float*)(GetGame().mdx12.Map(mVertResource));
 	for (unsigned int n = 0; n < 4; n++) {

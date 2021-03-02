@@ -1,6 +1,7 @@
 #pragma once
 #include "DX12.h"
 #include "TextureManager.h"
+#include "ShaderManager.h"
 
 class Scene;
 class Window;
@@ -46,6 +47,7 @@ public:
 	void OpenSwapChain(unsigned int _winnum);
 	void CloseSwapChain();
 	TextureManager mTexManager;
+	ShaderManager mShaderManager;
 private:
 	void ProcessInput();
 	void UpdateGame();

@@ -20,7 +20,6 @@ public:
 private:
 	boost::shared_ptr<DX12Resource> mVertResource;
 	boost::shared_ptr<DX12Resource> mIndexResource;
-	boost::shared_ptr<DX12ShaderObject> mVS, mPS;
 	boost::shared_ptr<DX12GraphicsPipeline> mPipeline;
 	boost::shared_ptr<DX12RootSignature> mRootSignature;
 	boost::shared_ptr<DX12Resource> mTexReadResource;

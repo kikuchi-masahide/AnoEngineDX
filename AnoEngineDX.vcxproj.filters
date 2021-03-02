@@ -76,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="Layer2D.cpp" />
     <ClCompile Include="Layer2DComponent.cpp" />
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -161,6 +164,9 @@
     <ClInclude Include="Layer2DComponent.h" />
     <ClInclude Include="Matrix.h">
       <Filter>Engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
