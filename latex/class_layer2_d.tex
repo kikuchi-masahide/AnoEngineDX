@@ -2,6 +2,11 @@
 \label{class_layer2_d}\index{Layer2D@{Layer2D}}
 
 
+画家のアルゴリズムによる2\+D描画用のレイヤー  
+
+
+
+
 {\ttfamily \#include $<$Layer2\+D.\+h$>$}
 
 Layer2D の継承関係図\begin{figure}[H]
@@ -18,10 +23,15 @@ Layer2D の継承関係図\begin{figure}[H]
 \mbox{\hyperlink{class_layer2_d_a65880fba6448f06f96b95ba8a3c92785}{$\sim$\+Layer2D}} ()
 \item 
 virtual void \mbox{\hyperlink{class_layer2_d_a1993717809decda278218e61863ad6ee}{Draw}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Outputコンポーネント・\+Scene\+::\+Unique\+Outputの後にz降順で呼び出す ペラポリゴンのバックバッファへの最終的な描画を行う． \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_layer2_d_a0dc6bfd9bca11de13c9ccdb0be9f101a}{Insert\+Component}} (\mbox{\hyperlink{class_component_handle}{Component\+Handle}}$<$ \mbox{\hyperlink{class_layer2_d_component}{Layer2\+DComponent}} $>$ \+\_\+comp)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em このレイヤーに描画を行うコンポーネントを追加する． \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{その他の継承メンバ}
+
+
+\doxysubsection{詳解}
+画家のアルゴリズムによる2\+D描画用のレイヤー 
+
 
 
 \doxysubsection{構築子と解体子}
@@ -48,6 +58,10 @@ void \mbox{\hyperlink{class_layer2_d_a0dc6bfd9bca11de13c9ccdb0be9f101a}{Insert\+
 
 
 
+Outputコンポーネント・\+Scene\+::\+Unique\+Outputの後にz降順で呼び出す ペラポリゴンのバックバッファへの最終的な描画を行う． 
+
+
+
 \mbox{\hyperlink{class_layer_acf769fff3298baa85b1f43705922cc25}{Layer}}を実装しています。
 
 \mbox{\Hypertarget{class_layer2_d_a0dc6bfd9bca11de13c9ccdb0be9f101a}\label{class_layer2_d_a0dc6bfd9bca11de13c9ccdb0be9f101a}} 
@@ -55,6 +69,10 @@ void \mbox{\hyperlink{class_layer2_d_a0dc6bfd9bca11de13c9ccdb0be9f101a}{Insert\+
 \index{InsertComponent@{InsertComponent}!Layer2D@{Layer2D}}
 \doxysubsubsection{\texorpdfstring{InsertComponent()}{InsertComponent()}}
 {\footnotesize\ttfamily void Layer2\+D\+::\+Insert\+Component (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_component_handle}{Component\+Handle}}$<$ \mbox{\hyperlink{class_layer2_d_component}{Layer2\+DComponent}} $>$}]{\+\_\+comp }\end{DoxyParamCaption})}
+
+
+
+このレイヤーに描画を行うコンポーネントを追加する． 
 
 
 

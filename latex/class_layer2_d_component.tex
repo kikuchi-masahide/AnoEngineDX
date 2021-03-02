@@ -2,6 +2,11 @@
 \label{class_layer2_d_component}\index{Layer2DComponent@{Layer2DComponent}}
 
 
+Layer2\+Dに結び付けられた出力コンポーネント  
+
+
+
+
 {\ttfamily \#include $<$Layer2\+DComponent.\+h$>$}
 
 Layer2\+DComponent の継承関係図\begin{figure}[H]
@@ -10,11 +15,6 @@ Layer2\+DComponent の継承関係図\begin{figure}[H]
 \includegraphics[height=2.000000cm]{class_layer2_d_component}
 \end{center}
 \end{figure}
-\doxysubsection*{クラス}
-\begin{DoxyCompactItemize}
-\item 
-struct \mbox{\hyperlink{struct_layer2_d_component_1_1_vertex_layout}{Vertex\+Layout}}
-\end{DoxyCompactItemize}
 \doxysubsection*{公開メンバ関数}
 \begin{DoxyCompactItemize}
 \item 
@@ -25,14 +25,14 @@ virtual void \mbox{\hyperlink{class_layer2_d_component_a0aaeebe49380223b6aece003
 \mbox{\hyperlink{class_layer2_d_component_a8cbb2d04adf49f18ee241aee78e48c51}{$\sim$\+Layer2\+DComponent}} ()
 \item 
 virtual void \mbox{\hyperlink{class_layer2_d_component_ae7f34bd5260698ce85fc7f7e752e82e3}{Draw}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Layer2\+Dの画面出力時，レンダーターゲットをペラポリゴンに指定した状態で呼び出される． \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{公開変数類}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{vector_8h_ab5a01d28e1b2cca2438e6fcee1a3d0e9}{Vector3}} \mbox{\hyperlink{class_layer2_d_component_aa9155e9570c5bdaca6a7873bed46c872}{m\+Verts}} \mbox{[}4\mbox{]}
-\item 
+\begin{DoxyCompactList}\small\item\em Layer左上を中心とした1px単位の座標 1 3 0 2 \end{DoxyCompactList}\item 
 \mbox{\hyperlink{vector_8h_a16b4f63379b29110f3afdcb4c6fd65af}{Vector2}} \mbox{\hyperlink{class_layer2_d_component_ae05e035a170d73240dfb8b2ade22e6a4}{m\+UV}} \mbox{[}4\mbox{]}
-\item 
+\begin{DoxyCompactList}\small\item\em UV座標 1 3 0 2 \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{class_layer2_d_component_ac225eddc86e6fc7e1516195f2fb14206}{z}}
 \end{DoxyCompactItemize}
 \doxysubsection*{限定公開変数類}
@@ -45,6 +45,11 @@ unsigned int \mbox{\hyperlink{class_layer2_d_component_a671939ed07b0ff9f96aa51f1
 \doxysubsection*{その他の継承メンバ}
 
 
+\doxysubsection{詳解}
+Layer2\+Dに結び付けられた出力コンポーネント 
+
+
+
 \doxysubsection{構築子と解体子}
 \mbox{\Hypertarget{class_layer2_d_component_a8b497285cd03558db84ed1aad4abfe38}\label{class_layer2_d_component_a8b497285cd03558db84ed1aad4abfe38}} 
 \index{Layer2DComponent@{Layer2DComponent}!Layer2DComponent@{Layer2DComponent}}
@@ -52,6 +57,17 @@ unsigned int \mbox{\hyperlink{class_layer2_d_component_a671939ed07b0ff9f96aa51f1
 \doxysubsubsection{\texorpdfstring{Layer2DComponent()}{Layer2DComponent()}}
 {\footnotesize\ttfamily Layer2\+DComponent\+::\+Layer2\+DComponent (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$}]{\+\_\+owner,  }\item[{boost\+::shared\+\_\+ptr$<$ std\+::set$<$ void $\ast$ $>$$>$}]{\+\_\+hset,  }\item[{\mbox{\hyperlink{class_layer_handle}{Layer\+Handle}}$<$ \mbox{\hyperlink{class_layer2_d}{Layer2D}} $>$}]{\+\_\+layer,  }\item[{unsigned int}]{\+\_\+texture,  }\item[{double}]{\+\_\+z,  }\item[{\mbox{\hyperlink{struct_rect2}{Rect2}}}]{\+\_\+rect }\end{DoxyParamCaption})}
 
+
+\begin{DoxyParams}{引数}
+{\em \+\_\+layer} & 所属\+Layer2D\\
+\hline
+{\em \+\_\+texture} & 描画するテクスチャ\\
+\hline
+{\em \+\_\+z} & z座標 大きいほど奥側\\
+\hline
+{\em \+\_\+rect} & レイヤー上の描画範囲(1px単位)\\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{class_layer2_d_component_a8cbb2d04adf49f18ee241aee78e48c51}\label{class_layer2_d_component_a8cbb2d04adf49f18ee241aee78e48c51}} 
 \index{Layer2DComponent@{Layer2DComponent}!````~Layer2DComponent@{$\sim$Layer2DComponent}}
 \index{````~Layer2DComponent@{$\sim$Layer2DComponent}!Layer2DComponent@{Layer2DComponent}}
@@ -66,6 +82,10 @@ unsigned int \mbox{\hyperlink{class_layer2_d_component_a671939ed07b0ff9f96aa51f1
 \index{Draw@{Draw}!Layer2DComponent@{Layer2DComponent}}
 \doxysubsubsection{\texorpdfstring{Draw()}{Draw()}}
 {\footnotesize\ttfamily void Layer2\+DComponent\+::\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Layer2\+Dの画面出力時，レンダーターゲットをペラポリゴンに指定した状態で呼び出される． 
 
 \mbox{\Hypertarget{class_layer2_d_component_a0aaeebe49380223b6aece0035f2b2d19}\label{class_layer2_d_component_a0aaeebe49380223b6aece0035f2b2d19}} 
 \index{Layer2DComponent@{Layer2DComponent}!Update@{Update}}
@@ -102,11 +122,19 @@ unsigned int \mbox{\hyperlink{class_layer2_d_component_a671939ed07b0ff9f96aa51f1
 \doxysubsubsection{\texorpdfstring{mUV}{mUV}}
 {\footnotesize\ttfamily \mbox{\hyperlink{vector_8h_a16b4f63379b29110f3afdcb4c6fd65af}{Vector2}} Layer2\+DComponent\+::m\+UV\mbox{[}4\mbox{]}}
 
+
+
+UV座標 1 3 0 2 
+
 \mbox{\Hypertarget{class_layer2_d_component_aa9155e9570c5bdaca6a7873bed46c872}\label{class_layer2_d_component_aa9155e9570c5bdaca6a7873bed46c872}} 
 \index{Layer2DComponent@{Layer2DComponent}!mVerts@{mVerts}}
 \index{mVerts@{mVerts}!Layer2DComponent@{Layer2DComponent}}
 \doxysubsubsection{\texorpdfstring{mVerts}{mVerts}}
 {\footnotesize\ttfamily \mbox{\hyperlink{vector_8h_ab5a01d28e1b2cca2438e6fcee1a3d0e9}{Vector3}} Layer2\+DComponent\+::m\+Verts\mbox{[}4\mbox{]}}
+
+
+
+Layer左上を中心とした1px単位の座標 1 3 0 2 
 
 \mbox{\Hypertarget{class_layer2_d_component_ac225eddc86e6fc7e1516195f2fb14206}\label{class_layer2_d_component_ac225eddc86e6fc7e1516195f2fb14206}} 
 \index{Layer2DComponent@{Layer2DComponent}!z@{z}}

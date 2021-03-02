@@ -22,6 +22,7 @@ void Layer2D::Draw()
 	{
 		(*itr)->Draw();
 	}
+	mComps.clear();
 	//backbufferをテクスチャに戻す
 	GetGame().mdx12.SetResourceBarrier(mBackbuffer, DX12Config::ResourceBarrierState::RENDER_TARGET, DX12Config::ResourceBarrierState::PIXEL_SHADER_RESOURCE);
 	//_swapchainをレンダーターゲットに

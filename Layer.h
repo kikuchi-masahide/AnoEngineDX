@@ -7,25 +7,38 @@ class Game;
 template<class T>
 class LayerHandle;
 
+/// <summary>
+/// 特定の描画領域のペラポリゴンを担当するクラス
+/// </summary>
 class Layer {
 public:
 	Layer(Scene* _scene, boost::shared_ptr<std::set<void*>> _hset, Rect2 _rect, double _z, unsigned int _swap);
 	virtual ~Layer();
-	//Outputコンポーネント・Scene::UniqueOutputの後にz降順で呼び出す
-	//ペラポリゴンのバックバッファへの最終的な描画を行う．
+	/// <summary>
+	/// Outputコンポーネント・Scene::UniqueOutputの後にz降順で呼び出す
+	/// ペラポリゴンのバックバッファへの最終的な描画を行う．
+	/// </summary>
 	virtual void Draw() = 0;
-	//専有座標が本当に変更されるのはDraw実行前
+	/// <summary>
+	/// 専有座標が本当に変更されるのはDraw実行前
+	/// </summary>
 	void SetRect(Rect2 _rect);
 	Rect2 GetRect();
-	//z座標が本当に変更されるのはDraw実行前
+	/// <summary>
+	/// z座標が本当に変更されるのはDraw実行前
+	/// </summary>
 	void SetZ(double _z);
 	double GetZ();
-	//z座標の変更があったか
+	//z座標の変更があったか否か
 	bool HasZChanged();
-	//親シーン
+	/// <summary>
+	/// 親シーン
+	/// </summary>
 	Scene& mScene;
 	Game& GetGame() const;
-	//Sceneからのみ呼び出せる，Rect，zの変更フラッシュ用の関数
+	/// <summary>
+	/// Sceneからのみ呼び出せる，Rect，zの変更フラッシュ用の関数
+	/// </summary>
 	void FlushZRectChange(Layer* _layer);
 	bool GetDeleteFlag() const
 	{
@@ -35,8 +48,15 @@ public:
 	{
 		mDeleteFlag = true;
 	}
+	/// <summary>
+	/// このレイヤーがペラポリゴンを貼り付けるスワップチェーンのIDを取得
+	/// </summary>
+	/// <returns></returns>
 	unsigned int GetSwapchainID();
 protected:
+	/// <summary>
+	/// 自身を指すT型のLayerHandleを取得
+	/// </summary>
 	template<class T>
 	LayerHandle<T> This()
 	{

@@ -22,7 +22,11 @@ public:
 	void Update();
 	virtual void UniqueUpdate();
 	/// <summary>
-	/// 出力関数
+	/// 出力関数 処理詳細:
+	/// OutputComponentsのUpdate()実行
+	/// Layerの変更反映とDraw()実行
+	/// UniqueOutput()
+	/// DeleteFlagの立つGameObject，Component，Layerの削除と保留していたものの追加
 	/// </summary>
 	void Output();
 	virtual void UniqueOutput();

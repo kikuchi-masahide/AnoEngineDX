@@ -2,6 +2,11 @@
 \label{class_layer}\index{Layer@{Layer}}
 
 
+特定の描画領域のペラポリゴンを担当するクラス  
+
+
+
+
 {\ttfamily \#include $<$Layer.\+h$>$}
 
 Layer の継承関係図\begin{figure}[H]
@@ -18,13 +23,13 @@ Layer の継承関係図\begin{figure}[H]
 virtual \mbox{\hyperlink{class_layer_a1b1ba4804451dfe6cc357194e42762ae}{$\sim$\+Layer}} ()
 \item 
 virtual void \mbox{\hyperlink{class_layer_acf769fff3298baa85b1f43705922cc25}{Draw}} ()=0
-\item 
+\begin{DoxyCompactList}\small\item\em Outputコンポーネント・\+Scene\+::\+Unique\+Outputの後にz降順で呼び出す ペラポリゴンのバックバッファへの最終的な描画を行う． \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{class_layer_a489af266dbfe459e1274643ee22308bb}{Set\+Rect}} (\mbox{\hyperlink{struct_rect2}{Rect2}} \+\_\+rect)
-\item 
+\begin{DoxyCompactList}\small\item\em 専有座標が本当に変更されるのは\+Draw実行前 \end{DoxyCompactList}\item 
 \mbox{\hyperlink{struct_rect2}{Rect2}} \mbox{\hyperlink{class_layer_a0604452f859fe9cda4ee38ba1b29a0c7}{Get\+Rect}} ()
 \item 
 void \mbox{\hyperlink{class_layer_ab6efa31017f57bb25de852844256b46c}{SetZ}} (double \+\_\+z)
-\item 
+\begin{DoxyCompactList}\small\item\em z座標が本当に変更されるのは\+Draw実行前 \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}{GetZ}} ()
 \item 
 bool \mbox{\hyperlink{class_layer_a6bb689480da72106572073a02cfe2310}{Has\+ZChanged}} ()
@@ -32,23 +37,28 @@ bool \mbox{\hyperlink{class_layer_a6bb689480da72106572073a02cfe2310}{Has\+ZChang
 \mbox{\hyperlink{class_game}{Game}} \& \mbox{\hyperlink{class_layer_a3780be7681f1487da43d9dd0a5fac138}{Get\+Game}} () const
 \item 
 void \mbox{\hyperlink{class_layer_a4008494ff6cc8a760faff05307ed4227}{Flush\+ZRect\+Change}} (\mbox{\hyperlink{class_layer}{Layer}} $\ast$\+\_\+layer)
-\item 
+\begin{DoxyCompactList}\small\item\em Sceneからのみ呼び出せる，\+Rect，zの変更フラッシュ用の関数 \end{DoxyCompactList}\item 
 bool \mbox{\hyperlink{class_layer_a0074bc7fe119802b223518cb6e89427d}{Get\+Delete\+Flag}} () const
 \item 
 void \mbox{\hyperlink{class_layer_aac4bb7c583270ea2345ec338d7026820}{Set\+Delete\+Flag}} ()
 \item 
 unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get\+Swapchain\+ID}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em このレイヤーがペラポリゴンを貼り付けるスワップチェーンの\+IDを取得 \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{公開変数類}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{class_scene}{Scene}} \& \mbox{\hyperlink{class_layer_a295d2152d08a499f10532884d8c7565d}{m\+Scene}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em 親シーン \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{限定公開メンバ関数}
 \begin{DoxyCompactItemize}
 \item 
 {\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{class_layer_handle}{Layer\+Handle}}$<$ T $>$ \mbox{\hyperlink{class_layer_a48de7995439514de1c9c9cdd4c1be35e}{This}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em 自身を指す\+T型の\+Layer\+Handleを取得 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{詳解}
+特定の描画領域のペラポリゴンを担当するクラス 
+
 
 
 \doxysubsection{構築子と解体子}
@@ -75,6 +85,10 @@ unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get
 
 
 
+Outputコンポーネント・\+Scene\+::\+Unique\+Outputの後にz降順で呼び出す ペラポリゴンのバックバッファへの最終的な描画を行う． 
+
+
+
 \mbox{\hyperlink{class_layer2_d_a1993717809decda278218e61863ad6ee}{Layer2D}}で実装されています。
 
 \mbox{\Hypertarget{class_layer_a4008494ff6cc8a760faff05307ed4227}\label{class_layer_a4008494ff6cc8a760faff05307ed4227}} 
@@ -82,6 +96,10 @@ unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get
 \index{FlushZRectChange@{FlushZRectChange}!Layer@{Layer}}
 \doxysubsubsection{\texorpdfstring{FlushZRectChange()}{FlushZRectChange()}}
 {\footnotesize\ttfamily void Layer\+::\+Flush\+ZRect\+Change (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_layer}{Layer}} $\ast$}]{\+\_\+layer }\end{DoxyParamCaption})}
+
+
+
+Sceneからのみ呼び出せる，\+Rect，zの変更フラッシュ用の関数 
 
 \mbox{\Hypertarget{class_layer_a0074bc7fe119802b223518cb6e89427d}\label{class_layer_a0074bc7fe119802b223518cb6e89427d}} 
 \index{Layer@{Layer}!GetDeleteFlag@{GetDeleteFlag}}
@@ -107,6 +125,13 @@ unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get
 \doxysubsubsection{\texorpdfstring{GetSwapchainID()}{GetSwapchainID()}}
 {\footnotesize\ttfamily unsigned int Layer\+::\+Get\+Swapchain\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
+
+
+このレイヤーがペラポリゴンを貼り付けるスワップチェーンの\+IDを取得 
+
+\begin{DoxyReturn}{戻り値}
+
+\end{DoxyReturn}
 \mbox{\Hypertarget{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}\label{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}} 
 \index{Layer@{Layer}!GetZ@{GetZ}}
 \index{GetZ@{GetZ}!Layer@{Layer}}
@@ -131,11 +156,19 @@ unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get
 \doxysubsubsection{\texorpdfstring{SetRect()}{SetRect()}}
 {\footnotesize\ttfamily void Layer\+::\+Set\+Rect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_rect2}{Rect2}}}]{\+\_\+rect }\end{DoxyParamCaption})}
 
+
+
+専有座標が本当に変更されるのは\+Draw実行前 
+
 \mbox{\Hypertarget{class_layer_ab6efa31017f57bb25de852844256b46c}\label{class_layer_ab6efa31017f57bb25de852844256b46c}} 
 \index{Layer@{Layer}!SetZ@{SetZ}}
 \index{SetZ@{SetZ}!Layer@{Layer}}
 \doxysubsubsection{\texorpdfstring{SetZ()}{SetZ()}}
 {\footnotesize\ttfamily void Layer\+::\+SetZ (\begin{DoxyParamCaption}\item[{double}]{\+\_\+z }\end{DoxyParamCaption})}
+
+
+
+z座標が本当に変更されるのは\+Draw実行前 
 
 \mbox{\Hypertarget{class_layer_a48de7995439514de1c9c9cdd4c1be35e}\label{class_layer_a48de7995439514de1c9c9cdd4c1be35e}} 
 \index{Layer@{Layer}!This@{This}}
@@ -146,12 +179,20 @@ unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get
 
 
 
+自身を指す\+T型の\+Layer\+Handleを取得 
+
+
+
 \doxysubsection{メンバ詳解}
 \mbox{\Hypertarget{class_layer_a295d2152d08a499f10532884d8c7565d}\label{class_layer_a295d2152d08a499f10532884d8c7565d}} 
 \index{Layer@{Layer}!mScene@{mScene}}
 \index{mScene@{mScene}!Layer@{Layer}}
 \doxysubsubsection{\texorpdfstring{mScene}{mScene}}
 {\footnotesize\ttfamily \mbox{\hyperlink{class_scene}{Scene}}\& Layer\+::m\+Scene}
+
+
+
+親シーン 
 
 
 

@@ -62,7 +62,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">クラス</a> &#124;
 <a href="#pub-methods">公開メンバ関数</a> &#124;
 <a href="#pub-attribs">公開変数類</a> &#124;
 <a href="#pro-attribs">限定公開変数類</a> &#124;
@@ -71,6 +70,9 @@ $(function() {
 <div class="title">Layer2DComponent クラス</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Layer2Dに結び付けられた出力コンポーネント  
+ <a href="class_layer2_d_component.html#details">[詳解]</a></p>
 
 <p><code>#include &lt;<a class="el" href="_layer2_d_component_8h_source.html">Layer2DComponent.h</a>&gt;</code></p>
 <div class="dynheader">
@@ -83,11 +85,6 @@ Layer2DComponent の継承関係図</div>
   </map>
 </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-クラス</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_layer2_d_component_1_1_vertex_layout.html">VertexLayout</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 公開メンバ関数</h2></td></tr>
 <tr class="memitem:a8b497285cd03558db84ed1aad4abfe38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#a8b497285cd03558db84ed1aad4abfe38">Layer2DComponent</a> (<a class="el" href="class_game_object.html">GameObject</a> *_owner, boost::shared_ptr&lt; std::set&lt; void * &gt;&gt; _hset, <a class="el" href="class_layer_handle.html">LayerHandle</a>&lt; <a class="el" href="class_layer2_d.html">Layer2D</a> &gt; _layer, unsigned int _texture, double _z, <a class="el" href="struct_rect2.html">Rect2</a> _rect)</td></tr>
@@ -98,6 +95,7 @@ Layer2DComponent の継承関係図</div>
 <tr class="memitem:a8cbb2d04adf49f18ee241aee78e48c51"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#a8cbb2d04adf49f18ee241aee78e48c51">~Layer2DComponent</a> ()</td></tr>
 <tr class="separator:a8cbb2d04adf49f18ee241aee78e48c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7f34bd5260698ce85fc7f7e752e82e3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#ae7f34bd5260698ce85fc7f7e752e82e3">Draw</a> ()</td></tr>
+<tr class="memdesc:ae7f34bd5260698ce85fc7f7e752e82e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Layer2Dの画面出力時，レンダーターゲットをペラポリゴンに指定した状態で呼び出される．  <a href="class_layer2_d_component.html#ae7f34bd5260698ce85fc7f7e752e82e3">[詳解]</a><br /></td></tr>
 <tr class="separator:ae7f34bd5260698ce85fc7f7e752e82e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_component')"><img src="closed.png" alt="-"/>&#160;基底クラス <a class="el" href="class_component.html">Component</a> に属する継承公開メンバ関数</td></tr>
 <tr class="memitem:ad5f81cad71deb7c753b9377a4992753b inherit pub_methods_class_component"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#ad5f81cad71deb7c753b9377a4992753b">Component</a> (<a class="el" href="class_game_object.html">GameObject</a> *_owner, boost::shared_ptr&lt; std::set&lt; void * &gt;&gt; _hset, int _order=0)</td></tr>
@@ -123,8 +121,10 @@ Layer2DComponent の継承関係図</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 公開変数類</h2></td></tr>
 <tr class="memitem:aa9155e9570c5bdaca6a7873bed46c872"><td class="memItemLeft" align="right" valign="top"><a class="el" href="vector_8h.html#ab5a01d28e1b2cca2438e6fcee1a3d0e9">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#aa9155e9570c5bdaca6a7873bed46c872">mVerts</a> [4]</td></tr>
+<tr class="memdesc:aa9155e9570c5bdaca6a7873bed46c872"><td class="mdescLeft">&#160;</td><td class="mdescRight">Layer左上を中心とした1px単位の座標 1 3 0 2  <a href="class_layer2_d_component.html#aa9155e9570c5bdaca6a7873bed46c872">[詳解]</a><br /></td></tr>
 <tr class="separator:aa9155e9570c5bdaca6a7873bed46c872"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae05e035a170d73240dfb8b2ade22e6a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#ae05e035a170d73240dfb8b2ade22e6a4">mUV</a> [4]</td></tr>
+<tr class="memdesc:ae05e035a170d73240dfb8b2ade22e6a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">UV座標 1 3 0 2  <a href="class_layer2_d_component.html#ae05e035a170d73240dfb8b2ade22e6a4">[詳解]</a><br /></td></tr>
 <tr class="separator:ae05e035a170d73240dfb8b2ade22e6a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac225eddc86e6fc7e1516195f2fb14206"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_layer2_d_component.html#ac225eddc86e6fc7e1516195f2fb14206">z</a></td></tr>
 <tr class="separator:ac225eddc86e6fc7e1516195f2fb14206"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,7 +151,9 @@ Layer2DComponent の継承関係図</div>
 <tr class="memitem:ad385c16a8cf45e1bb7343b251f287b1f inherit pro_methods_class_component"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_component_handle.html">ComponentHandle</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_component.html#ad385c16a8cf45e1bb7343b251f287b1f">This</a> ()</td></tr>
 <tr class="separator:ad385c16a8cf45e1bb7343b251f287b1f inherit pro_methods_class_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">構築子と解体子</h2>
+<a name="details" id="details"></a><h2 class="groupheader">詳解</h2>
+<div class="textblock"><p>Layer2Dに結び付けられた出力コンポーネント </p>
+</div><h2 class="groupheader">構築子と解体子</h2>
 <a id="a8b497285cd03558db84ed1aad4abfe38"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b497285cd03558db84ed1aad4abfe38">&#9670;&nbsp;</a></span>Layer2DComponent()</h2>
 
@@ -201,6 +203,15 @@ Layer2DComponent の継承関係図</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>引数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_layer</td><td>所属Layer2D</td></tr>
+    <tr><td class="paramname">_texture</td><td>描画するテクスチャ</td></tr>
+    <tr><td class="paramname">_z</td><td>z座標 大きいほど奥側</td></tr>
+    <tr><td class="paramname">_rect</td><td>レイヤー上の描画範囲(1px単位)</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -244,6 +255,8 @@ Layer2DComponent の継承関係図</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Layer2Dの画面出力時，レンダーターゲットをペラポリゴンに指定した状態で呼び出される． </p>
 
 </div>
 </div>
@@ -333,6 +346,8 @@ Layer2DComponent の継承関係図</div>
       </table>
 </div><div class="memdoc">
 
+<p>UV座標 1 3 0 2 </p>
+
 </div>
 </div>
 <a id="aa9155e9570c5bdaca6a7873bed46c872"></a>
@@ -346,6 +361,8 @@ Layer2DComponent の継承関係図</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Layer左上を中心とした1px単位の座標 1 3 0 2 </p>
 
 </div>
 </div>

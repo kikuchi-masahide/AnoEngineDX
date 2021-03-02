@@ -81,145 +81,44 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_scene1.html#a45adc6f97b941bb1de34b337f47d8a2f">   14</a></span>&#160;    <a class="code" href="class_scene1.html#a45adc6f97b941bb1de34b337f47d8a2f">Scene1</a>(<a class="code" href="class_game.html">Game</a>* _game)</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        :<a class="code" href="class_scene.html">Scene</a>(_game)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="comment">//Log::OutputTrivial(&quot;Scene1 Initializer&quot;);</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="comment">//auto handle = AddObject(GetVector2(0,0),1.0,0.0);</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">//auto handlec11 = handle-&gt;AddOutputComponent&lt;Component1&gt;(10,0);</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">//auto temp = &amp;handlec11;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="comment">//auto handlec12 = handle-&gt;AddOutputComponent&lt;Component1&gt;(60,1);</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="comment">//temp = &amp;handlec12;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="comment">//handle-&gt;AddUpdateComponent&lt;Component2&gt;(60, 0,handle);</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="comment">//handle-&gt;AddUpdateComponent&lt;Component2&gt;(20, 1,handle);</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="comment">//auto handlec1123 = handlec11;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="comment">//auto handlec3 = handle-&gt;AddOutputComponent&lt;Component3&gt;(100, 2);</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment">//auto temp2 = &amp;handlec3;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">//handlec1123 = (ComponentHandle&lt;Component1&gt;)handlec3;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="comment">//VertexLayout vertices[] = {</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">//  {GetVector3(-0.4f,-0.7f,0.0f),GetVector2(0.0f,1.0f)},</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">//  {GetVector3(-0.4f,0.7f,0.0f),GetVector2(0.0f,0.0f)},</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//  {GetVector3(0.4f,-0.7f,0.0f),GetVector2(1.0f,1.0f)},</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">//  {GetVector3(0.4f,0.7f,0.0f),GetVector2(1.0f,0.0f)}</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">//};</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">//mVS = mGame.mdx12.LoadShader(L&quot;BasicVertexShader.hlsl&quot;, DX12Config::ShaderType::VERTEX);</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">//mPS = mGame.mdx12.LoadShader(L&quot;BasicPixelShader.hlsl&quot;, DX12Config::ShaderType::PIXEL);</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">//mResource = _game-&gt;mdx12.CreateVertexBuffer(sizeof(float) * 5 * 4);</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">//float* resmap = (float*)_game-&gt;mdx12.Map(mResource);</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">//for (unsigned int n = 0; n &lt; 4; n++) {</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">//  resmap[5 * n] = boost::qvm::X(vertices[n].mPos);</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">//  resmap[5 * n + 1] = boost::qvm::Y(vertices[n].mPos);</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">//  resmap[5 * n + 2] = boost::qvm::Z(vertices[n].mPos);</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">//  resmap[5 * n + 3] = boost::qvm::X(vertices[n].mUV);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment">//  resmap[5 * n + 4] = boost::qvm::Y(vertices[n].mUV);</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">//}</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">//_game-&gt;mdx12.Unmap(mResource);</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">//mLayout.push_back(DX12VertexLayoutUnit(</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">//  &quot;POSITION&quot;, DX12Config::VertexLayoutFormat::R32G32B32_FLOAT, 0,</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment">//  DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment">//));</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">//mLayout.push_back(DX12VertexLayoutUnit(</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">//  &quot;TEXCOORD&quot;, DX12Config::VertexLayoutFormat::R32G32_FLOAT, 0,</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">//  DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">//));</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">//boost::shared_ptr&lt;DX12DescriptorHeap&gt; mTextureDescHeap;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">//mTextureDescHeap = _game-&gt;mdx12.CreateDescriptorHeap(</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">//  DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment">//);</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">//DX12DescriptorRange range1(1, DX12Config::DescriptorRangeType::SRV, 0);</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">//DX12RootParameter rootparam;</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">//rootparam.mShaderVisibility = DX12Config::RootParameterShaderVisibility::ALL;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">//rootparam.mDescRanges.push_back(range1);</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">//mRootSignature = _game-&gt;mdx12.CreateRootSignature(rootparam);</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">//mPipeline = _game-&gt;mdx12.CreateGraphicsPipeline(</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">//  mVS, mPS, mLayout, DX12Config::PrimitiveTopologyType::TRIANGLE, 1, mRootSignature</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">//);</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">//unsigned int indeces[] = {</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">//  0,1,2,</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">//  2,1,3</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">//};</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">//mIndeces = _game-&gt;mdx12.CreateIndexBuffer(6);</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="comment">//unsigned int* indresmap = (unsigned int*)_game-&gt;mdx12.Map(mIndeces);</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment">//for (unsigned int n = 0; n &lt; 6; n++) {</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">//  indresmap[n] = indeces[n];</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">//}</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">//_game-&gt;mdx12.Unmap(mIndeces);</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment">//texturedata.resize(256 * 256);</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="comment">//for (auto&amp; rgba : texturedata)</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="comment">//{</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment">//  rgba.R = rand() % 256;</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">//  rgba.G = rand() % 256;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment">//  rgba.B = rand() % 256;</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">//  rgba.A = 255;</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment">//}</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keyword">auto</span> objhandle = <a class="code" href="class_scene.html#ac63fd28a453c0ad121c1fe3bf36b8253">AddObject</a>(<a class="code" href="vector_8cpp.html#a076598a109e42cba9105882d30868c53">GetVector2</a>(0, 0), 1.0, 0.0);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keyword">auto</span> layerhandle = AddLayer&lt;Layer2D&gt;(<a class="code" href="struct_rect2.html">Rect2</a>(0, 400, 0, 400),0,0);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment">//AddLayer&lt;Layer2D&gt;(Rect2(512, 1024, 0, 768), 1, 0);</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        objhandle-&gt;AddOutputComponent&lt;<a class="code" href="class_layer2_d_component.html">Layer2DComponent</a>&gt;(layerhandle, 0, 0, <a class="code" href="struct_rect2.html">Rect2</a>(0, 200, 0, 200));</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">   90</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">UniqueOutput</a>()</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">//Log::OutputTrivial(&quot;Scene1 UniqueOutput&quot;);</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="comment">//mGame.OpenSwapChain(0);</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment">//mGame.mdx12.SetGraphicsPipeline(mPipeline);</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment">//mGame.mdx12.SetRootSignature(mRootSignature);</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">//auto descheap = mGame.mTexManager.GetDX12DescriptorHeap(0).first;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="comment">//auto descid = mGame.mTexManager.GetDX12DescriptorHeap(0).second;</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment">//mGame.mdx12.SetDescriptorHeap(descheap);</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment">//mGame.mdx12.SetGraphicsRootDescriptorTable(0, descheap, descid);</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment">//mGame.mdx12.SetPrimitiveTopology(DX12Config::PrimitiveTopology::TRIANGLESTRIP);</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment">//mGame.mdx12.SetVertexBuffers(mResource, 0, sizeof(float) * 5*4, sizeof(float) * 5);</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment">//mGame.mdx12.SetIndexBuffers(mIndeces, 6);</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment">//mGame.mdx12.SetViewports(1024, 768, 0, 0, 1.0f, 0.0f);</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment">//mGame.mdx12.SetScissorrect(0, 768, 0, 1024);</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="comment">//mGame.mdx12.DrawIndexedInstanced(6, 1, 0, 0, 0);</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">  107</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">UniqueUpdate</a>()</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <a class="code" href="class_log.html#a3788deed21cf26677f682aec01019752">Log::OutputTrivial</a>(<span class="stringliteral">&quot;Scene1 UniqueUpdate&quot;</span>);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">  111</a></span>&#160;    <a class="code" href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">~Scene1</a>()</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="class_log.html#a3788deed21cf26677f682aec01019752">Log::OutputTrivial</a>(<span class="stringliteral">&quot;Scene1 destructor&quot;</span>);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mResource;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mIndeces;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    boost::shared_ptr&lt;DX12ShaderObject&gt; mVS, mPS;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    boost::shared_ptr&lt;DX12GraphicsPipeline&gt; mPipeline;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    boost::shared_ptr&lt;DX12RootSignature&gt; mRootSignature;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mTexReadResource;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="_d_x12_vertex_layout_unit_8h.html#a217d5d3f2acaef01ab0a4bfa0b3142f0">DX12VertexLayout</a> mLayout;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keyword">struct </span>VertexLayout {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <a class="code" href="vector_8h.html#ab5a01d28e1b2cca2438e6fcee1a3d0e9">Vector3</a> mPos;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <a class="code" href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a> mUV;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    };</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">struct </span>TexRGBA {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> R, G, B, A;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    };</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    std::vector&lt;TexRGBA&gt; texturedata;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keyword">auto</span> objhandle = <a class="code" href="class_scene.html#ac63fd28a453c0ad121c1fe3bf36b8253">AddObject</a>(<a class="code" href="vector_8cpp.html#a076598a109e42cba9105882d30868c53">GetVector2</a>(0, 0), 1.0, 0.0);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keyword">auto</span> layerhandle = AddLayer&lt;Layer2D&gt;(<a class="code" href="struct_rect2.html">Rect2</a>(0, 400, 0, 400),0,0);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">//AddLayer&lt;Layer2D&gt;(Rect2(512, 1024, 0, 768), 1, 0);</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        objhandle-&gt;AddOutputComponent&lt;<a class="code" href="class_layer2_d_component.html">Layer2DComponent</a>&gt;(layerhandle, 0, 0, <a class="code" href="struct_rect2.html">Rect2</a>(0, 200, 0, 200));</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">   22</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">UniqueOutput</a>()</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">   25</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">UniqueUpdate</a>()</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="class_log.html#a3788deed21cf26677f682aec01019752">Log::OutputTrivial</a>(<span class="stringliteral">&quot;Scene1 UniqueUpdate&quot;</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    }</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">   29</a></span>&#160;    <a class="code" href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">~Scene1</a>()</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="class_log.html#a3788deed21cf26677f682aec01019752">Log::OutputTrivial</a>(<span class="stringliteral">&quot;Scene1 destructor&quot;</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
 <div class="ttc" id="a_component1_8h_html"><div class="ttname"><a href="_component1_8h.html">Component1.h</a></div></div>
 <div class="ttc" id="a_component2_8h_html"><div class="ttname"><a href="_component2_8h.html">Component2.h</a></div></div>
 <div class="ttc" id="a_component_handle_8h_html"><div class="ttname"><a href="_component_handle_8h.html">ComponentHandle.h</a></div></div>
-<div class="ttc" id="a_d_x12_vertex_layout_unit_8h_html_a217d5d3f2acaef01ab0a4bfa0b3142f0"><div class="ttname"><a href="_d_x12_vertex_layout_unit_8h.html#a217d5d3f2acaef01ab0a4bfa0b3142f0">DX12VertexLayout</a></div><div class="ttdeci">std::vector&lt; DX12VertexLayoutUnit &gt; DX12VertexLayout</div><div class="ttdef"><b>Definition:</b> DX12VertexLayoutUnit.h:19</div></div>
 <div class="ttc" id="a_game_object_8h_html"><div class="ttname"><a href="_game_object_8h.html">GameObject.h</a></div></div>
 <div class="ttc" id="a_game_object_handle_8h_html"><div class="ttname"><a href="_game_object_handle_8h.html">GameObjectHandle.h</a></div></div>
 <div class="ttc" id="a_layer2_d_8h_html"><div class="ttname"><a href="_layer2_d_8h.html">Layer2D.h</a></div></div>
 <div class="ttc" id="a_layer2_d_component_8h_html"><div class="ttname"><a href="_layer2_d_component_8h.html">Layer2DComponent.h</a></div></div>
 <div class="ttc" id="a_scene_8h_html"><div class="ttname"><a href="_scene_8h.html">Scene.h</a></div></div>
 <div class="ttc" id="aclass_game_html"><div class="ttname"><a href="class_game.html">Game</a></div><div class="ttdef"><b>Definition:</b> Game.h:8</div></div>
-<div class="ttc" id="aclass_layer2_d_component_html"><div class="ttname"><a href="class_layer2_d_component.html">Layer2DComponent</a></div><div class="ttdef"><b>Definition:</b> Layer2DComponent.h:9</div></div>
+<div class="ttc" id="aclass_layer2_d_component_html"><div class="ttname"><a href="class_layer2_d_component.html">Layer2DComponent</a></div><div class="ttdoc">Layer2Dに結び付けられた出力コンポーネント</div><div class="ttdef"><b>Definition:</b> Layer2DComponent.h:12</div></div>
 <div class="ttc" id="aclass_log_html_a3788deed21cf26677f682aec01019752"><div class="ttname"><a href="class_log.html#a3788deed21cf26677f682aec01019752">Log::OutputTrivial</a></div><div class="ttdeci">static void OutputTrivial(std::string &amp;_str)</div><div class="ttdef"><b>Definition:</b> Log.cpp:20</div></div>
 <div class="ttc" id="aclass_scene1_html"><div class="ttname"><a href="class_scene1.html">Scene1</a></div><div class="ttdef"><b>Definition:</b> Scene1.h:12</div></div>
 <div class="ttc" id="aclass_scene1_html_a45adc6f97b941bb1de34b337f47d8a2f"><div class="ttname"><a href="class_scene1.html#a45adc6f97b941bb1de34b337f47d8a2f">Scene1::Scene1</a></div><div class="ttdeci">Scene1(Game *_game)</div><div class="ttdef"><b>Definition:</b> Scene1.h:14</div></div>
-<div class="ttc" id="aclass_scene1_html_a937a183c46b417f1b72bffcb127ff96f"><div class="ttname"><a href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">Scene1::UniqueUpdate</a></div><div class="ttdeci">void UniqueUpdate()</div><div class="ttdef"><b>Definition:</b> Scene1.h:107</div></div>
-<div class="ttc" id="aclass_scene1_html_ab4cc2e1f708f0f172db3e24757103746"><div class="ttname"><a href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">Scene1::UniqueOutput</a></div><div class="ttdeci">void UniqueOutput()</div><div class="ttdef"><b>Definition:</b> Scene1.h:90</div></div>
-<div class="ttc" id="aclass_scene1_html_adbbfe0dfdc08bce0f8342bf631dcdf46"><div class="ttname"><a href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">Scene1::~Scene1</a></div><div class="ttdeci">~Scene1()</div><div class="ttdef"><b>Definition:</b> Scene1.h:111</div></div>
+<div class="ttc" id="aclass_scene1_html_a937a183c46b417f1b72bffcb127ff96f"><div class="ttname"><a href="class_scene1.html#a937a183c46b417f1b72bffcb127ff96f">Scene1::UniqueUpdate</a></div><div class="ttdeci">void UniqueUpdate()</div><div class="ttdef"><b>Definition:</b> Scene1.h:25</div></div>
+<div class="ttc" id="aclass_scene1_html_ab4cc2e1f708f0f172db3e24757103746"><div class="ttname"><a href="class_scene1.html#ab4cc2e1f708f0f172db3e24757103746">Scene1::UniqueOutput</a></div><div class="ttdeci">void UniqueOutput()</div><div class="ttdef"><b>Definition:</b> Scene1.h:22</div></div>
+<div class="ttc" id="aclass_scene1_html_adbbfe0dfdc08bce0f8342bf631dcdf46"><div class="ttname"><a href="class_scene1.html#adbbfe0dfdc08bce0f8342bf631dcdf46">Scene1::~Scene1</a></div><div class="ttdeci">~Scene1()</div><div class="ttdef"><b>Definition:</b> Scene1.h:29</div></div>
 <div class="ttc" id="aclass_scene_html"><div class="ttname"><a href="class_scene.html">Scene</a></div><div class="ttdoc">シーンを表すクラス</div><div class="ttdef"><b>Definition:</b> Scene.h:15</div></div>
 <div class="ttc" id="aclass_scene_html_ac63fd28a453c0ad121c1fe3bf36b8253"><div class="ttname"><a href="class_scene.html#ac63fd28a453c0ad121c1fe3bf36b8253">Scene::AddObject</a></div><div class="ttdeci">GameObjectHandle AddObject(Vector2 _pos, double _scale, double _angle)</div><div class="ttdef"><b>Definition:</b> Scene.cpp:35</div></div>
 <div class="ttc" id="astruct_rect2_html"><div class="ttname"><a href="struct_rect2.html">Rect2</a></div><div class="ttdef"><b>Definition:</b> Rect2.h:3</div></div>
 <div class="ttc" id="avector_8cpp_html_a076598a109e42cba9105882d30868c53"><div class="ttname"><a href="vector_8cpp.html#a076598a109e42cba9105882d30868c53">GetVector2</a></div><div class="ttdeci">Vector2 GetVector2(double x, double y)</div><div class="ttdef"><b>Definition:</b> vector.cpp:3</div></div>
-<div class="ttc" id="avector_8h_html_a16b4f63379b29110f3afdcb4c6fd65af"><div class="ttname"><a href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a></div><div class="ttdeci">boost::qvm::vec&lt; double, 2 &gt; Vector2</div><div class="ttdef"><b>Definition:</b> vector.h:3</div></div>
-<div class="ttc" id="avector_8h_html_ab5a01d28e1b2cca2438e6fcee1a3d0e9"><div class="ttname"><a href="vector_8h.html#ab5a01d28e1b2cca2438e6fcee1a3d0e9">Vector3</a></div><div class="ttdeci">boost::qvm::vec&lt; double, 3 &gt; Vector3</div><div class="ttdef"><b>Definition:</b> vector.h:4</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

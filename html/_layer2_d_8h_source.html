@@ -72,48 +72,48 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span><a class="code" href="class_layer2_d_component.html">Layer2DComponent</a>;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="class_layer2_d.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_layer2_d.html">Layer2D</a> :<span class="keyword">public</span> <a class="code" href="class_layer.html">Layer</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="class_layer2_d.html#afbf320d61b287366729470890003bb8e">Layer2D</a>(<a class="code" href="class_scene.html">Scene</a>* _scene, boost::shared_ptr&lt;std::set&lt;void*&gt;&gt; _hset, <a class="code" href="struct_rect2.html">Rect2</a> _rect, <span class="keywordtype">double</span> _z, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _swap);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="class_layer2_d.html#a65880fba6448f06f96b95ba8a3c92785">~Layer2D</a>();</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_layer2_d.html#a1993717809decda278218e61863ad6ee">Draw</a>();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_layer2_d.html#a0dc6bfd9bca11de13c9ccdb0be9f101a">InsertComponent</a>(<a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a> _comp);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mVertResource;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mIndexResource;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    boost::shared_ptr&lt;DX12ShaderObject&gt; mVS, mPS;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    boost::shared_ptr&lt;DX12GraphicsPipeline&gt; mPipeline;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    boost::shared_ptr&lt;DX12RootSignature&gt; mRootSignature;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mTexReadResource;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mBackbuffer;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    boost::shared_ptr&lt;DX12DescriptorHeap&gt; mRTV;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    boost::shared_ptr&lt;DX12DescriptorHeap&gt; mSRV;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="_d_x12_vertex_layout_unit_8h.html#a217d5d3f2acaef01ab0a4bfa0b3142f0">DX12VertexLayout</a> mVertLayout;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">struct </span>VertexLayout {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="vector_8h.html#ab5a01d28e1b2cca2438e6fcee1a3d0e9">Vector3</a> mPos;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <a class="code" href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a> mUV;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    };</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> GraphicalInit();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">//Layer2DCoimponentをz降順で呼びだす</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">class </span>ComponentHandleCompare {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> <a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a>&amp; left, <span class="keyword">const</span> <a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a>&amp; right) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_layer2_d.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_layer2_d.html">Layer2D</a> :<span class="keyword">public</span> <a class="code" href="class_layer.html">Layer</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_layer2_d.html#afbf320d61b287366729470890003bb8e">Layer2D</a>(<a class="code" href="class_scene.html">Scene</a>* _scene, boost::shared_ptr&lt;std::set&lt;void*&gt;&gt; _hset, <a class="code" href="struct_rect2.html">Rect2</a> _rect, <span class="keywordtype">double</span> _z, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _swap);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="class_layer2_d.html#a65880fba6448f06f96b95ba8a3c92785">~Layer2D</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_layer2_d.html#a1993717809decda278218e61863ad6ee">Draw</a>();</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_layer2_d.html#a0dc6bfd9bca11de13c9ccdb0be9f101a">InsertComponent</a>(<a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a> _comp);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mVertResource;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mIndexResource;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    boost::shared_ptr&lt;DX12ShaderObject&gt; mVS, mPS;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    boost::shared_ptr&lt;DX12GraphicsPipeline&gt; mPipeline;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    boost::shared_ptr&lt;DX12RootSignature&gt; mRootSignature;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mTexReadResource;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; mBackbuffer;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    boost::shared_ptr&lt;DX12DescriptorHeap&gt; mRTV;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    boost::shared_ptr&lt;DX12DescriptorHeap&gt; mSRV;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="_d_x12_vertex_layout_unit_8h.html#a217d5d3f2acaef01ab0a4bfa0b3142f0">DX12VertexLayout</a> mVertLayout;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">struct </span>VertexLayout {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="vector_8h.html#ab5a01d28e1b2cca2438e6fcee1a3d0e9">Vector3</a> mPos;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a> mUV;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    };</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::set&lt;ComponentHandle&lt;Layer2DComponent&gt;,ComponentHandleCompare&gt; mComps;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> GraphicalInit();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//Layer2DCoimponentをz降順で呼びだす</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">class </span>ComponentHandleCompare {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">bool</span> operator()(<span class="keyword">const</span> <a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a>&amp; left, <span class="keyword">const</span> <a class="code" href="class_component_handle.html">ComponentHandle&lt;Layer2DComponent&gt;</a>&amp; right) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::set&lt;ComponentHandle&lt;Layer2DComponent&gt;,ComponentHandleCompare&gt; mComps;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
 <div class="ttc" id="a_component_handle_8h_html"><div class="ttname"><a href="_component_handle_8h.html">ComponentHandle.h</a></div></div>
 <div class="ttc" id="a_d_x12_vertex_layout_unit_8h_html_a217d5d3f2acaef01ab0a4bfa0b3142f0"><div class="ttname"><a href="_d_x12_vertex_layout_unit_8h.html#a217d5d3f2acaef01ab0a4bfa0b3142f0">DX12VertexLayout</a></div><div class="ttdeci">std::vector&lt; DX12VertexLayoutUnit &gt; DX12VertexLayout</div><div class="ttdef"><b>Definition:</b> DX12VertexLayoutUnit.h:19</div></div>
 <div class="ttc" id="a_game_8h_html"><div class="ttname"><a href="_game_8h.html">Game.h</a></div></div>
 <div class="ttc" id="a_layer_8h_html"><div class="ttname"><a href="_layer_8h.html">Layer.h</a></div></div>
 <div class="ttc" id="aclass_component_handle_html"><div class="ttname"><a href="class_component_handle.html">ComponentHandle</a></div><div class="ttdef"><b>Definition:</b> ComponentHandle.h:7</div></div>
-<div class="ttc" id="aclass_layer2_d_component_html"><div class="ttname"><a href="class_layer2_d_component.html">Layer2DComponent</a></div><div class="ttdef"><b>Definition:</b> Layer2DComponent.h:9</div></div>
-<div class="ttc" id="aclass_layer2_d_html"><div class="ttname"><a href="class_layer2_d.html">Layer2D</a></div><div class="ttdef"><b>Definition:</b> Layer2D.h:8</div></div>
-<div class="ttc" id="aclass_layer2_d_html_a0dc6bfd9bca11de13c9ccdb0be9f101a"><div class="ttname"><a href="class_layer2_d.html#a0dc6bfd9bca11de13c9ccdb0be9f101a">Layer2D::InsertComponent</a></div><div class="ttdeci">void InsertComponent(ComponentHandle&lt; Layer2DComponent &gt; _comp)</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:119</div></div>
-<div class="ttc" id="aclass_layer2_d_html_a1993717809decda278218e61863ad6ee"><div class="ttname"><a href="class_layer2_d.html#a1993717809decda278218e61863ad6ee">Layer2D::Draw</a></div><div class="ttdeci">virtual void Draw()</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:15</div></div>
+<div class="ttc" id="aclass_layer2_d_component_html"><div class="ttname"><a href="class_layer2_d_component.html">Layer2DComponent</a></div><div class="ttdoc">Layer2Dに結び付けられた出力コンポーネント</div><div class="ttdef"><b>Definition:</b> Layer2DComponent.h:12</div></div>
+<div class="ttc" id="aclass_layer2_d_html"><div class="ttname"><a href="class_layer2_d.html">Layer2D</a></div><div class="ttdoc">画家のアルゴリズムによる2D描画用のレイヤー</div><div class="ttdef"><b>Definition:</b> Layer2D.h:11</div></div>
+<div class="ttc" id="aclass_layer2_d_html_a0dc6bfd9bca11de13c9ccdb0be9f101a"><div class="ttname"><a href="class_layer2_d.html#a0dc6bfd9bca11de13c9ccdb0be9f101a">Layer2D::InsertComponent</a></div><div class="ttdeci">void InsertComponent(ComponentHandle&lt; Layer2DComponent &gt; _comp)</div><div class="ttdoc">このレイヤーに描画を行うコンポーネントを追加する．</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:120</div></div>
+<div class="ttc" id="aclass_layer2_d_html_a1993717809decda278218e61863ad6ee"><div class="ttname"><a href="class_layer2_d.html#a1993717809decda278218e61863ad6ee">Layer2D::Draw</a></div><div class="ttdeci">virtual void Draw()</div><div class="ttdoc">Outputコンポーネント・Scene::UniqueOutputの後にz降順で呼び出す ペラポリゴンのバックバッファへの最終的な描画を行う．</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:15</div></div>
 <div class="ttc" id="aclass_layer2_d_html_a65880fba6448f06f96b95ba8a3c92785"><div class="ttname"><a href="class_layer2_d.html#a65880fba6448f06f96b95ba8a3c92785">Layer2D::~Layer2D</a></div><div class="ttdeci">~Layer2D()</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:11</div></div>
 <div class="ttc" id="aclass_layer2_d_html_afbf320d61b287366729470890003bb8e"><div class="ttname"><a href="class_layer2_d.html#afbf320d61b287366729470890003bb8e">Layer2D::Layer2D</a></div><div class="ttdeci">Layer2D(Scene *_scene, boost::shared_ptr&lt; std::set&lt; void * &gt;&gt; _hset, Rect2 _rect, double _z, unsigned int _swap)</div><div class="ttdef"><b>Definition:</b> Layer2D.cpp:5</div></div>
-<div class="ttc" id="aclass_layer_html"><div class="ttname"><a href="class_layer.html">Layer</a></div><div class="ttdef"><b>Definition:</b> Layer.h:10</div></div>
+<div class="ttc" id="aclass_layer_html"><div class="ttname"><a href="class_layer.html">Layer</a></div><div class="ttdoc">特定の描画領域のペラポリゴンを担当するクラス</div><div class="ttdef"><b>Definition:</b> Layer.h:13</div></div>
 <div class="ttc" id="aclass_scene_html"><div class="ttname"><a href="class_scene.html">Scene</a></div><div class="ttdoc">シーンを表すクラス</div><div class="ttdef"><b>Definition:</b> Scene.h:15</div></div>
 <div class="ttc" id="astruct_rect2_html"><div class="ttname"><a href="struct_rect2.html">Rect2</a></div><div class="ttdef"><b>Definition:</b> Rect2.h:3</div></div>
 <div class="ttc" id="avector_8h_html_a16b4f63379b29110f3afdcb4c6fd65af"><div class="ttname"><a href="vector_8h.html#a16b4f63379b29110f3afdcb4c6fd65af">Vector2</a></div><div class="ttdeci">boost::qvm::vec&lt; double, 2 &gt; Vector2</div><div class="ttdef"><b>Definition:</b> vector.h:3</div></div>

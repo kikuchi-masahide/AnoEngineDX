@@ -5,11 +5,17 @@
 
 class Layer2DComponent;
 
+/// <summary>
+/// 画家のアルゴリズムによる2D描画用のレイヤー
+/// </summary>
 class Layer2D :public Layer {
 public:
 	Layer2D(Scene* _scene, boost::shared_ptr<std::set<void*>> _hset, Rect2 _rect, double _z, unsigned int _swap);
 	~Layer2D();
 	virtual void Draw();
+	/// <summary>
+	/// このレイヤーに描画を行うコンポーネントを追加する．
+	/// </summary>
 	void InsertComponent(ComponentHandle<Layer2DComponent> _comp);
 private:
 	boost::shared_ptr<DX12Resource> mVertResource;
@@ -27,6 +33,9 @@ private:
 		Vector3 mPos;
 		Vector2 mUV;
 	};
+	/// <summary>
+	/// コンストラクタで呼ぶDirect3D12まわりの初期化関数
+	/// </summary>
 	void GraphicalInit();
 	//Layer2DCoimponentをz降順で呼びだす
 	class ComponentHandleCompare {
