@@ -116,23 +116,12 @@ void Layer2D::GraphicalInit()
 	GetGame().mdx12.CreateShaderResourceView(mBackbuffer, mSRV, 0);
 }
 
-//void Layer2D::InsertComponent(ComponentHandle<Layer2DComponent> _comp)
-//{
-//	mComps.insert(_comp);
-//}
-//
-//bool Layer2D::ComponentHandleCompare::operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const
-//{
-//	return left->z > right->z;
-//}
-//
-
-void Layer2D::InsertComponent(Layer2DComponent* _comp)
+void Layer2D::InsertComponent(ComponentHandle<Layer2DComponent> _comp)
 {
 	mComps.insert(_comp);
 }
 
-bool Layer2D::ComponentCompare::operator()(const Layer2DComponent* left, const Layer2DComponent* right) const
+bool Layer2D::ComponentHandleCompare::operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const
 {
 	return left->z > right->z;
 }

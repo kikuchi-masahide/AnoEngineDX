@@ -4,6 +4,8 @@ class Scene;
 class DX12Resource;
 class DX12DescriptorHeap;
 class Game;
+template<class T>
+class LayerHandle;
 
 class Layer {
 public:
@@ -35,6 +37,11 @@ public:
 	}
 	unsigned int GetSwapchainID();
 protected:
+	template<class T>
+	LayerHandle<T> This()
+	{
+		return LayerHandle<T>((T*)this, mHandles);
+	}
 private:
 	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
 	boost::shared_ptr<std::set<void*>> mHandles;

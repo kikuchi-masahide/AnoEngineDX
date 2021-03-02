@@ -3,6 +3,8 @@
 class GameObject;
 class Scene;
 class Game;
+template<class T>
+class ComponentHandle;
 
 /// <summary>
 /// オブジェクトの機能を表すクラス
@@ -24,6 +26,11 @@ public:
 	GameObject& mOwner;
 	const int mUpdPriority;
 protected:
+	template<class T>
+	ComponentHandle<T> This()
+	{
+		return ComponentHandle<T>((T*)this, mHandles);
+	}
 	bool mDeleteFlag;
 private:
 	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)

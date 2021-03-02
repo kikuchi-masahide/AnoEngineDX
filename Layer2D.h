@@ -10,8 +10,7 @@ public:
 	Layer2D(Scene* _scene, boost::shared_ptr<std::set<void*>> _hset, Rect2 _rect, double _z, unsigned int _swap);
 	~Layer2D();
 	virtual void Draw();
-	//void InsertComponent(ComponentHandle<Layer2DComponent> _comp);
-	void InsertComponent(Layer2DComponent* _comp);
+	void InsertComponent(ComponentHandle<Layer2DComponent> _comp);
 private:
 	boost::shared_ptr<DX12Resource> mVertResource;
 	boost::shared_ptr<DX12Resource> mIndexResource;
@@ -29,15 +28,10 @@ private:
 		Vector2 mUV;
 	};
 	void GraphicalInit();
-	////Layer2DCoimponent‚ğz~‡‚ÅŒÄ‚Ñ‚¾‚·
-	//class ComponentHandleCompare {
-	//public:
-	//	bool operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const;
-	//};
-	//std::set<ComponentHandle<Layer2DComponent>,ComponentHandleCompare> mComps;
-	class ComponentCompare {
+	//Layer2DCoimponent‚ğz~‡‚ÅŒÄ‚Ñ‚¾‚·
+	class ComponentHandleCompare {
 	public:
-		bool operator()(const Layer2DComponent* left, const Layer2DComponent* right) const;
+		bool operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const;
 	};
-	std::set<Layer2DComponent*, ComponentCompare> mComps;
+	std::set<ComponentHandle<Layer2DComponent>,ComponentHandleCompare> mComps;
 };

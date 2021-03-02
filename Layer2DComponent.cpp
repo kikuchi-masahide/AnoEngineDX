@@ -20,8 +20,7 @@ Layer2DComponent::Layer2DComponent(GameObject* _owner, boost::shared_ptr<std::se
 
 void Layer2DComponent::Update()
 {
-	//mLayer->InsertComponent(ComponentHandle<Layer2DComponent>(this));
-	mLayer->InsertComponent(this);
+	mLayer->InsertComponent(This<Layer2DComponent>());
 }
 
 Layer2DComponent::~Layer2DComponent()
