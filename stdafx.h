@@ -19,6 +19,8 @@
 #include <boost/qvm/swizzle.hpp>
 #include <boost/qvm/vec_mat_operations.hpp>
 #include <boost/qvm/quat_vec_operations.hpp>
+#include <boost/qvm/map_vec_mat.hpp>
+#include <boost/qvm/swizzle.hpp>
 
 #include <boost/noncopyable.hpp>
 
@@ -30,3 +32,4 @@
 #include "Log.h"
 #include "vector.h"
 #include "Rect2.h"
+#include "Matrix.h"

@@ -209,6 +209,7 @@
     <ClInclude Include="Layer2DComponent.h" />
     <ClInclude Include="LayerHandle.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Rect2.h" />
     <ClInclude Include="DX12RootSignature.h" />
     <ClInclude Include="Scene.h" />

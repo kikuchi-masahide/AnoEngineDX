@@ -159,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="Layer2D.h" />
     <ClInclude Include="Layer2DComponent.h" />
+    <ClInclude Include="Matrix.h">
+      <Filter>Engine\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicVertexShader.hlsl">

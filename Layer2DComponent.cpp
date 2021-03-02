@@ -98,3 +98,85 @@ void Layer2DComponent::Draw()
 	GetGame().mdx12.SetScissorrect(0, height, 0, width);
 	GetGame().mdx12.DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
+
+void Layer2DComponent::TranslationRect(Vector3 _vect)
+{
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		mVerts[n] += _vect;
+	}
+}
+
+void Layer2DComponent::ExpandRect(double _x, double _y, double _z)
+{
+	Vector3 center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
+	auto exp = GetVector3(_x, _y, _z);
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		mVerts[n] -= center;
+		mVerts[n] = boost::qvm::diag_mat(exp) * mVerts[n];
+		mVerts[n] += center;
+	}
+}
+
+void Layer2DComponent::ExpandRect(double _x, double _y, double _z, Vector3 _center)
+{
+	auto exp = GetVector3(_x, _y, _z);
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		mVerts[n] -= _center;
+		mVerts[n] = boost::qvm::diag_mat(exp) * mVerts[n];
+		mVerts[n] += _center;
+	}
+}
+
+void Layer2DComponent::RotateRect(Vector3 _vect, double _deg)
+{
+	auto center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
+	//_vectが0ベクトルで正規化出来ない場合
+	try {
+		boost::qvm::normalize(_vect);
+	}
+	catch(...){
+		BOOST_ASSERT_MSG(0, "rotate axis must not be 0");
+	}
+	auto const quat = boost::qvm::rot_quat(_vect, _deg);
+	auto const mat = boost::qvm::convert_to<Matrix4x4>(quat);
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		mVerts[n] -= center;
+		Vector4 vec4 = boost::qvm::XYZ1(mVerts[n]);
+		vec4 = mat * vec4;
+		mVerts[n] = boost::qvm::XYZ(vec4) + center;
+	}
+}
+
+void Layer2DComponent::RotateRect(Vector3 _vect, double _deg, Vector3 _center)
+{
+	//_vectが0ベクトルで正規化出来ない場合
+	try {
+		boost::qvm::normalize(_vect);
+	}
+	catch (...) {
+		BOOST_ASSERT_MSG(0, "rotate axis must not be 0");
+	}
+	auto const quat = boost::qvm::rot_quat(_vect, _deg);
+	auto const mat = boost::qvm::convert_to<Matrix4x4>(quat);
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		mVerts[n] -= _center;
+		Vector4 vec4 = boost::qvm::XYZ1(mVerts[n]);
+		vec4 = mat * vec4;
+		mVerts[n] = boost::qvm::XYZ(vec4) + _center;
+	}
+}
+
+void Layer2DComponent::ApplyMatrix(Matrix4x4 _mat)
+{
+	for (unsigned int n = 0; n < 4; n++)
+	{
+		Vector4 vec = boost::qvm::XYZ1(mVerts[n]);
+		vec = _mat * vec;
+		mVerts[n] = boost::qvm::XYZ(vec);
+	}
+}

@@ -70,8 +70,11 @@ public:
 		return (mComp != nullptr);
 	}
 	ComponentHandle<T>& operator=(const ComponentHandle<T>& h) {
-		mHandleSet->erase((void*)this);
-		mHandleSet = nullptr;
+		if (mHandleSet)
+		{
+			mHandleSet->erase((void*)this);
+			mHandleSet = nullptr;
+		}
 		mComp = nullptr;
 		if (h.mComp)
 		{
