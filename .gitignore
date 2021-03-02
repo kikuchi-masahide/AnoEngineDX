@@ -368,3 +368,9 @@ logs
 
 # blue step counter
 *.bst
+
+# doxygen
+latex/
+html/
+Doxyfile
+index.html - ショートカット
