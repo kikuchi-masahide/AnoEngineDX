@@ -27,15 +27,14 @@ public:
 		}
 	};
 	/// <summary>
-	/// このインスタンスで_windownum番目のウィンドウを返す
+	/// このインスタンスで_windownum番目のウィンドウの参照を返す
 	/// </summary>
 	boost::shared_ptr<Window> GetWindow(unsigned int _windownum);
 	/// <summary>
 	/// ウィンドウをGameに追加する
 	/// </summary>
-	/// <returns>Gameで何番目のウィンドウか(ウィンドウの指定にはこの番号を使う)</returns>
-	unsigned int AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height,
-		LPCWSTR _windowTitle);
+	/// <param name="_windowid">ウィンドウID(ウィンドウ，スワップチェーンの指定にはこのIDを使う)</param>
+	void AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle, unsigned int _windowid);
 	//1フレーム当たりの時間
 	const double mTimeEps = (double)1000 / (double)60;
 	//前の処理との時間差がこの時間を超えた場合この値に矯正する
@@ -55,10 +54,9 @@ private:
 	Scene* mCurrentScene;
 	Scene* mPandingScene;
 	bool mIsSceneChangable;
-	std::vector<boost::shared_ptr<Window>> mWindows;
+	std::map<unsigned int,boost::shared_ptr<Window>> mWindows;
 	void BeforeOutput();
 	bool AfterOutput();
-	std::map<int, unsigned int> mWindowID2SwapChainID;
-	std::vector<boost::shared_ptr<DX12SwapChain>> mSwapChains;
+	std::map<unsigned int,boost::shared_ptr<DX12SwapChain>> mSwapChains;
 	unsigned int mCurrentSwapChain;
 };

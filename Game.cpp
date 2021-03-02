@@ -35,41 +35,33 @@ Game::Game()
 {
 }
 
-//template<class S,class... Args>
-//void Game::ChangeScene(Args... _args)
-//{
-//	if (!mIsSceneChangable) {
-//		if (mPandingScene != nullptr)delete mPandingScene;
-//		mPandingScene = new S(this, _args...);
-//	}
-//	else {
-//		if (mCurrentScene != nullptr)delete mCurrentScene;
-//		mCurrentScene = new S(this, _args...);
-//	}
-//}
-
 boost::shared_ptr<Window> Game::GetWindow(unsigned int _windownum)
 {
-	BOOST_ASSERT_MSG(_windownum < mWindows.size(), "Window Index out of range");
-	return mWindows[_windownum];
+	//存在チェック
+	auto itr = mWindows.find(_windownum);
+	BOOST_ASSERT_MSG(itr != mWindows.end(), "unregistered windowID");
+	return itr->second;
 }
 
-unsigned int Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)
+void Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle,unsigned int _windowid)
 {
+	//ウィンドウIDの重複チェック
+	BOOST_ASSERT_MSG(mWindows.find(_windowid) == mWindows.end(), "windowID duplicating");
 	//ウィンドウの追加
-	boost::shared_ptr<Window> ptr(
-		new Window(_wndproc,_classID,_width,_height,_windowTitle)
-	);
-	mWindows.push_back(ptr);
+	boost::shared_ptr<Window> window(new Window(_wndproc, _classID, _width, _height, _windowTitle));
+	mWindows[_windowid] = window;
 	//ウィンドウに付随するスワップチェーンの追加
-	boost::shared_ptr<DX12SwapChain> swapchain = mdx12.CreateSwapChain(ptr->GetWindowHandle(), _width, _height);
-	mSwapChains.push_back(swapchain);
-	return (unsigned int)mWindows.size() - 1;
+	HWND hwnd = window->GetWindowHandle();
+	boost::shared_ptr<DX12SwapChain> swapchain = mdx12.CreateSwapChain(hwnd, _width, _height);
+	mSwapChains.insert(std::pair<unsigned int,boost::shared_ptr<DX12SwapChain>>(_windowid,swapchain));
+	return;
 }
 
 void Game::OpenSwapChain(unsigned int _winnum)
 {
-	BOOST_ASSERT_MSG(_winnum < mWindows.size(), "Window Index out of range");
+	//存在チェック
+	auto itr = mSwapChains.find(_winnum);
+	BOOST_ASSERT_MSG(itr != mSwapChains.end(), "unregistered windowID");
 	mdx12.OpenRenderTarget(mSwapChains[_winnum]);
 	mCurrentSwapChain = _winnum;
 }
@@ -126,9 +118,9 @@ void Game::RunLoop()
 	//"微妙に"たまっている時間
 	double millisec = 0;
 	//ウィンドウを表示していく
-	for (int i = 0; i < mWindows.size(); i++)
+	for (auto itr = mWindows.begin(); itr != mWindows.end(); itr++)
 	{
-		mWindows[i]->ShowWindow();
+		itr->second->ShowWindow();
 	}
 	DWORD start = timeGetTime();
 	//メッセージループ
@@ -169,9 +161,10 @@ void Game::BeforeOutput()
 {
 	//とりあえずレンダーターゲットのクリアのみ
 	for (auto swapchain : mSwapChains) {
-		mdx12.OpenRenderTarget(swapchain);
-		mdx12.ClearRenderTarget(swapchain, 1.0f, 1.0f, 1.0f);
-		mdx12.CloseRenderTarget(swapchain);
+		auto swapp = swapchain.second;
+		mdx12.OpenRenderTarget(swapp);
+		mdx12.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
+		mdx12.CloseRenderTarget(swapp);
 	}
 }
 
@@ -179,8 +172,9 @@ bool Game::AfterOutput()
 {
 	mdx12.ProcessCommands();
 	//全てのスワップチェーンのフリップ
-	for (auto swap : mSwapChains) {
-		mdx12.FlipSwapChain(swap);
+	for(auto itr = mSwapChains.begin();itr != mSwapChains.end();itr++)
+	{
+		mdx12.FlipSwapChain(itr->second);
 	}
 	return true;
 }
