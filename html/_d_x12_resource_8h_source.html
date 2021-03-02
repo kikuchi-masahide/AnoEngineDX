@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AnoEngineDX: DX12Resource.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">AnoEngineDX
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">DX12Resource.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_d_x12_resource_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_d_x12_common_include_8h.html">DX12CommonInclude.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_d_x12_config_enums_8h.html">DX12ConfigEnums.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span>DX12Device;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>DX12CmdList;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">class </span><a class="code" href="class_d_x12_descriptor_heap.html">DX12DescriptorHeap</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_d_x12_resource.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d_x12_resource.html">DX12Resource</a> final :<span class="keyword">public</span> boost::noncopyable {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_d_x12_resource.html#a0719c166f7f30368e5b5a3a8a1f4d019">DX12Resource</a>(ComPtr&lt;ID3D12Device&gt; _device, <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0">DX12Config::ResourceHeapType</a> _heaptype,UINT64 _width,UINT _height);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_d_x12_resource.html#a0719c166f7f30368e5b5a3a8a1f4d019">DX12Resource</a>(ComPtr&lt;ID3D12Device&gt; _device, DirectX::TexMetadata&amp; _metadata);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="class_d_x12_resource.html#a0719c166f7f30368e5b5a3a8a1f4d019">DX12Resource</a>(ComPtr&lt;IDXGISwapChain4&gt; _swapchain,UINT _n);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="class_d_x12_resource.html#a0719c166f7f30368e5b5a3a8a1f4d019">DX12Resource</a>(ComPtr&lt;ID3D12Device&gt; _device, UINT64 _width, UINT64 _height, <span class="keywordtype">float</span> _r, <span class="keywordtype">float</span> _g, <span class="keywordtype">float</span> _b, <span class="keywordtype">float</span> _alpha);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span>* <a class="code" href="class_d_x12_resource.html#a95dfdf5c33107044be62b9cb5ce5560e">Map</a>();</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#aa9a63a7d1a4ffacda9e1c63ec41b72cc">Unmap</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">//バッファの仮想アドレス</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    D3D12_GPU_VIRTUAL_ADDRESS <a class="code" href="class_d_x12_resource.html#a55d498f726f1101b54e2011a87363a97">GetGPUVirtualAddress</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment">//コマンドリストに頂点バッファをセット</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#ac1d49b678ec8914be4b717fd53a0e45e">SetVertexBuffers</a>(ComPtr&lt;ID3D12GraphicsCommandList&gt; _list,<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _slotid, SIZE_T _allsize,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        SIZE_T _sizepervertex);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">//コマンドリストにインデックスバッファをセット</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#a4c6be146458d1c901f2dfe8258c42ff7">SetIndexBuffers</a>(ComPtr&lt;ID3D12GraphicsCommandList&gt; _list, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _vertnum);</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class_d_x12_resource.html#a3323dbfcc2373ad48885efbe29a0dab7">   25</a></span>&#160;    ComPtr&lt;ID3D12Resource&gt; <a class="code" href="class_d_x12_resource.html#a3323dbfcc2373ad48885efbe29a0dab7">mResource</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//リソースバリアのセット</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#a03a8ad8996c31dde9dde61c240ababfe">SetResourceBarrier</a>(ComPtr&lt;ID3D12GraphicsCommandList&gt; _list, <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">DX12Config::ResourceBarrierState</a> _before, <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">DX12Config::ResourceBarrierState</a> _after);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#a75403352edaf15f6f436f8f6ed3a025e">CreateRenderTargetView</a>(ComPtr&lt;ID3D12Device&gt; _device, boost::shared_ptr&lt;DX12DescriptorHeap&gt; _descheap, <span class="keywordtype">int</span> _n);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_x12_resource.html#a0728f59959af212145bf1440d97028bf">CreateShaderResourceView</a>(ComPtr&lt;ID3D12Device&gt; _device, boost::shared_ptr&lt;DX12DescriptorHeap&gt; _descheap, <span class="keywordtype">int</span> _n);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">static</span> D3D12_HEAP_TYPE mResourceHeapTypeCorrespond[(<span class="keywordtype">unsigned</span> char)<a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceHeapType::size</a>];</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">static</span> D3D12_RESOURCE_STATES mResourceStateCorrespond[(<span class="keywordtype">unsigned</span> char)<a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceBarrierState::size</a>];</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
+<div class="ttc" id="a_d_x12_common_include_8h_html"><div class="ttname"><a href="_d_x12_common_include_8h.html">DX12CommonInclude.h</a></div></div>
+<div class="ttc" id="a_d_x12_config_enums_8h_html"><div class="ttname"><a href="_d_x12_config_enums_8h.html">DX12ConfigEnums.h</a></div></div>
+<div class="ttc" id="aclass_d_x12_descriptor_heap_html"><div class="ttname"><a href="class_d_x12_descriptor_heap.html">DX12DescriptorHeap</a></div><div class="ttdef"><b>Definition:</b> DX12DescriptorHeap.h:11</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html"><div class="ttname"><a href="class_d_x12_resource.html">DX12Resource</a></div><div class="ttdef"><b>Definition:</b> DX12Resource.h:10</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a03a8ad8996c31dde9dde61c240ababfe"><div class="ttname"><a href="class_d_x12_resource.html#a03a8ad8996c31dde9dde61c240ababfe">DX12Resource::SetResourceBarrier</a></div><div class="ttdeci">void SetResourceBarrier(ComPtr&lt; ID3D12GraphicsCommandList &gt; _list, DX12Config::ResourceBarrierState _before, DX12Config::ResourceBarrierState _after)</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:136</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a0719c166f7f30368e5b5a3a8a1f4d019"><div class="ttname"><a href="class_d_x12_resource.html#a0719c166f7f30368e5b5a3a8a1f4d019">DX12Resource::DX12Resource</a></div><div class="ttdeci">DX12Resource(ComPtr&lt; ID3D12Device &gt; _device, DX12Config::ResourceHeapType _heaptype, UINT64 _width, UINT _height)</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:5</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a0728f59959af212145bf1440d97028bf"><div class="ttname"><a href="class_d_x12_resource.html#a0728f59959af212145bf1440d97028bf">DX12Resource::CreateShaderResourceView</a></div><div class="ttdeci">void CreateShaderResourceView(ComPtr&lt; ID3D12Device &gt; _device, boost::shared_ptr&lt; DX12DescriptorHeap &gt; _descheap, int _n)</div><div class="ttdoc">指定ディスクリプタヒープ上にこのリソースのレンダーターゲットビューを作る</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:155</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a3323dbfcc2373ad48885efbe29a0dab7"><div class="ttname"><a href="class_d_x12_resource.html#a3323dbfcc2373ad48885efbe29a0dab7">DX12Resource::mResource</a></div><div class="ttdeci">ComPtr&lt; ID3D12Resource &gt; mResource</div><div class="ttdef"><b>Definition:</b> DX12Resource.h:25</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a4c6be146458d1c901f2dfe8258c42ff7"><div class="ttname"><a href="class_d_x12_resource.html#a4c6be146458d1c901f2dfe8258c42ff7">DX12Resource::SetIndexBuffers</a></div><div class="ttdeci">void SetIndexBuffers(ComPtr&lt; ID3D12GraphicsCommandList &gt; _list, unsigned int _vertnum)</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:127</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a55d498f726f1101b54e2011a87363a97"><div class="ttname"><a href="class_d_x12_resource.html#a55d498f726f1101b54e2011a87363a97">DX12Resource::GetGPUVirtualAddress</a></div><div class="ttdeci">D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress()</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:113</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a75403352edaf15f6f436f8f6ed3a025e"><div class="ttname"><a href="class_d_x12_resource.html#a75403352edaf15f6f436f8f6ed3a025e">DX12Resource::CreateRenderTargetView</a></div><div class="ttdeci">void CreateRenderTargetView(ComPtr&lt; ID3D12Device &gt; _device, boost::shared_ptr&lt; DX12DescriptorHeap &gt; _descheap, int _n)</div><div class="ttdoc">指定ディスクリプタヒープ上にこのリソースのレンダーターゲットビューを作る</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:148</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_a95dfdf5c33107044be62b9cb5ce5560e"><div class="ttname"><a href="class_d_x12_resource.html#a95dfdf5c33107044be62b9cb5ce5560e">DX12Resource::Map</a></div><div class="ttdeci">void * Map()</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:101</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_aa9a63a7d1a4ffacda9e1c63ec41b72cc"><div class="ttname"><a href="class_d_x12_resource.html#aa9a63a7d1a4ffacda9e1c63ec41b72cc">DX12Resource::Unmap</a></div><div class="ttdeci">void Unmap()</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:108</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html_ac1d49b678ec8914be4b717fd53a0e45e"><div class="ttname"><a href="class_d_x12_resource.html#ac1d49b678ec8914be4b717fd53a0e45e">DX12Resource::SetVertexBuffers</a></div><div class="ttdeci">void SetVertexBuffers(ComPtr&lt; ID3D12GraphicsCommandList &gt; _list, unsigned int _slotid, SIZE_T _allsize, SIZE_T _sizepervertex)</div><div class="ttdef"><b>Definition:</b> DX12Resource.cpp:118</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0">DX12Config::ResourceHeapType</a></div><div class="ttdeci">ResourceHeapType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:23</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceHeapType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6e"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">DX12Config::ResourceBarrierState</a></div><div class="ttdeci">ResourceBarrierState</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:78</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceBarrierState::size</a></div><div class="ttdeci">@ size</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

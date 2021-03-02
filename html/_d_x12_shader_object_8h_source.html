@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AnoEngineDX: DX12ShaderObject.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">AnoEngineDX
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">DX12ShaderObject.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_d_x12_shader_object_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_d_x12_common_include_8h.html">DX12CommonInclude.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_d_x12_config_enums_8h.html">DX12ConfigEnums.h</a>&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="class_d_x12_shader_object.html">    6</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d_x12_shader_object.html">DX12ShaderObject</a> final :<span class="keyword">public</span> boost::noncopyable {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="class_d_x12_shader_object.html#a21051bf23b69d2c1a2e0a64bfb3f7bb9">DX12ShaderObject</a>(LPCWSTR _filename,<a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9c">DX12Config::ShaderType</a> _shaderType);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">void</span>* <a class="code" href="class_d_x12_shader_object.html#a6e7fcc113e60ac3953365370ce7d9a60">GetBufferPointer</a>();</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    SIZE_T <a class="code" href="class_d_x12_shader_object.html#ae5ca324b8408472f306995930e0faf2b">GetBufferSize</a>();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ComPtr&lt;ID3DBlob&gt; mBlob;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">static</span> LPCSTR mShaderTypeCorrespond[(<span class="keywordtype">unsigned</span> char)<a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24">DX12Config::ShaderType::size</a>];</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
+<div class="ttc" id="a_d_x12_common_include_8h_html"><div class="ttname"><a href="_d_x12_common_include_8h.html">DX12CommonInclude.h</a></div></div>
+<div class="ttc" id="a_d_x12_config_enums_8h_html"><div class="ttname"><a href="_d_x12_config_enums_8h.html">DX12ConfigEnums.h</a></div></div>
+<div class="ttc" id="aclass_d_x12_shader_object_html"><div class="ttname"><a href="class_d_x12_shader_object.html">DX12ShaderObject</a></div><div class="ttdef"><b>Definition:</b> DX12ShaderObject.h:6</div></div>
+<div class="ttc" id="aclass_d_x12_shader_object_html_a21051bf23b69d2c1a2e0a64bfb3f7bb9"><div class="ttname"><a href="class_d_x12_shader_object.html#a21051bf23b69d2c1a2e0a64bfb3f7bb9">DX12ShaderObject::DX12ShaderObject</a></div><div class="ttdeci">DX12ShaderObject(LPCWSTR _filename, DX12Config::ShaderType _shaderType)</div><div class="ttdef"><b>Definition:</b> DX12ShaderObject.cpp:4</div></div>
+<div class="ttc" id="aclass_d_x12_shader_object_html_a6e7fcc113e60ac3953365370ce7d9a60"><div class="ttname"><a href="class_d_x12_shader_object.html#a6e7fcc113e60ac3953365370ce7d9a60">DX12ShaderObject::GetBufferPointer</a></div><div class="ttdeci">const void * GetBufferPointer()</div><div class="ttdef"><b>Definition:</b> DX12ShaderObject.cpp:28</div></div>
+<div class="ttc" id="aclass_d_x12_shader_object_html_ae5ca324b8408472f306995930e0faf2b"><div class="ttname"><a href="class_d_x12_shader_object.html#ae5ca324b8408472f306995930e0faf2b">DX12ShaderObject::GetBufferSize</a></div><div class="ttdeci">SIZE_T GetBufferSize()</div><div class="ttdef"><b>Definition:</b> DX12ShaderObject.cpp:33</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9c"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9c">DX12Config::ShaderType</a></div><div class="ttdeci">ShaderType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:30</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24">DX12Config::ShaderType::size</a></div><div class="ttdeci">@ size</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

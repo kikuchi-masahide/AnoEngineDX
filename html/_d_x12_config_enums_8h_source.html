@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AnoEngineDX: DX12ConfigEnums.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">AnoEngineDX
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">DX12ConfigEnums.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_d_x12_config_enums_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html">    6</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_d_x12_config.html">DX12Config</a> {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="comment">//ディスクリプタヒープの種類</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313c">    8</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313c">DescriptorHeapType</a> :unsigned char {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313caad2d89100e475427fae2882f2d5dcc36">RTV</a>,</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313ca67f5d41ba054c96a26203555f6481cc8">CBV</a>,</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313cab71ecf0b186ac1b938e15483f792b7db">SRV</a>,</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313ca6902d76cea698982754404da77e5e08a">UAV</a>,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313cae200ac9bd969d30c0f318e820be12988">DSV</a>,</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313caf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    };</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//シェーダからの可視範囲に関する定数</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889">   17</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889">DescriptorHeapShaderVisibility</a> :unsigned char {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889ab50339a10e1de285ac99d4c3990b8693">NONE</a>,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889a998783322b18d8e332475ac04baa3b3c">SHADER_VISIBLE</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889af7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    };</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">//リソースのヒープのCPUからのアクセスの可不可の設定</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0">   23</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0">ResourceHeapType</a> :unsigned char {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a5b39c8b553c821e7cddc6da64b5bd2ee">DEFAULT</a>,<span class="comment">//CPUからアクセスできない</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a8dff5f89b87ebf91a1ecc1dbed3a6fbb">UPLOAD</a>,<span class="comment">//CPUからアクセスできる</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a3231b4308833ae5d56751a01289ad8db">READBACK</a>,<span class="comment">//CPUから読み取れる</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">//シェーダのタイプ</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9c">   30</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9c">ShaderType</a> :unsigned char {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9ca0c3e47aef93a7f244f41ab309a33634b">VERTEX</a>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9ca06e536f5c0819e7aa379dcd35556f441">PIXEL</a>,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    };</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//頂点レイアウトの情報フォーマット</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52">   36</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52">VertexLayoutFormat</a> :unsigned char {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52ad05d603c5884ae9ccc392513becba305">R32G32B32_FLOAT</a>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52af55c1c722034e92213df328d31e33c62">R8G8B8A8_UNORM</a>,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52a034e2a26f1b92822236e0095a5ca1848">R32G32_FLOAT</a>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52af7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    };</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//頂点レイアウトのinput_classificastion</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00f">   43</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00f">VertexLayoutInputClassification</a> :unsigned char {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00fa8ef7d67d1698d755a23da9e4b2c06e69">INPUT_CLASSIFICATION_PER_VERTEX_DATA</a>,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00fa21335c31396d446fedceaf965a9c6347">INPUT_CLASSIFICATION_PER_INSTANCE_DATA</a>,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00faf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//コマンドリストで指定するプリミティブトポロジ</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9b">   49</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9b">PrimitiveTopology</a> :unsigned char {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9baaebdbcb765394d25d6a604589a890f82">POINT</a>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba17b8ef2c330f1430e00c9de5469fc7e7">LINE</a>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba9bcd89070cae224dce305f5011659ef4">TRIANGLE</a>,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba799462f2d6fc18f92750bbf2cd0f25f9">TRIANGLESTRIP</a>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9baf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    };</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">//グラフィックスパイプラインで指定するプリミティブトポロジタイプ</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1a">   57</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1a">PrimitiveTopologyType</a> :unsigned char {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aaaebdbcb765394d25d6a604589a890f82">POINT</a>,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aa17b8ef2c330f1430e00c9de5469fc7e7">LINE</a>,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aa9bcd89070cae224dce305f5011659ef4">TRIANGLE</a>,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <a class="code" href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aaf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    };</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//ディスクリプタレンジのタイプ</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95">   64</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95">DescriptorRangeType</a> :unsigned char {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95a67f5d41ba054c96a26203555f6481cc8">CBV</a>,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95ab71ecf0b186ac1b938e15483f792b7db">SRV</a>,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95a6902d76cea698982754404da77e5e08a">UAV</a>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <a class="code" href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95af7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    };</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">//ルートパラメータのシェーダーからの見え具合</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bf">   71</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bf">RootParameterShaderVisibility</a> :unsigned char {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <a class="code" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa5fb1f955b45e38e31789286a1790398d">ALL</a>,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <a class="code" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa0c3e47aef93a7f244f41ab309a33634b">VERTEX</a>,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa06e536f5c0819e7aa379dcd35556f441">PIXEL</a>,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <a class="code" href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfaf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">//リソースバリアの遷移前後の定数</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">   78</a></span>&#160;    <span class="keyword">enum class</span> <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">ResourceBarrierState</a> :unsigned char {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6ea720ff3fec5d13dcf3d3aec6d5726fc36">PRESENT</a>,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6ea0bb01e169097cdf50612a3b567e8224b">RENDER_TARGET</a>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaa4408dab605d56b445d0a47587447dba">COPY_DEST</a>,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaed1f1f1d5975318f9778581265e28e48">PIXEL_SHADER_RESOURCE</a>,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24">size</a></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    };</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="ttc" id="anamespace_d_x12_config_html"><div class="ttname"><a href="namespace_d_x12_config.html">DX12Config</a></div><div class="ttdoc">クラスDX12が持つインターフェースで用いるenum</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:6</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a129fbc493881026885857077d571f00f"><div class="ttname"><a href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00f">DX12Config::VertexLayoutInputClassification</a></div><div class="ttdeci">VertexLayoutInputClassification</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:43</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a129fbc493881026885857077d571f00fa21335c31396d446fedceaf965a9c6347"><div class="ttname"><a href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00fa21335c31396d446fedceaf965a9c6347">DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_INSTANCE_DATA</a></div><div class="ttdeci">@ INPUT_CLASSIFICATION_PER_INSTANCE_DATA</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a129fbc493881026885857077d571f00fa8ef7d67d1698d755a23da9e4b2c06e69"><div class="ttname"><a href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00fa8ef7d67d1698d755a23da9e4b2c06e69">DX12Config::VertexLayoutInputClassification::INPUT_CLASSIFICATION_PER_VERTEX_DATA</a></div><div class="ttdeci">@ INPUT_CLASSIFICATION_PER_VERTEX_DATA</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a129fbc493881026885857077d571f00faf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a129fbc493881026885857077d571f00faf7bd60b75b29d79b660a2859395c1a24">DX12Config::VertexLayoutInputClassification::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a34188c3650763697e19c4b44ee611889"><div class="ttname"><a href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889">DX12Config::DescriptorHeapShaderVisibility</a></div><div class="ttdeci">DescriptorHeapShaderVisibility</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:17</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a34188c3650763697e19c4b44ee611889a998783322b18d8e332475ac04baa3b3c"><div class="ttname"><a href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889a998783322b18d8e332475ac04baa3b3c">DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE</a></div><div class="ttdeci">@ SHADER_VISIBLE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a34188c3650763697e19c4b44ee611889ab50339a10e1de285ac99d4c3990b8693"><div class="ttname"><a href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889ab50339a10e1de285ac99d4c3990b8693">DX12Config::DescriptorHeapShaderVisibility::NONE</a></div><div class="ttdeci">@ NONE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a34188c3650763697e19c4b44ee611889af7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a34188c3650763697e19c4b44ee611889af7bd60b75b29d79b660a2859395c1a24">DX12Config::DescriptorHeapShaderVisibility::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a772b10003d11aae5b4bdd731d2f76f95"><div class="ttname"><a href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95">DX12Config::DescriptorRangeType</a></div><div class="ttdeci">DescriptorRangeType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:64</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a772b10003d11aae5b4bdd731d2f76f95a67f5d41ba054c96a26203555f6481cc8"><div class="ttname"><a href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95a67f5d41ba054c96a26203555f6481cc8">DX12Config::DescriptorRangeType::CBV</a></div><div class="ttdeci">@ CBV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a772b10003d11aae5b4bdd731d2f76f95a6902d76cea698982754404da77e5e08a"><div class="ttname"><a href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95a6902d76cea698982754404da77e5e08a">DX12Config::DescriptorRangeType::UAV</a></div><div class="ttdeci">@ UAV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a772b10003d11aae5b4bdd731d2f76f95ab71ecf0b186ac1b938e15483f792b7db"><div class="ttname"><a href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95ab71ecf0b186ac1b938e15483f792b7db">DX12Config::DescriptorRangeType::SRV</a></div><div class="ttdeci">@ SRV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a772b10003d11aae5b4bdd731d2f76f95af7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a772b10003d11aae5b4bdd731d2f76f95af7bd60b75b29d79b660a2859395c1a24">DX12Config::DescriptorRangeType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9c"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9c">DX12Config::ShaderType</a></div><div class="ttdeci">ShaderType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:30</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9ca06e536f5c0819e7aa379dcd35556f441"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9ca06e536f5c0819e7aa379dcd35556f441">DX12Config::ShaderType::PIXEL</a></div><div class="ttdeci">@ PIXEL</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9ca0c3e47aef93a7f244f41ab309a33634b"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9ca0c3e47aef93a7f244f41ab309a33634b">DX12Config::ShaderType::VERTEX</a></div><div class="ttdeci">@ VERTEX</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a788952f01a7931bdfd947fd5cc355c9caf7bd60b75b29d79b660a2859395c1a24">DX12Config::ShaderType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0">DX12Config::ResourceHeapType</a></div><div class="ttdeci">ResourceHeapType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:23</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0a3231b4308833ae5d56751a01289ad8db"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a3231b4308833ae5d56751a01289ad8db">DX12Config::ResourceHeapType::READBACK</a></div><div class="ttdeci">@ READBACK</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0a5b39c8b553c821e7cddc6da64b5bd2ee"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a5b39c8b553c821e7cddc6da64b5bd2ee">DX12Config::ResourceHeapType::DEFAULT</a></div><div class="ttdeci">@ DEFAULT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0a8dff5f89b87ebf91a1ecc1dbed3a6fbb"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0a8dff5f89b87ebf91a1ecc1dbed3a6fbb">DX12Config::ResourceHeapType::UPLOAD</a></div><div class="ttdeci">@ UPLOAD</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#a8ebfc0595d600f7582acac6a81db7af0af7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceHeapType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aa93c3410ee532a8992ee34a72b09fd52"><div class="ttname"><a href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52">DX12Config::VertexLayoutFormat</a></div><div class="ttdeci">VertexLayoutFormat</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:36</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aa93c3410ee532a8992ee34a72b09fd52a034e2a26f1b92822236e0095a5ca1848"><div class="ttname"><a href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52a034e2a26f1b92822236e0095a5ca1848">DX12Config::VertexLayoutFormat::R32G32_FLOAT</a></div><div class="ttdeci">@ R32G32_FLOAT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aa93c3410ee532a8992ee34a72b09fd52ad05d603c5884ae9ccc392513becba305"><div class="ttname"><a href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52ad05d603c5884ae9ccc392513becba305">DX12Config::VertexLayoutFormat::R32G32B32_FLOAT</a></div><div class="ttdeci">@ R32G32B32_FLOAT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aa93c3410ee532a8992ee34a72b09fd52af55c1c722034e92213df328d31e33c62"><div class="ttname"><a href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52af55c1c722034e92213df328d31e33c62">DX12Config::VertexLayoutFormat::R8G8B8A8_UNORM</a></div><div class="ttdeci">@ R8G8B8A8_UNORM</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aa93c3410ee532a8992ee34a72b09fd52af7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#aa93c3410ee532a8992ee34a72b09fd52af7bd60b75b29d79b660a2859395c1a24">DX12Config::VertexLayoutFormat::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9b"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9b">DX12Config::PrimitiveTopology</a></div><div class="ttdeci">PrimitiveTopology</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:49</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9ba17b8ef2c330f1430e00c9de5469fc7e7"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba17b8ef2c330f1430e00c9de5469fc7e7">DX12Config::PrimitiveTopology::LINE</a></div><div class="ttdeci">@ LINE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9ba799462f2d6fc18f92750bbf2cd0f25f9"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba799462f2d6fc18f92750bbf2cd0f25f9">DX12Config::PrimitiveTopology::TRIANGLESTRIP</a></div><div class="ttdeci">@ TRIANGLESTRIP</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9ba9bcd89070cae224dce305f5011659ef4"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9ba9bcd89070cae224dce305f5011659ef4">DX12Config::PrimitiveTopology::TRIANGLE</a></div><div class="ttdeci">@ TRIANGLE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9baaebdbcb765394d25d6a604589a890f82"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9baaebdbcb765394d25d6a604589a890f82">DX12Config::PrimitiveTopology::POINT</a></div><div class="ttdeci">@ POINT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_aabeabaee70322b1e7c51012e57713f9baf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#aabeabaee70322b1e7c51012e57713f9baf7bd60b75b29d79b660a2859395c1a24">DX12Config::PrimitiveTopology::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313c"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313c">DX12Config::DescriptorHeapType</a></div><div class="ttdeci">DescriptorHeapType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:8</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313ca67f5d41ba054c96a26203555f6481cc8"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313ca67f5d41ba054c96a26203555f6481cc8">DX12Config::DescriptorHeapType::CBV</a></div><div class="ttdeci">@ CBV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313ca6902d76cea698982754404da77e5e08a"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313ca6902d76cea698982754404da77e5e08a">DX12Config::DescriptorHeapType::UAV</a></div><div class="ttdeci">@ UAV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313caad2d89100e475427fae2882f2d5dcc36"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313caad2d89100e475427fae2882f2d5dcc36">DX12Config::DescriptorHeapType::RTV</a></div><div class="ttdeci">@ RTV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313cab71ecf0b186ac1b938e15483f792b7db"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313cab71ecf0b186ac1b938e15483f792b7db">DX12Config::DescriptorHeapType::SRV</a></div><div class="ttdeci">@ SRV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313cae200ac9bd969d30c0f318e820be12988"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313cae200ac9bd969d30c0f318e820be12988">DX12Config::DescriptorHeapType::DSV</a></div><div class="ttdeci">@ DSV</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abb834b448fdc2eaafc5062869167313caf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#abb834b448fdc2eaafc5062869167313caf7bd60b75b29d79b660a2859395c1a24">DX12Config::DescriptorHeapType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abdf9556876429697c18919a547296f1a"><div class="ttname"><a href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1a">DX12Config::PrimitiveTopologyType</a></div><div class="ttdeci">PrimitiveTopologyType</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:57</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abdf9556876429697c18919a547296f1aa17b8ef2c330f1430e00c9de5469fc7e7"><div class="ttname"><a href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aa17b8ef2c330f1430e00c9de5469fc7e7">DX12Config::PrimitiveTopologyType::LINE</a></div><div class="ttdeci">@ LINE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abdf9556876429697c18919a547296f1aa9bcd89070cae224dce305f5011659ef4"><div class="ttname"><a href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aa9bcd89070cae224dce305f5011659ef4">DX12Config::PrimitiveTopologyType::TRIANGLE</a></div><div class="ttdeci">@ TRIANGLE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abdf9556876429697c18919a547296f1aaaebdbcb765394d25d6a604589a890f82"><div class="ttname"><a href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aaaebdbcb765394d25d6a604589a890f82">DX12Config::PrimitiveTopologyType::POINT</a></div><div class="ttdeci">@ POINT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_abdf9556876429697c18919a547296f1aaf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#abdf9556876429697c18919a547296f1aaf7bd60b75b29d79b660a2859395c1a24">DX12Config::PrimitiveTopologyType::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_acc77206de3704d0ec5c3717a5b4754bf"><div class="ttname"><a href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bf">DX12Config::RootParameterShaderVisibility</a></div><div class="ttdeci">RootParameterShaderVisibility</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:71</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_acc77206de3704d0ec5c3717a5b4754bfa06e536f5c0819e7aa379dcd35556f441"><div class="ttname"><a href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa06e536f5c0819e7aa379dcd35556f441">DX12Config::RootParameterShaderVisibility::PIXEL</a></div><div class="ttdeci">@ PIXEL</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_acc77206de3704d0ec5c3717a5b4754bfa0c3e47aef93a7f244f41ab309a33634b"><div class="ttname"><a href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa0c3e47aef93a7f244f41ab309a33634b">DX12Config::RootParameterShaderVisibility::VERTEX</a></div><div class="ttdeci">@ VERTEX</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_acc77206de3704d0ec5c3717a5b4754bfa5fb1f955b45e38e31789286a1790398d"><div class="ttname"><a href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfa5fb1f955b45e38e31789286a1790398d">DX12Config::RootParameterShaderVisibility::ALL</a></div><div class="ttdeci">@ ALL</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_acc77206de3704d0ec5c3717a5b4754bfaf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#acc77206de3704d0ec5c3717a5b4754bfaf7bd60b75b29d79b660a2859395c1a24">DX12Config::RootParameterShaderVisibility::size</a></div><div class="ttdeci">@ size</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6e"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6e">DX12Config::ResourceBarrierState</a></div><div class="ttdeci">ResourceBarrierState</div><div class="ttdef"><b>Definition:</b> DX12ConfigEnums.h:78</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6ea0bb01e169097cdf50612a3b567e8224b"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6ea0bb01e169097cdf50612a3b567e8224b">DX12Config::ResourceBarrierState::RENDER_TARGET</a></div><div class="ttdeci">@ RENDER_TARGET</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6ea720ff3fec5d13dcf3d3aec6d5726fc36"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6ea720ff3fec5d13dcf3d3aec6d5726fc36">DX12Config::ResourceBarrierState::PRESENT</a></div><div class="ttdeci">@ PRESENT</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6eaa4408dab605d56b445d0a47587447dba"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaa4408dab605d56b445d0a47587447dba">DX12Config::ResourceBarrierState::COPY_DEST</a></div><div class="ttdeci">@ COPY_DEST</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6eaed1f1f1d5975318f9778581265e28e48"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaed1f1f1d5975318f9778581265e28e48">DX12Config::ResourceBarrierState::PIXEL_SHADER_RESOURCE</a></div><div class="ttdeci">@ PIXEL_SHADER_RESOURCE</div></div>
+<div class="ttc" id="anamespace_d_x12_config_html_adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24"><div class="ttname"><a href="namespace_d_x12_config.html#adceb33269a605d5c313eb058ab446b6eaf7bd60b75b29d79b660a2859395c1a24">DX12Config::ResourceBarrierState::size</a></div><div class="ttdeci">@ size</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

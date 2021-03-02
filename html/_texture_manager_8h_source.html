@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AnoEngineDX: TextureManager.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">AnoEngineDX
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">TextureManager.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_texture_manager_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">class </span><a class="code" href="class_game.html">Game</a>;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">class </span><a class="code" href="class_d_x12_resource.html">DX12Resource</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span><a class="code" href="class_d_x12_descriptor_heap.html">DX12DescriptorHeap</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_texture_manager.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_texture_manager.html">TextureManager</a> :<span class="keyword">public</span> boost::noncopyable {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="comment">//コンストラクタ呼び出しをGameに制限</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="class_texture_manager.html#ab1a5f859d46da9b4ee36a5abedb9a5a2">TextureManager</a>(<a class="code" href="class_game.html">Game</a>* <span class="keyword">const</span> _game);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_texture_manager.html#afd368be14b04c5c128a25b58b37780ce">LoadTexture</a>(<span class="keyword">const</span> <span class="keywordtype">wchar_t</span>* _filename, boost::shared_ptr&lt;DX12DescriptorHeap&gt; _desc, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _num, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _textureid);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_texture_manager.html#aa0e8b2e75a44f4db9b6867e24be28309">UnloadTexture</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _textureid);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    boost::shared_ptr&lt;DX12Resource&gt; <a class="code" href="class_texture_manager.html#a226ec88b025662584a3231235a7a255b">GetDX12Resource</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _textureid);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    std::pair&lt;boost::shared_ptr&lt;DX12DescriptorHeap&gt;, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>&gt; <a class="code" href="class_texture_manager.html#a17224d94919bacb51e2fd72bd5a89896">GetDX12DescriptorHeap</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _textureid);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">struct </span>Texture {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        boost::shared_ptr&lt;DX12Resource&gt; mResource;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        boost::shared_ptr&lt;DX12DescriptorHeap&gt; mDescHeap;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mDescID;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    };</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::map&lt;unsigned int, Texture&gt; mTexturesmap;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="class_game.html">Game</a>* <span class="keyword">const</span> mGame;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="ttc" id="aclass_d_x12_descriptor_heap_html"><div class="ttname"><a href="class_d_x12_descriptor_heap.html">DX12DescriptorHeap</a></div><div class="ttdef"><b>Definition:</b> DX12DescriptorHeap.h:11</div></div>
+<div class="ttc" id="aclass_d_x12_resource_html"><div class="ttname"><a href="class_d_x12_resource.html">DX12Resource</a></div><div class="ttdef"><b>Definition:</b> DX12Resource.h:10</div></div>
+<div class="ttc" id="aclass_game_html"><div class="ttname"><a href="class_game.html">Game</a></div><div class="ttdef"><b>Definition:</b> Game.h:8</div></div>
+<div class="ttc" id="aclass_texture_manager_html"><div class="ttname"><a href="class_texture_manager.html">TextureManager</a></div><div class="ttdef"><b>Definition:</b> TextureManager.h:7</div></div>
+<div class="ttc" id="aclass_texture_manager_html_a17224d94919bacb51e2fd72bd5a89896"><div class="ttname"><a href="class_texture_manager.html#a17224d94919bacb51e2fd72bd5a89896">TextureManager::GetDX12DescriptorHeap</a></div><div class="ttdeci">std::pair&lt; boost::shared_ptr&lt; DX12DescriptorHeap &gt;, unsigned int &gt; GetDX12DescriptorHeap(unsigned int _textureid)</div><div class="ttdoc">DX12DescriptorHeapとHeap上のIDを返す</div><div class="ttdef"><b>Definition:</b> TextureManager.cpp:37</div></div>
+<div class="ttc" id="aclass_texture_manager_html_a226ec88b025662584a3231235a7a255b"><div class="ttname"><a href="class_texture_manager.html#a226ec88b025662584a3231235a7a255b">TextureManager::GetDX12Resource</a></div><div class="ttdeci">boost::shared_ptr&lt; DX12Resource &gt; GetDX12Resource(unsigned int _textureid)</div><div class="ttdoc">DX12Resourceを取得</div><div class="ttdef"><b>Definition:</b> TextureManager.cpp:30</div></div>
+<div class="ttc" id="aclass_texture_manager_html_aa0e8b2e75a44f4db9b6867e24be28309"><div class="ttname"><a href="class_texture_manager.html#aa0e8b2e75a44f4db9b6867e24be28309">TextureManager::UnloadTexture</a></div><div class="ttdeci">void UnloadTexture(unsigned int _textureid)</div><div class="ttdoc">テクスチャのアンロード(DX12Resourceの解放)</div><div class="ttdef"><b>Definition:</b> TextureManager.cpp:23</div></div>
+<div class="ttc" id="aclass_texture_manager_html_ab1a5f859d46da9b4ee36a5abedb9a5a2"><div class="ttname"><a href="class_texture_manager.html#ab1a5f859d46da9b4ee36a5abedb9a5a2">TextureManager::TextureManager</a></div><div class="ttdeci">TextureManager(Game *const _game)</div><div class="ttdef"><b>Definition:</b> TextureManager.cpp:4</div></div>
+<div class="ttc" id="aclass_texture_manager_html_afd368be14b04c5c128a25b58b37780ce"><div class="ttname"><a href="class_texture_manager.html#afd368be14b04c5c128a25b58b37780ce">TextureManager::LoadTexture</a></div><div class="ttdeci">void LoadTexture(const wchar_t *_filename, boost::shared_ptr&lt; DX12DescriptorHeap &gt; _desc, unsigned int _num, unsigned int _textureid)</div><div class="ttdoc">テクスチャを読み込む</div><div class="ttdef"><b>Definition:</b> TextureManager.cpp:11</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

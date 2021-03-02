@@ -1,0 +1,161 @@
+\hypertarget{class_layer}{}\doxysection{Layer クラス}
+\label{class_layer}\index{Layer@{Layer}}
+
+
+{\ttfamily \#include $<$Layer.\+h$>$}
+
+Layer の継承関係図\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_layer}
+\end{center}
+\end{figure}
+\doxysubsection*{公開メンバ関数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_layer_ad6d9b7b43a5652bedd98f048af76ff31}{Layer}} (\mbox{\hyperlink{class_scene}{Scene}} $\ast$\+\_\+scene, boost\+::shared\+\_\+ptr$<$ std\+::set$<$ void $\ast$ $>$$>$ \+\_\+hset, \mbox{\hyperlink{struct_rect2}{Rect2}} \+\_\+rect, double \+\_\+z, unsigned int \+\_\+swap)
+\item 
+virtual \mbox{\hyperlink{class_layer_a1b1ba4804451dfe6cc357194e42762ae}{$\sim$\+Layer}} ()
+\item 
+virtual void \mbox{\hyperlink{class_layer_acf769fff3298baa85b1f43705922cc25}{Draw}} ()=0
+\item 
+void \mbox{\hyperlink{class_layer_a489af266dbfe459e1274643ee22308bb}{Set\+Rect}} (\mbox{\hyperlink{struct_rect2}{Rect2}} \+\_\+rect)
+\item 
+\mbox{\hyperlink{struct_rect2}{Rect2}} \mbox{\hyperlink{class_layer_a0604452f859fe9cda4ee38ba1b29a0c7}{Get\+Rect}} ()
+\item 
+void \mbox{\hyperlink{class_layer_ab6efa31017f57bb25de852844256b46c}{SetZ}} (double \+\_\+z)
+\item 
+double \mbox{\hyperlink{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}{GetZ}} ()
+\item 
+bool \mbox{\hyperlink{class_layer_a6bb689480da72106572073a02cfe2310}{Has\+ZChanged}} ()
+\item 
+\mbox{\hyperlink{class_game}{Game}} \& \mbox{\hyperlink{class_layer_a3780be7681f1487da43d9dd0a5fac138}{Get\+Game}} () const
+\item 
+void \mbox{\hyperlink{class_layer_a4008494ff6cc8a760faff05307ed4227}{Flush\+ZRect\+Change}} (\mbox{\hyperlink{class_layer}{Layer}} $\ast$\+\_\+layer)
+\item 
+bool \mbox{\hyperlink{class_layer_a0074bc7fe119802b223518cb6e89427d}{Get\+Delete\+Flag}} () const
+\item 
+void \mbox{\hyperlink{class_layer_aac4bb7c583270ea2345ec338d7026820}{Set\+Delete\+Flag}} ()
+\item 
+unsigned int \mbox{\hyperlink{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}{Get\+Swapchain\+ID}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{公開変数類}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_scene}{Scene}} \& \mbox{\hyperlink{class_layer_a295d2152d08a499f10532884d8c7565d}{m\+Scene}}
+\end{DoxyCompactItemize}
+\doxysubsection*{限定公開メンバ関数}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{class_layer_handle}{Layer\+Handle}}$<$ T $>$ \mbox{\hyperlink{class_layer_a48de7995439514de1c9c9cdd4c1be35e}{This}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{構築子と解体子}
+\mbox{\Hypertarget{class_layer_ad6d9b7b43a5652bedd98f048af76ff31}\label{class_layer_ad6d9b7b43a5652bedd98f048af76ff31}} 
+\index{Layer@{Layer}!Layer@{Layer}}
+\index{Layer@{Layer}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{Layer()}{Layer()}}
+{\footnotesize\ttfamily Layer\+::\+Layer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_scene}{Scene}} $\ast$}]{\+\_\+scene,  }\item[{boost\+::shared\+\_\+ptr$<$ std\+::set$<$ void $\ast$ $>$$>$}]{\+\_\+hset,  }\item[{\mbox{\hyperlink{struct_rect2}{Rect2}}}]{\+\_\+rect,  }\item[{double}]{\+\_\+z,  }\item[{unsigned int}]{\+\_\+swap }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a1b1ba4804451dfe6cc357194e42762ae}\label{class_layer_a1b1ba4804451dfe6cc357194e42762ae}} 
+\index{Layer@{Layer}!````~Layer@{$\sim$Layer}}
+\index{````~Layer@{$\sim$Layer}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{$\sim$Layer()}{~Layer()}}
+{\footnotesize\ttfamily Layer\+::$\sim$\+Layer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{関数詳解}
+\mbox{\Hypertarget{class_layer_acf769fff3298baa85b1f43705922cc25}\label{class_layer_acf769fff3298baa85b1f43705922cc25}} 
+\index{Layer@{Layer}!Draw@{Draw}}
+\index{Draw@{Draw}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{Draw()}{Draw()}}
+{\footnotesize\ttfamily virtual void Layer\+::\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+\mbox{\hyperlink{class_layer2_d_a1993717809decda278218e61863ad6ee}{Layer2D}}で実装されています。
+
+\mbox{\Hypertarget{class_layer_a4008494ff6cc8a760faff05307ed4227}\label{class_layer_a4008494ff6cc8a760faff05307ed4227}} 
+\index{Layer@{Layer}!FlushZRectChange@{FlushZRectChange}}
+\index{FlushZRectChange@{FlushZRectChange}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{FlushZRectChange()}{FlushZRectChange()}}
+{\footnotesize\ttfamily void Layer\+::\+Flush\+ZRect\+Change (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_layer}{Layer}} $\ast$}]{\+\_\+layer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a0074bc7fe119802b223518cb6e89427d}\label{class_layer_a0074bc7fe119802b223518cb6e89427d}} 
+\index{Layer@{Layer}!GetDeleteFlag@{GetDeleteFlag}}
+\index{GetDeleteFlag@{GetDeleteFlag}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{GetDeleteFlag()}{GetDeleteFlag()}}
+{\footnotesize\ttfamily bool Layer\+::\+Get\+Delete\+Flag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_layer_a3780be7681f1487da43d9dd0a5fac138}\label{class_layer_a3780be7681f1487da43d9dd0a5fac138}} 
+\index{Layer@{Layer}!GetGame@{GetGame}}
+\index{GetGame@{GetGame}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{GetGame()}{GetGame()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_game}{Game}} \& Layer\+::\+Get\+Game (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_layer_a0604452f859fe9cda4ee38ba1b29a0c7}\label{class_layer_a0604452f859fe9cda4ee38ba1b29a0c7}} 
+\index{Layer@{Layer}!GetRect@{GetRect}}
+\index{GetRect@{GetRect}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{GetRect()}{GetRect()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_rect2}{Rect2}} Layer\+::\+Get\+Rect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}\label{class_layer_a76d20eb8fef50f96e19236d91cf40ab5}} 
+\index{Layer@{Layer}!GetSwapchainID@{GetSwapchainID}}
+\index{GetSwapchainID@{GetSwapchainID}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{GetSwapchainID()}{GetSwapchainID()}}
+{\footnotesize\ttfamily unsigned int Layer\+::\+Get\+Swapchain\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}\label{class_layer_a397d48a6cadf0dfcdc4ddc26d88400d2}} 
+\index{Layer@{Layer}!GetZ@{GetZ}}
+\index{GetZ@{GetZ}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{GetZ()}{GetZ()}}
+{\footnotesize\ttfamily double Layer\+::\+GetZ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a6bb689480da72106572073a02cfe2310}\label{class_layer_a6bb689480da72106572073a02cfe2310}} 
+\index{Layer@{Layer}!HasZChanged@{HasZChanged}}
+\index{HasZChanged@{HasZChanged}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{HasZChanged()}{HasZChanged()}}
+{\footnotesize\ttfamily bool Layer\+::\+Has\+ZChanged (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_aac4bb7c583270ea2345ec338d7026820}\label{class_layer_aac4bb7c583270ea2345ec338d7026820}} 
+\index{Layer@{Layer}!SetDeleteFlag@{SetDeleteFlag}}
+\index{SetDeleteFlag@{SetDeleteFlag}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{SetDeleteFlag()}{SetDeleteFlag()}}
+{\footnotesize\ttfamily void Layer\+::\+Set\+Delete\+Flag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_layer_a489af266dbfe459e1274643ee22308bb}\label{class_layer_a489af266dbfe459e1274643ee22308bb}} 
+\index{Layer@{Layer}!SetRect@{SetRect}}
+\index{SetRect@{SetRect}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{SetRect()}{SetRect()}}
+{\footnotesize\ttfamily void Layer\+::\+Set\+Rect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_rect2}{Rect2}}}]{\+\_\+rect }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_ab6efa31017f57bb25de852844256b46c}\label{class_layer_ab6efa31017f57bb25de852844256b46c}} 
+\index{Layer@{Layer}!SetZ@{SetZ}}
+\index{SetZ@{SetZ}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{SetZ()}{SetZ()}}
+{\footnotesize\ttfamily void Layer\+::\+SetZ (\begin{DoxyParamCaption}\item[{double}]{\+\_\+z }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_layer_a48de7995439514de1c9c9cdd4c1be35e}\label{class_layer_a48de7995439514de1c9c9cdd4c1be35e}} 
+\index{Layer@{Layer}!This@{This}}
+\index{This@{This}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{This()}{This()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{class_layer_handle}{Layer\+Handle}}$<$T$>$ Layer\+::\+This (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+\doxysubsection{メンバ詳解}
+\mbox{\Hypertarget{class_layer_a295d2152d08a499f10532884d8c7565d}\label{class_layer_a295d2152d08a499f10532884d8c7565d}} 
+\index{Layer@{Layer}!mScene@{mScene}}
+\index{mScene@{mScene}!Layer@{Layer}}
+\doxysubsubsection{\texorpdfstring{mScene}{mScene}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_scene}{Scene}}\& Layer\+::m\+Scene}
+
+
+
+このクラス詳解は次のファイルから抽出されました\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_layer_8h}{Layer.\+h}}\item 
+\mbox{\hyperlink{_layer_8cpp}{Layer.\+cpp}}\end{DoxyCompactItemize}

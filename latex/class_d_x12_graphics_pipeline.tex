@@ -1,0 +1,60 @@
+\hypertarget{class_d_x12_graphics_pipeline}{}\doxysection{DX12\+Graphics\+Pipeline クラス}
+\label{class_d_x12_graphics_pipeline}\index{DX12GraphicsPipeline@{DX12GraphicsPipeline}}
+
+
+{\ttfamily \#include $<$DX12\+Graphics\+Pipeline.\+h$>$}
+
+DX12\+Graphics\+Pipeline の継承関係図\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_d_x12_graphics_pipeline}
+\end{center}
+\end{figure}
+\doxysubsection*{公開メンバ関数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_d_x12_graphics_pipeline_a349332f91e43dc7d58f1d6a0f96ba8c7}{DX12\+Graphics\+Pipeline}} (Com\+Ptr$<$ ID3\+D12\+Device $>$ \+\_\+device, boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_shader_object}{DX12\+Shader\+Object}} $>$ \+\_\+vertex\+Shader, boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_shader_object}{DX12\+Shader\+Object}} $>$ \+\_\+pixel\+Shader, \mbox{\hyperlink{_d_x12_vertex_layout_unit_8h_a217d5d3f2acaef01ab0a4bfa0b3142f0}{DX12\+Vertex\+Layout}} \&\+\_\+vertex\+Layout, \mbox{\hyperlink{namespace_d_x12_config_abdf9556876429697c18919a547296f1a}{DX12\+Config\+::\+Primitive\+Topology\+Type}} \+\_\+primitive, UINT \+\_\+numrt, boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_root_signature}{DX12\+Root\+Signature}} $>$ \+\_\+rootsignature)
+\begin{DoxyCompactList}\small\item\em グラフィックスパイプラインの作成 \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_d_x12_graphics_pipeline_a544bdfdf2c9b7dc252996b5d7fa890f3}{Set\+Graphics\+Pipeline}} (Com\+Ptr$<$ ID3\+D12\+Graphics\+Command\+List $>$ \+\_\+list)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{構築子と解体子}
+\mbox{\Hypertarget{class_d_x12_graphics_pipeline_a349332f91e43dc7d58f1d6a0f96ba8c7}\label{class_d_x12_graphics_pipeline_a349332f91e43dc7d58f1d6a0f96ba8c7}} 
+\index{DX12GraphicsPipeline@{DX12GraphicsPipeline}!DX12GraphicsPipeline@{DX12GraphicsPipeline}}
+\index{DX12GraphicsPipeline@{DX12GraphicsPipeline}!DX12GraphicsPipeline@{DX12GraphicsPipeline}}
+\doxysubsubsection{\texorpdfstring{DX12GraphicsPipeline()}{DX12GraphicsPipeline()}}
+{\footnotesize\ttfamily DX12\+Graphics\+Pipeline\+::\+DX12\+Graphics\+Pipeline (\begin{DoxyParamCaption}\item[{Com\+Ptr$<$ ID3\+D12\+Device $>$}]{\+\_\+device,  }\item[{boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_shader_object}{DX12\+Shader\+Object}} $>$}]{\+\_\+vertex\+Shader,  }\item[{boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_shader_object}{DX12\+Shader\+Object}} $>$}]{\+\_\+pixel\+Shader,  }\item[{\mbox{\hyperlink{_d_x12_vertex_layout_unit_8h_a217d5d3f2acaef01ab0a4bfa0b3142f0}{DX12\+Vertex\+Layout}} \&}]{\+\_\+vertex\+Layout,  }\item[{\mbox{\hyperlink{namespace_d_x12_config_abdf9556876429697c18919a547296f1a}{DX12\+Config\+::\+Primitive\+Topology\+Type}}}]{\+\_\+primitive,  }\item[{UINT}]{\+\_\+numrt,  }\item[{boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_root_signature}{DX12\+Root\+Signature}} $>$}]{\+\_\+rootsignature }\end{DoxyParamCaption})}
+
+
+
+グラフィックスパイプラインの作成 
+
+
+\begin{DoxyParams}{引数}
+{\em \+\_\+vertex\+Shader} & 頂点シェーダ\\
+\hline
+{\em \+\_\+pixel\+Shader} & ピクセルシェーダ\\
+\hline
+{\em \+\_\+vertex\+Layout} & 頂点レイアウト\\
+\hline
+{\em \+\_\+primitive} & プリミティブ型\\
+\hline
+{\em \+\_\+numrt} & レンダーターゲット数\\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{関数詳解}
+\mbox{\Hypertarget{class_d_x12_graphics_pipeline_a544bdfdf2c9b7dc252996b5d7fa890f3}\label{class_d_x12_graphics_pipeline_a544bdfdf2c9b7dc252996b5d7fa890f3}} 
+\index{DX12GraphicsPipeline@{DX12GraphicsPipeline}!SetGraphicsPipeline@{SetGraphicsPipeline}}
+\index{SetGraphicsPipeline@{SetGraphicsPipeline}!DX12GraphicsPipeline@{DX12GraphicsPipeline}}
+\doxysubsubsection{\texorpdfstring{SetGraphicsPipeline()}{SetGraphicsPipeline()}}
+{\footnotesize\ttfamily void DX12\+Graphics\+Pipeline\+::\+Set\+Graphics\+Pipeline (\begin{DoxyParamCaption}\item[{Com\+Ptr$<$ ID3\+D12\+Graphics\+Command\+List $>$}]{\+\_\+list }\end{DoxyParamCaption})}
+
+
+
+このクラス詳解は次のファイルから抽出されました\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_d_x12_graphics_pipeline_8h}{DX12\+Graphics\+Pipeline.\+h}}\item 
+\mbox{\hyperlink{_d_x12_graphics_pipeline_8cpp}{DX12\+Graphics\+Pipeline.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,95 @@
+\hypertarget{class_texture_manager}{}\doxysection{Texture\+Manager クラス}
+\label{class_texture_manager}\index{TextureManager@{TextureManager}}
+
+
+{\ttfamily \#include $<$Texture\+Manager.\+h$>$}
+
+Texture\+Manager の継承関係図\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_texture_manager}
+\end{center}
+\end{figure}
+\doxysubsection*{公開メンバ関数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_texture_manager_ab1a5f859d46da9b4ee36a5abedb9a5a2}{Texture\+Manager}} (\mbox{\hyperlink{class_game}{Game}} $\ast$const \+\_\+game)
+\item 
+void \mbox{\hyperlink{class_texture_manager_afd368be14b04c5c128a25b58b37780ce}{Load\+Texture}} (const wchar\+\_\+t $\ast$\+\_\+filename, boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_descriptor_heap}{DX12\+Descriptor\+Heap}} $>$ \+\_\+desc, unsigned int \+\_\+num, unsigned int \+\_\+textureid)
+\begin{DoxyCompactList}\small\item\em テクスチャを読み込む \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_texture_manager_aa0e8b2e75a44f4db9b6867e24be28309}{Unload\+Texture}} (unsigned int \+\_\+textureid)
+\begin{DoxyCompactList}\small\item\em テクスチャのアンロード(DX12\+Resourceの解放) \end{DoxyCompactList}\item 
+boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_resource}{DX12\+Resource}} $>$ \mbox{\hyperlink{class_texture_manager_a226ec88b025662584a3231235a7a255b}{Get\+DX12\+Resource}} (unsigned int \+\_\+textureid)
+\begin{DoxyCompactList}\small\item\em DX12\+Resourceを取得 \end{DoxyCompactList}\item 
+std\+::pair$<$ boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_descriptor_heap}{DX12\+Descriptor\+Heap}} $>$, unsigned int $>$ \mbox{\hyperlink{class_texture_manager_a17224d94919bacb51e2fd72bd5a89896}{Get\+DX12\+Descriptor\+Heap}} (unsigned int \+\_\+textureid)
+\begin{DoxyCompactList}\small\item\em DX12\+Descriptor\+Heapと\+Heap上の\+IDを返す \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{構築子と解体子}
+\mbox{\Hypertarget{class_texture_manager_ab1a5f859d46da9b4ee36a5abedb9a5a2}\label{class_texture_manager_ab1a5f859d46da9b4ee36a5abedb9a5a2}} 
+\index{TextureManager@{TextureManager}!TextureManager@{TextureManager}}
+\index{TextureManager@{TextureManager}!TextureManager@{TextureManager}}
+\doxysubsubsection{\texorpdfstring{TextureManager()}{TextureManager()}}
+{\footnotesize\ttfamily Texture\+Manager\+::\+Texture\+Manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_game}{Game}} $\ast$const}]{\+\_\+game }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{関数詳解}
+\mbox{\Hypertarget{class_texture_manager_a17224d94919bacb51e2fd72bd5a89896}\label{class_texture_manager_a17224d94919bacb51e2fd72bd5a89896}} 
+\index{TextureManager@{TextureManager}!GetDX12DescriptorHeap@{GetDX12DescriptorHeap}}
+\index{GetDX12DescriptorHeap@{GetDX12DescriptorHeap}!TextureManager@{TextureManager}}
+\doxysubsubsection{\texorpdfstring{GetDX12DescriptorHeap()}{GetDX12DescriptorHeap()}}
+{\footnotesize\ttfamily std\+::pair$<$ boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_descriptor_heap}{DX12\+Descriptor\+Heap}} $>$, unsigned int $>$ Texture\+Manager\+::\+Get\+DX12\+Descriptor\+Heap (\begin{DoxyParamCaption}\item[{unsigned int}]{\+\_\+textureid }\end{DoxyParamCaption})}
+
+
+
+DX12\+Descriptor\+Heapと\+Heap上の\+IDを返す 
+
+\begin{DoxyReturn}{戻り値}
+first\+:\mbox{\hyperlink{class_d_x12_descriptor_heap}{DX12\+Descriptor\+Heap}},second\+:ID
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_texture_manager_a226ec88b025662584a3231235a7a255b}\label{class_texture_manager_a226ec88b025662584a3231235a7a255b}} 
+\index{TextureManager@{TextureManager}!GetDX12Resource@{GetDX12Resource}}
+\index{GetDX12Resource@{GetDX12Resource}!TextureManager@{TextureManager}}
+\doxysubsubsection{\texorpdfstring{GetDX12Resource()}{GetDX12Resource()}}
+{\footnotesize\ttfamily boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_resource}{DX12\+Resource}} $>$ Texture\+Manager\+::\+Get\+DX12\+Resource (\begin{DoxyParamCaption}\item[{unsigned int}]{\+\_\+textureid }\end{DoxyParamCaption})}
+
+
+
+DX12\+Resourceを取得 
+
+\mbox{\Hypertarget{class_texture_manager_afd368be14b04c5c128a25b58b37780ce}\label{class_texture_manager_afd368be14b04c5c128a25b58b37780ce}} 
+\index{TextureManager@{TextureManager}!LoadTexture@{LoadTexture}}
+\index{LoadTexture@{LoadTexture}!TextureManager@{TextureManager}}
+\doxysubsubsection{\texorpdfstring{LoadTexture()}{LoadTexture()}}
+{\footnotesize\ttfamily void Texture\+Manager\+::\+Load\+Texture (\begin{DoxyParamCaption}\item[{const wchar\+\_\+t $\ast$}]{\+\_\+filename,  }\item[{boost\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{class_d_x12_descriptor_heap}{DX12\+Descriptor\+Heap}} $>$}]{\+\_\+desc,  }\item[{unsigned int}]{\+\_\+num,  }\item[{unsigned int}]{\+\_\+textureid }\end{DoxyParamCaption})}
+
+
+
+テクスチャを読み込む 
+
+
+\begin{DoxyParams}{引数}
+{\em \+\_\+desc} & ディスクリプタヒープ\\
+\hline
+{\em \+\_\+num} & ディスクリプタヒープ上のどこにディスクリプタを置くか\\
+\hline
+{\em \+\_\+textureid} & テクスチャ\+ID\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_texture_manager_aa0e8b2e75a44f4db9b6867e24be28309}\label{class_texture_manager_aa0e8b2e75a44f4db9b6867e24be28309}} 
+\index{TextureManager@{TextureManager}!UnloadTexture@{UnloadTexture}}
+\index{UnloadTexture@{UnloadTexture}!TextureManager@{TextureManager}}
+\doxysubsubsection{\texorpdfstring{UnloadTexture()}{UnloadTexture()}}
+{\footnotesize\ttfamily void Texture\+Manager\+::\+Unload\+Texture (\begin{DoxyParamCaption}\item[{unsigned int}]{\+\_\+textureid }\end{DoxyParamCaption})}
+
+
+
+テクスチャのアンロード(DX12\+Resourceの解放) 
+
+
+
+このクラス詳解は次のファイルから抽出されました\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_texture_manager_8h}{Texture\+Manager.\+h}}\item 
+\mbox{\hyperlink{_texture_manager_8cpp}{Texture\+Manager.\+cpp}}\end{DoxyCompactItemize}

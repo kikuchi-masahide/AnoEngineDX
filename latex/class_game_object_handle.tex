@@ -1,0 +1,99 @@
+\hypertarget{class_game_object_handle}{}\doxysection{Game\+Object\+Handle クラス}
+\label{class_game_object_handle}\index{GameObjectHandle@{GameObjectHandle}}
+
+
+Game\+Objectを扱う時に使うハンドラ Scene\+::\+Add\+Childの返り値 ポインタのように-\/$>$演算子でメンバにアクセス可能  
+
+
+
+
+{\ttfamily \#include $<$Game\+Object\+Handle.\+h$>$}
+
+\doxysubsection*{公開メンバ関数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_game_object_handle_a9c09dcd64637b501746e7c1208614e6d}{Game\+Object\+Handle}} (const \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \&\+\_\+handle)
+\item 
+\mbox{\hyperlink{class_game_object_handle_aca7725827a4825c919ee33d6058e6643}{Game\+Object\+Handle}} (\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$\+\_\+obj, boost\+::shared\+\_\+ptr$<$ std\+::set$<$ \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} $\ast$ $>$$>$ \+\_\+set)
+\begin{DoxyCompactList}\small\item\em Sceneの\+Add\+Child内でのみ呼び出されるコンストラクタ \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_game_object_handle_ac0c5079677270d62a20f9a1f098d2830}{Game\+Object\+Handle}} ()
+\item 
+\mbox{\hyperlink{class_game_object_handle_aad95a41977be47150655e9d44428ac9c}{$\sim$\+Game\+Object\+Handle}} ()
+\item 
+void \mbox{\hyperlink{class_game_object_handle_a56c4ccf48471382e5988155fe58bdd7b}{Reset}} (\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$\+\_\+obj)
+\item 
+\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$ \mbox{\hyperlink{class_game_object_handle_a621727c3b0dab566c6701cf4ca3ee6db}{operator-\/$>$}} () const noexcept
+\item 
+bool \mbox{\hyperlink{class_game_object_handle_a3cbdc547c9f7a21f24df3968e926ae53}{Is\+Valid}} () const
+\item 
+\mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \& \mbox{\hyperlink{class_game_object_handle_a673d13521b3e1ae06d91ccbdb33c3767}{operator=}} (const \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \&handle)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{詳解}
+Game\+Objectを扱う時に使うハンドラ Scene\+::\+Add\+Childの返り値 ポインタのように-\/$>$演算子でメンバにアクセス可能 
+
+
+
+\doxysubsection{構築子と解体子}
+\mbox{\Hypertarget{class_game_object_handle_a9c09dcd64637b501746e7c1208614e6d}\label{class_game_object_handle_a9c09dcd64637b501746e7c1208614e6d}} 
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{GameObjectHandle()}{GameObjectHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Game\+Object\+Handle\+::\+Game\+Object\+Handle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \&}]{\+\_\+handle }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_game_object_handle_aca7725827a4825c919ee33d6058e6643}\label{class_game_object_handle_aca7725827a4825c919ee33d6058e6643}} 
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{GameObjectHandle()}{GameObjectHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Game\+Object\+Handle\+::\+Game\+Object\+Handle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$}]{\+\_\+obj,  }\item[{boost\+::shared\+\_\+ptr$<$ std\+::set$<$ \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} $\ast$ $>$$>$}]{\+\_\+set }\end{DoxyParamCaption})}
+
+
+
+Sceneの\+Add\+Child内でのみ呼び出されるコンストラクタ 
+
+\mbox{\Hypertarget{class_game_object_handle_ac0c5079677270d62a20f9a1f098d2830}\label{class_game_object_handle_ac0c5079677270d62a20f9a1f098d2830}} 
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\index{GameObjectHandle@{GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{GameObjectHandle()}{GameObjectHandle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Game\+Object\+Handle\+::\+Game\+Object\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_game_object_handle_aad95a41977be47150655e9d44428ac9c}\label{class_game_object_handle_aad95a41977be47150655e9d44428ac9c}} 
+\index{GameObjectHandle@{GameObjectHandle}!````~GameObjectHandle@{$\sim$GameObjectHandle}}
+\index{````~GameObjectHandle@{$\sim$GameObjectHandle}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{$\sim$GameObjectHandle()}{~GameObjectHandle()}}
+{\footnotesize\ttfamily Game\+Object\+Handle\+::$\sim$\+Game\+Object\+Handle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{関数詳解}
+\mbox{\Hypertarget{class_game_object_handle_a3cbdc547c9f7a21f24df3968e926ae53}\label{class_game_object_handle_a3cbdc547c9f7a21f24df3968e926ae53}} 
+\index{GameObjectHandle@{GameObjectHandle}!IsValid@{IsValid}}
+\index{IsValid@{IsValid}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{IsValid()}{IsValid()}}
+{\footnotesize\ttfamily bool Game\+Object\+Handle\+::\+Is\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_game_object_handle_a621727c3b0dab566c6701cf4ca3ee6db}\label{class_game_object_handle_a621727c3b0dab566c6701cf4ca3ee6db}} 
+\index{GameObjectHandle@{GameObjectHandle}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{operator-\/$>$()}{operator->()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$ Game\+Object\+Handle\+::operator-\/$>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{class_game_object_handle_a673d13521b3e1ae06d91ccbdb33c3767}\label{class_game_object_handle_a673d13521b3e1ae06d91ccbdb33c3767}} 
+\index{GameObjectHandle@{GameObjectHandle}!operator=@{operator=}}
+\index{operator=@{operator=}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \& Game\+Object\+Handle\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_game_object_handle}{Game\+Object\+Handle}} \&}]{handle }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_game_object_handle_a56c4ccf48471382e5988155fe58bdd7b}\label{class_game_object_handle_a56c4ccf48471382e5988155fe58bdd7b}} 
+\index{GameObjectHandle@{GameObjectHandle}!Reset@{Reset}}
+\index{Reset@{Reset}!GameObjectHandle@{GameObjectHandle}}
+\doxysubsubsection{\texorpdfstring{Reset()}{Reset()}}
+{\footnotesize\ttfamily void Game\+Object\+Handle\+::\+Reset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_game_object}{Game\+Object}} $\ast$}]{\+\_\+obj }\end{DoxyParamCaption})}
+
+
+
+このクラス詳解は次のファイルから抽出されました\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_game_object_handle_8h}{Game\+Object\+Handle.\+h}}\item 
+\mbox{\hyperlink{_game_object_handle_8cpp}{Game\+Object\+Handle.\+cpp}}\end{DoxyCompactItemize}

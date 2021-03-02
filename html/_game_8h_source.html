@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>AnoEngineDX: Game.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">AnoEngineDX
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'検索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','検索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Game.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="_game_8h.html">[詳解]</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_d_x12_8h.html">DX12.h</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_texture_manager_8h.html">TextureManager.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span><a class="code" href="class_scene.html">Scene</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">class </span><a class="code" href="class_window.html">Window</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="class_game.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_game.html">Game</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_game.html#a6d05d838395c9ba3e446e2bab5b82990">Initialize</a>();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game.html#a023cc4e83ddd9d99d6f18960e1b086a1">RunLoop</a>();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game.html#ad3b88fb61f44dbaaf88881cd77590958">Shutdown</a>();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game</a>();</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class </span>S, <span class="keyword">class</span>... Args&gt;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_game.html#a14aa8c8cacb2dc3ccc4fd7d39e0a89ae">   19</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game.html#a14aa8c8cacb2dc3ccc4fd7d39e0a89ae">ChangeScene</a>(Args... _args) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">if</span> (!mIsSceneChangable) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">if</span> (mPandingScene != <span class="keyword">nullptr</span>)<span class="keyword">delete</span> mPandingScene;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            mPandingScene = <span class="keyword">new</span> S(<span class="keyword">this</span>, _args...);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">if</span> (mCurrentScene != <span class="keyword">nullptr</span>)<span class="keyword">delete</span> mCurrentScene;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            mCurrentScene = <span class="keyword">new</span> S(<span class="keyword">this</span>, _args...);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    };</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    boost::shared_ptr&lt;Window&gt; <a class="code" href="class_game.html#aa06e7a184fcdbf1054850659d205209a">GetWindow</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _windownum);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="class_game.html#ad72529f795376e92fdbadd52e869e02d">AddWindow</a>(WNDPROC _wndproc, LPCWSTR _classID, <span class="keywordtype">int</span> _width, <span class="keywordtype">int</span> _height,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        LPCWSTR _windowTitle);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">//1フレーム当たりの時間</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_game.html#a103af03aabe5fcd01270024d32d1ad83">   40</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="class_game.html#a103af03aabe5fcd01270024d32d1ad83">mTimeEps</a> = (double)1000 / (<span class="keywordtype">double</span>)60;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">//前の処理との時間差がこの時間を超えた場合この値に矯正する</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_game.html#a68d3190e43e0668ffdf4faf9b8677c1e">   42</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="class_game.html#a68d3190e43e0668ffdf4faf9b8677c1e">mProcessTimeLimit</a> = <a class="code" href="class_game.html#a103af03aabe5fcd01270024d32d1ad83">mTimeEps</a> * 3;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_game.html#a56d7e0b30eddaf114d4d04f0858c17c0">   43</a></span>&#160;    <a class="code" href="class_d_x12.html">DX12</a> <a class="code" href="class_game.html#a56d7e0b30eddaf114d4d04f0858c17c0">mdx12</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game.html#a4ae921cce6d8496ebd546a03ddf91516">OpenSwapChain</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> _winnum);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_game.html#aeb171ac23cfb671740531b65569baed1">CloseSwapChain</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="class_game.html#a82602c15f87f062f95a2a055a2f8a929">   49</a></span>&#160;    <a class="code" href="class_texture_manager.html">TextureManager</a> <a class="code" href="class_game.html#a82602c15f87f062f95a2a055a2f8a929">mTexManager</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> ProcessInput();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> UpdateGame();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">bool</span> GenerateOutput();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> mIsRunning;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="class_scene.html">Scene</a>* mCurrentScene;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="class_scene.html">Scene</a>* mPandingScene;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> mIsSceneChangable;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    std::vector&lt;boost::shared_ptr&lt;Window&gt;&gt; mWindows;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> BeforeOutput();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> AfterOutput();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    std::map&lt;int, unsigned int&gt; mWindowID2SwapChainID;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    std::vector&lt;boost::shared_ptr&lt;DX12SwapChain&gt;&gt; mSwapChains;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> mCurrentSwapChain;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;};</div>
+<div class="ttc" id="a_d_x12_8h_html"><div class="ttname"><a href="_d_x12_8h.html">DX12.h</a></div></div>
+<div class="ttc" id="a_texture_manager_8h_html"><div class="ttname"><a href="_texture_manager_8h.html">TextureManager.h</a></div></div>
+<div class="ttc" id="aclass_d_x12_html"><div class="ttname"><a href="class_d_x12.html">DX12</a></div><div class="ttdef"><b>Definition:</b> DX12.h:20</div></div>
+<div class="ttc" id="aclass_game_html"><div class="ttname"><a href="class_game.html">Game</a></div><div class="ttdef"><b>Definition:</b> Game.h:8</div></div>
+<div class="ttc" id="aclass_game_html_a023cc4e83ddd9d99d6f18960e1b086a1"><div class="ttname"><a href="class_game.html#a023cc4e83ddd9d99d6f18960e1b086a1">Game::RunLoop</a></div><div class="ttdeci">void RunLoop()</div><div class="ttdoc">メインループ</div><div class="ttdef"><b>Definition:</b> Game.cpp:123</div></div>
+<div class="ttc" id="aclass_game_html_a103af03aabe5fcd01270024d32d1ad83"><div class="ttname"><a href="class_game.html#a103af03aabe5fcd01270024d32d1ad83">Game::mTimeEps</a></div><div class="ttdeci">const double mTimeEps</div><div class="ttdef"><b>Definition:</b> Game.h:40</div></div>
+<div class="ttc" id="aclass_game_html_a14aa8c8cacb2dc3ccc4fd7d39e0a89ae"><div class="ttname"><a href="class_game.html#a14aa8c8cacb2dc3ccc4fd7d39e0a89ae">Game::ChangeScene</a></div><div class="ttdeci">void ChangeScene(Args... _args)</div><div class="ttdoc">次フレームからどのシーンに移行するか指定する． (実際にシーンが変わるのは次フレームからだが，次シーンの初期化が行われるのは呼び出し時なのが困る)</div><div class="ttdef"><b>Definition:</b> Game.h:19</div></div>
+<div class="ttc" id="aclass_game_html_a4ae921cce6d8496ebd546a03ddf91516"><div class="ttname"><a href="class_game.html#a4ae921cce6d8496ebd546a03ddf91516">Game::OpenSwapChain</a></div><div class="ttdeci">void OpenSwapChain(unsigned int _winnum)</div><div class="ttdoc">前に開いていたスワップチェーンを閉じ，このウィンドウに付随するスワップチェーンを開く</div><div class="ttdef"><b>Definition:</b> Game.cpp:70</div></div>
+<div class="ttc" id="aclass_game_html_a56d7e0b30eddaf114d4d04f0858c17c0"><div class="ttname"><a href="class_game.html#a56d7e0b30eddaf114d4d04f0858c17c0">Game::mdx12</a></div><div class="ttdeci">DX12 mdx12</div><div class="ttdef"><b>Definition:</b> Game.h:43</div></div>
+<div class="ttc" id="aclass_game_html_a68d3190e43e0668ffdf4faf9b8677c1e"><div class="ttname"><a href="class_game.html#a68d3190e43e0668ffdf4faf9b8677c1e">Game::mProcessTimeLimit</a></div><div class="ttdeci">const double mProcessTimeLimit</div><div class="ttdef"><b>Definition:</b> Game.h:42</div></div>
+<div class="ttc" id="aclass_game_html_a6d05d838395c9ba3e446e2bab5b82990"><div class="ttname"><a href="class_game.html#a6d05d838395c9ba3e446e2bab5b82990">Game::Initialize</a></div><div class="ttdeci">bool Initialize()</div><div class="ttdoc">ゲーム全体の初期化</div><div class="ttdef"><b>Definition:</b> Game.cpp:11</div></div>
+<div class="ttc" id="aclass_game_html_a82602c15f87f062f95a2a055a2f8a929"><div class="ttname"><a href="class_game.html#a82602c15f87f062f95a2a055a2f8a929">Game::mTexManager</a></div><div class="ttdeci">TextureManager mTexManager</div><div class="ttdef"><b>Definition:</b> Game.h:49</div></div>
+<div class="ttc" id="aclass_game_html_aa06e7a184fcdbf1054850659d205209a"><div class="ttname"><a href="class_game.html#aa06e7a184fcdbf1054850659d205209a">Game::GetWindow</a></div><div class="ttdeci">boost::shared_ptr&lt; Window &gt; GetWindow(unsigned int _windownum)</div><div class="ttdoc">このインスタンスで_windownum番目のウィンドウを返す</div><div class="ttdef"><b>Definition:</b> Game.cpp:51</div></div>
+<div class="ttc" id="aclass_game_html_ad3b88fb61f44dbaaf88881cd77590958"><div class="ttname"><a href="class_game.html#ad3b88fb61f44dbaaf88881cd77590958">Game::Shutdown</a></div><div class="ttdeci">void Shutdown()</div><div class="ttdoc">ゲームの終了処理</div><div class="ttdef"><b>Definition:</b> Game.cpp:23</div></div>
+<div class="ttc" id="aclass_game_html_ad59df6562a58a614fda24622d3715b65"><div class="ttname"><a href="class_game.html#ad59df6562a58a614fda24622d3715b65">Game::Game</a></div><div class="ttdeci">Game()</div><div class="ttdef"><b>Definition:</b> Game.cpp:33</div></div>
+<div class="ttc" id="aclass_game_html_ad72529f795376e92fdbadd52e869e02d"><div class="ttname"><a href="class_game.html#ad72529f795376e92fdbadd52e869e02d">Game::AddWindow</a></div><div class="ttdeci">unsigned int AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle)</div><div class="ttdoc">ウィンドウをGameに追加する</div><div class="ttdef"><b>Definition:</b> Game.cpp:57</div></div>
+<div class="ttc" id="aclass_game_html_aeb171ac23cfb671740531b65569baed1"><div class="ttname"><a href="class_game.html#aeb171ac23cfb671740531b65569baed1">Game::CloseSwapChain</a></div><div class="ttdeci">void CloseSwapChain()</div><div class="ttdef"><b>Definition:</b> Game.cpp:77</div></div>
+<div class="ttc" id="aclass_scene_html"><div class="ttname"><a href="class_scene.html">Scene</a></div><div class="ttdoc">シーンを表すクラス</div><div class="ttdef"><b>Definition:</b> Scene.h:15</div></div>
+<div class="ttc" id="aclass_texture_manager_html"><div class="ttname"><a href="class_texture_manager.html">TextureManager</a></div><div class="ttdef"><b>Definition:</b> TextureManager.h:7</div></div>
+<div class="ttc" id="aclass_window_html"><div class="ttname"><a href="class_window.html">Window</a></div><div class="ttdoc">1つのウィンドウを表すクラス(コピー不可)</div><div class="ttdef"><b>Definition:</b> window.h:7</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>
