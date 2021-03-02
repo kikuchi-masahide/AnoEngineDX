@@ -37,7 +37,7 @@ private:
 	/// コンストラクタで呼ぶDirect3D12まわりの初期化関数
 	/// </summary>
 	void GraphicalInit();
-	//Layer2DCoimponentをz降順で呼びだす
+	//Layer2DCoimponentをz昇順で呼びだす(右手系!)
 	class ComponentHandleCompare {
 	public:
 		bool operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const;

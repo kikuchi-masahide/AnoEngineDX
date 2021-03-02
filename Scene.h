@@ -77,7 +77,7 @@ private:
 	class LayerCompare {
 	public:
 		bool operator()(const boost::shared_ptr<Layer>& left, const boost::shared_ptr<Layer>& right) const {
-			return left->GetZ() > right->GetZ();
+			return left->GetZ() < right->GetZ();
 		}
 	};
 
@@ -98,7 +98,7 @@ private:
 	//Deleteフラグが立っているコンポーネント・オブジェクトや保留中のそれらの処理
 	void DeleteAndProcessPandingObjComp();
 	GameObject* operator&() const noexcept;
-	//Z座標降順で取り出す
+	//Z座標昇順で取り出す(右手系!)
 	std::set<boost::shared_ptr<Layer>,LayerCompare> mLayers;
 	std::set<boost::shared_ptr<Layer>, LayerCompare> mPandingLayers;
 	//自分の持つLayerのOutputを行う
