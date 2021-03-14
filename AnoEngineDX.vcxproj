@@ -190,6 +190,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputMonitorComponent.h" />
     <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Layer2D.h" />
     <ClInclude Include="Component.h" />
