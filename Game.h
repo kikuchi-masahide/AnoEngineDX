@@ -2,6 +2,7 @@
 #include "DX12.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "InputSystem.h"
 
 class Scene;
 class Window;
@@ -48,6 +49,7 @@ public:
 	void CloseSwapChain();
 	TextureManager mTexManager;
 	ShaderManager mShaderManager;
+	InputSystem mInputSystem;
 private:
 	void ProcessInput();
 	void UpdateGame();

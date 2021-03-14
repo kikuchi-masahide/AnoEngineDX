@@ -31,7 +31,7 @@ void Game::Shutdown()
 }
 
 Game::Game()
-	:mTexManager(this),mShaderManager(this)
+	:mTexManager(this),mShaderManager(this),mInputSystem(this)
 {
 }
 
@@ -80,6 +80,7 @@ void Game::CloseSwapChain()
 /// </summary>
 void Game::ProcessInput()
 {
+	mInputSystem.ProcessBeforeUpdate(this);
 }
 
 /// <summary>

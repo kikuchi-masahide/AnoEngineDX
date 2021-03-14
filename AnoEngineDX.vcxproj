@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Layer2D.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DX12.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Layer2D.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Component1.h" />

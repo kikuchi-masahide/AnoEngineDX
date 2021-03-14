@@ -79,6 +79,7 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="InputSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -168,6 +169,7 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="InputSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Layer2DVertexShader.hlsl">
