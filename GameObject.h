@@ -25,8 +25,10 @@ public:
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };
 	~GameObject();
-	//このオブジェクトにT型のUpdateComponentを追加(_argsはコンストラクタに渡す引数)
-	//concept等でTの正当性を後々(静的に)評価したい
+	/// <summary>
+	/// このオブジェクトにT型のUpdateComponentを追加(_argsはコンストラクタに渡す，_hset以降の引数)
+	/// concept等でTの正当性を後々(静的に)評価したい
+	/// </summary>
 	template<class T,class... Args>
 	ComponentHandle<T> AddUpdateComponent(Args... _args) {
 		//このコンポーネントを指すハンドルの集合

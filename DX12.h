@@ -161,4 +161,10 @@ public:
 	//ディスクリプタヒープとIDを指定してレンダーターゲットをopen(バリアの設定は無し)
 	void OpenRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id);
 	void ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsigned int _id, float _r, float _g, float _b, float _alpha);
+	/// <summary>
+	/// 定数バッファを作成
+	/// </summary>
+	/// <param name="_bytesize">必要サイズ(256アラインメントは必要ない)</param>
+	boost::shared_ptr<DX12Resource> CreateConstBuffer(DX12Config::ResourceHeapType _heaptype,UINT64 _bytesize);
+	
 };

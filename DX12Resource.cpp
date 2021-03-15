@@ -98,6 +98,17 @@ DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, UINT64 _width, UINT64 _
 	}
 }
 
+DX12Resource::DX12Resource(ComPtr<ID3D12Device> _device, DX12Config::ResourceHeapType _heaptype, UINT64 _constbytesize)
+{
+	auto heapprop = CD3DX12_HEAP_PROPERTIES(mResourceHeapTypeCorrespond[(unsigned char)_heaptype]);
+	auto resourcedesc = CD3DX12_RESOURCE_DESC::Buffer((_constbytesize + 0xff) & ~0xff);
+	//256ƒAƒ‰ƒCƒ“ƒƒ“ƒg‚ð‚Â‚¯‚é
+	auto res = _device->CreateCommittedResource(
+		&heapprop, D3D12_HEAP_FLAG_NONE,&resourcedesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(mResource.ReleaseAndGetAddressOf())
+	);
+	BOOST_ASSERT_MSG(SUCCEEDED(res), "Const Buffer Initializing Failed");
+}
+
 void* DX12Resource::Map()
 {
 	void* map;
@@ -226,4 +237,9 @@ void DX12Pimple::CreateRenderTargetView(boost::shared_ptr<DX12Resource> _resourc
 void DX12Pimple::CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
 {
 	_resource->CreateShaderResourceView(mDevice, _descheap, _n);
+}
+
+boost::shared_ptr<DX12Resource> DX12Pimple::CreateConstBuffer(DX12Config::ResourceHeapType _resheaptype, UINT64 _bytesize)
+{
+	return boost::shared_ptr<DX12Resource>(new DX12Resource(mDevice,_resheaptype,_bytesize));
 }

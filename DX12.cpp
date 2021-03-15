@@ -169,3 +169,8 @@ void DX12::ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, unsign
 {
 	mPimple->ClearRenderTarget(_heap, _id, _r, _g, _b, _alpha);
 }
+
+boost::shared_ptr<DX12Resource> DX12::CreateConstBuffer(DX12Config::ResourceHeapType _heaptype, UINT64 _bytesize)
+{
+	return mPimple->CreateConstBuffer(_heaptype, _bytesize);
+}

@@ -13,6 +13,7 @@ public:
 	DX12Resource(ComPtr<ID3D12Device> _device, DirectX::TexMetadata& _metadata);
 	DX12Resource(ComPtr<IDXGISwapChain4> _swapchain,UINT _n);
 	DX12Resource(ComPtr<ID3D12Device> _device, UINT64 _width, UINT64 _height, float _r, float _g, float _b, float _alpha);
+	DX12Resource(ComPtr<ID3D12Device> _device, DX12Config::ResourceHeapType _heaptype, UINT64 _constbytesize);
 	void* Map();
 	void Unmap();
 	//バッファの仮想アドレス
