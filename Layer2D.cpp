@@ -124,5 +124,5 @@ void Layer2D::InsertComponent(ComponentHandle<Layer2DComponent> _comp)
 
 bool Layer2D::ComponentHandleCompare::operator()(const ComponentHandle<Layer2DComponent>& left, const ComponentHandle<Layer2DComponent>& right) const
 {
-	return left->z < right->z;
+	return left->z > right->z;
 }

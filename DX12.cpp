@@ -174,3 +174,8 @@ boost::shared_ptr<DX12Resource> DX12::CreateConstBuffer(DX12Config::ResourceHeap
 {
 	return mPimple->CreateConstBuffer(_heaptype, _bytesize);
 }
+
+void DX12::Copy4x4Matrix(void* _map, MatVec::Matrix4x4 _mat)
+{
+	mPimple->Copy4x4Matrix(_map, _mat);
+}

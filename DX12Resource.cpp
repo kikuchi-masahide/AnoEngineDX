@@ -243,3 +243,16 @@ boost::shared_ptr<DX12Resource> DX12Pimple::CreateConstBuffer(DX12Config::Resour
 {
 	return boost::shared_ptr<DX12Resource>(new DX12Resource(mDevice,_resheaptype,_bytesize));
 }
+
+void DX12Pimple::Copy4x4Matrix(void* _map, MatVec::Matrix4x4 _mat)
+{
+	DirectX::XMMATRIX dxmatrix;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			dxmatrix.r[i].m128_f32[j] = _mat(j, i);
+		}
+	}
+	*((DirectX::XMMATRIX*)_map) = dxmatrix;
+}

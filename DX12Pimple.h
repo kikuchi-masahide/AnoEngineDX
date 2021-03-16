@@ -66,5 +66,5 @@ public:
 	void CreateRenderTargetView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
 	void CreateShaderResourceView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
 	boost::shared_ptr<DX12Resource> CreateConstBuffer(DX12Config::ResourceHeapType _resheaptype, UINT64 _bytesize);
-	//TODO:void Copy4x4Matrix(void* _map,Matrix4x4 _mat);
+	void Copy4x4Matrix(void* _map,MatVec::Matrix4x4 _mat);
 };

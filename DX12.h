@@ -166,5 +166,9 @@ public:
 	/// </summary>
 	/// <param name="_bytesize">必要サイズ(256アラインメントは必要ない)</param>
 	boost::shared_ptr<DX12Resource> CreateConstBuffer(DX12Config::ResourceHeapType _heaptype,UINT64 _bytesize);
-	
+	/// <summary>
+	/// ポインタ_mapに行列をコピー このとき行列は自動的に転置される
+	/// </summary>
+	void Copy4x4Matrix(void* _map, MatVec::Matrix4x4 _mat);
+
 };
