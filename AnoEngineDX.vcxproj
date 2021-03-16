@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(EIGEN_INCLUDE);$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -126,7 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(EIGEN_INCLUDE);C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -175,6 +175,7 @@
     <ClCompile Include="Layer2DComponent.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MatVec.cpp" />
     <ClCompile Include="Rect2.cpp" />
     <ClCompile Include="DX12RootSignature.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -186,7 +187,6 @@
     </ClCompile>
     <ClCompile Include="DX12SwapChain.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="vector.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +213,8 @@
     <ClInclude Include="Layer2DComponent.h" />
     <ClInclude Include="LayerHandle.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="Math.h" />
+    <ClInclude Include="MatVec.h" />
     <ClInclude Include="Rect2.h" />
     <ClInclude Include="DX12RootSignature.h" />
     <ClInclude Include="Scene.h" />
@@ -222,7 +223,6 @@
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="vector.h" />
     <ClInclude Include="DX12VertexLayoutUnit.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>

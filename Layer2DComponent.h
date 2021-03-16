@@ -27,13 +27,13 @@ public:
 	/// 1 3
 	/// 0 2
 	/// </summary>
-	Vector3 mVerts[4];
+	MatVec::Vector3 mVerts[4];
 	/// <summary>
 	/// UV座標
 	/// 1 3
 	/// 0 2
 	/// </summary>
-	Vector2 mUV[4];
+	MatVec::Vector2 mUV[4];
 	/// <summary>
 	/// Layer2D上のz座標．mVertsのz座標は描画順序に関与しないことに注意
 	/// </summary>
@@ -41,7 +41,7 @@ public:
 	/// <summary>
 	/// 描画領域の平行移動
 	/// </summary>
-	void TranslationRect(Vector3 _vect);
+	void TranslationRect(MatVec::Vector3 _vect);
 	/// <summary>
 	/// 描画領域を，領域の中心を中心として各軸方向に拡大
 	/// </summary>
@@ -56,19 +56,20 @@ public:
 	/// <param name="_y">y軸方向の拡大率</param>
 	/// <param name="_z">z軸方向の拡大率</param>
 	/// <param name="_center">拡大中心</param>
-	void ExpandRect(double _x, double _y, double _z, Vector3 _center);
+	void ExpandRect(double _x, double _y, double _z, MatVec::Vector3 _center);
 	/// <summary>
 	/// 描画領域を，その中心を中心として_vect方向に_deg回転
 	/// </summary>
-	void RotateRect(Vector3 _vect, double _deg);
+	void RotateRect(MatVec::Vector3 _vect, double _deg);
 	/// <summary>
 	/// 描画領域を，_centerを中心として_vect方向に_deg回転
 	/// </summary>
-	void RotateRect(Vector3 _vect, double _deg, Vector3 _center);
+	void RotateRect(MatVec::Vector3 _vect, double _deg, MatVec::Vector3 _center);
 	/// <summary>
 	/// 描画領域にこの行列を適用
 	/// </summary>
-	void ApplyMatrix(Matrix4x4 _mat);
+	void ApplyMatrix(MatVec::Matrix4x4 _mat);
+	LayerHandle<Layer2D> GetLayer();
 protected:
 	LayerHandle<Layer2D> mLayer;
 	unsigned int mTextureID;

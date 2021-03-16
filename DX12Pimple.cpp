@@ -6,6 +6,7 @@
 #include "DX12RootSignature.h"
 #include "DX12ShaderObject.h"
 #include "DX12VertexLayoutUnit.h"
+#include <DirectXMath.h>
 
 DX12Pimple::DX12Pimple() 
 {}
@@ -282,3 +283,15 @@ void DX12Pimple::ClearRenderTarget(boost::shared_ptr<DX12DescriptorHeap> _heap, 
 	float clearcolor[] = { _r,_g,_b,_alpha };
 	mCmdList->ClearRenderTargetView(handle, clearcolor, 0, nullptr);
 }
+
+//void DX12Pimple::Copy4x4Matrix(void* _map, Matrix4x4 _mat)
+//{
+//	DirectX::XMMATRIX matrix;
+//	for (int i = 0; i < 4; i++)
+//	{
+//		for (int j = 0; j < 4; j++D)
+//		{
+//			matrix.r[i].m128_f32[j] = (float)(boost::qvm::A<j, i>(_mat));
+//		}
+//	}
+//}

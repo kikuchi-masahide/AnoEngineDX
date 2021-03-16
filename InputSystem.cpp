@@ -10,7 +10,7 @@ InputSystem::InputSystem(Game* _game)
 	GetKeyboardState(mKeyState[mCurIndex]);
 	POINT point;
 	GetCursorPos(&point);
-	mMousePos[mCurIndex] = GetVector2(point.x, point.y);
+	mMousePos[mCurIndex] = MatVec::Vector2(point.x, point.y);
 }
 
 void InputSystem::ProcessBeforeUpdate(Game* _game)
@@ -23,7 +23,7 @@ void InputSystem::ProcessBeforeUpdate(Game* _game)
 	//カーソル位置の取得
 	POINT point;
 	GetCursorPos(&point);
-	mMousePos[mCurIndex] = GetVector2(point.x, point.y);
+	mMousePos[mCurIndex] = MatVec::Vector2(point.x, point.y);
 }
 
 ButtonState InputSystem::GetKeyState(unsigned char _key)
@@ -53,25 +53,25 @@ ButtonState InputSystem::GetKeyState(unsigned char _key)
 	}
 }
 
-Vector2 InputSystem::GetMouseMove()
+MatVec::Vector2 InputSystem::GetMouseMove()
 {
-	auto vec = mMousePos[mCurIndex] - mMousePos[1 - mCurIndex];
+	MatVec::Vector2 vec = mMousePos[mCurIndex] - mMousePos[1 - mCurIndex];
 	//スクリーン座標y座標は下向きなので反転
-	boost::qvm::Y(vec) *= -1;
+	vec(1) *= -1;
 	return vec;
 }
 
-Vector2 InputSystem::GetMouseScreenPos()
+MatVec::Vector2 InputSystem::GetMouseScreenPos()
 {
 	return mMousePos[mCurIndex];
 }
 
-Vector2 InputSystem::GetMouseClientPos(unsigned int _windowid)
+MatVec::Vector2 InputSystem::GetMouseClientPos(unsigned int _windowid)
 {
 	//スクリーン座標
 	POINT mousepos;
-	mousepos.x = boost::qvm::X(mMousePos[mCurIndex]);
-	mousepos.y = boost::qvm::Y(mMousePos[mCurIndex]);
+	mousepos.x = mMousePos[mCurIndex](0);
+	mousepos.y = mMousePos[mCurIndex](1);
 	auto window = mGame->GetWindow(_windowid);
 	auto hwnd = window->GetWindowHandle();
 	//クライアント座標に変換
@@ -80,5 +80,5 @@ Vector2 InputSystem::GetMouseClientPos(unsigned int _windowid)
 	auto windowheight = window->GetWindowSize().bottom - window->GetWindowSize().top;
 	//左下原点に変換
 	mousepos.y = windowheight - mousepos.y;
-	return GetVector2(mousepos.x, mousepos.y);
+	return MatVec::Vector2(mousepos.x, mousepos.y);
 }

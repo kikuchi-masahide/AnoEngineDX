@@ -37,15 +37,15 @@ public:
 	/// <summary>
 	/// 前フレームから現フレームでのマウスの移動をベクトルで取得(現位置-前位置)
 	/// </summary>
-	Vector2 GetMouseMove();
+	MatVec::Vector2 GetMouseMove();
 	/// <summary>
 	/// マウスのスクリーン座標を取得(左上原点はそのまま)
 	/// </summary>
-	Vector2 GetMouseScreenPos();
+	MatVec::Vector2 GetMouseScreenPos();
 	/// <summary>
 	/// このウィンドウのクライアント領域を基準としたときの，マウスの位置取得(左下原点)
 	/// </summary>
-	Vector2 GetMouseClientPos(unsigned int _windowid);
+	MatVec::Vector2 GetMouseClientPos(unsigned int _windowid);
 private:
 	Game* const mGame;
 	//前・現フレームのキーボードの状況
@@ -53,5 +53,5 @@ private:
 	//mKeyState，mMousePosでの現フレーム状況の添え字
 	unsigned int mCurIndex;
 	//前・現フレームのマウスカーソル位置(ただしこれはスクリーン座標であることに注意)
-	Vector2 mMousePos[2];
+	MatVec::Vector2 mMousePos[2];
 };

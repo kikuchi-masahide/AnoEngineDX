@@ -33,10 +33,10 @@ void Layer2D::Draw()
 	auto clrect = GetGame().GetWindow(GetSwapchainID())->GetWindowSize();
 	auto clwidth = clrect.right - clrect.left;
 	auto clheight = clrect.bottom - clrect.top;
-	float xl = boost::qvm::X(rect.GetLD());
-	float xr = boost::qvm::X(rect.GetRU());
-	float yu = boost::qvm::Y(rect.GetRU());
-	float yb = boost::qvm::Y(rect.GetLD());
+	float xl = rect.GetLD()(0);
+	float xr = rect.GetRU()(0);
+	float yu = rect.GetRU()(1);
+	float yb = rect.GetLD()(1);
 	xl = 2 * xl / clwidth - 1;
 	xr = 2 * xr / clwidth - 1;
 	yu = 2 * yu / clheight - 1;
@@ -65,21 +65,21 @@ void Layer2D::Draw()
 void Layer2D::GraphicalInit()
 {
 	VertexLayout vert[] = {
-			{GetVector3(-1.0f,-1.0f,0.0f),GetVector2(0.0f,1.0f)},
-			{GetVector3(-1.0f,1.0f,0.0f),GetVector2(0.0f,0.0f)},
-			{GetVector3(1.0f,-1.0f,0.0f),GetVector2(1.0f,1.0f)},
-			{GetVector3(1.0f,1.0f,0.0f),GetVector2(1.0f,0.0f)}
+			{MatVec::Vector3(-1.0f,-1.0f,0.0f),MatVec::Vector2(0.0f,1.0f)},
+			{MatVec::Vector3(-1.0f,1.0f,0.0f),MatVec::Vector2(0.0f,0.0f)},
+			{MatVec::Vector3(1.0f,-1.0f,0.0f),MatVec::Vector2(1.0f,1.0f)},
+			{MatVec::Vector3(1.0f,1.0f,0.0f),MatVec::Vector2(1.0f,0.0f)}
 	};
 	auto mVS = GetGame().mShaderManager.GetDX12ShaderObject(2);
 	auto mPS = GetGame().mShaderManager.GetDX12ShaderObject(3);
 	mVertResource = GetGame().mdx12.CreateVertexBuffer(sizeof(float) * 5 * 4);
 	float* resmap = (float*)(GetGame().mdx12.Map(mVertResource));
 	for (unsigned int n = 0; n < 4; n++) {
-		resmap[5 * n] = boost::qvm::X(vert[n].mPos);
-		resmap[5 * n + 1] = boost::qvm::Y(vert[n].mPos);
-		resmap[5 * n + 2] = boost::qvm::Z(vert[n].mPos);
-		resmap[5 * n + 3] = boost::qvm::X(vert[n].mUV);
-		resmap[5 * n + 4] = boost::qvm::Y(vert[n].mUV);
+		resmap[5 * n] = vert[n].mPos(0);
+		resmap[5 * n + 1] = vert[n].mPos(1);
+		resmap[5 * n + 2] = vert[n].mPos(2);
+		resmap[5 * n + 3] = vert[n].mUV(0);
+		resmap[5 * n + 4] = vert[n].mUV(1);
 	}
 	GetGame().mdx12.Unmap(mVertResource);
 	mVertLayout.push_back(DX12VertexLayoutUnit(

@@ -4,18 +4,18 @@
 Layer2DComponent::Layer2DComponent(GameObject* _owner, boost::shared_ptr<std::set<void*>> _hset, LayerHandle<Layer2D> _layer, unsigned int _texture, double _z, Rect2 _rect)
 	:Component(_owner, _hset, 0),mLayer(_layer),mTextureID(_texture),z(_z)
 {
-	auto lx = boost::qvm::X(_rect.GetLD());
-	auto by = boost::qvm::Y(_rect.GetLD());
-	auto rx = boost::qvm::X(_rect.GetRU());
-	auto uy = boost::qvm::Y(_rect.GetRU());
-	mVerts[0] = GetVector3(lx, by, 0);
-	mVerts[1] = GetVector3(lx, uy, 0);
-	mVerts[2] = GetVector3(rx, by, 0);
-	mVerts[3] = GetVector3(rx, uy, 0);
-	mUV[0] = GetVector2(0, 1);
-	mUV[1] = GetVector2(0, 0);
-	mUV[2] = GetVector2(1, 1);
-	mUV[3] = GetVector2(1, 0);
+	auto lx = _rect.GetLD()(0);
+	auto by = _rect.GetLD()(1);
+	auto rx = _rect.GetRU()(0);
+	auto uy = _rect.GetRU()(1);
+	mVerts[0] = MatVec::Vector3(lx, by, 0);
+	mVerts[1] = MatVec::Vector3(lx, uy, 0);
+	mVerts[2] = MatVec::Vector3(rx, by, 0);
+	mVerts[3] = MatVec::Vector3(rx, uy, 0);
+	mUV[0] = MatVec::Vector2(0, 1);
+	mUV[1] = MatVec::Vector2(0, 0);
+	mUV[2] = MatVec::Vector2(1, 1);
+	mUV[3] = MatVec::Vector2(1, 0);
 }
 
 void Layer2DComponent::Update()
@@ -74,15 +74,15 @@ void Layer2DComponent::Draw()
 	auto width = rect.GetWidth();
 	auto height = rect.GetHeight();
 	for (int n = 0; n < 5; n++) {
-		auto x = boost::qvm::X(mVerts[n]);
+		auto x = mVerts[n](0);
 		x = 2 * x / width - 1;
-		auto y = boost::qvm::Y(mVerts[n]);;
+		auto y = mVerts[n](1);
 		y = 2 * y / height - 1;
 		map[5 * n] = x;
 		map[5 * n + 1] = y;
 		map[5 * n + 2] = 0;
-		map[5 * n + 3] = boost::qvm::X(mUV[n]);
-		map[5 * n + 4] = boost::qvm::Y(mUV[n]);
+		map[5 * n + 3] = mUV[n](0);
+		map[5 * n + 4] = mUV[n](1);
 	}
 	GetGame().mdx12.Unmap(mVertResource);
 	GetGame().mdx12.SetGraphicsPipeline(mPipeline);
@@ -99,7 +99,7 @@ void Layer2DComponent::Draw()
 	GetGame().mdx12.DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
-void Layer2DComponent::TranslationRect(Vector3 _vect)
+void Layer2DComponent::TranslationRect(MatVec::Vector3 _vect)
 {
 	for (unsigned int n = 0; n < 4; n++)
 	{
@@ -109,74 +109,82 @@ void Layer2DComponent::TranslationRect(Vector3 _vect)
 
 void Layer2DComponent::ExpandRect(double _x, double _y, double _z)
 {
-	Vector3 center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
-	auto exp = GetVector3(_x, _y, _z);
+	MatVec::Vector3 center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
 	for (unsigned int n = 0; n < 4; n++)
 	{
 		mVerts[n] -= center;
-		mVerts[n] = boost::qvm::diag_mat(exp) * mVerts[n];
+		mVerts[n](0) *= _x;
+		mVerts[n](1) *= _y;
+		mVerts[n](2) *= _z;
 		mVerts[n] += center;
 	}
 }
 
-void Layer2DComponent::ExpandRect(double _x, double _y, double _z, Vector3 _center)
+void Layer2DComponent::ExpandRect(double _x, double _y, double _z, MatVec::Vector3 _center)
 {
-	auto exp = GetVector3(_x, _y, _z);
+	auto exp = MatVec::Vector3(_x, _y, _z);
 	for (unsigned int n = 0; n < 4; n++)
 	{
 		mVerts[n] -= _center;
-		mVerts[n] = boost::qvm::diag_mat(exp) * mVerts[n];
+		mVerts[n](0) *= _x;
+		mVerts[n](1) *= _y;
+		mVerts[n](2) *= _z;
 		mVerts[n] += _center;
 	}
 }
 
-void Layer2DComponent::RotateRect(Vector3 _vect, double _deg)
+void Layer2DComponent::RotateRect(MatVec::Vector3 _vect, double _deg)
 {
-	auto center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
+	MatVec::Vector3 center = (mVerts[0] + mVerts[1] + mVerts[2] + mVerts[3]) / 4;
 	//_vectが0ベクトルで正規化出来ない場合
 	try {
-		boost::qvm::normalize(_vect);
+		_vect.normalize();
 	}
 	catch(...){
 		BOOST_ASSERT_MSG(0, "rotate axis must not be 0");
 	}
-	auto const quat = boost::qvm::rot_quat(_vect, _deg);
-	auto const mat = boost::qvm::convert_to<Matrix4x4>(quat);
+	auto quat = MatVec::GetQuaternion(_vect, _deg);
+	auto mat = MatVec::Rotate(quat);
 	for (unsigned int n = 0; n < 4; n++)
 	{
 		mVerts[n] -= center;
-		Vector4 vec4 = boost::qvm::XYZ1(mVerts[n]);
+		MatVec::Vector4 vec4 = MatVec::XYZ1(mVerts[n]);
 		vec4 = mat * vec4;
-		mVerts[n] = boost::qvm::XYZ(vec4) + center;
+		mVerts[n] = MatVec::XYZ(vec4) + center;
 	}
 }
 
-void Layer2DComponent::RotateRect(Vector3 _vect, double _deg, Vector3 _center)
+void Layer2DComponent::RotateRect(MatVec::Vector3 _vect, double _deg, MatVec::Vector3 _center)
 {
 	//_vectが0ベクトルで正規化出来ない場合
 	try {
-		boost::qvm::normalize(_vect);
+		_vect.normalize();
 	}
 	catch (...) {
 		BOOST_ASSERT_MSG(0, "rotate axis must not be 0");
 	}
-	auto const quat = boost::qvm::rot_quat(_vect, _deg);
-	auto const mat = boost::qvm::convert_to<Matrix4x4>(quat);
+	auto quat = MatVec::GetQuaternion(_vect, _deg);
+	auto mat = MatVec::Rotate(quat);
 	for (unsigned int n = 0; n < 4; n++)
 	{
 		mVerts[n] -= _center;
-		Vector4 vec4 = boost::qvm::XYZ1(mVerts[n]);
+		MatVec::Vector4 vec4 = MatVec::XYZ1(mVerts[n]);
 		vec4 = mat * vec4;
-		mVerts[n] = boost::qvm::XYZ(vec4) + _center;
+		mVerts[n] = MatVec::XYZ(vec4) + _center;
 	}
 }
 
-void Layer2DComponent::ApplyMatrix(Matrix4x4 _mat)
+void Layer2DComponent::ApplyMatrix(MatVec::Matrix4x4 _mat)
 {
 	for (unsigned int n = 0; n < 4; n++)
 	{
-		Vector4 vec = boost::qvm::XYZ1(mVerts[n]);
+		MatVec::Vector4 vec = MatVec::XYZ1(mVerts[n]);
 		vec = _mat * vec;
-		mVerts[n] = boost::qvm::XYZ(vec);
+		mVerts[n] = MatVec::XYZ(vec);
 	}
+}
+
+LayerHandle<Layer2D> Layer2DComponent::GetLayer()
+{
+	return mLayer;
 }

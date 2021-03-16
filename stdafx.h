@@ -7,20 +7,7 @@
 #include <set>
 #include <typeinfo>
 
-#include <boost/qvm/vec.hpp>
-#include <boost/qvm/vec_access.hpp>
-#include <boost/qvm/vec_operations.hpp>
-#include <boost/qvm/mat.hpp>
-#include <boost/qvm/mat_access.hpp>
-#include <boost/qvm/mat_operations.hpp>
-#include <boost/qvm/quat.hpp>
-#include <boost/qvm/quat_access.hpp>
-#include <boost/qvm/quat_operations.hpp>
-#include <boost/qvm/swizzle.hpp>
-#include <boost/qvm/vec_mat_operations.hpp>
-#include <boost/qvm/quat_vec_operations.hpp>
-#include <boost/qvm/map_vec_mat.hpp>
-#include <boost/qvm/swizzle.hpp>
+#include <Eigen/Dense>
 
 #include <boost/noncopyable.hpp>
 
@@ -30,6 +17,6 @@
 #include <boost/scoped_ptr.hpp>
 
 #include "Log.h"
-#include "vector.h"
+#include "Math.h"
+#include "MatVec.h"
 #include "Rect2.h"
-#include "Matrix.h"

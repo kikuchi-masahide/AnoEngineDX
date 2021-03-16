@@ -15,8 +15,8 @@ public:
 	Scene1(Game* _game)
 		:Scene(_game)
 	{
-		auto objhandle = AddObject(GetVector2(0, 0), 1.0, 0.0);
-		auto layerhandle = AddLayer<Layer2D>(Rect2(0, 400, 0, 400),0,114514);
+		auto objhandle = AddObject(MatVec::Vector2(0, 0), 1.0, 0.0);
+		LayerHandle<Layer2D> layerhandle = AddLayer<Layer2D>(Rect2(0, 1024, 0, 768),0,114514);
 		//AddLayer<Layer2D>(Rect2(512, 1024, 0, 768), 1, 0);
 		mlayer2dcomp = objhandle->AddOutputComponent<Layer2DComponent>(layerhandle, 0, 0, Rect2(100, 300, 100, 300));
 		auto inputmonitor = objhandle->AddUpdateComponent<InputMonitorComponent>(mlayer2dcomp);

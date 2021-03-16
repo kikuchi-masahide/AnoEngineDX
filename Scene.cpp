@@ -32,7 +32,7 @@ void Scene::Output()
 
 void Scene::UniqueOutput() {}
 
-GameObjectHandle Scene::AddObject(Vector2 _pos, double _scale, double _angle)
+GameObjectHandle Scene::AddObject(MatVec::Vector2 _pos, double _scale, double _angle)
 {
 	boost::shared_ptr<std::set<GameObjectHandle*>> objhsetp(new std::set<GameObjectHandle*>());
 	boost::shared_ptr<GameObject> objp(new GameObject(this, objhsetp, _pos, _scale, _angle));

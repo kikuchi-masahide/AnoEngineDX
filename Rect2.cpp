@@ -2,37 +2,37 @@
 
 Rect2::Rect2():mLD(),mRU() {}
 
-Rect2::Rect2(Vector2 _ld, Vector2 _ru) :mLD(_ld),mRU(_ru) {}
+Rect2::Rect2(MatVec::Vector2 _ld, MatVec::Vector2 _ru) :mLD(_ld),mRU(_ru) {}
 
 Rect2::Rect2(double lx, double rx, double dy, double uy)
 {
-	boost::qvm::X(mLD) = lx;
-	boost::qvm::Y(mLD) = dy;
-	boost::qvm::X(mRU) = rx;
-	boost::qvm::Y(mRU) = uy;
+	mLD(0) = lx;
+	mLD(1) = dy;
+	mRU(0) = rx;
+	mRU(1) = uy;
 }
 
-Vector2 Rect2::GetLD()
+MatVec::Vector2 Rect2::GetLD()
 {
 	return mLD;
 }
 
-Vector2 Rect2::GetRU()
+MatVec::Vector2 Rect2::GetRU()
 {
 	return mRU;
 }
 
 double Rect2::GetWidth()
 {
-	return boost::qvm::X(mRU - mLD);
+	return mRU(0) - mLD(0);
 }
 
 double Rect2::GetHeight()
 {
-	return boost::qvm::Y(mRU - mLD);
+	return mRU(1) - mLD(1);
 }
 
-Vector2 Rect2::GetCenter()
+MatVec::Vector2 Rect2::GetCenter()
 {
 	return (mLD + mRU) / 2;
 }

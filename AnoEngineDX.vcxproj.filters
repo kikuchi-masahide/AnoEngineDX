@@ -32,9 +32,6 @@
     <ClCompile Include="Rect2.cpp">
       <Filter>Engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="vector.cpp">
-      <Filter>Engine\math</Filter>
-    </ClCompile>
     <ClCompile Include="DX12.cpp">
       <Filter>Engine\DirectX</Filter>
     </ClCompile>
@@ -82,6 +79,9 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="MatVec.cpp">
+      <Filter>Engine\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -101,9 +101,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Rect2.h">
-      <Filter>Engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="vector.h">
       <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="Scene1.h" />
@@ -165,9 +162,6 @@
     </ClInclude>
     <ClInclude Include="Layer2D.h" />
     <ClInclude Include="Layer2DComponent.h" />
-    <ClInclude Include="Matrix.h">
-      <Filter>Engine\math</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -175,6 +169,12 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="InputMonitorComponent.h" />
+    <ClInclude Include="MatVec.h">
+      <Filter>Engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Engine\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Layer2DVertexShader.hlsl">

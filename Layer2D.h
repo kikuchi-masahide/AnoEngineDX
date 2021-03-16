@@ -29,8 +29,8 @@ private:
 	DX12VertexLayout mVertLayout;
 	struct VertexLayout {
 	public:
-		Vector3 mPos;
-		Vector2 mUV;
+		MatVec::Vector3 mPos;
+		MatVec::Vector2 mUV;
 	};
 	/// <summary>
 	/// コンストラクタで呼ぶDirect3D12まわりの初期化関数

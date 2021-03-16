@@ -30,7 +30,7 @@ public:
 	/// </summary>
 	void Output();
 	virtual void UniqueOutput();
-	GameObjectHandle AddObject(Vector2 _pos, double _scale, double _angle);
+	GameObjectHandle AddObject(MatVec::Vector2 _pos, double _scale, double _angle);
 	Game &mGame;
 	bool GetDeleteFlag() const { return mDeleteFlag; };
 	void SetDeleteFlag() { mDeleteFlag = true; };

@@ -15,9 +15,9 @@ public:
 	/// <summary>
 	/// Scene::AddChildから呼び出されるコンストラクタ
 	/// </summary>
-	GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandle*>> _hset, Vector2 _pos, double _scale, double _angle);
-	Vector2 GetPosition() const;
-	Vector2 SetPosition(Vector2 _pos);
+	GameObject(Scene* _scene, boost::shared_ptr<std::set<GameObjectHandle*>> _hset, MatVec::Vector2 _pos, double _scale, double _angle);
+	MatVec::Vector2 GetPosition() const;
+	MatVec::Vector2 SetPosition(MatVec::Vector2 _pos);
 	double GetScale() const;
 	double SetScale(double _sc);
 	double GetRotation() const;
@@ -66,7 +66,7 @@ private:
 	/// <summary>
 	/// オブジェクトの中心座標
 	/// </summary>
-	Vector2 mPosition;
+	MatVec::Vector2 mPosition;
 	double mScale;
 	/// <summary>
 	/// 回転角度(時計回り、度数)
