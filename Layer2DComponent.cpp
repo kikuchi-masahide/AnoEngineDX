@@ -73,7 +73,7 @@ void Layer2DComponent::Draw()
 	auto rect = mLayer->GetRect();
 	auto width = rect.GetWidth();
 	auto height = rect.GetHeight();
-	for (int n = 0; n < 5; n++) {
+	for (int n = 0; n < 4; n++) {
 		auto x = mVerts[n](0);
 		x = 2 * x / width - 1;
 		auto y = mVerts[n](1);
