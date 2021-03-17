@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	if (!game->Initialize())return -1;
 	game->AddWindow((WNDPROC)WindowProcedure, TEXT("WndClass"), 1024, 768, TEXT("Title here"),114514);
 	auto windowptr = game->GetWindow(114514);
-	auto mTextureDescHeap = game->mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1);
+	auto mTextureDescHeap = game->mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::CBV_SRV_UAV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1);
 	game->mTexManager.LoadTexture(L"textest.png", mTextureDescHeap, 0, 0);
 	game->mShaderManager.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX, 0);
 	game->mShaderManager.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL, 1);

@@ -189,7 +189,7 @@ boost::shared_ptr<DX12Resource> DX12Pimple::CreateTextureUploadBuffer(unsigned i
 boost::shared_ptr<DX12Resource> DX12Pimple::LoadTexture(const wchar_t* _filename, boost::shared_ptr<DX12DescriptorHeap> _desc, unsigned int _num)
 {
 	BOOST_ASSERT_MSG(
-		_desc->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV &&
+		_desc->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::CBV_SRV_UAV &&
 		_desc->GetShaderVisibility() == DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE,
 		"DescriptorHeapType or DescriptorShaderVisibility incorrect"
 	);

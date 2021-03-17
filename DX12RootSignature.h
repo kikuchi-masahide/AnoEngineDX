@@ -7,6 +7,9 @@
 class DX12Device;
 class DX12CmdList;
 
+/// <summary>
+/// ディスクリプタレンジ，ディスクリプタテーブルをまとめる構造体であるディスクリプタパラメータをコードするオブジェクト
+/// </summary>
 class DX12RootSignature final :public boost::noncopyable {
 public:
 	DX12RootSignature(ComPtr<ID3D12Device> _device,DX12RootParameter& _rootparam);

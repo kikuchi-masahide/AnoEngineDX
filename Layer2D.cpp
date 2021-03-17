@@ -112,7 +112,7 @@ void Layer2D::GraphicalInit()
 	auto rect = GetRect();
 	mBackbuffer = GetGame().mdx12.CreateClearTexture(rect.GetWidth(), rect.GetHeight(), 1.0f, 1.0f, 1.0f, 1.0f);
 	mRTV = GetGame().mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::RTV, DX12Config::DescriptorHeapShaderVisibility::NONE, 1);
-	mSRV = GetGame().mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::SRV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1);
+	mSRV = GetGame().mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::CBV_SRV_UAV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1);
 	GetGame().mdx12.CreateRenderTargetView(mBackbuffer, mRTV, 0);
 	GetGame().mdx12.CreateShaderResourceView(mBackbuffer, mSRV, 0);
 }
