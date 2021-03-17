@@ -7,9 +7,7 @@ namespace DX12Config {
 	//ディスクリプタヒープの種類
 	enum class DescriptorHeapType :unsigned char {
 		RTV,
-		CBV,
-		SRV,
-		UAV,
+		CBV_SRV_UAV,
 		DSV,
 		size
 	};

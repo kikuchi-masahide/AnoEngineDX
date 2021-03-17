@@ -165,7 +165,7 @@ void DX12Resource::CreateRenderTargetView(ComPtr<ID3D12Device> _device, boost::s
 
 void DX12Resource::CreateShaderResourceView(ComPtr<ID3D12Device> _device, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
 {
-	BOOST_ASSERT_MSG(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::SRV,"DescriptorHeapType incorrect");
+	BOOST_ASSERT_MSG(_descheap->GetDescriptorHeapType() == DX12Config::DescriptorHeapType::CBV_SRV_UAV,"DescriptorHeapType incorrect");
 	auto handle = _descheap->GetCPUDescriptorHandle(_n);
 	//SRVÇÃê›íË
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -255,4 +255,13 @@ void DX12Pimple::Copy4x4Matrix(void* _map, MatVec::Matrix4x4 _mat)
 		}
 	}
 	*((DirectX::XMMATRIX*)_map) = dxmatrix;
+}
+
+void DX12Pimple::CreateConstBufferView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n)
+{
+	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvdesc = {};
+	cbvdesc.BufferLocation = _resource->GetGPUVirtualAddress();
+	cbvdesc.SizeInBytes = _resource->mResource->GetDesc().Width;
+	auto cpuhandle = _descheap->GetCPUDescriptorHandle(_n);
+	mDevice->CreateConstantBufferView(&cbvdesc, cpuhandle);
 }

@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// ディスクリプタヒープを作る
 	/// </summary>
-	/// <param name="_type">ディスクリプタヒープの種別</param>
+	/// <param name="_type">ディスクリプタヒープの種別 どのような種類のディスクリプタを格納するか</param>
 	/// <param name="_vis">シェーダから可視か否か</param>
 	/// <param name="_num">所有ディスクリプタの数</param>
 	/// <returns>ディスクリプタヒープを表すshared_ptr</returns>
@@ -170,5 +170,8 @@ public:
 	/// ポインタ_mapに行列をコピー このとき行列は自動的に転置される
 	/// </summary>
 	void Copy4x4Matrix(void* _map, MatVec::Matrix4x4 _mat);
-
+	/// <summary>
+	/// ディスクリプタヒープ_descheapの_n番目スロットに定数バッファ_resourceに対するCBVを作成
+	/// </summary>
+	void CreateConstBufferView(boost::shared_ptr<DX12Resource> _resource, boost::shared_ptr<DX12DescriptorHeap> _descheap, int _n);
 };
