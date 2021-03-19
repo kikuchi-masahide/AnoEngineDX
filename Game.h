@@ -49,7 +49,6 @@ public:
 	void CloseSwapChain();
 	TextureManager mTexManager;
 	ShaderManager mShaderManager;
-	InputSystem mInputSystem;
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -63,4 +62,5 @@ private:
 	bool AfterOutput();
 	std::map<unsigned int,boost::shared_ptr<DX12SwapChain>> mSwapChains;
 	unsigned int mCurrentSwapChain;
+	InputSystem mInputSystem;
 };

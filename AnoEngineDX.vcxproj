@@ -187,6 +187,7 @@
     </ClCompile>
     <ClCompile Include="DX12SwapChain.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="DX12VertexLayoutUnit.h" />
+    <ClInclude Include="UIScreen.h" />
+    <ClInclude Include="UITest.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

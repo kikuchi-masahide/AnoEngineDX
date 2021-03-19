@@ -89,7 +89,7 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {
 	mIsSceneChangable = false;
-	mCurrentScene->Update();
+	mCurrentScene->Update(&mInputSystem);
 }
 
 /// <summary>

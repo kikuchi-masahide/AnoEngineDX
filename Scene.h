@@ -4,10 +4,13 @@
 #include "ComponentHandle.h"
 #include "Layer.h"
 #include "LayerHandle.h"
+#include "InputSystem.h"
 
 class Game;
 class GameObject;
 class GameObjectHandle;
+class UIScreen;
+class InputSystem;
 
 /// <summary>
 /// シーンを表すクラス
@@ -19,7 +22,7 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void Update();
+	void Update(InputSystem* _input);
 	virtual void UniqueUpdate();
 	/// <summary>
 	/// 出力関数 処理詳細:
@@ -64,6 +67,48 @@ public:
 		LayerHandle<T> layerh(layerp.get(), handlesetp);
 		return layerh;
 	}
+	/// <summary>
+	/// T型UI画面の追加
+	/// </summary>
+	/// <param name="..._args">コンストラクタに渡す引数</param>
+	template<class T,class... Args>
+	void AddUIScreen(Args... _args)
+	{
+		if (mIsObjCompAddable)
+		{
+			if (mUIScreens.size() == 0)
+			{
+				mPrevMousePosForUIScreens.push_back(mPrevMousePosForComps);
+			}
+			else
+			{
+				mPrevMousePosForUIScreens.push_back(mPrevMousePosForUIScreens.back());
+			}
+			mUIScreens.push_back(new T(_args...));
+			mUpdateFlagForUIScreens.push_back(true);
+			mInputFlagForUIScreens.push_back(true);
+		}
+		else
+		{
+			mPandingUIScreens.push_back(new T(_args...));
+		}
+	}
+	/// <summary>
+	///各キー・マウスのボタンの状態を受け取る
+	/// </summary>
+	ButtonState GetKeyState(unsigned char _key);
+	/// <summary>
+	//マウスのクライアント座標を得る(左下原点)
+	/// </summary>
+	MatVec::Vector2 GetMouseClientPos(unsigned int _windowid);
+	/// <summary>
+	//マウスの移動ベクトルを得る(左下原点)
+	/// </summary>
+	MatVec::Vector2 GetMouseMove();
+	/// <summary>
+	//マウスのスクリーン座標を得る(左上原点)
+	/// </summary>
+	MatVec::Vector2 GetMouseScreenPos();
 protected:
 	bool mDeleteFlag;
 private:
@@ -99,10 +144,37 @@ private:
 	void DeleteAndProcessPandingObjComp();
 	GameObject* operator&() const noexcept;
 	//Z座標昇順で取り出す(右手系!)
-	std::set<boost::shared_ptr<Layer>,LayerCompare> mLayers;
+	std::set<boost::shared_ptr<Layer>, LayerCompare> mLayers;
 	std::set<boost::shared_ptr<Layer>, LayerCompare> mPandingLayers;
 	//自分の持つLayerのOutputを行う
 	void OutputLayer();
 	//DeleteFlag立ってるLayerの処理
 	void DeleteAndProcessPandingLayers();
+	//持っているUIScreen群(添え字の大きいものが後に追加されたUIScreen)
+	std::vector<UIScreen*> mUIScreens;
+	//保留UIScreen
+	std::vector<UIScreen*> mPandingUIScreens;
+	InputSystem* mInputSystem;
+	//今tick，Componentに入力情報を渡すか否か
+	bool mInputFlagForComps;
+	//今tick，対応UIScreenに入力情報を渡すか否か
+	std::vector<bool> mInputFlagForUIScreens;
+	//今tick，ComponentのUpdateを実行するか否か
+	bool mUpdateFlagForComps;
+	//今tick，対応UIScreenのUpdateを実行するか否か
+	std::vector<bool> mUpdateFlagForUIScreens;
+	//GetButtonState等で使う，入力情報を渡すか否かのフラグ
+	bool mInputFlag;
+	//GetClientMousePos等で使う，前tickでのマウス位置
+	MatVec::Vector2 mPrevMousePos;
+	//Compsにとっての前tickマウス位置(左上原点スクリーン座標)
+	MatVec::Vector2 mPrevMousePosForComps;
+	//UIScreenにとっての前tickマウス位置(左上原点スクリーン座標)
+	std::vector<MatVec::Vector2> mPrevMousePosForUIScreens;
+	void DeleteAndProcessPandingUIScreen();
+	//UIScreenのUpdateを奥から呼び出す
+	void LaunchUIScreenUpdate();
+	//UIScreenのOutputを奥から呼び出す
+	void LaunchOutputUIScreens();
+	
 };

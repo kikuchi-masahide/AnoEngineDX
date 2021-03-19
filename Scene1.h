@@ -8,6 +8,7 @@
 #include "Layer2D.h"
 #include "Layer2DComponent.h"
 #include "InputMonitorComponent.h"
+#include "UITest.h"
 
 class Scene1 :public Scene
 {
@@ -26,6 +27,12 @@ public:
 	}
 	void UniqueUpdate()
 	{
+		static int mCounter = 0;
+		mCounter++;
+		if (mCounter == 120)
+		{
+			AddUIScreen<UITest>();
+		}
 	}
 	~Scene1()
 	{

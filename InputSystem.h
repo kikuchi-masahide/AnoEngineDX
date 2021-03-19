@@ -35,17 +35,13 @@ public:
 	/// <returns></returns>
 	ButtonState GetKeyState(unsigned char _key);
 	/// <summary>
-	/// 前フレームから現フレームでのマウスの移動をベクトルで取得(現位置-前位置)
+	/// 前フレームから現フレームでのマウスの移動をベクトルで取得(現位置-前位置，左下原点)
 	/// </summary>
 	MatVec::Vector2 GetMouseMove();
 	/// <summary>
 	/// マウスのスクリーン座標を取得(左上原点はそのまま)
 	/// </summary>
 	MatVec::Vector2 GetMouseScreenPos();
-	/// <summary>
-	/// このウィンドウのクライアント領域を基準としたときの，マウスの位置取得(左下原点)
-	/// </summary>
-	MatVec::Vector2 GetMouseClientPos(unsigned int _windowid);
 private:
 	Game* const mGame;
 	//前・現フレームのキーボードの状況

@@ -82,6 +82,9 @@
     <ClCompile Include="MatVec.cpp">
       <Filter>Engine\math</Filter>
     </ClCompile>
+    <ClCompile Include="UIScreen.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.h">
@@ -175,6 +178,10 @@
     <ClInclude Include="Math.h">
       <Filter>Engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="UIScreen.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="UITest.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Layer2DVertexShader.hlsl">

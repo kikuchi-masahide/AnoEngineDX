@@ -1,6 +1,4 @@
 #include "InputSystem.h"
-#include "Game.h"
-#include "window.h"
 
 InputSystem::InputSystem(Game* _game)
 	:mGame(_game)
@@ -64,21 +62,4 @@ MatVec::Vector2 InputSystem::GetMouseMove()
 MatVec::Vector2 InputSystem::GetMouseScreenPos()
 {
 	return mMousePos[mCurIndex];
-}
-
-MatVec::Vector2 InputSystem::GetMouseClientPos(unsigned int _windowid)
-{
-	//スクリーン座標
-	POINT mousepos;
-	mousepos.x = mMousePos[mCurIndex](0);
-	mousepos.y = mMousePos[mCurIndex](1);
-	auto window = mGame->GetWindow(_windowid);
-	auto hwnd = window->GetWindowHandle();
-	//クライアント座標に変換
-	ScreenToClient(hwnd, &mousepos);
-	//ウィンドウの高さを入手
-	auto windowheight = window->GetWindowSize().bottom - window->GetWindowSize().top;
-	//左下原点に変換
-	mousepos.y = windowheight - mousepos.y;
-	return MatVec::Vector2(mousepos.x, mousepos.y);
 }
