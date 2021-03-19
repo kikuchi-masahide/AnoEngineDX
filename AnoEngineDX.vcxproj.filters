@@ -184,25 +184,13 @@
     <ClInclude Include="UITest.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Layer2DVertexShader.hlsl">
-      <Filter>Engine</Filter>
-    </FxCompile>
-    <FxCompile Include="Layer2DPixelShader.hlsl">
-      <Filter>Engine</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicPixelShader.hlsl">
-      <Filter>Engine</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicVertexShader.hlsl">
-      <Filter>Engine</Filter>
-    </FxCompile>
+    <FxCompile Include="BasicPixelShader.hlsl" />
+    <FxCompile Include="BasicVertexShader.hlsl" />
+    <FxCompile Include="Layer2DPixelShader.hlsl" />
+    <FxCompile Include="Layer2DVertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Layer2DHeader.hlsli">
-      <Filter>Engine</Filter>
-    </None>
-    <None Include="BasicShaderHeader.hlsli">
-      <Filter>Engine</Filter>
-    </None>
+    <None Include="BasicShaderHeader.hlsli" />
+    <None Include="Layer2DHeader.hlsli" />
   </ItemGroup>
 </Project>
