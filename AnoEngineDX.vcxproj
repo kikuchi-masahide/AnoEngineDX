@@ -126,9 +126,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>stdafx.h;../stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
@@ -159,72 +159,72 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Layer2D.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DX12.cpp" />
     <ClCompile Include="DX12CmdList.cpp" />
     <ClCompile Include="DX12DescriptorHeap.cpp" />
+    <ClCompile Include="DX12GraphicsPipeline.cpp" />
     <ClCompile Include="DX12Pimple.cpp" />
     <ClCompile Include="DX12Resource.cpp" />
+    <ClCompile Include="DX12RootSignature.cpp" />
+    <ClCompile Include="DX12ShaderObject.cpp" />
+    <ClCompile Include="DX12SwapChain.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectHandle.cpp" />
-    <ClCompile Include="DX12GraphicsPipeline.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="Layer.cpp" />
+    <ClCompile Include="Layer2D.cpp" />
     <ClCompile Include="Layer2DComponent.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatVec.cpp" />
     <ClCompile Include="Rect2.cpp" />
-    <ClCompile Include="DX12RootSignature.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="DX12ShaderObject.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="DX12SwapChain.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="UIScreen.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputMonitorComponent.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Layer2D.h" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="Component1.h" />
-    <ClInclude Include="Component2.h" />
     <ClInclude Include="ComponentHandle.h" />
     <ClInclude Include="DX12.h" />
     <ClInclude Include="DX12CommonInclude.h" />
     <ClInclude Include="DX12ConfigEnums.h" />
     <ClInclude Include="DX12DescriptorHeap.h" />
+    <ClInclude Include="DX12GraphicsPipeline.h" />
     <ClInclude Include="DX12Pimple.h" />
     <ClInclude Include="DX12Resource.h" />
     <ClInclude Include="DX12RootParameter.h" />
+    <ClInclude Include="DX12RootSignature.h" />
+    <ClInclude Include="DX12ShaderObject.h" />
     <ClInclude Include="DX12SwapChain.h" />
+    <ClInclude Include="DX12VertexLayoutUnit.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectHandle.h" />
-    <ClInclude Include="DX12GraphicsPipeline.h" />
+    <ClInclude Include="InputMonitorComponent.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="Layer2D.h" />
+    <ClInclude Include="Component1.h" />
+    <ClInclude Include="Component2.h" />
     <ClInclude Include="Layer2DComponent.h" />
     <ClInclude Include="LayerHandle.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="MatVec.h" />
     <ClInclude Include="Rect2.h" />
-    <ClInclude Include="DX12RootSignature.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene1.h" />
-    <ClInclude Include="DX12ShaderObject.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="DX12VertexLayoutUnit.h" />
     <ClInclude Include="UIScreen.h" />
     <ClInclude Include="UITest.h" />
     <ClInclude Include="window.h" />

@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <string>
 #include <map>
 #include <Windows.h>
