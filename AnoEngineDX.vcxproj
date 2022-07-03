@@ -18,6 +18,79 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\DX12\DX12.cpp" />
+    <ClCompile Include="Engine\DX12\DX12CmdList.cpp" />
+    <ClCompile Include="Engine\DX12\DX12DescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DX12\DX12GraphicsPipeline.cpp" />
+    <ClCompile Include="Engine\DX12\DX12Pimple.cpp" />
+    <ClCompile Include="Engine\DX12\DX12Resource.cpp" />
+    <ClCompile Include="Engine\DX12\DX12RootSignature.cpp" />
+    <ClCompile Include="Engine\DX12\DX12ShaderObject.cpp" />
+    <ClCompile Include="Engine\DX12\DX12SwapChain.cpp" />
+    <ClCompile Include="Engine\Game.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\GameObjectHandle.cpp" />
+    <ClCompile Include="Engine\InputSystem.cpp" />
+    <ClCompile Include="Engine\Layer.cpp" />
+    <ClCompile Include="Engine\Log.cpp" />
+    <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Engine\Math\MatVec.cpp" />
+    <ClCompile Include="Engine\Math\Rect2.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\ShaderManager.cpp" />
+    <ClCompile Include="Engine\TextureManager.cpp" />
+    <ClCompile Include="Engine\UIScreen.cpp" />
+    <ClCompile Include="Engine\window.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\ComponentHandle.h" />
+    <ClInclude Include="Engine\DX12\DX12.h" />
+    <ClInclude Include="Engine\DX12\DX12CommonInclude.h" />
+    <ClInclude Include="Engine\DX12\DX12ConfigEnums.h" />
+    <ClInclude Include="Engine\DX12\DX12DescriptorHeap.h" />
+    <ClInclude Include="Engine\DX12\DX12GraphicsPipeline.h" />
+    <ClInclude Include="Engine\DX12\DX12Pimple.h" />
+    <ClInclude Include="Engine\DX12\DX12Resource.h" />
+    <ClInclude Include="Engine\DX12\DX12RootParameter.h" />
+    <ClInclude Include="Engine\DX12\DX12RootSignature.h" />
+    <ClInclude Include="Engine\DX12\DX12ShaderObject.h" />
+    <ClInclude Include="Engine\DX12\DX12SwapChain.h" />
+    <ClInclude Include="Engine\DX12\DX12VertexLayoutUnit.h" />
+    <ClInclude Include="Engine\Game.h" />
+    <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\GameObjectHandle.h" />
+    <ClInclude Include="Engine\InputSystem.h" />
+    <ClInclude Include="Engine\Layer.h" />
+    <ClInclude Include="Engine\LayerHandle.h" />
+    <ClInclude Include="Engine\Log.h" />
+    <ClInclude Include="Engine\Math\Math.h" />
+    <ClInclude Include="Engine\Math\MathMacro.h" />
+    <ClInclude Include="Engine\Math\Matrix4x4.h" />
+    <ClInclude Include="Engine\Math\MatVec.h" />
+    <ClInclude Include="Engine\Math\Rect2.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Math\Vector4.h" />
+    <ClInclude Include="Engine\Scene.h" />
+    <ClInclude Include="Engine\ShaderManager.h" />
+    <ClInclude Include="Engine\TextureManager.h" />
+    <ClInclude Include="Engine\UIScreen.h" />
+    <ClInclude Include="Engine\window.h" />
+    <ClInclude Include="stdafx.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,7 +199,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;../stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -145,7 +218,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(EIGEN_INCLUDE);C:\Boost\include\boost-1_73;$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -158,109 +231,6 @@
       <AdditionalLibraryDirectories>C:\Boost\lib\x64;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="DX12.cpp" />
-    <ClCompile Include="DX12CmdList.cpp" />
-    <ClCompile Include="DX12DescriptorHeap.cpp" />
-    <ClCompile Include="DX12GraphicsPipeline.cpp" />
-    <ClCompile Include="DX12Pimple.cpp" />
-    <ClCompile Include="DX12Resource.cpp" />
-    <ClCompile Include="DX12RootSignature.cpp" />
-    <ClCompile Include="DX12ShaderObject.cpp" />
-    <ClCompile Include="DX12SwapChain.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameObjectHandle.cpp" />
-    <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Layer.cpp" />
-    <ClCompile Include="Layer2D.cpp" />
-    <ClCompile Include="Layer2DComponent.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="MatVec.cpp" />
-    <ClCompile Include="Rect2.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="UIScreen.cpp" />
-    <ClCompile Include="window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentHandle.h" />
-    <ClInclude Include="DX12.h" />
-    <ClInclude Include="DX12CommonInclude.h" />
-    <ClInclude Include="DX12ConfigEnums.h" />
-    <ClInclude Include="DX12DescriptorHeap.h" />
-    <ClInclude Include="DX12GraphicsPipeline.h" />
-    <ClInclude Include="DX12Pimple.h" />
-    <ClInclude Include="DX12Resource.h" />
-    <ClInclude Include="DX12RootParameter.h" />
-    <ClInclude Include="DX12RootSignature.h" />
-    <ClInclude Include="DX12ShaderObject.h" />
-    <ClInclude Include="DX12SwapChain.h" />
-    <ClInclude Include="DX12VertexLayoutUnit.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameObjectHandle.h" />
-    <ClInclude Include="InputMonitorComponent.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Layer.h" />
-    <ClInclude Include="Layer2D.h" />
-    <ClInclude Include="Component1.h" />
-    <ClInclude Include="Component2.h" />
-    <ClInclude Include="Layer2DComponent.h" />
-    <ClInclude Include="LayerHandle.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="MatVec.h" />
-    <ClInclude Include="Rect2.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Scene1.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="UIScreen.h" />
-    <ClInclude Include="UITest.h" />
-    <ClInclude Include="window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="BasicPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="BasicVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Layer2DPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Layer2DVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BasicShaderHeader.hlsli" />
-    <None Include="Layer2DHeader.hlsli" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

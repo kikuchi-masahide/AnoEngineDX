@@ -1,6 +1,4 @@
-#include "window.h"
 #include "Game.h"
-#include "Scene1.h"
 
 LRESULT WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
@@ -9,21 +7,12 @@ int main() {
 #else
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
-	Log::OutputTrivial("program entry");
-	Game* game = new Game;
-	if (!game->Initialize())return -1;
-	game->AddWindow((WNDPROC)WindowProcedure, TEXT("WndClass"), 1024, 768, TEXT("Title here"),114514);
-	auto windowptr = game->GetWindow(114514);
-	auto mTextureDescHeap = game->mdx12.CreateDescriptorHeap(DX12Config::DescriptorHeapType::CBV_SRV_UAV, DX12Config::DescriptorHeapShaderVisibility::SHADER_VISIBLE, 1);
-	game->mTexManager.LoadTexture(L"textest.png", mTextureDescHeap, 0, 0);
-	game->mShaderManager.LoadShader(L"BasicVertexShader.hlsl", DX12Config::ShaderType::VERTEX, 0);
-	game->mShaderManager.LoadShader(L"BasicPixelShader.hlsl", DX12Config::ShaderType::PIXEL, 1);
-	game->mShaderManager.LoadShader(L"Layer2DVertexShader.hlsl", DX12Config::ShaderType::VERTEX, 2);
-	game->mShaderManager.LoadShader(L"Layer2DPixelShader.hlsl", DX12Config::ShaderType::PIXEL, 3);
-	game->ChangeScene<Scene1>();
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	Game* game = new Game();
+	game->Initialize();
+	game->AddWindow(WindowProcedure, TEXT("WndClass"), 900, 900, TEXT("AnoEngineDX"), 0);
 	game->RunLoop();
 	game->Shutdown();
-
 	delete game;
 	return 0;
 }

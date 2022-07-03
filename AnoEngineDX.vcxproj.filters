@@ -4,187 +4,201 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{a83b7c34-a22b-4e5e-8f7f-2f76bb561b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\DX12">
+      <UniqueIdentifier>{961a24a3-f216-4bcd-a153-e31ad7d03db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Math">
+      <UniqueIdentifier>{b24fdd92-f137-4847-bcd9-4f38b4341f83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Layer2D.cpp" />
-    <ClCompile Include="Layer2DComponent.cpp" />
-    <ClCompile Include="UIScreen.cpp">
+    <ClCompile Include="Engine\Component.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="InputSystem.cpp">
+    <ClCompile Include="Engine\Game.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
+    <ClCompile Include="Engine\GameObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12CmdList.cpp">
+    <ClCompile Include="Engine\GameObjectHandle.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12GraphicsPipeline.cpp">
+    <ClCompile Include="Engine\InputSystem.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12RootSignature.cpp">
+    <ClCompile Include="Engine\Layer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12ShaderObject.cpp">
+    <ClCompile Include="Engine\Log.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="DX12SwapChain.cpp">
+    <ClCompile Include="Engine\Scene.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjectHandle.cpp">
+    <ClCompile Include="Engine\ShaderManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
+    <ClCompile Include="Engine\TextureManager.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
+    <ClCompile Include="Engine\UIScreen.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="window.cpp">
+    <ClCompile Include="Engine\window.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12CmdList.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Rect2.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12DescriptorHeap.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12GraphicsPipeline.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="MatVec.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12Pimple.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="DX12DescriptorHeap.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12Resource.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Resource.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12RootSignature.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="DX12.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12ShaderObject.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="DX12Pimple.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\DX12\DX12SwapChain.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\Math\Matrix4x4.cpp">
+      <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.cpp">
-      <Filter>Engine</Filter>
+    <ClCompile Include="Engine\Math\MatVec.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Rect2.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector3.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector4.cpp">
+      <Filter>Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Scene1.h" />
-    <ClInclude Include="Component1.h" />
-    <ClInclude Include="Component2.h" />
-    <ClInclude Include="Layer2D.h" />
-    <ClInclude Include="Layer2DComponent.h" />
-    <ClInclude Include="InputMonitorComponent.h" />
-    <ClInclude Include="UITest.h" />
-    <ClInclude Include="InputSystem.h">
+    <ClInclude Include="Engine\Component.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="UIScreen.h">
+    <ClInclude Include="Engine\ComponentHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
+    <ClInclude Include="Engine\Game.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12.h">
+    <ClInclude Include="Engine\GameObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="window.h">
+    <ClInclude Include="Engine\GameObjectHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12CommonInclude.h">
+    <ClInclude Include="Engine\InputSystem.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12DescriptorHeap.h">
+    <ClInclude Include="Engine\Layer.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12GraphicsPipeline.h">
+    <ClInclude Include="Engine\LayerHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12ShaderObject.h">
+    <ClInclude Include="Engine\Log.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12SwapChain.h">
+    <ClInclude Include="Engine\Scene.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="DX12VertexLayoutUnit.h">
+    <ClInclude Include="Engine\ShaderManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectHandle.h">
+    <ClInclude Include="Engine\TextureManager.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
+    <ClInclude Include="Engine\UIScreen.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="Engine\window.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12VertexLayoutUnit.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentHandle.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12CommonInclude.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="LayerHandle.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12ConfigEnums.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12DescriptorHeap.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="DX12Resource.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12GraphicsPipeline.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12Pimple.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Rect2.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12Resource.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12RootParameter.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="DX12ConfigEnums.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12RootSignature.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="DX12Pimple.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12ShaderObject.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="MatVec.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\DX12\DX12SwapChain.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="DX12RootSignature.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\Math\Math.h">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="DX12RootParameter.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\Math\MathMacro.h">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Engine</Filter>
+    <ClInclude Include="Engine\Math\Matrix4x4.h">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="BasicPixelShader.hlsl" />
-    <FxCompile Include="BasicVertexShader.hlsl" />
-    <FxCompile Include="Layer2DPixelShader.hlsl" />
-    <FxCompile Include="Layer2DVertexShader.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BasicShaderHeader.hlsli" />
-    <None Include="Layer2DHeader.hlsli" />
+    <ClInclude Include="Engine\Math\MatVec.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Rect2.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector2.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector3.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Vector4.h">
+      <Filter>Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
