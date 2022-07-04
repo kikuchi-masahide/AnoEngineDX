@@ -6,7 +6,7 @@
 #include "window.h"
 
 Scene::Scene(Game* _game)
-	:mGame(*_game), mIsObjCompAddable(true), mInputSystem(nullptr), mPrevMousePos(MatVec::Vector2(0, 0)), mInputFlag(true), mInputFlagForComps(true), mUpdateFlagForComps(true), mDeleteCheck(false),is_executing_destructor_(false)
+	:mGame(*_game), mIsObjCompAddable(true), input_system_(nullptr), mPrevMousePos(MatVec::Vector2(0, 0)), mInputFlag(true), mInputFlagForComps(true), mUpdateFlagForComps(true), mDeleteCheck(false),is_executing_destructor_(false)
 {
 	BOOST_ASSERT(_game != nullptr);
 }
@@ -15,7 +15,7 @@ void Scene::Update(InputSystem* _input)
 {
 	auto start = timeGetTime();
 	auto end = start;
-	mInputSystem = _input;
+	input_system_ = _input;
 	//ここからしばらくの間，追加されるオブジェクト・コンポーネントは保留に入れる
 	mIsObjCompAddable = false;
 	//優先度の高い，独自更新処理
@@ -47,7 +47,7 @@ void Scene::Output()
 	OutputLayer();
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
-	mGame.mdx12.ProcessCommands();
+	mGame.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	DeleteObjComp();
 	DeleteLayers();
@@ -142,7 +142,7 @@ ButtonState Scene::GetKeyState(unsigned char _key)
 {
 	if (mInputFlag)
 	{
-		return mInputSystem->GetKeyState(_key);
+		return input_system_->GetKeyState(_key);
 	}
 	else
 	{
@@ -174,7 +174,7 @@ MatVec::Vector2 Scene::GetMouseMove()
 	if (mInputFlag)
 	{
 		//スクリーン座標(左上原点)
-		MatVec::Vector2 vec = mInputSystem->GetMouseScreenPos() - mPrevMousePos;
+		MatVec::Vector2 vec = input_system_->GetMouseScreenPos() - mPrevMousePos;
 		//左下原点に修正
 		vec(1) *= -1;
 		return vec;
@@ -190,7 +190,7 @@ MatVec::Vector2 Scene::GetMouseScreenPos()
 {
 	if (mInputFlag)
 	{
-		return mInputSystem->GetMouseScreenPos();
+		return input_system_->GetMouseScreenPos();
 	}
 	else
 	{

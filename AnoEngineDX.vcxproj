@@ -53,6 +53,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="test\Scene1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Engine\UIScreen.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="test\Scene1.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

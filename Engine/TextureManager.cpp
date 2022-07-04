@@ -14,7 +14,7 @@ void TextureManager::LoadTexture(const wchar_t* _filename, unsigned int _texture
 	BOOST_ASSERT_MSG(itr == mTexturesmap.end(),"TextureID duplicating");
 	std::wstring str(L"LoadTexture buffer for ");
 	str += _filename;
-	auto ret = mGame->mdx12.LoadTexture(_filename, str.c_str());
+	auto ret = mGame->dx12_.LoadTexture(_filename, str.c_str());
 	mTexturesmap.insert(std::pair<unsigned int,boost::shared_ptr<DX12Resource>>(_textureid,ret.resource_));
 	mFormat.insert(std::pair<unsigned int, unsigned char>(_textureid, ret.format_));
 	return;
@@ -38,5 +38,5 @@ void TextureManager::CreateSRVof(unsigned int texture_id, boost::shared_ptr<DX12
 {
 	auto resource = GetDX12Resource(texture_id);
 	unsigned char format = mFormat.find(texture_id)->second;
-	mGame->mdx12.CreateShaderResourceView(resource, desc_heap, heap_ind, format);
+	mGame->dx12_.CreateShaderResourceView(resource, desc_heap, heap_ind, format);
 }

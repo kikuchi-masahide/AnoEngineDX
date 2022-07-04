@@ -1,130 +1,52 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "Game.h"
 #include "window.h"
 #include "Scene.h"
 
 #pragma comment(lib,"winmm.lib")
 
-/// <summary>
-/// ゲーム全体の初期化
-/// </summary>
-/// <returns>成功か否か</returns>
-bool Game::Initialize()
+Game::Game()
+	:tex_manager_(this), shader_manager_(this), input_system_(this), is_executing_destructor_(false)
 {
 	Log::OutputTrivial("Start Game::Initialize();");
 	Log::Init();
-	mdx12.Initialize();
-	mIsSceneChangable = true;
-	mCurrentSwapChain = -1;
-	return true;
+	dx12_.Initialize();
+	is_scene_changable_ = true;
+	current_swapchain_id_ = -1;
 }
 
-/// <summary>
-/// ゲームの終了処理
-/// </summary>
-void Game::Shutdown()
+Game::~Game()
 {
 	is_executing_destructor_ = true;
-	//シーンの削除
-	DeleteScene(mCurrentScene);
-	if (mPandingScene != nullptr)
-	{
-		DeleteScene(mPandingScene);
+	DeleteScene(current_scene_);
+	if (panding_scene_ != nullptr) {
+		DeleteScene(panding_scene_);
 	}
-
-	//DX12まわりのクリーンアップ
-	mdx12.CleanUp();
+	dx12_.CleanUp();
 }
 
-Game::Game()
-	:mTexManager(this),mShaderManager(this),mInputSystem(this),is_executing_destructor_(false)
+void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid)
 {
-}
-
-boost::shared_ptr<Window> Game::GetWindow(unsigned int _windownum)
-{
-	//存在チェック
-	auto itr = mWindows.find(_windownum);
-	BOOST_ASSERT_MSG(itr != mWindows.end(), "unregistered windowID");
-	return itr->second;
-}
-
-void Game::AddWindow(WNDPROC _wndproc, LPCWSTR _classID, int _width, int _height, LPCWSTR _windowTitle,unsigned int _windowid)
-{
-	//ウィンドウIDの重複チェック
-	BOOST_ASSERT_MSG(mWindows.find(_windowid) == mWindows.end(), "windowID duplicating");
+	BOOST_ASSERT_MSG(windowid >= 0, "windowID must be non-negative");
+	BOOST_ASSERT_MSG(windows_.find(windowid) == windows_.end(), "windowID duplicating");
 	//ウィンドウの追加
-	boost::shared_ptr<Window> window(new Window(_wndproc, _classID, _width, _height, _windowTitle));
-	mWindows[_windowid] = window;
+	boost::shared_ptr<Window> window(new Window(wndproc, classID, width, height, windowTitle));
+	windows_[windowid] = window;
 	//ウィンドウに付随するスワップチェーンの追加
 	HWND hwnd = window->GetWindowHandle();
-	boost::shared_ptr<DX12SwapChain> swapchain = mdx12.CreateSwapChain(hwnd, _width, _height);
-	mSwapChains.insert(std::pair<unsigned int,boost::shared_ptr<DX12SwapChain>>(_windowid,swapchain));
+	boost::shared_ptr<DX12SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
+	swapchains_.insert(std::pair<unsigned int, boost::shared_ptr<DX12SwapChain>>(windowid, swapchain));
 	return;
 }
 
-void Game::OpenSwapChain(unsigned int _winnum)
+boost::shared_ptr<Window> Game::GetWindow(int windowid) const
 {
-	//存在チェック
-	auto itr = mSwapChains.find(_winnum);
-	BOOST_ASSERT_MSG(itr != mSwapChains.end(), "unregistered windowID");
-	mdx12.OpenRenderTarget(mSwapChains[_winnum]);
-	mCurrentSwapChain = _winnum;
-}
-
-void Game::CloseSwapChain()
-{
-	if (mCurrentSwapChain != -1)
-	{
-		mdx12.CloseRenderTarget(mSwapChains[mCurrentSwapChain]);
-		mCurrentSwapChain = -1;
-	}
-}
-
-//Game::~Game()
-//{
-//	Shutdown();
-//}
-//
-void Game::Terminate()
-{
-	terminate_flag_ = true;
-}
-
-/// <summary>
-/// 入力処理
-/// </summary>
-void Game::ProcessInput()
-{
-	mInputSystem.ProcessBeforeUpdate(this);
-}
-
-/// <summary>
-/// ゲーム全体の更新
-/// </summary>
-void Game::UpdateGame()
-{
-	mIsSceneChangable = false;
-	//HACK:今Sceneが持ってる一連のUpdate処理をGameに持ってきて，パフォーマンスプロファイルを分かりやすくした方がいいか?
-	mCurrentScene->Update(&mInputSystem);
-}
-
-/// <summary>
-/// 出力生成
-/// </summary>
-bool Game::GenerateOutput()
-{
-	//サブシステムの出力準備
-	BeforeOutput();
-	mCurrentScene->Output();
-	if (!AfterOutput())return false;
-	if (mPandingScene) {
-		DeleteScene(mCurrentScene);
-		//HACK:この代入で，mPandingSceneのcomponentなどが持っている参照の行き先がおかしくなっているらしい 何故?
-		mCurrentScene = mPandingScene;
-		mPandingScene = nullptr;
-	}
-	mIsSceneChangable = true;
-	return true;
+	auto itr = windows_.find(windowid);
+	BOOST_ASSERT_MSG(itr != windows_.end(), "unregistered windowID");
+	return itr->second;
 }
 
 /// <summary>
@@ -136,75 +58,121 @@ void Game::RunLoop()
 	//"微妙に"たまっている時間
 	double millisec = 0;
 	//ウィンドウを表示していく
-	for (auto itr = mWindows.begin(); itr != mWindows.end(); itr++)
-	{
+	for (auto itr = windows_.begin(); itr != windows_.end(); itr++) {
 		itr->second->ShowWindow();
 	}
 	DWORD start = timeGetTime();
 	//メッセージループ
-	while (true)
-	{
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
+	while (true) {
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		if (msg.message == WM_QUIT)
-		{
+		if (msg.message == WM_QUIT) {
 			break;
 		}
 		DWORD now = timeGetTime();
 		double time = millisec + (double)(now - start);
-		if (time < mTimeEps)
-		{
+		if (time < kFrameTimeDelta) {
 			continue;
 		}
-		if (time > mProcessTimeLimit)
-		{
-			time = mProcessTimeLimit;
+		if (time > kProcessTimeDeltaLimit) {
+			time = kProcessTimeDeltaLimit;
 		}
 		millisec = time;
 		start = now;
 		ProcessInput();
-		while (millisec > mTimeEps)
-		{
+		while (millisec > kFrameTimeDelta) {
 			UpdateGame();
-			millisec -= mTimeEps;
+			millisec -= kFrameTimeDelta;
 		}
-		if (!GenerateOutput())return;
-		if (terminate_flag_)
-		{
-			for (auto window : mWindows)
-			{
+		GenerateOutput();
+		if (terminate_flag_) {
+			for (auto window : windows_) {
 				DestroyWindow(window.second->GetWindowHandle());
 			}
+			break;
 		}
 	}
+}
+
+void Game::OpenSwapChain(int windowid)
+{
+	auto itr = swapchains_.find(windowid);
+	BOOST_ASSERT_MSG(itr != swapchains_.end(), "unregistered windowID");
+	dx12_.OpenRenderTarget(swapchains_[windowid]);
+	current_swapchain_id_ = windowid;
+}
+
+void Game::CloseSwapChain()
+{
+	if (current_swapchain_id_ != -1) {
+		dx12_.CloseRenderTarget(swapchains_[current_swapchain_id_]);
+		current_swapchain_id_ = -1;
+	}
+}
+
+void Game::Terminate()
+{
+	terminate_flag_ = true;
+}
+
+void Game::BeforeUpdate()
+{
+}
+
+void Game::AfterUpdate()
+{
 }
 
 void Game::BeforeOutput()
 {
 	//とりあえずレンダーターゲットのクリアのみ
-	for (auto swapchain : mSwapChains) {
+	for (auto swapchain : swapchains_) {
 		auto swapp = swapchain.second;
-		mdx12.OpenRenderTarget(swapp);
-		mdx12.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
-		mdx12.CloseRenderTarget(swapp);
+		dx12_.OpenRenderTarget(swapp);
+		dx12_.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
+		dx12_.CloseRenderTarget(swapp);
 	}
 }
 
-bool Game::AfterOutput()
+void Game::AfterOutput()
 {
 	//全てのスワップチェーンのフリップ
-	for (auto itr = mSwapChains.begin(); itr != mSwapChains.end(); itr++)
-	{
-		mdx12.FlipSwapChain(itr->second);
+	for (auto itr = swapchains_.begin(); itr != swapchains_.end(); itr++) {
+		dx12_.FlipSwapChain(itr->second);
 	}
-	return true;
 }
 
-void Game::DeleteScene(Scene* _scene)
+void Game::ProcessInput()
 {
-	_scene->mDeleteCheck = true;
-	delete _scene;
+	input_system_.ProcessBeforeUpdate(this);
+}
+
+void Game::UpdateGame()
+{
+	BeforeUpdate();
+	is_scene_changable_ = false;
+	current_scene_->Update(&input_system_);
+	AfterUpdate();
+}
+
+void Game::GenerateOutput()
+{
+	BeforeOutput();
+	current_scene_->Output();
+	AfterOutput();
+	if (panding_scene_) {
+		DeleteScene(current_scene_);
+		//HACK:この代入で，mPandingSceneのcomponentなどが持っている参照の行き先がおかしくなっているらしい 何故?
+		current_scene_ = panding_scene_;
+		panding_scene_ = nullptr;
+	}
+	is_scene_changable_ = true;
+}
+
+void Game::DeleteScene(Scene* scene)
+{
+	scene->mDeleteCheck = true;
+	delete scene;
 }

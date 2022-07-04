@@ -10,6 +10,9 @@
     <Filter Include="Engine\Math">
       <UniqueIdentifier>{b24fdd92-f137-4847-bcd9-4f38b4341f83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{995494a2-3078-4979-94c5-96ff6cd926f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -94,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Scene1.cpp">
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Scene1.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

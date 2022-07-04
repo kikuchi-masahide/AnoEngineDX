@@ -11,7 +11,7 @@ void ShaderManager::LoadShader(const wchar_t* _filename, DX12Config::ShaderType 
 {
 	//ShaderID重複チェック
 	BOOST_ASSERT_MSG(mShadersmap.find(_shaderid) == mShadersmap.end(), "ShaderID duplicating");
-	auto shader = mGame->mdx12.LoadShader(_filename, _type);
+	auto shader = mGame->dx12_.LoadShader(_filename, _type);
 	mShadersmap[_shaderid] = shader;
 }
 

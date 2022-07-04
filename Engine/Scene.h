@@ -168,7 +168,7 @@ private:
 	std::vector<UIScreen*> mUIScreens;
 	//•Û—¯UIScreen
 	std::vector<UIScreen*> mPandingUIScreens;
-	InputSystem* mInputSystem;
+	InputSystem* input_system_;
 	//¡tickCComponent‚É“ü—Íî•ñ‚ğ“n‚·‚©”Û‚©
 	bool mInputFlagForComps;
 	//¡tickC‘Î‰UIScreen‚É“ü—Íî•ñ‚ğ“n‚·‚©”Û‚©

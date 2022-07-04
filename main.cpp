@@ -1,4 +1,9 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "Game.h"
+#include "test/Scene1.h"
 
 LRESULT WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
@@ -8,12 +13,10 @@ int main() {
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	Game* game = new Game();
-	game->Initialize();
-	game->AddWindow(WindowProcedure, TEXT("WndClass"), 900, 900, TEXT("AnoEngineDX"), 0);
-	game->RunLoop();
-	game->Shutdown();
-	delete game;
+	Game game;
+	game.AddWindow(WindowProcedure, TEXT("WndClass"), 900, 900, TEXT("AnoEngineDX"), 0);
+	game.ChangeScene<Scene1>();
+	game.RunLoop();
 	return 0;
 }
 
