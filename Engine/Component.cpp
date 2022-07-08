@@ -1,33 +1,36 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "Component.h"
 #include "GameObject.h"
 #include "Scene.h"
 #include "Game.h"
 #include "ComponentHandle.h"
 
+Component::Component(GameObjectHandle handle, int order)
+	: upd_priority_(order), obj_(handle), delete_flag_(false), delete_check_(false)
+{
+	handles_.reserve(10);
+}
+
 Component::~Component() {
-	BOOST_ASSERT_MSG(mDeleteCheck == true, "irregal destructor call without GameObject permission");
-	//std::for_each(mHandles.begin(), mHandles.end(), [this](void* _obj) {
-	////	ñ≥óùÇ‚ÇË
-	//	auto handle = static_cast<ComponentHandle<Component>*>(_obj);
-	//	handle->Reset();
-	//});
-	while (!mHandles.empty())
-	{
-		auto itr = mHandles.begin();
+	BOOST_ASSERT_MSG(delete_check_ == true, "irregal destructor call without GameObject permission");
+	while (!handles_.empty()) {
+		auto itr = handles_.begin();
 		auto handle = static_cast<ComponentHandle<Component>*>(*itr);
 		handle->Reset();
 	}
-	//for (auto itr = mHandles.begin(); itr != mHandles.end();)
-	//{
-	//	auto handle = static_cast<ComponentHandle<Component>*>(*itr);
-	//	handle->Reset();
-	//}
-}
-
-Component::Component(GameObjectHandle _handle, int _order)
-	: mUpdPriority(_order), mObj(_handle), mDeleteFlag(false),mDeleteCheck(false)
-{
-	mHandles.reserve(10);
 }
 
 void Component::Update() {}
+
+bool Component::GetDeleteFlag() const
+{
+	return delete_flag_;
+}
+
+void Component::SetDeleteFlag()
+{
+	delete_flag_ = true;
+}

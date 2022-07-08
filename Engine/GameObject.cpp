@@ -94,7 +94,7 @@ GameObjectHandle GameObject::This()
 
 void GameObject::DeleteComponent(Component* component)
 {
-	component->mDeleteCheck = true;
+	component->delete_check_ = true;
 	delete component;
 }
 

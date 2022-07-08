@@ -129,7 +129,7 @@ private:
 		bool operator()(const ComponentHandle<Component>& left, const ComponentHandle<Component>& right) const {
 			if (!left.IsValid())return false;
 			if (!right.IsValid())return true;
-			return left->mUpdPriority > right->mUpdPriority;
+			return left->upd_priority_ > right->upd_priority_;
 		}
 	};
 	class LayerCompare {

@@ -1,3 +1,7 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #pragma once
 
 class Scene;
@@ -14,29 +18,29 @@ class Game;
 class Component {
 public:
 	/// <param name="_order">優先度 高いほど先に呼び出される</param>
-	Component(GameObjectHandle _handle, int _order = 0);
+	Component(GameObjectHandle handle, int order = 0);
 	/// <summary>
 	/// コンポ－ネントの更新処理
 	/// </summary>
 	virtual void Update() = 0;
-	bool GetDeleteFlag() const { return mDeleteFlag; };
-	void SetDeleteFlag() { mDeleteFlag = true; };
-	const int mUpdPriority;
-	const GameObjectHandle mObj;
+	bool GetDeleteFlag() const;
+	void SetDeleteFlag();
+	const int upd_priority_;
+	const GameObjectHandle obj_;
 protected:
 	virtual ~Component();
-	bool mDeleteFlag;
 	//自身を指すハンドルを返す関数
 	template<class T>
 	ComponentHandle<T> This()
 	{
-		return ComponentHandle<T>((T*)this, &mHandles);
+		return ComponentHandle<T>((T*)this, &handles_);
 	}
 private:
-	bool mDeleteCheck;
 	friend class GameObject;
-	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
-	std::unordered_set<void*> mHandles;
 	//&でインスタンスのポインタを取得させない
 	Component* operator&() const noexcept;
+	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
+	std::unordered_set<void*> handles_;
+	bool delete_check_;
+	bool delete_flag_;
 };
