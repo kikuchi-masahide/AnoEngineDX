@@ -1,3 +1,7 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #pragma once
 
 class GameObject;
@@ -8,21 +12,21 @@ class GameObject;
 /// </summary>
 class GameObjectHandle {
 public:
-	GameObjectHandle(const GameObjectHandle& _handle);
+	GameObjectHandle(const GameObjectHandle& handle);
 	/// <summary>
 	/// SceneのAddChild内でのみ呼び出されるコンストラクタ
 	/// </summary>
-	GameObjectHandle(GameObject* _obj, std::unordered_set<GameObjectHandle*>* _set);
+	GameObjectHandle(GameObject* obj, std::unordered_set<GameObjectHandle*>* set);
 	GameObjectHandle();
+	GameObjectHandle& operator=(const GameObjectHandle& handle);
 	~GameObjectHandle();
+	bool IsValid() const;
+	GameObject* operator->() const noexcept;
 	//このオブジェクトハンドルをクリアし，nullハンドルにする
 	void Reset();
-	GameObject* operator->() const noexcept;
-	bool IsValid() const;
-	GameObjectHandle& operator=(const GameObjectHandle& handle);
 private:
 	//このハンドルが指すオブジェクト
-	GameObject* mObject;
+	GameObject* object_;
 	//mObjectを指すハンドルのstd::setのポインタ
-	std::unordered_set<GameObjectHandle*>* mHandleSet;
+	std::unordered_set<GameObjectHandle*>* handles_set_;
 };

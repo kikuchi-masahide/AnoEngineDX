@@ -1,22 +1,26 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "GameObjectHandle.h"
 #include "GameObject.h"
 
-GameObjectHandle::GameObjectHandle(const GameObjectHandle& _handle)
-	:mObject(_handle.mObject), mHandleSet(_handle.mHandleSet)
+GameObjectHandle::GameObjectHandle(const GameObjectHandle& handle)
+	:object_(handle.object_), handles_set_(handle.handles_set_)
 {
-	if (mObject != nullptr) {
-		mHandleSet->insert(this);
+	if (object_ != nullptr) {
+		handles_set_->insert(this);
 	}
 }
 
-GameObjectHandle::GameObjectHandle(GameObject* _obj, std::unordered_set<GameObjectHandle*>* _set)
-	:mObject(_obj), mHandleSet(_set)
+GameObjectHandle::GameObjectHandle(GameObject* obj, std::unordered_set<GameObjectHandle*>* set)
+	:object_(obj), handles_set_(set)
 {
-	mHandleSet->insert(this);
+	handles_set_->insert(this);
 }
 
 GameObjectHandle::GameObjectHandle()
-	:mObject(nullptr), mHandleSet(nullptr)
+	:object_(nullptr), handles_set_(nullptr)
 {}
 
 GameObjectHandle::~GameObjectHandle() {
@@ -25,33 +29,31 @@ GameObjectHandle::~GameObjectHandle() {
 
 GameObject* GameObjectHandle::operator->() const noexcept {
 	//ダングリングポインタならばassertを出す
-	BOOST_ASSERT_MSG(mObject != nullptr, "GameObjectHandle dungling pointer");
-	return mObject;
+	BOOST_ASSERT_MSG(object_ != nullptr, "GameObjectHandle dungling pointer");
+	return object_;
 }
 
 bool GameObjectHandle::IsValid() const
 {
-	return (mObject != nullptr);
+	return (object_ != nullptr);
 }
 
 void GameObjectHandle::Reset()
 {
-	if (mObject != nullptr)
-	{
-		mHandleSet->erase(static_cast<GameObjectHandle*>(this));
-		mHandleSet = nullptr;
-		mObject = nullptr;
+	if (object_ != nullptr) {
+		handles_set_->erase(static_cast<GameObjectHandle*>(this));
+		handles_set_ = nullptr;
+		object_ = nullptr;
 	}
 }
 
 GameObjectHandle& GameObjectHandle::operator=(const GameObjectHandle& handle)
 {
 	Reset();
-	if (handle.mObject != nullptr)
-	{
-		mObject = handle.mObject;
-		mHandleSet = handle.mHandleSet;
-		mHandleSet->insert(this);
+	if (handle.object_ != nullptr) {
+		object_ = handle.object_;
+		handles_set_ = handle.handles_set_;
+		handles_set_->insert(this);
 	}
 	return *this;
 }
