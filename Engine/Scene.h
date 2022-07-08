@@ -5,7 +5,6 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Layer.h"
 #include "InputSystem.h"
 #include "Math/Math.h"
 
@@ -58,22 +57,6 @@ public:
 	//このシーンに更新・出力コンポーネントを追加する
 	//GameObject::AddUpdate・OutputComponentから呼び出される
 	void AddOutputComponent(GameObject* obj, ComponentHandle<Component> handle);
-	template<class T, class... Args>
-	LayerHandle<T> AddLayer(Args... _args)
-	{
-		if (is_executing_destructor_) {
-			return LayerHandle<T>();
-		}
-		T* layerp = new T(_args...);
-		//直接追加してよいならばそうする
-		if (is_objcomp_addable_) {
-			layers_.insert(layerp);
-		}
-		else {
-			panding_layers_.insert(layerp);
-		}
-		return layerp->This<T>();
-	}
 	/// <summary>
 	/// UIScreenを継承するクラスの追加
 	/// </summary>
@@ -132,24 +115,11 @@ private:
 			return left->upd_priority_ > right->upd_priority_;
 		}
 	};
-	class LayerCompare {
-	public:
-		bool operator()(const Layer* left, const Layer* right) const {
-			return left->GetZ() < right->GetZ();
-		}
-	};
 	//自分の持つ全更新・出力コンポーネントのUpdateを呼び出す(保留コンポーネントのそれは実行しない)
 	void LaunchUpdateComponents();
 	void LaunchOutputComponents();
 	//Deleteフラグが立っているコンポーネント・オブジェクトを削除
 	void DeleteObjComp();
-	//Z座標昇順で取り出す(右手系!)
-	std::multiset<Layer*, LayerCompare> layers_;
-	std::multiset<Layer*, LayerCompare> panding_layers_;
-	//自分の持つLayerのOutputを行う
-	void OutputLayer();
-	//DeleteFlag立ってるLayerの処理
-	void DeleteLayers();
 	void DeleteUIScreen();
 	//UIScreenのUpdateを奥から呼び出す
 	void LaunchUIScreenUpdate();
@@ -157,8 +127,6 @@ private:
 	void LaunchOutputUIScreens();
 	//このオブジェクトのポインタをdeleteしデストラクタを呼ぶ
 	void DeleteObject(GameObject* _object);
-	//このレイヤーのポインタをdeleteしデストラクタを呼ぶ
-	void DeleteLayer(Layer* _layer);
 	//保留中のオブジェクト等をマージ
 	void ProcessPandings();
 	GameObject* operator&() const noexcept;

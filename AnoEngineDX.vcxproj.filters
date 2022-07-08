@@ -32,9 +32,6 @@
     <ClCompile Include="Engine\InputSystem.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Layer.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Log.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -120,12 +117,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\InputSystem.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Layer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\LayerHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Log.h">

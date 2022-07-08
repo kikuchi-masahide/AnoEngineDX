@@ -33,7 +33,6 @@
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjectHandle.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
-    <ClCompile Include="Engine\Layer.cpp" />
     <ClCompile Include="Engine\Log.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
     <ClCompile Include="Engine\Math\MatVec.cpp" />
@@ -74,8 +73,6 @@
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\GameObjectHandle.h" />
     <ClInclude Include="Engine\InputSystem.h" />
-    <ClInclude Include="Engine\Layer.h" />
-    <ClInclude Include="Engine\LayerHandle.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\MathMacro.h" />

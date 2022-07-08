@@ -43,14 +43,12 @@ void Scene::Output()
 {
 	PriorUniqueOutput();
 	LaunchOutputComponents();
-	OutputLayer();
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
 	game_.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
 	DeleteObjComp();
-	DeleteLayers();
 	DeleteUIScreen();
 	is_objcomp_addable_ = true;
 	ProcessPandings();
@@ -130,15 +128,6 @@ Scene::~Scene() {
 	for (auto object : panding_objs_)
 	{
 		DeleteObject(object);
-	}
-	//Layerの削除処理
-	for (auto layer : layers_)
-	{
-		DeleteLayer(layer);
-	}
-	for (auto layer : panding_layers_)
-	{
-		DeleteLayer(layer);
 	}
 	//UIScreenの削除処理
 	for (auto uiscreen : uiscreens_)
@@ -250,51 +239,6 @@ void Scene::DeleteObjComp()
 	}
 }
 
-void Scene::OutputLayer()
-{
-	//zの変更があったLayerを引き抜き，そうでない元はRectを更新
-	std::set<Layer*, LayerCompare> zchanged;
-	auto itr = layers_.begin();
-	while (itr != layers_.end()) {
-		if ((*itr)->HasZChanged()) {
-			zchanged.insert(*itr);
-			itr = layers_.erase(itr);
-		}
-		else {
-			(*itr)->FlushZRectChange(*itr);
-			itr++;
-		}
-	}
-	//z変更したLayerをフラッシュし，mLayersに戻す
-	itr = zchanged.begin();
-	while (itr != zchanged.end()) {
-		(*itr)->FlushZRectChange(*itr);
-		layers_.insert(*itr);
-		itr++;
-	}
-	//mLayersのOutputを呼び出す
-	itr = layers_.begin();
-	while (itr != layers_.end()) {
-		(*itr)->Draw();
-		itr++;
-	}
-}
-
-void Scene::DeleteLayers()
-{
-	//DeleteフラグついてるLayerを削除
-	auto itr = layers_.begin();
-	while (itr != layers_.end()) {
-		if ((*itr)->GetDeleteFlag()) {
-			DeleteLayer(*itr);
-			layers_.erase(*itr);
-		}
-		else {
-			itr++;
-		}
-	}
-}
-
 void Scene::DeleteUIScreen()
 {
 	int n = uiscreens_.size() - 1;
@@ -376,12 +320,6 @@ void Scene::DeleteObject(GameObject* _object)
 	delete _object;
 }
 
-void Scene::DeleteLayer(Layer* _layer)
-{
-	_layer->mDeleteCheck = true;
-	delete _layer;
-}
-
 void Scene::ProcessPandings()
 {
 	//保留していたオブジェクト・コンポーネントを追加
@@ -397,16 +335,6 @@ void Scene::ProcessPandings()
 		output_components_.insert(handle);
 	}
 	panding_output_components_.clear();
-
-	//PandingのLayerをフラッシュしmLayerに追加
-	auto itr = panding_layers_.begin();
-	while (itr != panding_layers_.end()) {
-		(*itr)->FlushZRectChange(*itr);
-		layers_.insert(*itr);
-		itr++;
-	}
-	panding_layers_.clear();
-
 	//PandingにあるUIScreenの追加
 	for (int n = 0; n < panding_uiscreens_.size(); n++) {
 		uiscreens_.push_back(panding_uiscreens_[n]);
