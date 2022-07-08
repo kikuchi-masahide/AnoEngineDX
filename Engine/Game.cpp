@@ -9,7 +9,7 @@
 #pragma comment(lib,"winmm.lib")
 
 Game::Game()
-	:tex_manager_(this), shader_manager_(this), input_system_(this), is_executing_destructor_(false)
+	:tex_manager_(this), shader_manager_(this), is_executing_destructor_(false)
 {
 	Log::OutputTrivial("Start Game::Initialize();");
 	Log::Init();
@@ -146,7 +146,7 @@ void Game::AfterOutput()
 
 void Game::ProcessInput()
 {
-	input_system_.ProcessBeforeUpdate(this);
+	input_system_.ProcessBeforeUpdate();
 }
 
 void Game::UpdateGame()
@@ -173,6 +173,6 @@ void Game::GenerateOutput()
 
 void Game::DeleteScene(Scene* scene)
 {
-	scene->mDeleteCheck = true;
+	scene->delete_check_ = true;
 	delete scene;
 }

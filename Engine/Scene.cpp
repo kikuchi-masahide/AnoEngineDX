@@ -1,3 +1,7 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "Scene.h"
 #include "GameObject.h"
 #include "Component.h"
@@ -5,25 +9,22 @@
 #include "Game.h"
 #include "window.h"
 
-Scene::Scene(Game* _game)
-	:mGame(*_game), mIsObjCompAddable(true), input_system_(nullptr), mPrevMousePos(MatVec::Vector2(0, 0)), mInputFlag(true), mInputFlagForComps(true), mUpdateFlagForComps(true), mDeleteCheck(false),is_executing_destructor_(false)
+Scene::Scene(Game* const game)
+	:game_(*game), is_objcomp_addable_(true), input_system_(nullptr), prev_mouse_pos_(MatVec::Vector2(0, 0)), input_flag_(true), input_flag_for_comps_(true), update_flag_for_comps_(true), delete_check_(false), is_executing_destructor_(false)
 {
-	BOOST_ASSERT(_game != nullptr);
+	BOOST_ASSERT(game != nullptr);
 }
 
-void Scene::Update(InputSystem* _input)
+void Scene::Update(const InputSystem* input)
 {
-	auto start = timeGetTime();
-	auto end = start;
-	input_system_ = _input;
+	input_system_ = input;
 	//ここからしばらくの間，追加されるオブジェクト・コンポーネントは保留に入れる
-	mIsObjCompAddable = false;
-	//優先度の高い，独自更新処理
+	is_objcomp_addable_ = false;
 	PriorUniqueUpdate();
 	//UIScreenにブロックされてなければUpdateを実行
-	if (mUpdateFlagForComps)
+	if (update_flag_for_comps_)
 	{
-		mInputFlag = mInputFlagForComps;
+		input_flag_ = input_flag_for_comps_;
 		LaunchUpdateComponents();
 	}
 	LaunchUIScreenUpdate();
@@ -40,19 +41,18 @@ void Scene::PosteriorUniqueUpdate()
 
 void Scene::Output()
 {
-	auto start = timeGetTime();
-	auto end = start;
 	PriorUniqueOutput();
 	LaunchOutputComponents();
 	OutputLayer();
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
-	mGame.dx12_.ProcessCommands();
+	game_.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
+	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
 	DeleteObjComp();
 	DeleteLayers();
 	DeleteUIScreen();
-	mIsObjCompAddable = true;
+	is_objcomp_addable_ = true;
 	ProcessPandings();
 }
 
@@ -64,7 +64,7 @@ void Scene::PosteriorUniqueOutput()
 {
 }
 
-GameObjectHandle Scene::AddObject(MatVec::Vector2 _pos, double _scale, double _angle)
+GameObjectHandle Scene::AddObject(MatVec::Vector2 pos, double scale, double angle)
 {
 	//デストラクタ実行中に呼び出されたら何もしない
 	if (is_executing_destructor_)
@@ -72,34 +72,47 @@ GameObjectHandle Scene::AddObject(MatVec::Vector2 _pos, double _scale, double _a
 		return GameObjectHandle();
 	}
 	//追加するオブジェクト
-	GameObject* objp(new GameObject(this, _pos, _scale, _angle));
+	GameObject* objp(new GameObject(this, pos, scale, angle));
 	//直接追加してよいならばそうする
-	if (mIsObjCompAddable)mObjs.push_back(objp);
-	else mPandingObjs.push_back(objp);
+	if (is_objcomp_addable_)objs_.push_back(objp);
+	else panding_objs_.push_back(objp);
 	return objp->This();
 }
 
-void Scene::AddUpdateComponent(GameObject* _obj, ComponentHandle<Component> _handle)
+bool Scene::GetDeleteFlag() const
 {
-	BOOST_ASSERT(_obj != nullptr);
-	if (mIsObjCompAddable)mUpdateComponents.insert(_handle);
-	else mPandingUpdateComponents.push_back(_handle);
+	return delete_flag_;
 }
 
-void Scene::AddOutputComponent(GameObject* _obj, ComponentHandle<Component> _handle)
+void Scene::SetDeleteFlag()
 {
-	BOOST_ASSERT(_obj != nullptr);
-	if (mIsObjCompAddable) {
-		mOutputComponents.insert(_handle);
+	delete_flag_ = true;
+}
+
+void Scene::AddUpdateComponent(GameObject* obj, ComponentHandle<Component> handle)
+{
+	BOOST_ASSERT(obj != nullptr);
+	if (is_objcomp_addable_) {
+		update_components_.insert(handle);
 	}
-	else
-	{
-		mPandingOutputComponents.push_back(_handle);
+	else {
+		panding_update_components_.push_back(handle);
+	}
+}
+
+void Scene::AddOutputComponent(GameObject* obj, ComponentHandle<Component> handle)
+{
+	BOOST_ASSERT(obj != nullptr);
+	if (is_objcomp_addable_) {
+		output_components_.insert(handle);
+	}
+	else {
+		panding_output_components_.push_back(handle);
 	}
 }
 
 Scene::~Scene() {
-	BOOST_ASSERT_MSG(mDeleteCheck == true, "irregal destructor call without Game permission");
+	BOOST_ASSERT_MSG(delete_check_ == true, "irregal destructor call without Game permission");
 	//HACK:この関数内でオブジェクトなどのデストラクタを呼び出している最中に，AddObjectなどを呼び出されると，
 	//どうせ使わないのにインスタンス生成をすることになるのに加え，
 	//新しいインスタンスのデストラクタからさらに新しいインスタンスができたりと，かなり面倒なことに
@@ -110,47 +123,45 @@ Scene::~Scene() {
 	//現状そのチェック機構が設けられないため見送り
 	is_executing_destructor_ = true;
 	//GameObjectの削除処理
-	for (auto object : mObjs)
+	for (auto object : objs_)
 	{
 		DeleteObject(object);
 	}
-	for (auto object : mPandingObjs)
+	for (auto object : panding_objs_)
 	{
 		DeleteObject(object);
 	}
 	//Layerの削除処理
-	for (auto layer : mLayers)
+	for (auto layer : layers_)
 	{
 		DeleteLayer(layer);
 	}
-	for (auto layer : mPandingLayers)
+	for (auto layer : panding_layers_)
 	{
 		DeleteLayer(layer);
 	}
 	//UIScreenの削除処理
-	for (auto uiscreen : mUIScreens)
+	for (auto uiscreen : uiscreens_)
 	{
 		delete uiscreen;
 	}
-	for (auto uiscreen : mPandingUIScreens)
+	for (auto uiscreen : panding_uiscreens_)
 	{
 		delete uiscreen;
 	}
 }
 
-ButtonState Scene::GetKeyState(unsigned char _key)
+ButtonState Scene::GetKeyState(int key) const
 {
-	if (mInputFlag)
-	{
-		return input_system_->GetKeyState(_key);
+	if (input_flag_) {
+		return input_system_->GetKeyState(key);
 	}
-	else
-	{
+	else {
 		return ButtonState::None;
 	}
 }
 
-MatVec::Vector2 Scene::GetMouseClientPos(unsigned int _windowid)
+MatVec::Vector2 Scene::GetMouseClientPos(int windowid) const
 {
 	//左上原点
 	MatVec::Vector2 screenpos = GetMouseScreenPos();
@@ -158,7 +169,7 @@ MatVec::Vector2 Scene::GetMouseClientPos(unsigned int _windowid)
 	POINT mousepos;
 	mousepos.x = screenpos(0);
 	mousepos.y = screenpos(1);
-	auto window = mGame.GetWindow(_windowid);
+	auto window = game_.GetWindow(windowid);
 	auto hwnd = window->GetWindowHandle();
 	//クライアント座標に変換
 	ScreenToClient(hwnd, &mousepos);
@@ -169,43 +180,37 @@ MatVec::Vector2 Scene::GetMouseClientPos(unsigned int _windowid)
 	return MatVec::Vector2(mousepos.x, mousepos.y);
 }
 
-MatVec::Vector2 Scene::GetMouseMove()
+MatVec::Vector2 Scene::GetMouseMove() const
 {
-	if (mInputFlag)
-	{
+	if (input_flag_) {
 		//スクリーン座標(左上原点)
-		MatVec::Vector2 vec = input_system_->GetMouseScreenPos() - mPrevMousePos;
+		MatVec::Vector2 vec = input_system_->GetMouseScreenPos() - prev_mouse_pos_;
 		//左下原点に修正
 		vec(1) *= -1;
 		return vec;
 	}
-	else
-	{
+	else {
 		//入力を返したくない場合移動無しで返す
 		return MatVec::Vector2(0, 0);
 	}
 }
 
-MatVec::Vector2 Scene::GetMouseScreenPos()
+MatVec::Vector2 Scene::GetMouseScreenPos() const
 {
-	if (mInputFlag)
-	{
+	if (input_flag_) {
 		return input_system_->GetMouseScreenPos();
 	}
-	else
-	{
-		return mPrevMousePos;
+	else {
+		return prev_mouse_pos_;
 	}
 }
 
 void Scene::LaunchUpdateComponents()
 {
-	for (auto itr = mUpdateComponents.begin(); itr != mUpdateComponents.end();)
-	{
+	for (auto itr = update_components_.begin(); itr != update_components_.end();) {
 		//前tickのcomponent削除で無を指しているハンドルを削除
-		if (!(itr->IsValid()))
-		{
-			itr = mUpdateComponents.erase(itr);
+		if (!(itr->IsValid())) {
+			itr = update_components_.erase(itr);
 		}
 		else {
 			(*itr)->Update();
@@ -216,11 +221,9 @@ void Scene::LaunchUpdateComponents()
 
 void Scene::LaunchOutputComponents()
 {
-	for (auto itr = mOutputComponents.begin(); itr != mOutputComponents.end();)
-	{
-		if (!(itr->IsValid()))
-		{
-			itr = mOutputComponents.erase(itr);
+	for (auto itr = output_components_.begin(); itr != output_components_.end();) {
+		if (!(itr->IsValid())) {
+			itr = output_components_.erase(itr);
 		}
 		else {
 			(*itr)->Update();
@@ -232,12 +235,12 @@ void Scene::LaunchOutputComponents()
 void Scene::DeleteObjComp()
 {
 	//全オブジェクトを回る
-	auto objitr = mObjs.begin();
-	while (objitr != mObjs.end()) {
+	auto objitr = objs_.begin();
+	while (objitr != objs_.end()) {
 		//そのオブジェクトのフラグが立っているならば消去
 		if ((*objitr)->GetDeleteFlag()) {
 			DeleteObject(*objitr);
-			objitr = mObjs.erase(objitr);
+			objitr = objs_.erase(objitr);
 		}
 		else {
 			//オブジェクトにいらないコンポーネントを削除させる
@@ -251,13 +254,11 @@ void Scene::OutputLayer()
 {
 	//zの変更があったLayerを引き抜き，そうでない元はRectを更新
 	std::set<Layer*, LayerCompare> zchanged;
-	auto itr = mLayers.begin();
-	while (itr != mLayers.end())
-	{
-		if ((*itr)->HasZChanged())
-		{
+	auto itr = layers_.begin();
+	while (itr != layers_.end()) {
+		if ((*itr)->HasZChanged()) {
 			zchanged.insert(*itr);
-			itr = mLayers.erase(itr);
+			itr = layers_.erase(itr);
 		}
 		else {
 			(*itr)->FlushZRectChange(*itr);
@@ -266,16 +267,14 @@ void Scene::OutputLayer()
 	}
 	//z変更したLayerをフラッシュし，mLayersに戻す
 	itr = zchanged.begin();
-	while (itr != zchanged.end())
-	{
+	while (itr != zchanged.end()) {
 		(*itr)->FlushZRectChange(*itr);
-		mLayers.insert(*itr);
+		layers_.insert(*itr);
 		itr++;
 	}
 	//mLayersのOutputを呼び出す
-	itr = mLayers.begin();
-	while (itr != mLayers.end())
-	{
+	itr = layers_.begin();
+	while (itr != layers_.end()) {
 		(*itr)->Draw();
 		itr++;
 	}
@@ -284,13 +283,11 @@ void Scene::OutputLayer()
 void Scene::DeleteLayers()
 {
 	//DeleteフラグついてるLayerを削除
-	auto itr = mLayers.begin();
-	while (itr != mLayers.end())
-	{
-		if ((*itr)->GetDeleteFlag())
-		{
+	auto itr = layers_.begin();
+	while (itr != layers_.end()) {
+		if ((*itr)->GetDeleteFlag()) {
 			DeleteLayer(*itr);
-			mLayers.erase(*itr);
+			layers_.erase(*itr);
 		}
 		else {
 			itr++;
@@ -300,93 +297,77 @@ void Scene::DeleteLayers()
 
 void Scene::DeleteUIScreen()
 {
-	int n = mUIScreens.size() - 1;
+	int n = uiscreens_.size() - 1;
 	//添え字が大きい方から見て消すべきUIScreenを削除
-	for (; n >= 0; n--)
-	{
-		if (mUIScreens[n]->GetDeleteFlag() == false)break;
-		delete mUIScreens[n];
-		mUIScreens.erase(mUIScreens.begin() + n);
-		mPrevMousePosForUIScreens.erase(mPrevMousePosForUIScreens.begin() + n);
-		mInputFlagForUIScreens.erase(mInputFlagForUIScreens.begin() + n);
-		mUpdateFlagForUIScreens.erase(mUpdateFlagForUIScreens.begin() + n);
+	for (; n >= 0; n--) {
+		if (uiscreens_[n]->GetDeleteFlag() == false)break;
+		delete uiscreens_[n];
+		uiscreens_.erase(uiscreens_.begin() + n);
+		prev_mouse_pos_for_uiscreens_.erase(prev_mouse_pos_for_uiscreens_.begin() + n);
+		input_flag_for_uiscreens_.erase(input_flag_for_uiscreens_.begin() + n);
+		update_flag_for_uiscreens_.erase(update_flag_for_uiscreens_.begin() + n);
 	}
 	//mMousePosFor~の更新
-	for (n = 0; n < mUIScreens.size(); n++)
-	{
-		if (mInputFlagForUIScreens[n])
-		{
-			mPrevMousePosForUIScreens[n] = GetMouseScreenPos();
+	for (n = 0; n < uiscreens_.size(); n++) {
+		if (input_flag_for_uiscreens_[n]) {
+			prev_mouse_pos_for_uiscreens_[n] = GetMouseScreenPos();
 		}
 	}
-	if (mInputFlagForComps)
-	{
-		mPrevMousePosForComps = GetMouseScreenPos();
+	if (input_flag_for_comps_) {
+		prev_mouse_pos_for_comps_ = GetMouseScreenPos();
 	}
 	//mInput/UpdateFlagFor~の更新
-	if (mUIScreens.size() == 0)
-	{
-		mInputFlagForComps = true;
-		mUpdateFlagForComps = true;
+	if (uiscreens_.size() == 0) {
+		input_flag_for_comps_ = true;
+		update_flag_for_comps_ = true;
 	}
-	else
-	{
-		mInputFlagForUIScreens.back() = true;
-		for (n = mUIScreens.size() - 2; n >= 0; n--)
-		{
-			mInputFlagForUIScreens[n] = mInputFlagForUIScreens[n + 1];
-			if (mInputFlagForUIScreens[n] &&
-				(mUIScreens[n + 1]->DoesInputGoThrough() == false)
-				)
-			{
-				mInputFlagForUIScreens[n] = false;
+	else {
+		input_flag_for_uiscreens_.back() = true;
+		for (n = uiscreens_.size() - 2; n >= 0; n--) {
+			input_flag_for_uiscreens_[n] = input_flag_for_uiscreens_[n + 1];
+			if (input_flag_for_uiscreens_[n] &&
+				(uiscreens_[n + 1]->DoesInputGoThrough() == false)) {
+				input_flag_for_uiscreens_[n] = false;
 			}
 		}
-		mInputFlagForComps = mInputFlagForUIScreens[0];
-		if (mInputFlagForComps &&
-			(mUIScreens[0]->DoesInputGoThrough() == false))
-		{
-			mInputFlagForComps = false;
+		input_flag_for_comps_ = input_flag_for_uiscreens_[0];
+		if (input_flag_for_comps_ &&
+			(uiscreens_[0]->DoesInputGoThrough() == false)) {
+			input_flag_for_comps_ = false;
 		}
-		mUpdateFlagForUIScreens.back() = true;
-		for (n = mUIScreens.size() - 2; n >= 0; n--)
-		{
-			mUpdateFlagForUIScreens[n] = mUpdateFlagForUIScreens[n + 1];
-			if (mUpdateFlagForUIScreens[n] &&
-				(mUIScreens[n + 1]->DoesUpdateComp() == false))
-			{
-				mUpdateFlagForUIScreens[n] = false;
+		update_flag_for_uiscreens_.back() = true;
+		for (n = uiscreens_.size() - 2; n >= 0; n--) {
+			update_flag_for_uiscreens_[n] = update_flag_for_uiscreens_[n + 1];
+			if (update_flag_for_uiscreens_[n] &&
+				(uiscreens_[n + 1]->DoesUpdateComp() == false)) {
+				update_flag_for_uiscreens_[n] = false;
 			}
 		}
-		mUpdateFlagForComps = mUpdateFlagForUIScreens[0];
-		if (mUpdateFlagForComps &&
-			(mUIScreens[0]->DoesUpdateComp() == false))
-		{
-			mUpdateFlagForComps = false;
+		update_flag_for_comps_ = update_flag_for_uiscreens_[0];
+		if (update_flag_for_comps_ &&
+			(uiscreens_[0]->DoesUpdateComp() == false)) {
+			update_flag_for_comps_ = false;
 		}
 	}
 }
 
 void Scene::LaunchUIScreenUpdate()
 {
-	if (mUIScreens.size() == 0)return;
-	for (int n = 0; n < mUIScreens.size(); n++)
-	{
+	if (uiscreens_.size() == 0)return;
+	for (int n = 0; n < uiscreens_.size(); n++) {
 		//このUIScreenのUpdateを実行するならば，Inputの受け取り可否を設定してUpdateを呼び出し
-		if (mUpdateFlagForUIScreens[n])
-		{
-			mInputFlag = mInputFlagForUIScreens[n];
-			mPrevMousePos = mPrevMousePosForUIScreens[n];
-			mUIScreens[n]->Update();
+		if (update_flag_for_uiscreens_[n]) {
+			input_flag_ = input_flag_for_uiscreens_[n];
+			prev_mouse_pos_ = prev_mouse_pos_for_uiscreens_[n];
+			uiscreens_[n]->Update();
 		}
 	}
 }
 
 void Scene::LaunchOutputUIScreens()
 {
-	for (int n = 0; n < mUIScreens.size(); n++)
-	{
-		mUIScreens[n]->Output();
+	for (int n = 0; n < uiscreens_.size(); n++) {
+		uiscreens_[n]->Output();
 	}
 }
 
@@ -404,36 +385,34 @@ void Scene::DeleteLayer(Layer* _layer)
 void Scene::ProcessPandings()
 {
 	//保留していたオブジェクト・コンポーネントを追加
-	for (auto& obj : mPandingObjs) {
-		mObjs.push_back(obj);
+	for (auto& obj : panding_objs_) {
+		objs_.push_back(obj);
 	}
-	mPandingObjs.clear();
-	for (auto& handle : mPandingUpdateComponents) {
-		mUpdateComponents.insert(handle);
+	panding_objs_.clear();
+	for (auto& handle : panding_update_components_) {
+		update_components_.insert(handle);
 	}
-	mPandingUpdateComponents.clear();
-	for (auto& handle : mPandingOutputComponents) {
-		mOutputComponents.insert(handle);
+	panding_update_components_.clear();
+	for (auto& handle : panding_output_components_) {
+		output_components_.insert(handle);
 	}
-	mPandingOutputComponents.clear();
+	panding_output_components_.clear();
 
 	//PandingのLayerをフラッシュしmLayerに追加
-	auto itr = mPandingLayers.begin();
-	while (itr != mPandingLayers.end())
-	{
+	auto itr = panding_layers_.begin();
+	while (itr != panding_layers_.end()) {
 		(*itr)->FlushZRectChange(*itr);
-		mLayers.insert(*itr);
+		layers_.insert(*itr);
 		itr++;
 	}
-	mPandingLayers.clear();
+	panding_layers_.clear();
 
 	//PandingにあるUIScreenの追加
-	for (int n = 0; n < mPandingUIScreens.size(); n++)
-	{
-		mUIScreens.push_back(mPandingUIScreens[n]);
-		mPrevMousePosForUIScreens.push_back(GetMouseScreenPos());
-		mUpdateFlagForUIScreens.push_back(true);
-		mInputFlagForUIScreens.push_back(true);
+	for (int n = 0; n < panding_uiscreens_.size(); n++) {
+		uiscreens_.push_back(panding_uiscreens_[n]);
+		prev_mouse_pos_for_uiscreens_.push_back(GetMouseScreenPos());
+		update_flag_for_uiscreens_.push_back(true);
+		input_flag_for_uiscreens_.push_back(true);
 	}
-	mPandingUIScreens.clear();
+	panding_uiscreens_.clear();
 }

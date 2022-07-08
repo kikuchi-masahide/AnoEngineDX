@@ -45,7 +45,7 @@ double GameObject::SetRotation(double _ro)
 
 Game& GameObject::GetGame()
 {
-	return mScene->mGame;
+	return mScene->game_;
 }
 
 GameObject::~GameObject() {
