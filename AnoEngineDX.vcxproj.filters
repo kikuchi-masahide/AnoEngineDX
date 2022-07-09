@@ -98,6 +98,9 @@
     <ClCompile Include="test\Scene1.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="test\Game1.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -198,6 +201,9 @@
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="test\Scene1.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Game1.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
