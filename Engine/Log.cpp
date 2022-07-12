@@ -4,100 +4,56 @@
 //================================================================================
 #include "Log.h"
 
-#include <boost/log/trivial.hpp>
-#include <boost/log/utility/setup/file.hpp>
-#include <boost/log/attributes.hpp>
-#include <iostream>
+#include "quill/Quill.h"
 
 void Log::Init()
 {
-	namespace attrs = boost::log::attributes;
-	namespace keywords = boost::log::keywords;
-	namespace sinks = boost::log::sinks;
-
-	boost::log::add_file_log(
-		keywords::file_name = "logs/%Y_%m_%d.log",
-		keywords::format = "[%TimeStamp%]: %Message%",
-		keywords::auto_flush = true
-	);
-	boost::log::core::get()->add_global_attribute("TimeStamp", attrs::local_clock());
+	auto file_handler = quill::file_handler("logs/log.txt", "w");
+	file_logger_ = quill::create_logger("file_logger_", file_handler);
+#ifdef _DEBUG
+	auto std_handler = quill::stdout_handler();
+	std_logger_ = quill::create_logger("std_logger_", std_handler);
+#endif
+	quill::start();
+	LOG_INFO(file_logger_, "initialized quill");
+#ifdef _DEBUG
+	LOG_INFO(std_logger_, "initialized quill");
+#endif
 }
 
 void Log::OutputTrivial(const std::string& str)
 {
-	BOOST_LOG_TRIVIAL(info) << str.c_str();
+	LOG_INFO(file_logger_, "{}", str.c_str());
 #ifdef _DEBUG
-	std::cout << str << "\n";
+	LOG_INFO(std_logger_, "{}", str.c_str());
 #endif
 }
 
 void Log::OutputCritical(const std::string& str)
 {
-	BOOST_LOG_TRIVIAL(info)
-		<< "\n================================================================================\n"
-		<< "<critical!>" << str.c_str()
-		<< "\n================================================================================";
+	static auto sprit = "\n================================================================================\n";
+	LOG_CRITICAL(file_logger_, "{}<critical!>{}{}", sprit, str.c_str(), sprit);
 #ifdef _DEBUG
-	std::cout 
-		<< "\n================================================================================\n"
-		<< "<critical!>" << str.c_str()
-		<< "\n================================================================================\n";
+	LOG_CRITICAL(std_logger_, "{}<critical!>{}{}", sprit, str.c_str(), sprit);
 #endif
 }
 
 void Log::OutputTrivial(const char str[])
 {
-	BOOST_LOG_TRIVIAL(info) << str;
+	LOG_INFO(file_logger_, "{}", str);
 #ifdef _DEBUG
-	std::cout << str << "\n";
+	LOG_INFO(std_logger_, "{}", str);
 #endif
 }
 
 void Log::OutputCritical(const char str[])
 {
-	BOOST_LOG_TRIVIAL(info) 
-		<< "\n================================================================================\n" 
-		<< "<critical!>" << str
-		<< "\n================================================================================";
+	static auto sprit = "\n================================================================================\n";
+	LOG_CRITICAL(file_logger_, "{}<critical!>{}{}", sprit, str, sprit);
 #ifdef _DEBUG
-	std::cout
-		<< "\n================================================================================\n"
-		<< "<critical!>" << str
-		<< "\n================================================================================\n";
+	LOG_CRITICAL(std_logger_, "{}<critical!>{}{}", sprit, str, sprit);
 #endif
 }
 
-namespace boost {
-	void assertion_failed(
-		const char* expr, const char* function, const char* file, long line
-	)
-	{
-		std::string str("BOOST_ASSERT!\n\tExpression : ");
-		str += expr;
-		str += "\n\tFunction : ";
-		str += function;
-		str += "\n\tFile : ";
-		str += file;
-		str += "\n\tLine : ";
-		str += std::to_string(line);
-		Log::OutputCritical(str.c_str());
-		std::abort();
-	}
-	void assertion_failed_msg(
-		const char* expr, const char* msg, const char* function, const char* file, long line
-	)
-	{
-		std::string str("BOOST_ASSERT_MSG!\n\tExpression : ");
-		str += expr;
-		str += "\n\tMessage : ";
-		str += msg;
-		str += "\n\tFunction : ";
-		str += function;
-		str += "\n\tFile : ";
-		str += file;
-		str += "\n\tLine : ";
-		str += std::to_string(line);
-		Log::OutputCritical(str.c_str());
-		std::abort();
-	}
-}
+quill::Logger* Log::file_logger_ = nullptr;
+quill::Logger* Log::std_logger_ = nullptr;

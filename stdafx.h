@@ -27,12 +27,12 @@
 #include <typeinfo>
 #include <random>
 
-#include <boost/noncopyable.hpp>
+#include "boost/noncopyable.hpp"
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/scoped_ptr.hpp>
+#include "boost/shared_ptr.hpp"
+#include "boost/weak_ptr.hpp"
+#include "boost/make_shared.hpp"
+#include "boost/scoped_ptr.hpp"
 
 //正直ここに置きたくないが，シェーダとの情報の受け渡しのために仕方なく
 #include <DirectXMath.h>

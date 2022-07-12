@@ -11,8 +11,8 @@
 Game::Game()
 	:tex_manager_(this), shader_manager_(this), is_executing_destructor_(false)
 {
-	Log::OutputTrivial("Start Game::Initialize();");
 	Log::Init();
+	Log::OutputTrivial("Start Game::Initialize();");
 	dx12_.Initialize();
 	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
