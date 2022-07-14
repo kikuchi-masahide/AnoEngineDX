@@ -18,9 +18,4 @@ public:
 	static void OutputCritical(const std::string& str);
 	static void OutputTrivial(const char str[]);
 	static void OutputCritical(const char str[]);
-private:
-	static quill::Logger* file_logger_;
-#ifdef _DEBUG
-	static quill::Logger* std_logger_;
-#endif
 };

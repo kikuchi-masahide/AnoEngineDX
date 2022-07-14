@@ -38,44 +38,11 @@
     <ClCompile Include="Engine\Scene.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ShaderManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TextureManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\UIScreen.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\window.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12CmdList.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12DescriptorHeap.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12GraphicsPipeline.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12Pimple.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12Resource.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12RootSignature.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12ShaderObject.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\DX12SwapChain.cpp">
-      <Filter>Engine\DX12</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Matrix4x4.cpp">
       <Filter>Engine\Math</Filter>
@@ -100,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="test\Game1.cpp">
       <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\DX12\Master.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\Master_pimple.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\SwapChain.cpp">
+      <Filter>Engine\DX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,53 +104,11 @@
     <ClInclude Include="Engine\Scene.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ShaderManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TextureManager.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\UIScreen.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\window.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12VertexLayoutUnit.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12CommonInclude.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12ConfigEnums.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12DescriptorHeap.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12GraphicsPipeline.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12Pimple.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12Resource.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12RootParameter.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12RootSignature.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12ShaderObject.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12SwapChain.h">
-      <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Math.h">
       <Filter>Engine\Math</Filter>
@@ -205,6 +139,21 @@
     </ClInclude>
     <ClInclude Include="test\Game1.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\DX12\Master.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\Master_pimple.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\SwapChain.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\ConfigEnums.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\DX12Include.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

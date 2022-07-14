@@ -6,6 +6,13 @@
 
 #include "quill/Quill.h"
 
+namespace {
+	quill::Logger* file_logger_;
+#ifdef _DEBUG
+	quill::Logger* std_logger_;
+#endif
+}
+
 void Log::Init()
 {
 	auto file_handler = quill::file_handler("logs/log.txt", "w");
@@ -54,6 +61,3 @@ void Log::OutputCritical(const char str[])
 	LOG_CRITICAL(std_logger_, "{}<critical!>{}{}", sprit, str, sprit);
 #endif
 }
-
-quill::Logger* Log::file_logger_ = nullptr;
-quill::Logger* Log::std_logger_ = nullptr;

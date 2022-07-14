@@ -20,15 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component.cpp" />
-    <ClCompile Include="Engine\DX12\DX12.cpp" />
-    <ClCompile Include="Engine\DX12\DX12CmdList.cpp" />
-    <ClCompile Include="Engine\DX12\DX12DescriptorHeap.cpp" />
-    <ClCompile Include="Engine\DX12\DX12GraphicsPipeline.cpp" />
-    <ClCompile Include="Engine\DX12\DX12Pimple.cpp" />
-    <ClCompile Include="Engine\DX12\DX12Resource.cpp" />
-    <ClCompile Include="Engine\DX12\DX12RootSignature.cpp" />
-    <ClCompile Include="Engine\DX12\DX12ShaderObject.cpp" />
-    <ClCompile Include="Engine\DX12\DX12SwapChain.cpp" />
+    <ClCompile Include="engine\DX12\Master.cpp" />
+    <ClCompile Include="Engine\DX12\Master_pimple.cpp" />
+    <ClCompile Include="Engine\DX12\SwapChain.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjectHandle.cpp" />
@@ -41,8 +35,6 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
-    <ClCompile Include="Engine\ShaderManager.cpp" />
-    <ClCompile Include="Engine\TextureManager.cpp" />
     <ClCompile Include="Engine\UIScreen.cpp" />
     <ClCompile Include="Engine\window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -58,18 +50,11 @@
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\ComponentHandle.h" />
-    <ClInclude Include="Engine\DX12\DX12.h" />
-    <ClInclude Include="Engine\DX12\DX12CommonInclude.h" />
-    <ClInclude Include="Engine\DX12\DX12ConfigEnums.h" />
-    <ClInclude Include="Engine\DX12\DX12DescriptorHeap.h" />
-    <ClInclude Include="Engine\DX12\DX12GraphicsPipeline.h" />
-    <ClInclude Include="Engine\DX12\DX12Pimple.h" />
-    <ClInclude Include="Engine\DX12\DX12Resource.h" />
-    <ClInclude Include="Engine\DX12\DX12RootParameter.h" />
-    <ClInclude Include="Engine\DX12\DX12RootSignature.h" />
-    <ClInclude Include="Engine\DX12\DX12ShaderObject.h" />
-    <ClInclude Include="Engine\DX12\DX12SwapChain.h" />
-    <ClInclude Include="Engine\DX12\DX12VertexLayoutUnit.h" />
+    <ClInclude Include="Engine\DX12\ConfigEnums.h" />
+    <ClInclude Include="Engine\DX12\DX12Include.h" />
+    <ClInclude Include="engine\DX12\Master.h" />
+    <ClInclude Include="Engine\DX12\Master_pimple.h" />
+    <ClInclude Include="Engine\DX12\SwapChain.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\GameObjectHandle.h" />
@@ -84,8 +69,6 @@
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Scene.h" />
-    <ClInclude Include="Engine\ShaderManager.h" />
-    <ClInclude Include="Engine\TextureManager.h" />
     <ClInclude Include="Engine\UIScreen.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
@@ -219,7 +202,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -229,7 +212,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Boost\lib\x64;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

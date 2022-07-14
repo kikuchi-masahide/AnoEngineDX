@@ -26,6 +26,8 @@
 #include <queue>
 #include <typeinfo>
 #include <random>
+#include <optional>
+#include <memory>
 
 #include "boost/noncopyable.hpp"
 
@@ -40,3 +42,36 @@
 using DirectX::XMMATRIX;
 using DirectX::XMFLOAT2;
 using DirectX::XMFLOAT3;
+
+//DBG_NEWを用いるカスタムアロケータ
+//HACK:今はメモリプールなどは特に考えず常にDBG_NEWを使うのでとりあえずこれにしているが、
+//メモリプールなどを使いそうになったら訂正する
+template<class T>
+class DBG_NEW_allocator {
+public:
+	using value_type = T;
+	DBG_NEW_allocator() {}
+	DBG_NEW_allocator(const DBG_NEW_allocator&) {}
+	DBG_NEW_allocator(DBG_NEW_allocator&&){}
+	template<class U> DBG_NEW_allocator(const DBG_NEW_allocator<U>&){}
+	[[nodiscard]] T* allocate(std::size_t num)
+	{
+		T* const p = DBG_NEW T[num];
+		return p;
+	}
+	void deallocate(T* p, std::size_t num) {
+		delete[] p;
+	}
+};
+
+template<class T1,class T2>
+bool operator==(const DBG_NEW_allocator<T1>&, const DBG_NEW_allocator<T2>&)
+{
+	return true;
+}
+
+template<class T1,class T2>
+bool operator!=(const DBG_NEW_allocator<T1>&, const DBG_NEW_allocator<T2>&)
+{
+	return false;
+}

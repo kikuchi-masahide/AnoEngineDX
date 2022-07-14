@@ -9,7 +9,7 @@
 #pragma comment(lib,"winmm.lib")
 
 Game::Game()
-	:tex_manager_(this), shader_manager_(this), is_executing_destructor_(false)
+	:is_executing_destructor_(false)
 {
 	Log::Init();
 	Log::OutputTrivial("Start Game::Initialize();");
@@ -37,8 +37,8 @@ void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LP
 	windows_[windowid] = window;
 	//ウィンドウに付随するスワップチェーンの追加
 	HWND hwnd = window->GetWindowHandle();
-	boost::shared_ptr<DX12SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
-	swapchains_.insert(std::pair<unsigned int, boost::shared_ptr<DX12SwapChain>>(windowid, swapchain));
+	std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
+	swapchains_.emplace(windowid, swapchain);
 	return;
 }
 
@@ -100,14 +100,22 @@ void Game::OpenSwapChain(int windowid)
 {
 	auto itr = swapchains_.find(windowid);
 	BOOST_ASSERT_MSG(itr != swapchains_.end(), "unregistered windowID");
-	dx12_.OpenRenderTarget(swapchains_[windowid]);
-	current_swapchain_id_ = windowid;
+	if (current_swapchain_id_ != windowid) {
+		if (current_swapchain_id_ != -1) {
+			dx12_.SetResourceBarrier(swapchains_[current_swapchain_id_],
+				DX12::ResourceBarrierState::RENDER_TARGET, DX12::ResourceBarrierState::PRESENT);
+		}
+		dx12_.SetResourceBarrier(swapchains_[windowid],
+			DX12::ResourceBarrierState::PRESENT, DX12::ResourceBarrierState::RENDER_TARGET);
+		current_swapchain_id_ = windowid;
+	}
 }
 
 void Game::CloseSwapChain()
 {
 	if (current_swapchain_id_ != -1) {
-		dx12_.CloseRenderTarget(swapchains_[current_swapchain_id_]);
+		dx12_.SetResourceBarrier(swapchains_[current_swapchain_id_],
+			DX12::ResourceBarrierState::RENDER_TARGET, DX12::ResourceBarrierState::PRESENT);
 		current_swapchain_id_ = -1;
 	}
 }
@@ -129,18 +137,20 @@ void Game::BeforeOutput()
 {
 	//とりあえずレンダーターゲットのクリアのみ
 	for (auto swapchain : swapchains_) {
+		auto swapid = swapchain.first;
 		auto swapp = swapchain.second;
-		dx12_.OpenRenderTarget(swapp);
+		OpenSwapChain(swapid);
 		dx12_.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
-		dx12_.CloseRenderTarget(swapp);
+		CloseSwapChain();
 	}
 }
 
 void Game::AfterOutput()
 {
+	CloseSwapChain();
 	//全てのスワップチェーンのフリップ
 	for (auto itr = swapchains_.begin(); itr != swapchains_.end(); itr++) {
-		dx12_.FlipSwapChain(itr->second);
+		dx12_.Flip(itr->second);
 	}
 }
 

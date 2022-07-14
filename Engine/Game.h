@@ -3,9 +3,7 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12/DX12.h"
-#include "TextureManager.h"
-#include "ShaderManager.h"
+#include "DX12/Master.h"
 #include "InputSystem.h"
 
 class Scene;
@@ -52,21 +50,18 @@ public:
 	/// </summary>
 	void RunLoop();
 	/// <summary>
-	/// 現在開いているスワップチェーンを閉じ，このウィンドウに付随するスワップチェーンを開く
+	/// RenderTargetとして指定しているswapchainを切り替える
 	/// </summary>
 	void OpenSwapChain(int windowid);
 	/// <summary>
-	/// 現在開いているスワップチェーンを閉じる
+	/// 現在RenderTargetとして指定しているswapchainをPRESENT状態にする
 	/// </summary>
 	void CloseSwapChain();
 	/// <summary>
 	/// 次のOutput終了後RunLoopを脱出し，プログラムを終了させる
 	/// </summary>
 	void Terminate();
-	DX12 dx12_;
-	//HACK:DX12に含めるか否か考える
-	TextureManager tex_manager_;
-	ShaderManager shader_manager_;
+	DX12::Master dx12_;
 protected:
 	/// <summary>
 	/// UpdateGame内で、Sceneの1回のUpdateを行う前の処理を行う
@@ -103,7 +98,7 @@ private:
 	Scene* panding_scene_;
 	bool is_scene_changable_;
 	std::map<unsigned int, boost::shared_ptr<Window>> windows_;
-	std::map<unsigned int, boost::shared_ptr<DX12SwapChain>> swapchains_;
+	std::map<unsigned int, std::shared_ptr<DX12::SwapChain>> swapchains_;
 	int current_swapchain_id_;
 	InputSystem input_system_;
 	bool is_executing_destructor_;

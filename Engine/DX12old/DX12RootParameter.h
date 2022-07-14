@@ -3,7 +3,7 @@
 /// <summary>
 /// 1つのDX12DescriptorRangeは1つのDescriptorHeapと対応し，
 /// 各ビューがどのようにシェーダレジスタと対応するか指定する．
-/// see:https://sites.google.com/site/monshonosuana/directxno-hanashi-1/directx-145
+/// see:https://sites.google.com/site/monshonosuana/directx%E3%81%AE%E8%A9%B1/directx%E3%81%AE%E8%A9%B1-%E7%AC%AC145%E5%9B%9E
 /// </summary>
 struct DX12DescriptorRange {
 public:
