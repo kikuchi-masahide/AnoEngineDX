@@ -18,7 +18,13 @@ namespace {
 
 void DX12::Master::Initialize() {
 	pimple_ = DBG_NEW Master_pimple;
-	pimple_->Initialize();
+	try {
+		pimple_->Initialize();
+	}
+	catch (...) {
+		delete pimple_;
+		throw;
+	}
 }
 
 void DX12::Master::ProcessCommands()
