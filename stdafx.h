@@ -3,7 +3,6 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 
@@ -35,6 +34,7 @@
 #include "boost/weak_ptr.hpp"
 #include "boost/make_shared.hpp"
 #include "boost/scoped_ptr.hpp"
+#include "boost/pool/pool.hpp"
 
 //正直ここに置きたくないが，シェーダとの情報の受け渡しのために仕方なく
 #include <DirectXMath.h>

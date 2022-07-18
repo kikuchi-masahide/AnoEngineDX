@@ -24,6 +24,7 @@ public:
 	/// </summary>
 	template<class S, class... Args>
 	void ChangeScene(Args... args) {
+		//HACK:ここの遅延初期化、およびコンストラクタでpandingに入れたのをUpdate前に本配列に移す処理
 		if (is_executing_destructor_) {
 			return;
 		}

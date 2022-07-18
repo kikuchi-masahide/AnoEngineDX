@@ -8,14 +8,17 @@
 #include "Game.h"
 #include "ComponentHandle.h"
 
-Component::Component(GameObjectHandle handle, int order)
-	: upd_priority_(order), obj_(handle), delete_flag_(false), delete_check_(false)
+Component::Component(Scene* scene, GameObjectHandle handle, int order)
+	: upd_priority_(order), obj_(handle), delete_flag_(false), delete_check_(false), scene_(scene)
 {
 	handles_.reserve(10);
 }
 
+void Component::Initialize()
+{
+}
+
 Component::~Component() {
-	BOOST_ASSERT_MSG(delete_check_ == true, "irregal destructor call without GameObject permission");
 	while (!handles_.empty()) {
 		auto itr = handles_.begin();
 		auto handle = static_cast<ComponentHandle<Component>*>(*itr);

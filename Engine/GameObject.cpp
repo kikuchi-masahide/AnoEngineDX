@@ -1,124 +1,38 @@
+//================================================================================
+//Copyright <2022> ano3. All rights reserved.
+//This source code and a part of it must not be reproduced or used in any case.
+//================================================================================
 #include "GameObject.h"
-#include "GameObjectHandle.h"
+
 #include "Component.h"
-#include "Scene.h"
-#include "Game.h"
 
-GameObject::GameObject(Scene* const scene, MatVec::Vector2 pos, double scale, double angle)
-	:scene_(scene), position_(pos), scale_(scale), rotation_(angle), delete_flag_(false)
+GameObject::GameObject(int id, int comphandle_reserve_num)
+	:kObjId(id)
 {
+	comps_.reserve(comphandle_reserve_num);
+	Log::OutputTrivial("GameObject::GameObject()");
 }
 
-MatVec::Vector2 GameObject::GetPosition() const
+void GameObject::AddComponent(ComponentHandle<Component> comp)
 {
-	return position_;
+	comps_.push_back(comp);
 }
 
-MatVec::Vector2 GameObject::SetPosition(MatVec::Vector2 pos)
+void GameObject::UnregisterInvalidChilds()
 {
-	position_ = pos;
-	return position_;
+	std::erase_if(comps_, [](ComponentHandle<Component> comp) {
+		return !comp.IsValid();
+	});
 }
 
-double GameObject::GetScale() const
+void GameObject::SetAllCompsFlag()
 {
-	return scale_;
+	std::for_each(comps_.begin(), comps_.end(), [](ComponentHandle<Component>& comp) {
+		comp->SetDeleteFlag();
+	});
 }
 
-double GameObject::SetScale(double sc)
+GameObject::~GameObject()
 {
-	if (sc < 0) {
-		scale_ = 0.0f;
-	}
-	else {
-		scale_ = sc;
-	}
-	return scale_;
-}
-
-double GameObject::GetRotation() const
-{
-	return rotation_;
-}
-
-double GameObject::SetRotation(double ro)
-{
-	rotation_ = ro;
-	return rotation_;
-}
-
-bool GameObject::GetDeleteFlag() const
-{
-	return delete_flag_;
-}
-
-void GameObject::SetDeleteFlag()
-{
-	delete_flag_ = true;
-}
-
-Game& GameObject::GetGame()
-{
-	return scene_->game_;
-}
-
-GameObject::~GameObject() {
-	//自分を消す前にコンポーネントたちを消しておく
-	for (auto itr = update_components_.begin(); itr != update_components_.end(); itr++) {
-		DeleteComponent(*itr);
-	}
-	for (auto itr = output_components_.begin(); itr != output_components_.end(); itr++) {
-		DeleteComponent(*itr);
-	}
-	//自分を指すGameObjectHandleをReset
-	while (!handles_.empty()) {
-		auto itr = handles_.begin();
-		(*itr)->Reset();
-	}
-}
-
-void GameObject::AddUpdateComponentToScene(ComponentHandle<Component> handle)
-{
-	scene_->AddUpdateComponent(this, handle);
-}
-
-void GameObject::AddOutputComponentToScene(ComponentHandle<Component> handle)
-{
-	scene_->AddOutputComponent(this, handle);
-}
-
-GameObjectHandle GameObject::This()
-{
-	return GameObjectHandle(this, &handles_);
-}
-
-void GameObject::DeleteComponent(Component* component)
-{
-	component->delete_check_ = true;
-	delete component;
-}
-
-void GameObject::DeleteFlagedComponents()
-{
-	//コンポーネントを巡回しフラグが立っているものを削除
-	auto itr = update_components_.begin();
-	while (itr != update_components_.end()) {
-		if ((*itr)->GetDeleteFlag()) {
-			DeleteComponent(*itr);
-			itr = update_components_.erase(itr);
-		}
-		else {
-			itr++;
-		}
-	}
-	itr = output_components_.begin();
-	while (itr != output_components_.end()) {
-		if ((*itr)->GetDeleteFlag()) {
-			DeleteComponent(*itr);
-			itr = output_components_.erase(itr);
-		}
-		else {
-			itr++;
-		}
-	}
+	Log::OutputTrivial("GameObject::~GameObject()");
 }

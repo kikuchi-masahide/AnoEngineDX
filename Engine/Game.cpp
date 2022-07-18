@@ -12,10 +12,11 @@ Game::Game()
 	:is_executing_destructor_(false)
 {
 	Log::Init();
-	Log::OutputTrivial("Start Game::Initialize();");
+	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
 	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
+	Scene::InitMemory();
 }
 
 Game::~Game()

@@ -9,8 +9,14 @@
 #include "Game.h"
 #include "window.h"
 
+void Scene::InitMemory()
+{
+	obj_pool_.emplace(sizeof(GameObject), kMaxObjNum_);
+	Log::OutputTrivial("Scene::InitMemory()");
+}
+
 Scene::Scene(Game* const game)
-	:game_(*game), is_objcomp_addable_(true), input_system_(nullptr), prev_mouse_pos_(MatVec::Vector2(0, 0)), input_flag_(true), input_flag_for_comps_(true), update_flag_for_comps_(true), delete_check_(false), is_executing_destructor_(false)
+	:game_(*game), is_objcomp_addable_(true), input_system_(nullptr), prev_mouse_pos_(MatVec::Vector2(0, 0)), input_flag_(true), input_flag_for_comps_(true), update_flag_for_comps_(true), delete_check_(false), is_executing_destructor_(false),next_obj_id_(0)
 {
 	BOOST_ASSERT(game != nullptr);
 }
@@ -48,10 +54,10 @@ void Scene::Output()
 	game_.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
-	DeleteObjComp();
+	ProcessPandingComps();
 	DeleteUIScreen();
 	is_objcomp_addable_ = true;
-	ProcessPandings();
+	ProcessPandingUIScreens();
 }
 
 void Scene::PriorUniqueOutput()
@@ -62,19 +68,18 @@ void Scene::PosteriorUniqueOutput()
 {
 }
 
-GameObjectHandle Scene::AddObject(MatVec::Vector2 pos, double scale, double angle)
+GameObjectHandle Scene::AddObject(int comphandle_reserve_num)
 {
-	//デストラクタ実行中に呼び出されたら何もしない
-	if (is_executing_destructor_)
-	{
-		return GameObjectHandle();
+	//デストラクタ実行中なので追加を行わない
+	if (is_executing_destructor_) {
+		return -1;
 	}
-	//追加するオブジェクト
-	GameObject* objp(new GameObject(this, pos, scale, angle));
-	//直接追加してよいならばそうする
-	if (is_objcomp_addable_)objs_.push_back(objp);
-	else panding_objs_.push_back(objp);
-	return objp->This();
+	if (id_objpointer_map_.size() >= kMaxObjNum_) {
+		Log::OutputCritical("Object number exceeded limit");
+	}
+	GameObject* objp = new(obj_pool_->malloc()) GameObject(next_obj_id_, comphandle_reserve_num);
+	id_objpointer_map_.emplace(next_obj_id_, objp);
+	return next_obj_id_++;
 }
 
 bool Scene::GetDeleteFlag() const
@@ -87,47 +92,24 @@ void Scene::SetDeleteFlag()
 	delete_flag_ = true;
 }
 
-void Scene::AddUpdateComponent(GameObject* obj, ComponentHandle<Component> handle)
-{
-	BOOST_ASSERT(obj != nullptr);
-	if (is_objcomp_addable_) {
-		update_components_.insert(handle);
-	}
-	else {
-		panding_update_components_.push_back(handle);
-	}
-}
-
-void Scene::AddOutputComponent(GameObject* obj, ComponentHandle<Component> handle)
-{
-	BOOST_ASSERT(obj != nullptr);
-	if (is_objcomp_addable_) {
-		output_components_.insert(handle);
-	}
-	else {
-		panding_output_components_.push_back(handle);
-	}
-}
-
 Scene::~Scene() {
-	BOOST_ASSERT_MSG(delete_check_ == true, "irregal destructor call without Game permission");
-	//HACK:この関数内でオブジェクトなどのデストラクタを呼び出している最中に，AddObjectなどを呼び出されると，
-	//どうせ使わないのにインスタンス生成をすることになるのに加え，
-	//新しいインスタンスのデストラクタからさらに新しいインスタンスができたりと，かなり面倒なことに
-	//なりそうなので，is_executing_destructor_次第では生成を止めるように現状している．
-	//同様のことはGameでも行っている．
-	//ただこの場合，AddObject等から返されるハンドルがvalidか確かめなくてはいけなくなるのが難点．
-	//オブジェクトのデストラクタを実行する前の終了処理を2種類に分ければ解決するかもしれないが，
-	//現状そのチェック機構が設けられないため見送り
 	is_executing_destructor_ = true;
-	//GameObjectの削除処理
-	for (auto object : objs_)
-	{
-		DeleteObject(object);
+	for (auto& p : id_objpointer_map_) {
+		p.second->~GameObject();
+		obj_pool_->free(p.second);
 	}
-	for (auto object : panding_objs_)
-	{
-		DeleteObject(object);
+	id_objpointer_map_.clear();
+	for (Component* comp : update_components_) {
+		delete comp;
+	}
+	for (auto itr = panding_update_components_.begin(); itr != panding_update_components_.end(); itr++) {
+		delete (*itr);
+	}
+	for (Component* comp : output_components_) {
+		delete comp;
+	}
+	for (auto itr = panding_output_components_.begin(); itr != panding_output_components_.end(); itr++) {
+		delete (*itr);
 	}
 	//UIScreenの削除処理
 	for (auto uiscreen : uiscreens_)
@@ -138,6 +120,7 @@ Scene::~Scene() {
 	{
 		delete uiscreen;
 	}
+
 }
 
 ButtonState Scene::GetKeyState(int key) const
@@ -194,48 +177,22 @@ MatVec::Vector2 Scene::GetMouseScreenPos() const
 	}
 }
 
+void Scene::Erase(GameObjectHandle handle)
+{
+	erase_objs_.push_back(handle);
+}
+
 void Scene::LaunchUpdateComponents()
 {
-	for (auto itr = update_components_.begin(); itr != update_components_.end();) {
-		//前tickのcomponent削除で無を指しているハンドルを削除
-		if (!(itr->IsValid())) {
-			itr = update_components_.erase(itr);
-		}
-		else {
-			(*itr)->Update();
-			itr++;
-		}
+	for (auto itr = update_components_.begin(); itr != update_components_.end(); itr++) {
+		(*itr)->Update();
 	}
 }
 
 void Scene::LaunchOutputComponents()
 {
-	for (auto itr = output_components_.begin(); itr != output_components_.end();) {
-		if (!(itr->IsValid())) {
-			itr = output_components_.erase(itr);
-		}
-		else {
-			(*itr)->Update();
-			itr++;
-		}
-	}
-}
-
-void Scene::DeleteObjComp()
-{
-	//全オブジェクトを回る
-	auto objitr = objs_.begin();
-	while (objitr != objs_.end()) {
-		//そのオブジェクトのフラグが立っているならば消去
-		if ((*objitr)->GetDeleteFlag()) {
-			DeleteObject(*objitr);
-			objitr = objs_.erase(objitr);
-		}
-		else {
-			//オブジェクトにいらないコンポーネントを削除させる
-			(*objitr)->DeleteFlagedComponents();
-			objitr++;
-		}
+	for (auto itr = output_components_.begin(); itr != output_components_.end(); itr++) {
+		(*itr)->Update();
 	}
 }
 
@@ -320,21 +277,82 @@ void Scene::DeleteObject(GameObject* _object)
 	delete _object;
 }
 
-void Scene::ProcessPandings()
+void Scene::ProcessPandingComps()
 {
-	//保留していたオブジェクト・コンポーネントを追加
-	for (auto& obj : panding_objs_) {
-		objs_.push_back(obj);
+	//Component削除により子Componentのvectorのeraseを行うべきGameObject
+	static std::set<GameObjectHandle> objs_to_update_childs;
+	while (true) {
+		//このループ内でGameObject/Componentの変更が生じたか
+		//HACK:要再考
+		bool has_changed = false;
+		if (panding_update_components_.size() > 0) {
+			for (auto itr = panding_update_components_.begin(); itr != panding_update_components_.end(); itr++) {
+				(*itr)->Initialize();
+				update_components_.push_back(*itr);
+			}
+			panding_update_components_.clear();
+			has_changed = true;
+		}
+		if (panding_output_components_.size() > 0) {
+			for (auto itr = panding_output_components_.begin(); itr != panding_output_components_.end(); itr++) {
+				(*itr)->Initialize();
+				output_components_.push_back(*itr);
+			}
+			panding_output_components_.clear();
+			has_changed = true;
+		}
+		if (erase_objs_.size() > 0) {
+			for (GameObjectHandle handle : erase_objs_) {
+				auto itr = id_objpointer_map_.find(handle);
+				if (itr != id_objpointer_map_.end()) {
+					itr->second->SetAllCompsFlag();
+					itr->second->~GameObject();
+					obj_pool_->free(itr->second);
+					id_objpointer_map_.erase(itr);
+				}
+			}
+			erase_objs_.clear();
+			has_changed = true;
+		}
+		std::erase_if(update_components_, [&](Component* comp) {
+			if (comp->GetDeleteFlag()) {
+				objs_to_update_childs.insert(comp->obj_);
+				delete comp;
+				has_changed = true;
+				return true;
+			}
+			return false;
+		});
+		std::sort(update_components_.begin(), update_components_.end(), [](Component* a, Component* b) {
+			return a->upd_priority_ > b->upd_priority_;
+		});
+		std::erase_if(output_components_, [&](Component* comp) {
+			if (comp->GetDeleteFlag()) {
+				objs_to_update_childs.insert(comp->obj_);
+				delete comp;
+				has_changed = true;
+				return true;
+			}
+			return false;
+		});
+		for (GameObjectHandle obj : objs_to_update_childs) {
+			auto itr = id_objpointer_map_.find(obj);
+			if (itr != id_objpointer_map_.end()) {
+				itr->second->UnregisterInvalidChilds();
+			}
+		}
+		objs_to_update_childs.clear();
+		std::sort(output_components_.begin(), output_components_.end(), [](Component* a, Component* b) {
+			return a->upd_priority_ > b->upd_priority_;
+		});
+		if (!has_changed) {
+			break;
+		}
 	}
-	panding_objs_.clear();
-	for (auto& handle : panding_update_components_) {
-		update_components_.insert(handle);
-	}
-	panding_update_components_.clear();
-	for (auto& handle : panding_output_components_) {
-		output_components_.insert(handle);
-	}
-	panding_output_components_.clear();
+}
+
+void Scene::ProcessPandingUIScreens()
+{
 	//PandingにあるUIScreenの追加
 	for (int n = 0; n < panding_uiscreens_.size(); n++) {
 		uiscreens_.push_back(panding_uiscreens_[n]);
@@ -344,3 +362,6 @@ void Scene::ProcessPandings()
 	}
 	panding_uiscreens_.clear();
 }
+
+std::optional<boost::pool<>> Scene::obj_pool_;
+std::map<GameObjectHandle, GameObject*> Scene::id_objpointer_map_;

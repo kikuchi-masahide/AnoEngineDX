@@ -26,9 +26,6 @@
     <ClCompile Include="Engine\GameObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObjectHandle.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\InputSystem.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -77,6 +74,9 @@
     <ClCompile Include="Engine\DX12\SwapChain.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
+    <ClCompile Include="test\Component1.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -90,9 +90,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObjectHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\InputSystem.h">
@@ -154,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="Engine\DX12\DX12Include.h">
       <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Component1.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

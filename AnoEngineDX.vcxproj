@@ -25,7 +25,6 @@
     <ClCompile Include="Engine\DX12\SwapChain.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
-    <ClCompile Include="Engine\GameObjectHandle.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
     <ClCompile Include="Engine\Log.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
@@ -44,6 +43,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="test\Component1.cpp" />
     <ClCompile Include="test\Game1.cpp" />
     <ClCompile Include="test\Scene1.cpp" />
   </ItemGroup>
@@ -57,7 +57,6 @@
     <ClInclude Include="Engine\DX12\SwapChain.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
-    <ClInclude Include="Engine\GameObjectHandle.h" />
     <ClInclude Include="Engine\InputSystem.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -72,6 +71,7 @@
     <ClInclude Include="Engine\UIScreen.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="test\Component1.h" />
     <ClInclude Include="test\Game1.h" />
     <ClInclude Include="test\Scene1.h" />
   </ItemGroup>

@@ -5,6 +5,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Component.h"
 #include "InputSystem.h"
 #include "Math/Math.h"
 
@@ -12,15 +13,21 @@ class Game;
 class UIScreen;
 class InputSystem;
 
-//TODO:コンポーネント、オブジェクトの初期化の方法を考える
-//コンストラクタは処理の軽い処理 -> Init()を後から呼び出し本格的な初期化を行う
-//Init()を呼び出していないインスタンスをハンドルから呼び出せないようにする
+//HACK:プロファイラができたら試すこと
+//・コンポーネントの初期化をstd::anyでもなんでも使って、Add~Componentで行わないようにする
+//・ComponentHandleでstd::weak_ptrを使えないか?使った場合の速度比較
+//・std::setなどをstd::vector等別のコンテナに変えた場合の比較
+//・poolを使えるところでもっと使った場合の比較
 
 /// <summary>
 /// シーンを表すクラス
 /// </summary>
 class Scene {
 public:
+	/// <summary>
+	/// プールなどの初期化。Gameのコンストラクタから呼び出す
+	/// </summary>
+	static void InitMemory();
 	//コンストラクタを呼び出せるのは_game自身のAddChildのみ
 	Scene(Game* const game);
 	/// <summary>
@@ -48,15 +55,47 @@ public:
 	/// (このフレームでのGameObject，Component追加はまだ保留状態)
 	/// </summary>
 	virtual void PosteriorUniqueOutput();
-	GameObjectHandle AddObject(MatVec::Vector2 pos, double scale, double angle);
+	GameObjectHandle AddObject(int comphandle_reserve_num = 4);
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
-	//このシーンに更新・出力コンポーネントを追加する
-	//GameObject::AddUpdate・OutputComponentから呼び出される
-	void AddUpdateComponent(GameObject* obj, ComponentHandle<Component> handle);
-	//このシーンに更新・出力コンポーネントを追加する
-	//GameObject::AddUpdate・OutputComponentから呼び出される
-	void AddOutputComponent(GameObject* obj, ComponentHandle<Component> handle);
+	/// <summary>
+	/// objの指すGameObjectにUpdateComponentを追加
+	/// </summary>
+	template<class T, class... Args>
+	ComponentHandle<T> AddUpdateComponent(GameObjectHandle obj, Args... args) {
+		//HACK:Sceneのデストラクタ実行時、panding_~_comps_が無限に増えていくことを防止
+		//コンストラクタ自体の実行をAdd~Componentで行わなければこれ要らないんだけど......
+		if (is_executing_destructor_) {
+			return ComponentHandle<T>();
+		}
+		auto itr = id_objpointer_map_.find(obj);
+		if (itr == id_objpointer_map_.end()) {
+			Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
+			return ComponentHandle<T>();
+		}
+		T* comp_p = DBG_NEW T(this, obj, args...);
+		panding_update_components_.push_back(comp_p);
+		itr->second->AddComponent(comp_p->This<Component>());
+		return comp_p->This<T>();
+	}
+	/// <summary>
+	/// objの指すGameObjectにOutputComponentを追加
+	/// </summary>
+	template<class T, class... Args>
+	ComponentHandle<T> AddOutputComponent(GameObjectHandle obj, Args... args) {
+		if (is_executing_destructor_) {
+			return ComponentHandle<T>();
+		}
+		auto itr = id_objpointer_map_.find(obj);
+		if (itr == id_objpointer_map_.end()) {
+			Log::OutputCritical("AddOutputComponent to unexisting GameObject");
+			return;
+		}
+		T* comp_p = DBG_NEW T(this, obj, args...);
+		panding_output_components_.push_back(comp_p);
+		itr->second->AddComponent(comp_p->This<Component>());
+		return comp_p->This<T>();
+	}
 	/// <summary>
 	/// UIScreenを継承するクラスの追加
 	/// </summary>
@@ -103,23 +142,15 @@ public:
 	/// </summary>
 	MatVec::Vector2 GetMouseScreenPos() const;
 	Game& game_;
+
+	void Erase(GameObjectHandle handle);
+
 protected:
 	virtual ~Scene();
 private:
-	//コンポーネントを持つsetのための順序比較ファンクタ
-	class ComponentHandleCompare {
-	public:
-		bool operator()(const ComponentHandle<Component>& left, const ComponentHandle<Component>& right) const {
-			if (!left.IsValid())return false;
-			if (!right.IsValid())return true;
-			return left->upd_priority_ > right->upd_priority_;
-		}
-	};
 	//自分の持つ全更新・出力コンポーネントのUpdateを呼び出す(保留コンポーネントのそれは実行しない)
 	void LaunchUpdateComponents();
 	void LaunchOutputComponents();
-	//Deleteフラグが立っているコンポーネント・オブジェクトを削除
-	void DeleteObjComp();
 	void DeleteUIScreen();
 	//UIScreenのUpdateを奥から呼び出す
 	void LaunchUIScreenUpdate();
@@ -127,20 +158,18 @@ private:
 	void LaunchOutputUIScreens();
 	//このオブジェクトのポインタをdeleteしデストラクタを呼ぶ
 	void DeleteObject(GameObject* _object);
-	//保留中のオブジェクト等をマージ
-	void ProcessPandings();
 	GameObject* operator&() const noexcept;
 	bool delete_flag_;
 	friend Game;
 	bool delete_check_;
 	//自身の持つGameObjectのリスト及び保留中のオブジェクト
-	std::list<GameObject*> objs_;
-	std::vector<GameObject*> panding_objs_;
+	std::vector<GameObject*> objs_;
 	//自身の持つ更新・出力コンポーネントのリスト，および保留コンポーネント
-	std::multiset<ComponentHandle<Component>, ComponentHandleCompare> update_components_;
-	std::vector<ComponentHandle<Component>> panding_update_components_;
-	std::multiset<ComponentHandle<Component>, ComponentHandleCompare> output_components_;
-	std::vector<ComponentHandle<Component>> panding_output_components_;
+	//HACK:余裕あったら別のコンテナに変えた場合のパフォーマンス比較
+	std::vector<Component*> update_components_;
+	std::vector<Component*> panding_update_components_;
+	std::vector<Component*> output_components_;
+	std::vector<Component*> panding_output_components_;
 	//コンポーネント・オブジェクトを直接リストに入れられるか?
 	bool is_objcomp_addable_;
 	//持っているUIScreen群(添え字の大きいものが後に追加されたUIScreen)
@@ -166,4 +195,16 @@ private:
 	std::vector<MatVec::Vector2> prev_mouse_pos_for_uiscreens_;
 	//デストラクタ実行時のみtrue
 	bool is_executing_destructor_;
+
+	constexpr static int kMaxObjNum_ = 10000;
+	//GameObjectを保存するメモリプール
+	static std::optional<boost::pool<>> obj_pool_;
+	//HACK:アロケータ載せてプール使う?
+	static std::map<GameObjectHandle, GameObject*> id_objpointer_map_;
+	//次にGameObjectを追加するとき使うid
+	int next_obj_id_;
+	//次消すべきオブジェクトのid
+	std::vector<GameObjectHandle> erase_objs_;
+	void ProcessPandingComps();
+	void ProcessPandingUIScreens();
 };

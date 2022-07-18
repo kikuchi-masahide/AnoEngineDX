@@ -4,21 +4,24 @@
 //================================================================================
 #pragma once
 
-class Scene;
-class Game;
-
+#include "GameObject.h"
 #include "ComponentHandle.h"
-#include "GameObjectHandle.h"
+
+class Scene;
 
 /// <summary>
 /// オブジェクトの機能を表すクラス
 /// オブジェクトの更新をするコンポーネントと出力をするコンポーネントは両方この基底クラスから派生させる
 /// </summary>
-// HACK:コンポーネントをこのクラスの派生にせず，処理の中身・持つデータを型クラスにするのはありか?
 class Component {
 public:
 	/// <param name="_order">優先度 高いほど先に呼び出される</param>
-	Component(GameObjectHandle handle, int order = 0);
+	Component(Scene* scene, GameObjectHandle handle, int order = 0);
+	virtual void Initialize();
+	/// <summary>
+	/// Sceneのデストラクタが実行された際の呼び出しなどでは、Add~Componentしても必ず有効なComponentが返ってくるとは限らないことに注意
+	/// </summary>
+	virtual ~Component();
 	/// <summary>
 	/// コンポ－ネントの更新処理
 	/// </summary>
@@ -26,17 +29,16 @@ public:
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
 	const int upd_priority_;
-	const GameObjectHandle obj_;
-protected:
-	virtual ~Component();
+	GameObjectHandle const obj_;
+	Scene* const scene_;
 	//自身を指すハンドルを返す関数
 	template<class T>
 	ComponentHandle<T> This()
 	{
 		return ComponentHandle<T>((T*)this, &handles_);
 	}
+protected:
 private:
-	friend class GameObject;
 	//&でインスタンスのポインタを取得させない
 	Component* operator&() const noexcept;
 	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
