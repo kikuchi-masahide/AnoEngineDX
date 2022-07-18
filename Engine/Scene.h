@@ -144,6 +144,9 @@ public:
 	Game& game_;
 
 	void Erase(GameObjectHandle handle);
+	int GetGameObjectNumber();
+	int GetUpdateComponentNumber();
+	int GetOutputComponentNumber();
 
 protected:
 	virtual ~Scene();

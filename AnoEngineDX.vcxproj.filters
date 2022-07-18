@@ -77,6 +77,9 @@
     <ClCompile Include="test\Component1.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Profiller.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="test\Component1.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Profiller.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

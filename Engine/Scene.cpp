@@ -182,6 +182,21 @@ void Scene::Erase(GameObjectHandle handle)
 	erase_objs_.push_back(handle);
 }
 
+int Scene::GetGameObjectNumber()
+{
+	return id_objpointer_map_.size();
+}
+
+int Scene::GetUpdateComponentNumber()
+{
+	return update_components_.size();
+}
+
+int Scene::GetOutputComponentNumber()
+{
+	return output_components_.size();
+}
+
 void Scene::LaunchUpdateComponents()
 {
 	for (auto itr = update_components_.begin(); itr != update_components_.end(); itr++) {

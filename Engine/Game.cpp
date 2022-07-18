@@ -8,14 +8,17 @@
 
 #pragma comment(lib,"winmm.lib")
 
-Game::Game()
-	:is_executing_destructor_(false)
+Game::Game(bool profiller)
+	:is_executing_destructor_(false), kProfiller(profiller),profiller_(this)
 {
 	Log::Init();
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
 	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
+	if (kProfiller) {
+		profiller_.Init();
+	}
 	Scene::InitMemory();
 }
 
@@ -29,17 +32,19 @@ Game::~Game()
 	dx12_.CleanUp();
 }
 
-void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid)
+void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid, bool use_swapchain)
 {
 	BOOST_ASSERT_MSG(windowid >= 0, "windowID must be non-negative");
 	BOOST_ASSERT_MSG(windows_.find(windowid) == windows_.end(), "windowID duplicating");
 	//ウィンドウの追加
 	boost::shared_ptr<Window> window(new Window(wndproc, classID, width, height, windowTitle));
 	windows_[windowid] = window;
-	//ウィンドウに付随するスワップチェーンの追加
-	HWND hwnd = window->GetWindowHandle();
-	std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
-	swapchains_.emplace(windowid, swapchain);
+	if (use_swapchain) {
+		//ウィンドウに付随するスワップチェーンの追加
+		HWND hwnd = window->GetWindowHandle();
+		std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
+		swapchains_.emplace(windowid, swapchain);
+	}
 	return;
 }
 
@@ -84,10 +89,20 @@ void Game::RunLoop()
 		start = now;
 		ProcessInput();
 		while (millisec > kFrameTimeDelta) {
+			int obj_num = current_scene_->GetGameObjectNumber();
+			int update_comp_num = current_scene_->GetUpdateComponentNumber();
+			int output_comp_num = current_scene_->GetOutputComponentNumber();
+			DWORD update_time = timeGetTime();
 			UpdateGame();
+			update_time = timeGetTime() - update_time;
+			DWORD output_time = timeGetTime();
+			GenerateOutput();
+			output_time = timeGetTime() - output_time;
+			if (kProfiller) {
+				profiller_.UpdateInfo(update_time, output_time, obj_num, update_comp_num, output_comp_num);
+			}
 			millisec -= kFrameTimeDelta;
 		}
-		GenerateOutput();
 		if (terminate_flag_) {
 			for (auto window : windows_) {
 				DestroyWindow(window.second->GetWindowHandle());
