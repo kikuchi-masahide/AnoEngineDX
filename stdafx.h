@@ -35,6 +35,7 @@
 #include "boost/make_shared.hpp"
 #include "boost/scoped_ptr.hpp"
 #include "boost/pool/pool.hpp"
+#include "boost/thread.hpp"
 
 //正直ここに置きたくないが，シェーダとの情報の受け渡しのために仕方なく
 #include <DirectXMath.h>

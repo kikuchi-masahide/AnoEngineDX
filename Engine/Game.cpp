@@ -8,17 +8,14 @@
 
 #pragma comment(lib,"winmm.lib")
 
-Game::Game(bool profiller)
-	:is_executing_destructor_(false), kProfiller(profiller),profiller_(this)
+Game::Game()
+	:is_executing_destructor_(false)
 {
 	Log::Init();
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
 	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
-	if (kProfiller) {
-		profiller_.Init();
-	}
 	Scene::InitMemory();
 }
 
@@ -30,6 +27,7 @@ Game::~Game()
 		DeleteScene(panding_scene_);
 	}
 	dx12_.CleanUp();
+	Log::CleanUp();
 }
 
 void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid, bool use_swapchain)
@@ -98,9 +96,7 @@ void Game::RunLoop()
 			DWORD output_time = timeGetTime();
 			GenerateOutput();
 			output_time = timeGetTime() - output_time;
-			if (kProfiller) {
-				profiller_.UpdateInfo(update_time, output_time, obj_num, update_comp_num, output_comp_num);
-			}
+			Log::UpdateDatas(update_time, output_time, obj_num, update_comp_num, output_comp_num);
 			millisec -= kFrameTimeDelta;
 		}
 		if (terminate_flag_) {

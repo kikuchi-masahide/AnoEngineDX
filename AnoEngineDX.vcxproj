@@ -33,7 +33,6 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
-    <ClCompile Include="Engine\Profiller.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
     <ClCompile Include="Engine\UIScreen.cpp" />
     <ClCompile Include="Engine\window.cpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
-    <ClInclude Include="Engine\Profiller.h" />
     <ClInclude Include="Engine\Scene.h" />
     <ClInclude Include="Engine\UIScreen.h" />
     <ClInclude Include="Engine\window.h" />

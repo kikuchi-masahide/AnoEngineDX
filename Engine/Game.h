@@ -5,7 +5,6 @@
 #pragma once
 #include "DX12/Master.h"
 #include "InputSystem.h"
-#include "Profiller.h"
 
 class Scene;
 class Window;
@@ -17,9 +16,7 @@ public:
 	static constexpr double kFrameTimeDelta = 1000.0 / 60;
 	//前の処理との時間差がこの時間を超えた場合、この値に矯正する
 	static constexpr double kProcessTimeDeltaLimit = kFrameTimeDelta * 3;
-	//profillerを起動する場合trueに
-	bool const kProfiller;
-	Game(bool profiller = false);
+	Game();
 	virtual ~Game();
 	/// <summary>
 	/// 次フレームからどのシーンに移行するか指定する．
@@ -107,5 +104,4 @@ private:
 	InputSystem input_system_;
 	bool is_executing_destructor_;
 	bool terminate_flag_;
-	Profiller profiller_;
 };
