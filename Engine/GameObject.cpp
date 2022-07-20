@@ -10,7 +10,6 @@ GameObject::GameObject(int id, int comphandle_reserve_num)
 	:kObjId(id)
 {
 	comps_.reserve(comphandle_reserve_num);
-	Log::OutputTrivial("GameObject::GameObject()");
 }
 
 void GameObject::AddComponent(ComponentHandle<Component> comp)
@@ -34,5 +33,4 @@ void GameObject::SetAllCompsFlag()
 
 GameObject::~GameObject()
 {
-	Log::OutputTrivial("GameObject::~GameObject()");
 }
