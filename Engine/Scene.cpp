@@ -9,16 +9,29 @@
 #include "Game.h"
 #include "window.h"
 
-//sizeバイトのComponentには32バイトのチャンクが何個必要か
-int GetChunkNum(std::size_t size) {
-	return (size + 31) / 32;
+//このサイズが<=64ならば1,<=96ならば2,<=128ならば3,>128ならば4を返す
+int GetSizeClass(std::size_t size) {
+	if (size <= 64) {
+		return 1;
+	}
+	else if (size <= 96) {
+		return 2;
+	}
+	else if (size <= 128) {
+		return 3;
+	}
+	else {
+		return 4;
+	}
 }
 
 void Scene::InitMemory()
 {
 	Log::OutputTrivial("Scene::InitMemory()");
 	obj_pool_.emplace(sizeof(GameObject), kMaxObjNum_);
-	comp_pool_.emplace(32, kCompPoolChunkNum);
+	comp_pool_64_.emplace(64, kMaxCompNum64_);
+	comp_pool_96_.emplace(96, kMaxCompNum96_);
+	comp_pool_128_.emplace(128, kMaxCompNum128_);
 }
 
 Scene::Scene(Game* const game)
@@ -386,6 +399,10 @@ void Scene::ProcessPandingUIScreens()
 }
 
 std::optional<boost::pool<>> Scene::obj_pool_;
-std::optional<boost::pool<>> Scene::comp_pool_;
 std::map<GameObjectHandle, GameObject*> Scene::id_objpointer_map_;
-int Scene::comp_pool_used_chunk_ = 0;
+std::optional<boost::pool<>> Scene::comp_pool_64_;
+std::optional<boost::pool<>> Scene::comp_pool_96_;
+std::optional<boost::pool<>> Scene::comp_pool_128_;
+int Scene::comp_pool_used_chunk_64_ = 0;
+int Scene::comp_pool_used_chunk_96_ = 0;
+int Scene::comp_pool_used_chunk_128_ = 0;
