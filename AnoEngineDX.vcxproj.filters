@@ -15,7 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Engine\Component.cpp">
       <Filter>Engine</Filter>
@@ -59,12 +58,6 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="test\Scene1.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="test\Game1.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
     <ClCompile Include="engine\DX12\Master.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
@@ -73,6 +66,13 @@
     </ClCompile>
     <ClCompile Include="Engine\DX12\SwapChain.cpp">
       <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="test\Game1.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Scene1.cpp">
+      <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="test\Component1.cpp">
       <Filter>test</Filter>
@@ -131,12 +131,6 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="test\Scene1.h">
-      <Filter>test</Filter>
-    </ClInclude>
-    <ClInclude Include="test\Game1.h">
-      <Filter>test</Filter>
-    </ClInclude>
     <ClInclude Include="engine\DX12\Master.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
@@ -151,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="Engine\DX12\DX12Include.h">
       <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Game1.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Scene1.h">
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\Component1.h">
       <Filter>test</Filter>

@@ -19,8 +19,8 @@ void GameObject::AddComponent(ComponentHandle<Component> comp)
 
 void GameObject::UnregisterInvalidChilds()
 {
-	std::erase_if(comps_, [](ComponentHandle<Component> comp) {
-		return !comp.IsValid();
+	std::erase_if(comps_, [](const ComponentHandle<Component>& comp) {
+		return !comp;
 	});
 }
 

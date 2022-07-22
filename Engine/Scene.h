@@ -73,10 +73,11 @@ public:
 			Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
 			return ComponentHandle<T>();
 		}
-		T* comp_p = DBG_NEW T(this, obj, args...);
-		panding_update_components_.push_back(comp_p);
-		itr->second->AddComponent(comp_p->This<Component>());
-		return comp_p->This<T>();
+		std::shared_ptr<T> shp(DBG_NEW T(this, obj, args...));
+		panding_update_components_.push_back(shp);
+		shp->SetSelfSharedptr(shp);
+		itr->second->AddComponent(ComponentHandle(shp));
+		return ComponentHandle(shp);
 	}
 	/// <summary>
 	/// objの指すGameObjectにOutputComponentを追加
@@ -91,10 +92,11 @@ public:
 			Log::OutputCritical("AddOutputComponent to unexisting GameObject");
 			return;
 		}
-		T* comp_p = DBG_NEW T(this, obj, args...);
-		panding_output_components_.push_back(comp_p);
-		itr->second->AddComponent(comp_p->This<Component>());
-		return comp_p->This<T>();
+		std::shared_ptr<T> shp(DBG_NEW T(this, obj, args...));
+		panding_output_components_.push_back(shp);
+		shp->SetSelfSharedptr(shp);
+		itr->second->AddComponent(ComponentHandle(shp));
+		return ComponentHandle(shp);
 	}
 	/// <summary>
 	/// UIScreenを継承するクラスの追加
@@ -169,10 +171,10 @@ private:
 	std::vector<GameObject*> objs_;
 	//自身の持つ更新・出力コンポーネントのリスト，および保留コンポーネント
 	//HACK:余裕あったら別のコンテナに変えた場合のパフォーマンス比較
-	std::vector<Component*> update_components_;
-	std::vector<Component*> panding_update_components_;
-	std::vector<Component*> output_components_;
-	std::vector<Component*> panding_output_components_;
+	std::vector<std::shared_ptr<Component>> update_components_;
+	std::vector<std::shared_ptr<Component>> panding_update_components_;
+	std::vector<std::shared_ptr<Component>> output_components_;
+	std::vector<std::shared_ptr<Component>> panding_output_components_;
 	//コンポーネント・オブジェクトを直接リストに入れられるか?
 	bool is_objcomp_addable_;
 	//持っているUIScreen群(添え字の大きいものが後に追加されたUIScreen)

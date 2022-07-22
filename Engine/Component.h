@@ -28,6 +28,8 @@ public:
 	virtual void Update() = 0;
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
+	//自分を指すshared_ptrを設定する(Thisの際に用いる)
+	void SetSelfSharedptr(std::shared_ptr<Component> comp);
 	const int upd_priority_;
 	GameObjectHandle const obj_;
 	Scene* const scene_;
@@ -35,14 +37,23 @@ public:
 	template<class T>
 	ComponentHandle<T> This()
 	{
-		return ComponentHandle<T>((T*)this, &handles_);
+#ifdef _DEBUG
+		//デバッグ時はdynamic_pointer_castを行い安全な型変換か確認する
+		if (std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(self_.lock())) {
+			return ComponentHandle<T>(result);
+		}
+		else {
+			Log::OutputCritical("Component::This() for bad type of ComponentHandle");
+			return ComponentHandle<T>();
+		}
+#else
+		return ComponentHandle<T>(std::static_pointer_cast<T>(self_.lock()));
+#endif
 	}
 protected:
 private:
 	//&でインスタンスのポインタを取得させない
 	Component* operator&() const noexcept;
-	//自分を指すハンドルの集合のポインタ(void*を使うのは何というかやめたい)
-	std::unordered_set<void*> handles_;
-	bool delete_check_;
+	std::weak_ptr<Component> self_;
 	bool delete_flag_;
 };

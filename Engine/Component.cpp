@@ -9,9 +9,8 @@
 #include "ComponentHandle.h"
 
 Component::Component(Scene* scene, GameObjectHandle handle, int order)
-	: upd_priority_(order), obj_(handle), delete_flag_(false), delete_check_(false), scene_(scene)
+	: upd_priority_(order), obj_(handle), delete_flag_(false), scene_(scene)
 {
-	handles_.reserve(10);
 }
 
 void Component::Initialize()
@@ -19,11 +18,6 @@ void Component::Initialize()
 }
 
 Component::~Component() {
-	while (!handles_.empty()) {
-		auto itr = handles_.begin();
-		auto handle = static_cast<ComponentHandle<Component>*>(*itr);
-		handle->Reset();
-	}
 }
 
 void Component::Update() {}
@@ -36,4 +30,9 @@ bool Component::GetDeleteFlag() const
 void Component::SetDeleteFlag()
 {
 	delete_flag_ = true;
+}
+
+void Component::SetSelfSharedptr(std::shared_ptr<Component> comp)
+{
+	self_ = comp;
 }

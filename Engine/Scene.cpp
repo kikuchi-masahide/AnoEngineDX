@@ -99,17 +99,17 @@ Scene::~Scene() {
 		obj_pool_->free(p.second);
 	}
 	id_objpointer_map_.clear();
-	for (Component* comp : update_components_) {
-		delete comp;
+	for (auto& comp : update_components_) {
+		comp.reset();
 	}
 	for (auto itr = panding_update_components_.begin(); itr != panding_update_components_.end(); itr++) {
-		delete (*itr);
+		itr->reset();
 	}
-	for (Component* comp : output_components_) {
-		delete comp;
+	for (auto& comp : output_components_) {
+		comp.reset();
 	}
 	for (auto itr = panding_output_components_.begin(); itr != panding_output_components_.end(); itr++) {
-		delete (*itr);
+		itr->reset();
 	}
 	//UIScreen‚Ìíœˆ—
 	for (auto uiscreen : uiscreens_)
@@ -329,22 +329,23 @@ void Scene::ProcessPandingComps()
 			erase_objs_.clear();
 			has_changed = true;
 		}
-		std::erase_if(update_components_, [&](Component* comp) {
+		std::erase_if(update_components_, [&](std::shared_ptr<Component>& comp) {
 			if (comp->GetDeleteFlag()) {
 				objs_to_update_childs.insert(comp->obj_);
-				delete comp;
+				comp.reset();
 				has_changed = true;
 				return true;
 			}
 			return false;
 		});
-		std::sort(update_components_.begin(), update_components_.end(), [](Component* a, Component* b) {
+		std::sort(update_components_.begin(), update_components_.end(), 
+			[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
 			return a->upd_priority_ > b->upd_priority_;
 		});
-		std::erase_if(output_components_, [&](Component* comp) {
+		std::erase_if(output_components_, [&](std::shared_ptr<Component>& comp) {
 			if (comp->GetDeleteFlag()) {
 				objs_to_update_childs.insert(comp->obj_);
-				delete comp;
+				comp.reset();
 				has_changed = true;
 				return true;
 			}
@@ -357,7 +358,8 @@ void Scene::ProcessPandingComps()
 			}
 		}
 		objs_to_update_childs.clear();
-		std::sort(output_components_.begin(), output_components_.end(), [](Component* a, Component* b) {
+		std::sort(output_components_.begin(), output_components_.end(),
+			[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
 			return a->upd_priority_ > b->upd_priority_;
 		});
 		if (!has_changed) {
