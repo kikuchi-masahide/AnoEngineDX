@@ -379,3 +379,4 @@ test/
 main.cpp
 profiller/
 memos/
+*.dll

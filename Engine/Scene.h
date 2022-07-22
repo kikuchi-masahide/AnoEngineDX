@@ -63,108 +63,12 @@ public:
 	/// objの指すGameObjectにUpdateComponentを追加
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddUpdateComponent(GameObjectHandle obj, Args... args) {
-		//HACK:Sceneのデストラクタ実行時、panding_~_comps_が無限に増えていくことを防止
-		//コンストラクタ自体の実行をAdd~Componentで行わなければこれ要らないんだけど......
-		if (is_executing_destructor_) {
-			return ComponentHandle<T>();
-		}
-		auto itr = id_objpointer_map_.find(obj);
-		if (itr == id_objpointer_map_.end()) {
-			Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
-			return ComponentHandle<T>();
-		}
-		std::shared_ptr<T> shp;
-		switch (GetSizeClass(sizeof(T))) {
-		case 1: {
-			comp_pool_used_chunk_64_++;
-			shp = std::shared_ptr<T>(new(comp_pool_64_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_64_->free(p);
-				comp_pool_used_chunk_64_--;
-			});
-			break;
-		}
-		case 2: {
-			comp_pool_used_chunk_96_++;
-			shp = std::shared_ptr<T>(new(comp_pool_96_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_96_->free(p);
-				comp_pool_used_chunk_96_--;
-			});
-			break;
-		}
-		case 3: {
-			comp_pool_used_chunk_128_++;
-			shp = std::shared_ptr<T>(new(comp_pool_128_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_128_->free(p);
-				comp_pool_used_chunk_128_--;
-			});
-			break;
-		}
-		case 4: {
-			shp = std::shared_ptr<T>(new T(this, obj, args...));
-			break;
-		}
-		}
-		panding_update_components_.push_back(shp);
-		shp->SetSelfSharedptr(shp);
-		itr->second->AddComponent(ComponentHandle(shp));
-		return ComponentHandle(shp);
-	}
+	ComponentHandle<T> AddUpdateComponent(GameObjectHandle obj, Args... args);
 	/// <summary>
 	/// objの指すGameObjectにOutputComponentを追加
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddOutputComponent(GameObjectHandle obj, Args... args) {
-		if (is_executing_destructor_) {
-			return ComponentHandle<T>();
-		}
-		auto itr = id_objpointer_map_.find(obj);
-		if (itr == id_objpointer_map_.end()) {
-			Log::OutputCritical("AddOutputComponent to unexisting GameObject");
-			return;
-		}
-		std::shared_ptr<T> shp;
-		switch (GetSizeClass(sizeof(T))) {
-		case 1: {
-			comp_pool_used_chunk_64_++;
-			shp = std::shared_ptr<T>(new(comp_pool_64_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_64_->free(p);
-				comp_pool_used_chunk_64_--;
-			});
-			break;
-		}
-		case 2: {
-			comp_pool_used_chunk_96_++;
-			shp = std::shared_ptr<T>(new(comp_pool_96_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_96_->free(p);
-				comp_pool_used_chunk_96_--;
-			});
-			break;
-		}
-		case 3: {
-			comp_pool_used_chunk_128_++;
-			shp = std::shared_ptr<T>(new(comp_pool_128_->malloc()) T(this, obj, args...), [&](T* p) {
-				p->~T();
-				comp_pool_128_->free(p);
-				comp_pool_used_chunk_128_--;
-			});
-			break;
-		}
-		case 4: {
-			shp = std::shared_ptr<T>(new T(this, obj, args...));
-			break;
-		}
-		}
-		panding_output_components_.push_back(shp);
-		shp->SetSelfSharedptr(shp);
-		itr->second->AddComponent(ComponentHandle(shp));
-		return ComponentHandle(shp);
-	}
+	ComponentHandle<T> AddOutputComponent(GameObjectHandle obj, Args... args);
 	/// <summary>
 	/// UIScreenを継承するクラスの追加
 	/// </summary>
@@ -293,4 +197,76 @@ private:
 	std::vector<GameObjectHandle> erase_objs_;
 	void ProcessPandingComps();
 	void ProcessPandingUIScreens();
+	static void CompPoolDeleter64(Component* p);
+	static void CompPoolDeleter96(Component* p);
+	static void CompPoolDeleter128(Component* p);
+	//メモリプール上にアロケートしコンストラクタを実行する AddUpdate/OutputComponent用
+	template<class T, class... Args>
+	std::shared_ptr<Component> AllocateComponentInPool(GameObjectHandle obj, Args... args);
 };
+
+template<class T, class ...Args>
+inline ComponentHandle<T> Scene::AddUpdateComponent(GameObjectHandle obj, Args ...args)
+{
+	//HACK:Sceneのデストラクタ実行時、panding_~_comps_が無限に増えていくことを防止
+	//コンストラクタ自体の実行をAdd~Componentで行わなければこれ要らないんだけど......
+	if (is_executing_destructor_) {
+		return ComponentHandle<T>();
+	}
+	auto itr = id_objpointer_map_.find(obj);
+	if (itr == id_objpointer_map_.end()) {
+		Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
+		return ComponentHandle<T>();
+	}
+	std::shared_ptr<Component> shp = AllocateComponentInPool<T>(obj, args...);
+	panding_update_components_.push_back(shp);
+	shp->SetSelfSharedptr(shp);
+	itr->second->AddComponent(ComponentHandle(shp));
+	return ComponentHandle(shp);
+}
+
+template<class T, class ...Args>
+inline ComponentHandle<T> Scene::AddOutputComponent(GameObjectHandle obj, Args ...args)
+{
+	if (is_executing_destructor_) {
+		return ComponentHandle<T>();
+	}
+	auto itr = id_objpointer_map_.find(obj);
+	if (itr == id_objpointer_map_.end()) {
+		Log::OutputCritical("AddOutputComponent to unexisting GameObject");
+		return;
+	}
+	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
+	panding_output_components_.push_back(shp);
+	shp->SetSelfSharedptr(shp);
+	itr->second->AddComponent(ComponentHandle(shp));
+	return ComponentHandle(shp);
+}
+
+template<class T, class ...Args>
+inline std::shared_ptr<Component> Scene::AllocateComponentInPool(GameObjectHandle obj, Args ...args)
+{
+	std::shared_ptr<Component> shp;
+	switch (GetSizeClass(sizeof(T))) {
+	case 1: {
+		comp_pool_used_chunk_64_++;
+		shp = std::shared_ptr<Component>(new(comp_pool_64_->malloc()) T(this, obj, args...), CompPoolDeleter64);
+		break;
+	}
+	case 2: {
+		comp_pool_used_chunk_96_++;
+		shp = std::shared_ptr<Component>(new(comp_pool_96_->malloc()) T(this, obj, args...), CompPoolDeleter96);
+		break;
+	}
+	case 3: {
+		comp_pool_used_chunk_128_++;
+		shp = std::shared_ptr<Component>(new(comp_pool_128_->malloc()) T(this, obj, args...), CompPoolDeleter128);
+		break;
+	}
+	case 4: {
+		shp = std::shared_ptr<Component>(new T(this, obj, args...));
+		break;
+	}
+	}
+	return shp;
+}

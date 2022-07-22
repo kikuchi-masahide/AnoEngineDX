@@ -398,6 +398,27 @@ void Scene::ProcessPandingUIScreens()
 	panding_uiscreens_.clear();
 }
 
+void Scene::CompPoolDeleter64(Component* p)
+{
+	p->~Component();
+	comp_pool_used_chunk_64_--;
+	comp_pool_64_->free(p);
+}
+
+void Scene::CompPoolDeleter96(Component* p)
+{
+	p->~Component();
+	comp_pool_used_chunk_96_--;
+	comp_pool_96_->free(p);
+}
+
+void Scene::CompPoolDeleter128(Component* p)
+{
+	p->~Component();
+	comp_pool_used_chunk_128_--;
+	comp_pool_128_->free(p);
+}
+
 std::optional<boost::pool<>> Scene::obj_pool_;
 std::map<GameObjectHandle, GameObject*> Scene::id_objpointer_map_;
 std::optional<boost::pool<>> Scene::comp_pool_64_;
