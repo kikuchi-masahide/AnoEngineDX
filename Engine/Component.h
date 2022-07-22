@@ -32,6 +32,7 @@ public:
 	void SetSelfSharedptr(std::shared_ptr<Component> comp);
 	const int upd_priority_;
 	GameObjectHandle const obj_;
+	//HACK:GameObjectにscene_を移せば、メモリ削減にはなる。する意味はあるか?現状sizeof(Component)=48
 	Scene* const scene_;
 	//自身を指すハンドルを返す関数
 	template<class T>

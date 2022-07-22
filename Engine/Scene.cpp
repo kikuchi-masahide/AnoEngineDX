@@ -9,10 +9,16 @@
 #include "Game.h"
 #include "window.h"
 
+//sizeバイトのComponentには32バイトのチャンクが何個必要か
+int GetChunkNum(std::size_t size) {
+	return (size + 31) / 32;
+}
+
 void Scene::InitMemory()
 {
-	obj_pool_.emplace(sizeof(GameObject), kMaxObjNum_);
 	Log::OutputTrivial("Scene::InitMemory()");
+	obj_pool_.emplace(sizeof(GameObject), kMaxObjNum_);
+	comp_pool_.emplace(32, kCompPoolChunkNum);
 }
 
 Scene::Scene(Game* const game)
@@ -120,7 +126,6 @@ Scene::~Scene() {
 	{
 		delete uiscreen;
 	}
-
 }
 
 ButtonState Scene::GetKeyState(int key) const
@@ -381,4 +386,6 @@ void Scene::ProcessPandingUIScreens()
 }
 
 std::optional<boost::pool<>> Scene::obj_pool_;
+std::optional<boost::pool<>> Scene::comp_pool_;
 std::map<GameObjectHandle, GameObject*> Scene::id_objpointer_map_;
+int Scene::comp_pool_used_chunk_ = 0;

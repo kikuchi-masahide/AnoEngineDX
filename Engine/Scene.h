@@ -13,6 +13,7 @@ class Game;
 class UIScreen;
 class InputSystem;
 
+int GetChunkNum(std::size_t size);
 //HACK:プロファイラができたら試すこと
 //・コンポーネントの初期化をstd::anyでもなんでも使って、Add~Componentで行わないようにする
 //・ComponentHandleでstd::weak_ptrを使えないか?使った場合の速度比較
@@ -73,7 +74,20 @@ public:
 			Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
 			return ComponentHandle<T>();
 		}
-		std::shared_ptr<T> shp(DBG_NEW T(this, obj, args...));
+		int ch = GetChunkNum(sizeof(T));
+		void* malloced = comp_pool_->ordered_malloc(ch);
+		comp_pool_used_chunk_ += ch;
+		if (comp_pool_used_chunk_ > kCompPoolChunkNum) {
+			Log::OutputCritical("size of Scene::comp_pool_ has exceeded kCompPoolChunkNum");
+		}
+		//HACK:deleterをstruct等で定義した方が速そうだがなぜかできなかったのでとりあえずパス
+		std::shared_ptr<T> shp(
+			new(malloced) T(this, obj, args...), [&](T* p) {
+			p->~T();
+			int ch = GetChunkNum(sizeof(T));
+			comp_pool_->ordered_free(p, ch);
+			comp_pool_used_chunk_ -= ch;
+		});
 		panding_update_components_.push_back(shp);
 		shp->SetSelfSharedptr(shp);
 		itr->second->AddComponent(ComponentHandle(shp));
@@ -92,7 +106,19 @@ public:
 			Log::OutputCritical("AddOutputComponent to unexisting GameObject");
 			return;
 		}
-		std::shared_ptr<T> shp(DBG_NEW T(this, obj, args...));
+		int ch = GetChunkNum(sizeof(T));
+		void* malloced = comp_pool_->ordered_malloc(ch);
+		comp_pool_used_chunk_ += ch;
+		if (comp_pool_used_chunk_ > kCompPoolChunkNum) {
+			Log::OutputCritical("size of Scene::comp_pool_ has exceeded kCompPoolChunkNum");
+		}
+		std::shared_ptr<T, SceneCompPoolDeleter<T>> shp(
+			new(malloced) T(this, obj, args...), [&](T* p) {
+			p->~T();
+			int ch = GetChunkNum(sizeof(T));
+			comp_pool_->ordered_free(p, ch);
+			comp_pool_used_chunk_ -= ch;
+		});
 		panding_output_components_.push_back(shp);
 		shp->SetSelfSharedptr(shp);
 		itr->second->AddComponent(ComponentHandle(shp));
@@ -201,9 +227,18 @@ private:
 	//デストラクタ実行時のみtrue
 	bool is_executing_destructor_;
 
-	constexpr static int kMaxObjNum_ = 10000;
+	//プールに保存できるオブジェクトの最大数
+	static constexpr int kMaxObjNum_ = 10000;
+	//componentプールのチャンク数
+	static constexpr int kCompPoolChunkNum = 80000;
+	//componentプールの、使用チャンク数
+	static int comp_pool_used_chunk_;
 	//GameObjectを保存するメモリプール
+	//HACK:メモリプールのアロケータをDBG_NEWにできればリークの時にこの行数が出力できるが、
+	//そもそも通常のnewでもリーク自体は検出できているので、とりあえず今は考えていない
 	static std::optional<boost::pool<>> obj_pool_;
+	//チャンクサイズが32バイトであるComponent用プール
+	static std::optional<boost::pool<>> comp_pool_;
 	//HACK:アロケータ載せてプール使う?
 	static std::map<GameObjectHandle, GameObject*> id_objpointer_map_;
 	//次にGameObjectを追加するとき使うid
