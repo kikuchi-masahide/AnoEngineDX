@@ -5,6 +5,8 @@
 #include "Game.h"
 #include "window.h"
 #include "Scene.h"
+#include "GameObject.h"
+#include "boost/pool/pool_alloc.hpp"
 
 #pragma comment(lib,"winmm.lib")
 
@@ -26,7 +28,9 @@ Game::~Game()
 	if (panding_scene_ != nullptr) {
 		DeleteScene(panding_scene_);
 	}
+	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
 	dx12_.CleanUp();
+	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
 }
 

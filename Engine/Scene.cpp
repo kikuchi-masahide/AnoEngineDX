@@ -9,22 +9,6 @@
 #include "Game.h"
 #include "window.h"
 
-//このサイズが<=64ならば1,<=96ならば2,<=128ならば3,>128ならば4を返す
-int GetSizeClass(std::size_t size) {
-	if (size <= 64) {
-		return 1;
-	}
-	else if (size <= 96) {
-		return 2;
-	}
-	else if (size <= 128) {
-		return 3;
-	}
-	else {
-		return 4;
-	}
-}
-
 void Scene::InitMemory()
 {
 	Log::OutputTrivial("Scene::InitMemory()");
@@ -87,7 +71,7 @@ void Scene::PosteriorUniqueOutput()
 {
 }
 
-GameObjectHandle Scene::AddObject(int comphandle_reserve_num)
+GameObjectHandle Scene::AddObject()
 {
 	//デストラクタ実行中なので追加を行わない
 	if (is_executing_destructor_) {
@@ -96,7 +80,7 @@ GameObjectHandle Scene::AddObject(int comphandle_reserve_num)
 	if (id_objpointer_map_.size() >= kMaxObjNum_) {
 		Log::OutputCritical("Object number exceeded limit");
 	}
-	GameObject* objp = new(obj_pool_->malloc()) GameObject(next_obj_id_, comphandle_reserve_num);
+	GameObject* objp = new(obj_pool_->malloc()) GameObject(next_obj_id_);
 	id_objpointer_map_.emplace(next_obj_id_, objp);
 	return next_obj_id_++;
 }
@@ -139,6 +123,7 @@ Scene::~Scene() {
 	{
 		delete uiscreen;
 	}
+	Log::OutputTrivial("Scene::~Scene()");
 }
 
 ButtonState Scene::GetKeyState(int key) const
@@ -417,6 +402,22 @@ void Scene::CompPoolDeleter128(Component* p)
 	p->~Component();
 	comp_pool_used_chunk_128_--;
 	comp_pool_128_->free(p);
+}
+
+int Scene::GetSizeClass(std::size_t size)
+{
+	if (size <= 64) {
+		return 1;
+	}
+	else if (size <= 96) {
+		return 2;
+	}
+	else if (size <= 128) {
+		return 3;
+	}
+	else {
+		return 4;
+	}
 }
 
 std::optional<boost::pool<>> Scene::obj_pool_;

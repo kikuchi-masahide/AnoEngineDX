@@ -13,7 +13,6 @@ class Game;
 class UIScreen;
 class InputSystem;
 
-int GetSizeClass(std::size_t size);
 //HACK:プロファイラができたら試すこと
 //・コンポーネントの初期化をstd::anyでもなんでも使って、Add~Componentで行わないようにする
 //・ComponentHandleでstd::weak_ptrを使えないか?使った場合の速度比較
@@ -56,7 +55,7 @@ public:
 	/// (このフレームでのGameObject，Component追加はまだ保留状態)
 	/// </summary>
 	virtual void PosteriorUniqueOutput();
-	GameObjectHandle AddObject(int comphandle_reserve_num = 4);
+	GameObjectHandle AddObject();
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
 	/// <summary>
@@ -203,6 +202,7 @@ private:
 	//メモリプール上にアロケートしコンストラクタを実行する AddUpdate/OutputComponent用
 	template<class T, class... Args>
 	std::shared_ptr<Component> AllocateComponentInPool(GameObjectHandle obj, Args... args);
+	int GetSizeClass(std::size_t size);
 };
 
 template<class T, class ...Args>

@@ -6,17 +6,15 @@
 
 #include "Component.h"
 
-GameObject::GameObject(int id, int comphandle_reserve_num)
+GameObject::GameObject(int id)
 	:kObjId(id)
 {
-	comps_.reserve(comphandle_reserve_num);
 }
 
 void GameObject::AddComponent(ComponentHandle<Component> comp)
 {
 	comps_.push_back(comp);
 }
-
 void GameObject::UnregisterInvalidChilds()
 {
 	std::erase_if(comps_, [](const ComponentHandle<Component>& comp) {
@@ -33,4 +31,5 @@ void GameObject::SetAllCompsFlag()
 
 GameObject::~GameObject()
 {
+	comps_.clear();
 }
