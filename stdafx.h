@@ -27,6 +27,7 @@
 #include <random>
 #include <optional>
 #include <memory>
+#include <source_location>
 
 #include "boost/noncopyable.hpp"
 

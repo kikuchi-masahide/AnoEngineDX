@@ -31,9 +31,13 @@ struct ProfileUnit {
 void Log::Init()
 {
 	auto file_handler = quill::file_handler("logs/log.txt", "w");
+	file_handler->set_pattern(QUILL_STRINGIFY(%(ascii_time) [%(thread)] %(message)), "%D %H:%M:%S",
+		quill::Timezone::GmtTime);
 	file_logger_ = quill::create_logger("file_logger_", file_handler);
 #ifdef _DEBUG
 	auto std_handler = quill::stdout_handler();
+	std_handler->set_pattern(QUILL_STRINGIFY(%(ascii_time) [%(thread)] %(message)), "%D %H:%M:%S",
+		quill::Timezone::GmtTime);
 	std_logger_ = quill::create_logger("std_logger_", std_handler);
 #endif
 	quill::start();
@@ -59,41 +63,41 @@ void Log::CleanUp()
 	}
 }
 
-void Log::OutputTrivial(const std::string& str)
+void Log::OutputTrivial(const std::string& str, std::source_location loc)
 {
 	log_buffer_.push_back(str);
-	LOG_INFO(file_logger_, "{}", str.c_str());
+	LOG_INFO(file_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #ifdef _DEBUG
-	LOG_INFO(std_logger_, "{}", str.c_str());
+	LOG_INFO(std_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #endif
 }
 
-void Log::OutputCritical(const std::string& str)
+void Log::OutputCritical(const std::string& str, std::source_location loc)
 {
 	log_buffer_.push_back(std::string("critical:") + str);
 	static auto sprit = "\n================================================================================\n";
-	LOG_CRITICAL(file_logger_, "{}<critical!>{}{}", sprit, str.c_str(), sprit);
+	LOG_CRITICAL(file_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #ifdef _DEBUG
-	LOG_CRITICAL(std_logger_, "{}<critical!>{}{}", sprit, str.c_str(), sprit);
+	LOG_CRITICAL(std_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #endif
 }
 
-void Log::OutputTrivial(const char str[])
+void Log::OutputTrivial(const char str[], std::source_location loc)
 {
 	log_buffer_.push_back(str);
-	LOG_INFO(file_logger_, "{}", str);
+	LOG_INFO(file_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str);
 #ifdef _DEBUG
-	LOG_INFO(std_logger_, "{}", str);
+	LOG_INFO(std_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str);
 #endif
 }
 
-void Log::OutputCritical(const char str[])
+void Log::OutputCritical(const char str[], std::source_location loc)
 {
 	log_buffer_.emplace_back(std::string("critical:") + str);
 	static auto sprit = "\n================================================================================\n";
-	LOG_CRITICAL(file_logger_, "{}<critical!>{}{}", sprit, str, sprit);
+	LOG_CRITICAL(file_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str);
 #ifdef _DEBUG
-	LOG_CRITICAL(std_logger_, "{}<critical!>{}{}", sprit, str, sprit);
+	LOG_CRITICAL(std_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str);
 #endif
 }
 

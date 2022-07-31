@@ -18,10 +18,10 @@ class Log {
 public:
 	static void Init();
 	static void CleanUp();
-	static void OutputTrivial(const std::string& str);
-	static void OutputCritical(const std::string& str);
-	static void OutputTrivial(const char str[]);
-	static void OutputCritical(const char str[]);
+	static void OutputTrivial(const std::string& str, std::source_location loc = std::source_location::current());
+	static void OutputCritical(const std::string& str, std::source_location loc = std::source_location::current());
+	static void OutputTrivial(const char str[], std::source_location loc = std::source_location::current());
+	static void OutputCritical(const char str[], std::source_location loc = std::source_location::current());
 	/// <summary>
 	/// このframeを含めてduration frameのパフォーマンス記録を開始する
 	/// 既に開始されていた場合、durationだけ時間が延長される
