@@ -42,4 +42,5 @@ private:
 	static int finished_profiling_;
 	static int jsoned_profiling_;
 	static std::vector<std::string> log_buffer_;
+	static boost::mutex log_buffer_mutex_;
 };

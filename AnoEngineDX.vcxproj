@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\ElementContainer.cpp" />
     <ClCompile Include="engine\DX12\Master.cpp" />
     <ClCompile Include="Engine\DX12\Master_pimple.cpp" />
     <ClCompile Include="Engine\DX12\SwapChain.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\GameObjectHandle.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
     <ClCompile Include="Engine\Log.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
@@ -44,11 +46,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="test\Component1.cpp" />
+    <ClCompile Include="test\Component2.cpp" />
     <ClCompile Include="test\Game1.cpp" />
     <ClCompile Include="test\Scene1.cpp" />
+    <ClCompile Include="test\Scene2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\ElementContainer.h" />
     <ClInclude Include="Engine\ComponentHandle.h" />
     <ClInclude Include="Engine\DX12\ConfigEnums.h" />
     <ClInclude Include="Engine\DX12\DX12Include.h" />
@@ -57,6 +62,7 @@
     <ClInclude Include="Engine\DX12\SwapChain.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\GameObjectHandle.h" />
     <ClInclude Include="Engine\InputSystem.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -72,8 +78,10 @@
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="test\Component1.h" />
+    <ClInclude Include="test\Component2.h" />
     <ClInclude Include="test\Game1.h" />
     <ClInclude Include="test\Scene1.h" />
+    <ClInclude Include="test\Scene2.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

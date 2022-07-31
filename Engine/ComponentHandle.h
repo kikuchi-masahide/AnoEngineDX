@@ -15,8 +15,8 @@ public:
 	ComponentHandle(std::shared_ptr<T> comp);
 	std::shared_ptr<T> operator->() const noexcept;
 	void Reset() noexcept;
-	bool operator!() const noexcept;
 	operator bool() const noexcept;
+	bool operator!() const noexcept;
 	template<class U>
 	operator ComponentHandle<U>() const noexcept;
 private:
@@ -52,15 +52,15 @@ inline void ComponentHandle<T>::Reset() noexcept
 }
 
 template<class T>
-inline bool ComponentHandle<T>::operator!() const noexcept
-{
-	return !static_cast<bool>(*this);
-}
-
-template<class T>
 inline ComponentHandle<T>::operator bool() const noexcept
 {
 	return !(comp_.expired());
+}
+
+template<class T>
+inline bool ComponentHandle<T>::operator!() const noexcept
+{
+	return !static_cast<bool>(*this);
 }
 
 template<class T>

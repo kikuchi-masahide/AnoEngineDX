@@ -77,6 +77,18 @@
     <ClCompile Include="test\Component1.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\ElementContainer.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObjectHandle.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Scene2.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\Component2.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -153,6 +165,18 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\Component1.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ElementContainer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObjectHandle.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Scene2.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\Component2.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>

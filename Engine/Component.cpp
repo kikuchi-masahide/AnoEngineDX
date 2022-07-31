@@ -8,12 +8,12 @@
 #include "Game.h"
 #include "ComponentHandle.h"
 
-Component::Component(Scene* scene, GameObjectHandle handle, int order)
-	: upd_priority_(order), obj_(handle), delete_flag_(false), scene_(scene)
+Component::Component(GameObjectHandle handle, int order)
+	: upd_priority_(order), obj_(handle), delete_flag_(false)
 {
 }
 
-void Component::Initialize()
+void Component::AsyncInitialize()
 {
 }
 
@@ -29,10 +29,21 @@ bool Component::GetDeleteFlag() const
 
 void Component::SetDeleteFlag()
 {
-	delete_flag_ = true;
+	if (!delete_flag_) {
+		delete_flag_ = true;
+		auto scene = obj_->scene_;
+		scene->Erase(this_sh_);
+	}
 }
 
-void Component::SetSelfSharedptr(std::shared_ptr<Component> comp)
+void Component::SetSharedPtr(std::shared_ptr<Component> comp)
 {
-	self_ = comp;
+	assert(!this_sh_);
+	this_sh_ = comp;
+}
+
+void Component::ResetSharedPtr(std::shared_ptr<Component> comp)
+{
+	assert(this_sh_ == comp);
+	this_sh_.reset();
 }

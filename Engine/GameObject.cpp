@@ -5,16 +5,17 @@
 #include "GameObject.h"
 
 #include "Component.h"
+#include "Scene.h"
 
-GameObject::GameObject(int id)
-	:kObjId(id)
+GameObject::GameObject(Scene* scene)
+	:scene_(scene),delete_flag_(false)
 {
 }
 
-void GameObject::AddComponent(ComponentHandle<Component> comp)
+GameObject::~GameObject()
 {
-	comps_.push_back(comp);
 }
+
 void GameObject::UnregisterInvalidChilds()
 {
 	std::erase_if(comps_, [](const ComponentHandle<Component>& comp) {
@@ -29,7 +30,28 @@ void GameObject::SetAllCompsFlag()
 	});
 }
 
-GameObject::~GameObject()
+void GameObject::SetDeleteFlag()
 {
-	comps_.clear();
+	if (!delete_flag_) {
+		scene_->Erase(this_sh_);
+		SetAllCompsFlag();
+		delete_flag_ = true;
+	}
+}
+
+bool GameObject::GetDeleteFlag() const
+{
+	return delete_flag_;
+}
+
+void GameObject::SetSharedPtr(std::shared_ptr<GameObject> obj)
+{
+	assert(!this_sh_);
+	this_sh_ = obj;
+}
+
+void GameObject::ResetSharedPtr(std::shared_ptr<GameObject> obj)
+{
+	assert(obj == this_sh_);
+	this_sh_.reset();
 }

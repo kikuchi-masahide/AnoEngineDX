@@ -65,7 +65,10 @@ void Log::CleanUp()
 
 void Log::OutputTrivial(const std::string& str, std::source_location loc)
 {
-	log_buffer_.push_back(str);
+	{
+		boost::unique_lock<boost::mutex> lock(log_buffer_mutex_);
+		log_buffer_.push_back(str);
+	}
 	LOG_INFO(file_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #ifdef _DEBUG
 	LOG_INFO(std_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
@@ -74,7 +77,10 @@ void Log::OutputTrivial(const std::string& str, std::source_location loc)
 
 void Log::OutputCritical(const std::string& str, std::source_location loc)
 {
-	log_buffer_.push_back(std::string("critical:") + str);
+	{
+		boost::unique_lock<boost::mutex> lock(log_buffer_mutex_);
+		log_buffer_.push_back(std::string("critical:") + str);
+	}
 	static auto sprit = "\n================================================================================\n";
 	LOG_CRITICAL(file_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str.c_str());
 #ifdef _DEBUG
@@ -84,7 +90,10 @@ void Log::OutputCritical(const std::string& str, std::source_location loc)
 
 void Log::OutputTrivial(const char str[], std::source_location loc)
 {
-	log_buffer_.push_back(str);
+	{
+		boost::unique_lock<boost::mutex> lock(log_buffer_mutex_);
+		log_buffer_.push_back(str);
+	}
 	LOG_INFO(file_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str);
 #ifdef _DEBUG
 	LOG_INFO(std_logger_, "[{} line{} in {}] {}", loc.file_name(), loc.line(), loc.function_name(), str);
@@ -93,7 +102,10 @@ void Log::OutputTrivial(const char str[], std::source_location loc)
 
 void Log::OutputCritical(const char str[], std::source_location loc)
 {
-	log_buffer_.emplace_back(std::string("critical:") + str);
+	{
+		boost::unique_lock<boost::mutex> lock(log_buffer_mutex_);
+		log_buffer_.emplace_back(std::string("critical:") + str);
+	}
 	static auto sprit = "\n================================================================================\n";
 	LOG_CRITICAL(file_logger_, "[{} line{} in {}] <critical!>{}", loc.file_name(), loc.line(), loc.function_name(), str);
 #ifdef _DEBUG
@@ -155,6 +167,7 @@ std::vector<ProfileUnit> Log::profile_units_;
 int Log::finished_profiling_ = 0;
 int Log::jsoned_profiling_ = 0;
 std::vector<std::string> Log::log_buffer_;
+boost::mutex Log::log_buffer_mutex_;
 
 void ProfileUnit::AddDataTo(rapidjson::Document& document, rapidjson::Value& arr) const
 {

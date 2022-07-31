@@ -4,8 +4,8 @@
 //================================================================================
 #pragma once
 
-class Scene;
 class Game;
+#include "Scene.h"
 #include "ComponentHandle.h"
 #include "boost/pool/pool_alloc.hpp"
 
@@ -14,18 +14,32 @@ class Game;
 /// </summary>
 class GameObject final {
 public:
-	/// <param name="comphandle_reserve_num">子componentのhandleを保持するvectorの初期reserve数</param>
-	GameObject(int id);
-	//SceneのAddUpdate/OutputComponentから呼ばれる
-	void AddComponent(ComponentHandle<Component> comp);
-	//子Componentの内消去済みのものを登録解除する(Scene::ProcessPandingComps用)
-	void UnregisterInvalidChilds();
+	Scene* const scene_;
+	GameObject(Scene* scene);
+	~GameObject();
+	/// <summary>
+	/// UpdateComponentを追加
+	/// </summary>
+	template<class T, class... Args>
+	ComponentHandle<T> AddUpdateComponent(Args... args);
+	/// <summary>
+	/// OutputComponentを追加
+	/// </summary>
+	template<class T, class... Args>
+	ComponentHandle<T> AddOutputComponent(Args... args);
+	void SetDeleteFlag();
+	bool GetDeleteFlag() const;
 	//すべての有効な子componentにdelete flagを付ける
 	void SetAllCompsFlag();
-	~GameObject();
+	//子Componentの内消去済みのものを登録解除する(Scene::ProcessPandingComps用)
+	void UnregisterInvalidChilds();
+	//this_sh_をセットする(Scene::AddObjectから一度だけ呼び出される)
+	void SetSharedPtr(std::shared_ptr<GameObject> obj);
+	//this_sh_をリセットし、この関数の呼び出し直後にデストラクタ実行(引数は呼び出し元チェック用)
+	void ResetSharedPtr(std::shared_ptr<GameObject> obj);
 private:
-	const int kObjId;
-	struct myallocator {
+	//comps_のアロケータとして用いる
+	struct CompsAllocator {
 	public:
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
@@ -38,10 +52,43 @@ private:
 	};
 	//HACK:子をGameObjectが把握する形にするならばこれが最速
 	//これを無くせれば、本当にGameObjectをインスタンスとして持つ必要はなくなりメモリも浮くが、とりあえずそれは後々考える
-	std::list<ComponentHandle<Component>, boost::fast_pool_allocator<ComponentHandle<Component>, myallocator>> comps_;
+	//あとこれをやるなら、main終わってもメモリ解放されないのはちょっとキモいので自分でプール作って載せたい
+	std::list<ComponentHandle<Component>,
+		boost::fast_pool_allocator<ComponentHandle<Component>,CompsAllocator>> comps_;
+	boost::mutex comps_mutex_;
+	bool delete_flag_;
+	//自分を指すshared_ptr
+	std::shared_ptr<GameObject> this_sh_;
 };
 
-/// <summary>
-/// GameObjectを指すハンドル。特定オブジェクトに対する操作を行う場合に用いる
-/// </summary>
-using GameObjectHandle = unsigned int;
+template<class T, class ...Args>
+inline ComponentHandle<T> GameObject::AddUpdateComponent(Args ...args)
+{
+	auto handle = scene_->AddUpdateComponent<T>(this_sh_, args...);
+	if (handle) {
+		{
+			boost::unique_lock<boost::mutex> lock(comps_mutex_);
+			comps_.push_back(handle);
+		}
+		if (delete_flag_) {
+			handle->SetDeleteFlag();
+		}
+	}
+	return handle;
+}
+
+template<class T, class ...Args>
+inline ComponentHandle<T> GameObject::AddOutputComponent(Args ...args)
+{
+	auto handle = scene_->AddOutputComponent<T>(this_sh_, args...);
+	if (handle) {
+		{
+			boost::unique_lock<boost::mutex> lock(comps_mutex_);
+			comps_.push_back(handle);
+		}
+		if (delete_flag_) {
+			handle->SetDeleteFlag();
+		}
+	}
+	return handle;
+}

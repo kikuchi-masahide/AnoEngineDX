@@ -12,14 +12,11 @@
 void Scene::InitMemory()
 {
 	Log::OutputTrivial("Scene::InitMemory()");
-	obj_pool_.emplace(sizeof(GameObject), kMaxObjNum_);
-	comp_pool_64_.emplace(64, kMaxCompNum64_);
-	comp_pool_96_.emplace(96, kMaxCompNum96_);
-	comp_pool_128_.emplace(128, kMaxCompNum128_);
+	ElementContainer::MemoryInit();
 }
 
 Scene::Scene(Game* const game)
-	:game_(*game), is_objcomp_addable_(true), input_system_(nullptr), prev_mouse_pos_(MatVec::Vector2(0, 0)), input_flag_(true), input_flag_for_comps_(true), update_flag_for_comps_(true), delete_check_(false), is_executing_destructor_(false),next_obj_id_(0)
+	:game_(*game), is_objcomp_addable_(true), input_system_(nullptr), prev_mouse_pos_(MatVec::Vector2(0, 0)), input_flag_(true), input_flag_for_comps_(true), update_flag_for_comps_(true), delete_check_(false), is_executing_destructor_(false)
 {
 	BOOST_ASSERT(game != nullptr);
 }
@@ -29,12 +26,13 @@ void Scene::Update(const InputSystem* input)
 	input_system_ = input;
 	//ここからしばらくの間，追加されるオブジェクト・コンポーネントは保留に入れる
 	is_objcomp_addable_ = false;
+	element_container_.CreateCompInitThread();
 	PriorUniqueUpdate();
 	//UIScreenにブロックされてなければUpdateを実行
 	if (update_flag_for_comps_)
 	{
 		input_flag_ = input_flag_for_comps_;
-		LaunchUpdateComponents();
+		element_container_.LaunchUpdateComponents();
 	}
 	LaunchUIScreenUpdate();
 	PosteriorUniqueUpdate();
@@ -51,9 +49,10 @@ void Scene::PosteriorUniqueUpdate()
 void Scene::Output()
 {
 	PriorUniqueOutput();
-	LaunchOutputComponents();
+	element_container_.LaunchOutputComponents();
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
+	element_container_.FinishCompInitThread();
 	game_.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
@@ -75,14 +74,9 @@ GameObjectHandle Scene::AddObject()
 {
 	//デストラクタ実行中なので追加を行わない
 	if (is_executing_destructor_) {
-		return -1;
+		return GameObjectHandle();
 	}
-	if (id_objpointer_map_.size() >= kMaxObjNum_) {
-		Log::OutputCritical("Object number exceeded limit");
-	}
-	GameObject* objp = new(obj_pool_->malloc()) GameObject(next_obj_id_);
-	id_objpointer_map_.emplace(next_obj_id_, objp);
-	return next_obj_id_++;
+	return element_container_.AddObject(this);
 }
 
 bool Scene::GetDeleteFlag() const
@@ -97,23 +91,7 @@ void Scene::SetDeleteFlag()
 
 Scene::~Scene() {
 	is_executing_destructor_ = true;
-	for (auto& p : id_objpointer_map_) {
-		p.second->~GameObject();
-		obj_pool_->free(p.second);
-	}
-	id_objpointer_map_.clear();
-	for (auto& comp : update_components_) {
-		comp.reset();
-	}
-	for (auto itr = panding_update_components_.begin(); itr != panding_update_components_.end(); itr++) {
-		itr->reset();
-	}
-	for (auto& comp : output_components_) {
-		comp.reset();
-	}
-	for (auto itr = panding_output_components_.begin(); itr != panding_output_components_.end(); itr++) {
-		itr->reset();
-	}
+	element_container_.FreeAllElements();
 	//UIScreenの削除処理
 	for (auto uiscreen : uiscreens_)
 	{
@@ -180,38 +158,29 @@ MatVec::Vector2 Scene::GetMouseScreenPos() const
 	}
 }
 
-void Scene::Erase(GameObjectHandle handle)
+void Scene::Erase(std::weak_ptr<GameObject> ptr)
 {
-	erase_objs_.push_back(handle);
+	element_container_.Erase(ptr);
+}
+
+void Scene::Erase(std::weak_ptr<Component> ptr)
+{
+	element_container_.Erase(ptr);
 }
 
 int Scene::GetGameObjectNumber()
 {
-	return id_objpointer_map_.size();
+	return element_container_.GetGameObjectNumber();
 }
 
 int Scene::GetUpdateComponentNumber()
 {
-	return update_components_.size();
+	return element_container_.GetUpdateComponentNumber();
 }
 
 int Scene::GetOutputComponentNumber()
 {
-	return output_components_.size();
-}
-
-void Scene::LaunchUpdateComponents()
-{
-	for (auto itr = update_components_.begin(); itr != update_components_.end(); itr++) {
-		(*itr)->Update();
-	}
-}
-
-void Scene::LaunchOutputComponents()
-{
-	for (auto itr = output_components_.begin(); itr != output_components_.end(); itr++) {
-		(*itr)->Update();
-	}
+	return element_container_.GetOutputComponentNumber();
 }
 
 void Scene::DeleteUIScreen()
@@ -290,85 +259,9 @@ void Scene::LaunchOutputUIScreens()
 	}
 }
 
-void Scene::DeleteObject(GameObject* _object)
-{
-	delete _object;
-}
-
 void Scene::ProcessPandingComps()
 {
-	//Component削除により子Componentのvectorのeraseを行うべきGameObject
-	static std::set<GameObjectHandle> objs_to_update_childs;
-	while (true) {
-		//このループ内でGameObject/Componentの変更が生じたか
-		//HACK:要再考
-		bool has_changed = false;
-		if (panding_update_components_.size() > 0) {
-			for (auto itr = panding_update_components_.begin(); itr != panding_update_components_.end(); itr++) {
-				(*itr)->Initialize();
-				update_components_.push_back(*itr);
-			}
-			panding_update_components_.clear();
-			has_changed = true;
-		}
-		if (panding_output_components_.size() > 0) {
-			for (auto itr = panding_output_components_.begin(); itr != panding_output_components_.end(); itr++) {
-				(*itr)->Initialize();
-				output_components_.push_back(*itr);
-			}
-			panding_output_components_.clear();
-			has_changed = true;
-		}
-		if (erase_objs_.size() > 0) {
-			for (GameObjectHandle handle : erase_objs_) {
-				auto itr = id_objpointer_map_.find(handle);
-				if (itr != id_objpointer_map_.end()) {
-					itr->second->SetAllCompsFlag();
-					itr->second->~GameObject();
-					obj_pool_->free(itr->second);
-					id_objpointer_map_.erase(itr);
-				}
-			}
-			erase_objs_.clear();
-			has_changed = true;
-		}
-		std::erase_if(update_components_, [&](std::shared_ptr<Component>& comp) {
-			if (comp->GetDeleteFlag()) {
-				objs_to_update_childs.insert(comp->obj_);
-				comp.reset();
-				has_changed = true;
-				return true;
-			}
-			return false;
-		});
-		std::sort(update_components_.begin(), update_components_.end(), 
-			[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
-			return a->upd_priority_ > b->upd_priority_;
-		});
-		std::erase_if(output_components_, [&](std::shared_ptr<Component>& comp) {
-			if (comp->GetDeleteFlag()) {
-				objs_to_update_childs.insert(comp->obj_);
-				comp.reset();
-				has_changed = true;
-				return true;
-			}
-			return false;
-		});
-		for (GameObjectHandle obj : objs_to_update_childs) {
-			auto itr = id_objpointer_map_.find(obj);
-			if (itr != id_objpointer_map_.end()) {
-				itr->second->UnregisterInvalidChilds();
-			}
-		}
-		objs_to_update_childs.clear();
-		std::sort(output_components_.begin(), output_components_.end(),
-			[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
-			return a->upd_priority_ > b->upd_priority_;
-		});
-		if (!has_changed) {
-			break;
-		}
-	}
+	element_container_.ProcessPandingElements();
 }
 
 void Scene::ProcessPandingUIScreens()
@@ -383,48 +276,3 @@ void Scene::ProcessPandingUIScreens()
 	panding_uiscreens_.clear();
 }
 
-void Scene::CompPoolDeleter64(Component* p)
-{
-	p->~Component();
-	comp_pool_used_chunk_64_--;
-	comp_pool_64_->free(p);
-}
-
-void Scene::CompPoolDeleter96(Component* p)
-{
-	p->~Component();
-	comp_pool_used_chunk_96_--;
-	comp_pool_96_->free(p);
-}
-
-void Scene::CompPoolDeleter128(Component* p)
-{
-	p->~Component();
-	comp_pool_used_chunk_128_--;
-	comp_pool_128_->free(p);
-}
-
-int Scene::GetSizeClass(std::size_t size)
-{
-	if (size <= 64) {
-		return 1;
-	}
-	else if (size <= 96) {
-		return 2;
-	}
-	else if (size <= 128) {
-		return 3;
-	}
-	else {
-		return 4;
-	}
-}
-
-std::optional<boost::pool<>> Scene::obj_pool_;
-std::map<GameObjectHandle, GameObject*> Scene::id_objpointer_map_;
-std::optional<boost::pool<>> Scene::comp_pool_64_;
-std::optional<boost::pool<>> Scene::comp_pool_96_;
-std::optional<boost::pool<>> Scene::comp_pool_128_;
-int Scene::comp_pool_used_chunk_64_ = 0;
-int Scene::comp_pool_used_chunk_96_ = 0;
-int Scene::comp_pool_used_chunk_128_ = 0;

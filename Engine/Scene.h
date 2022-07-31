@@ -4,7 +4,8 @@
 //================================================================================
 #pragma once
 
-#include "GameObject.h"
+#include "GameObjectHandle.h"
+#include "ElementContainer.h"
 #include "Component.h"
 #include "InputSystem.h"
 #include "Math/Math.h"
@@ -59,15 +60,15 @@ public:
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
 	/// <summary>
-	/// objの指すGameObjectにUpdateComponentを追加
+	/// objの指すGameObjectにUpdateComponentを追加(GameObject::AddUpdateComponentから呼び出される)
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddUpdateComponent(GameObjectHandle obj, Args... args);
+	ComponentHandle<T> AddUpdateComponent(std::shared_ptr<GameObject> obj, Args... args);
 	/// <summary>
-	/// objの指すGameObjectにOutputComponentを追加
+	/// objの指すGameObjectにOutputComponentを追加(GameObject::AddOutputComponentから呼び出される)
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddOutputComponent(GameObjectHandle obj, Args... args);
+	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
 	/// <summary>
 	/// UIScreenを継承するクラスの追加
 	/// </summary>
@@ -115,36 +116,25 @@ public:
 	MatVec::Vector2 GetMouseScreenPos() const;
 	Game& game_;
 
-	void Erase(GameObjectHandle handle);
+	//このGameObjectを、フレーム切り替え前に消去する(GameObject::SetDeleteFlagから呼び出される)
+	void Erase(std::weak_ptr<GameObject> ptr);
+	void Erase(std::weak_ptr<Component> ptr);
 	int GetGameObjectNumber();
 	int GetUpdateComponentNumber();
 	int GetOutputComponentNumber();
-
 protected:
 	virtual ~Scene();
 private:
 	//自分の持つ全更新・出力コンポーネントのUpdateを呼び出す(保留コンポーネントのそれは実行しない)
-	void LaunchUpdateComponents();
-	void LaunchOutputComponents();
 	void DeleteUIScreen();
 	//UIScreenのUpdateを奥から呼び出す
 	void LaunchUIScreenUpdate();
 	//UIScreenのOutputを奥から呼び出す
 	void LaunchOutputUIScreens();
-	//このオブジェクトのポインタをdeleteしデストラクタを呼ぶ
-	void DeleteObject(GameObject* _object);
 	GameObject* operator&() const noexcept;
 	bool delete_flag_;
 	friend Game;
 	bool delete_check_;
-	//自身の持つGameObjectのリスト及び保留中のオブジェクト
-	std::vector<GameObject*> objs_;
-	//自身の持つ更新・出力コンポーネントのリスト，および保留コンポーネント
-	//HACK:余裕あったら別のコンテナに変えた場合のパフォーマンス比較
-	std::vector<std::shared_ptr<Component>> update_components_;
-	std::vector<std::shared_ptr<Component>> panding_update_components_;
-	std::vector<std::shared_ptr<Component>> output_components_;
-	std::vector<std::shared_ptr<Component>> panding_output_components_;
 	//コンポーネント・オブジェクトを直接リストに入れられるか?
 	bool is_objcomp_addable_;
 	//持っているUIScreen群(添え字の大きいものが後に追加されたUIScreen)
@@ -170,103 +160,26 @@ private:
 	std::vector<MatVec::Vector2> prev_mouse_pos_for_uiscreens_;
 	//デストラクタ実行時のみtrue
 	bool is_executing_destructor_;
-
-	//プールに保存できるオブジェクトの最大数
-	static constexpr int kMaxObjNum_ = 10000;
-	//GameObjectを保存するメモリプール
-	//HACK:メモリプールのアロケータをDBG_NEWにできればリークの時にこの行数が出力できるが、
-	//そもそも通常のnewでもリーク自体は検出できているので、とりあえず今は考えていない
-	static std::optional<boost::pool<>> obj_pool_;
-	//チャンクサイズが64,96,128バイトであるComponent用プール
-	static std::optional<boost::pool<>> comp_pool_64_;
-	static std::optional<boost::pool<>> comp_pool_96_;
-	static std::optional<boost::pool<>> comp_pool_128_;
-	static constexpr int kMaxCompNum64_ = 20000;
-	static constexpr int kMaxCompNum96_ = 10000;
-	static constexpr int kMaxCompNum128_ = 10000;
-	//componentプールの、使用チャンク数
-	static int comp_pool_used_chunk_64_;
-	static int comp_pool_used_chunk_96_;
-	static int comp_pool_used_chunk_128_;
-	//HACK:アロケータ載せてプール使う?
-	static std::map<GameObjectHandle, GameObject*> id_objpointer_map_;
-	//次にGameObjectを追加するとき使うid
-	int next_obj_id_;
-	//次消すべきオブジェクトのid
-	std::vector<GameObjectHandle> erase_objs_;
 	void ProcessPandingComps();
 	void ProcessPandingUIScreens();
-	static void CompPoolDeleter64(Component* p);
-	static void CompPoolDeleter96(Component* p);
-	static void CompPoolDeleter128(Component* p);
-	//メモリプール上にアロケートしコンストラクタを実行する AddUpdate/OutputComponent用
-	template<class T, class... Args>
-	std::shared_ptr<Component> AllocateComponentInPool(GameObjectHandle obj, Args... args);
-	int GetSizeClass(std::size_t size);
+	ElementContainer element_container_;
 };
 
 template<class T, class ...Args>
-inline ComponentHandle<T> Scene::AddUpdateComponent(GameObjectHandle obj, Args ...args)
-{
-	//HACK:Sceneのデストラクタ実行時、panding_~_comps_が無限に増えていくことを防止
-	//コンストラクタ自体の実行をAdd~Componentで行わなければこれ要らないんだけど......
-	if (is_executing_destructor_) {
-		return ComponentHandle<T>();
-	}
-	auto itr = id_objpointer_map_.find(obj);
-	if (itr == id_objpointer_map_.end()) {
-		Log::OutputCritical("AddUpdateComponent to unexisting GameObject");
-		return ComponentHandle<T>();
-	}
-	std::shared_ptr<Component> shp = AllocateComponentInPool<T>(obj, args...);
-	panding_update_components_.push_back(shp);
-	shp->SetSelfSharedptr(shp);
-	itr->second->AddComponent(ComponentHandle(shp));
-	return ComponentHandle(shp);
-}
-
-template<class T, class ...Args>
-inline ComponentHandle<T> Scene::AddOutputComponent(GameObjectHandle obj, Args ...args)
+inline ComponentHandle<T> Scene::AddUpdateComponent(std::shared_ptr<GameObject> obj, Args ...args)
 {
 	if (is_executing_destructor_) {
 		return ComponentHandle<T>();
 	}
-	auto itr = id_objpointer_map_.find(obj);
-	if (itr == id_objpointer_map_.end()) {
-		Log::OutputCritical("AddOutputComponent to unexisting GameObject");
-		return;
-	}
-	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
-	panding_output_components_.push_back(shp);
-	shp->SetSelfSharedptr(shp);
-	itr->second->AddComponent(ComponentHandle(shp));
-	return ComponentHandle(shp);
+	return element_container_.AddUpdateComponent<T>(obj, args...);
 }
 
 template<class T, class ...Args>
-inline std::shared_ptr<Component> Scene::AllocateComponentInPool(GameObjectHandle obj, Args ...args)
+inline ComponentHandle<T> Scene::AddOutputComponent(std::shared_ptr<GameObject> obj, Args ...args)
 {
-	std::shared_ptr<Component> shp;
-	switch (GetSizeClass(sizeof(T))) {
-	case 1: {
-		comp_pool_used_chunk_64_++;
-		shp = std::shared_ptr<Component>(new(comp_pool_64_->malloc()) T(this, obj, args...), CompPoolDeleter64);
-		break;
+	if (is_executing_destructor_) {
+		return ComponentHandle<T>();
 	}
-	case 2: {
-		comp_pool_used_chunk_96_++;
-		shp = std::shared_ptr<Component>(new(comp_pool_96_->malloc()) T(this, obj, args...), CompPoolDeleter96);
-		break;
-	}
-	case 3: {
-		comp_pool_used_chunk_128_++;
-		shp = std::shared_ptr<Component>(new(comp_pool_128_->malloc()) T(this, obj, args...), CompPoolDeleter128);
-		break;
-	}
-	case 4: {
-		shp = std::shared_ptr<Component>(new T(this, obj, args...));
-		break;
-	}
-	}
-	return shp;
+	return element_container_.AddOutputComponent<T>(obj, args...);
 }
+
