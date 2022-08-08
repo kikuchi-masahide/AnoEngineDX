@@ -89,6 +89,33 @@
     <ClCompile Include="test\Component2.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DX12\ShaderObject.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\VertexBuffer.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\IndexBuffer.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\RootSignature.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\GraphicsPipeline.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\ConstBuffer.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\DescriptorHeap.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\ShaderResource.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\DepthStencilBuffer.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -179,5 +206,51 @@
     <ClInclude Include="test\Component2.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DX12\ShaderObject.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\VertexBuffer.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\IndexBuffer.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\VertexLayout.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\RootSignature.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\GraphicsPipeline.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\ConstBuffer.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\DescriptorHeap.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\DescriptorRange.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\ShaderResource.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\DepthStencilBuffer.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="test\VertexShader.hlsl">
+      <Filter>test</Filter>
+    </FxCompile>
+    <FxCompile Include="test\PixelShader.hlsl">
+      <Filter>test</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test\Header.hlsli">
+      <Filter>test</Filter>
+    </None>
   </ItemGroup>
 </Project>

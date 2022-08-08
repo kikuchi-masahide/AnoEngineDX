@@ -46,6 +46,12 @@ void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LP
 		HWND hwnd = window->GetWindowHandle();
 		std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
 		swapchains_.emplace(windowid, swapchain);
+		//スワップチェーンに付随するdepth stencil bufferの追加
+		std::shared_ptr<DX12::DepthStencilBuffer> dsbuffer = dx12_.CreateDepthStencilBuffer(width, height);
+		std::shared_ptr<DX12::DescriptorHeap> desc_heap = dx12_.CreateDescriptorHeap(1, DX12::DescriptorHeapType::DSV, DX12::DescriptorHeapShaderVisibility::NONE, L"");
+		dx12_.CreateDepthStencilBufferView(dsbuffer, desc_heap, 0);
+		dsbuffers_.emplace(windowid, dsbuffer);
+		dsbuffers_desc_heaps_.emplace(windowid, desc_heap);
 	}
 	return;
 }
@@ -123,6 +129,7 @@ void Game::OpenSwapChain(int windowid)
 		}
 		dx12_.SetResourceBarrier(swapchains_[windowid],
 			DX12::ResourceBarrierState::PRESENT, DX12::ResourceBarrierState::RENDER_TARGET);
+		dx12_.SetRenderTarget(swapchains_[windowid], dsbuffers_desc_heaps_[windowid], 0);
 		current_swapchain_id_ = windowid;
 	}
 }
@@ -157,6 +164,8 @@ void Game::BeforeOutput()
 		auto swapp = swapchain.second;
 		OpenSwapChain(swapid);
 		dx12_.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
+		auto dsbufferdesc = dsbuffers_desc_heaps_[swapid];
+		dx12_.ClearDepthStencilView(dsbufferdesc, 0);
 		CloseSwapChain();
 	}
 }

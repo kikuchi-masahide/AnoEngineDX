@@ -3,6 +3,7 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #include "SwapChain.h"
+#include "DescriptorHeap.h"
 
 #include "Log.h"
 
@@ -85,6 +86,15 @@ void DX12::SwapChain::SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist)
 	auto handle = desc_heap_->GetCPUDescriptorHandleForHeapStart();
 	handle.ptr += desc_handle_incr_size_ * bbid;
 	cmdlist->OMSetRenderTargets(1, &handle, false, nullptr);
+}
+
+void DX12::SwapChain::SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+{
+	auto bbid = GetCurrentBackBufferIndex();
+	auto handle = desc_heap_->GetCPUDescriptorHandleForHeapStart();
+	handle.ptr += desc_handle_incr_size_ * bbid;
+	auto rtv_handle = desc_heap->GetCPUDescriptorHandle(index);
+	cmdlist->OMSetRenderTargets(1, &handle,false,&rtv_handle);
 }
 
 void DX12::SwapChain::Flip()

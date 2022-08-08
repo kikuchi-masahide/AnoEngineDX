@@ -100,6 +100,8 @@ private:
 	bool is_scene_changable_;
 	std::map<unsigned int, boost::shared_ptr<Window>> windows_;
 	std::map<unsigned int, std::shared_ptr<DX12::SwapChain>> swapchains_;
+	std::map<unsigned int, std::shared_ptr<DX12::DepthStencilBuffer>> dsbuffers_;
+	std::map<unsigned int, std::shared_ptr<DX12::DescriptorHeap>> dsbuffers_desc_heaps_;
 	int current_swapchain_id_;
 	InputSystem input_system_;
 	bool is_executing_destructor_;

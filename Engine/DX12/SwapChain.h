@@ -6,10 +6,11 @@
 #include "DX12Include.h"
 
 namespace DX12 {
+	class DescriptorHeap;
 	/// <summary>
 	/// バックバッファやそのRTVをまとめるクラス
 	/// </summary>
-	class SwapChain final
+	class SwapChain final:public boost::noncopyable
 	{
 	public:
 		SwapChain(ComPtr<IDXGIFactory6> factory, ComPtr<ID3D12CommandQueue> cmdqueue,
@@ -29,6 +30,7 @@ namespace DX12 {
 		/// RenderTargetに指定する
 		/// </summary>
 		void SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist);
+		void SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist, std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		void Flip();
 	private:
 		ComPtr<IDXGISwapChain4> swapchain_;
