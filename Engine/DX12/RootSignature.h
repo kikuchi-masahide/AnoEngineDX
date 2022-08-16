@@ -25,6 +25,9 @@ namespace DX12 {
 		ID3D12RootSignature* GetRawPtr();
 		//DescriptorTableタイプのRootParameterを追加する
 		void AddRootParameterAsDescriptorTable(std::vector<DescriptorRange>& ranges, RootParameterShaderVisibility vis);
+		void AddRootParameterAsCBV(UINT shader_register, RootParameterShaderVisibility vis);
+		void AddRootParameterAsSRV(UINT shader_register, RootParameterShaderVisibility vis);
+		void AddRootParameterAsConstant(UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis);
 	private:
 		ComPtr<ID3D12RootSignature> root_signature_;
 		//シリアライズ済ならばtrue

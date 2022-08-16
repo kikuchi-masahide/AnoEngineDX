@@ -118,6 +118,23 @@ namespace DX12 {
 		void AddRootParameterAsDescriptorTable(std::shared_ptr<RootSignature> root_signature,
 			std::vector<DescriptorRange>& ranges, RootParameterShaderVisibility vis);
 		/// <summary>
+		/// このRootSignatureに、CBVタイプのRootParameterを追加する
+		/// </summary>
+		/// <param name="shader_register">どのShaderRegisterに対応させるか</param>
+		void AddRootParameterAsCBV(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, RootParameterShaderVisibility vis);
+		/// <summary>
+		/// このRootSignatureに、SRVタイプのRootParameterを追加する
+		/// </summary>
+		/// <param name="shader_register">どのShaderRegisterに対応させるか</param>
+		void AddRootParameterAsSRV(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, RootParameterShaderVisibility vis);
+		/// <summary>
+		/// このRootSignatureに、定数タイプのRootParameterを追加する
+		/// </summary>
+		void AddRootParameterAsConstant(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis);
+		/// <summary>
 		/// この頂点バッファに情報をコピーするためのポインタを取得する
 		/// </summary>
 		void* Map(std::shared_ptr<VertexBuffer> vert_buffer);
@@ -171,6 +188,21 @@ namespace DX12 {
 		/// <param name="root_param_index">何番目のRootParameterか</param>
 		/// <param name="base_desc_heap_index">desc_heapの何番目のDescriptorからをセットするか</param>
 		void SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index = 0);
+		/// <summary>
+		/// このConstBufferをRootParameterに対応させる
+		/// </summary>
+		/// <param name="root_param_index">RootSignatureの何番目のRootParameterか</param>
+		void SetGraphicsRootCBV(int root_param_index, std::shared_ptr<ConstBuffer> const_buffer);
+		/// <summary>
+		/// このShaderResourceをRootParameterに対応させる
+		/// このShaderResourceは"Raw or Structured buffers"である必要があるらしい
+		/// </summary>
+		/// <param name="root_param_index">RootSignatureの何番目のRootParameterか</param>
+		void SetGraphicsRootSRV(int root_param_index, std::shared_ptr<ShaderResource> shader_resource);
+		/// <summary>
+		/// srcから始まるデータをRootSignatureのroot_param_index番目のRootSignatureにセットする
+		/// </summary>
+		void SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset = 0);
 		/// <summary>
 		/// このGraphicsPipelineとそれの従うPrimitiveTopologyをセットする
 		/// </summary>

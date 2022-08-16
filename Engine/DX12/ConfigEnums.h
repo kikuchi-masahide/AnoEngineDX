@@ -54,16 +54,14 @@ namespace DX12 {
 	};
 	//ディスクリプタレンジのタイプ
 	enum class DescriptorRangeType :unsigned char {
-		CBV,
-		SRV,
-		UAV,
-		size
+		SRV = 0,
+		UAV = 1,
+		CBV = 2
 	};
 	//ルートパラメータのシェーダーからの見え具合
 	enum class RootParameterShaderVisibility :unsigned char {
-		ALL,
-		VERTEX,
-		PIXEL,
-		size
+		ALL = 0,
+		VERTEX = 1,
+		PIXEL = 5
 	};
 }

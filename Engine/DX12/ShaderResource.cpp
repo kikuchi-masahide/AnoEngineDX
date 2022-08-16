@@ -90,3 +90,8 @@ D3D12_RESOURCE_DESC DX12::ShaderResource::GetDesc() const
 {
 	return resource_->GetDesc();
 }
+
+D3D12_GPU_VIRTUAL_ADDRESS DX12::ShaderResource::GetGPUVirtualAddress() const
+{
+	return resource_->GetGPUVirtualAddress();
+}

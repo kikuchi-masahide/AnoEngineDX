@@ -206,6 +206,21 @@ void DX12::Master_pimple::AddRootParameterAsDescriptorTable(std::shared_ptr<Root
 	root_signature->AddRootParameterAsDescriptorTable(ranges, vis);
 }
 
+void DX12::Master_pimple::AddRootParameterAsCBV(std::shared_ptr<RootSignature> root_signature, UINT shader_register, RootParameterShaderVisibility vis)
+{
+	root_signature->AddRootParameterAsCBV(shader_register, vis);
+}
+
+void DX12::Master_pimple::AddRootParameterAsSRV(std::shared_ptr<RootSignature> root_signature, UINT shader_register, RootParameterShaderVisibility vis)
+{
+	root_signature->AddRootParameterAsSRV(shader_register, vis);
+}
+
+void DX12::Master_pimple::AddRootParameterAsConstant(std::shared_ptr<RootSignature> root_signature, UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis)
+{
+	root_signature->AddRootParameterAsConstant(shader_register, const_size, vis);
+}
+
 void DX12::Master_pimple::Serialize(std::shared_ptr<RootSignature> root_signature)
 {
 	root_signature->Serialize(device_);
@@ -285,6 +300,22 @@ void DX12::Master_pimple::SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc
 void DX12::Master_pimple::SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index)
 {
 	cmd_list_->SetGraphicsRootDescriptorTable(root_param_index, desc_heap->GetGPUDescriptorHandle(base_desc_heap_index));
+}
+
+void DX12::Master_pimple::SetGraphicsRootCBV(int root_param_index, std::shared_ptr<ConstBuffer> const_buffer)
+{
+	cmd_list_->SetGraphicsRootConstantBufferView(root_param_index, const_buffer->GetGPUVirtualAddress());
+}
+
+void DX12::Master_pimple::SetGraphicsRootSRV(int root_param_index, std::shared_ptr<ShaderResource> shader_resource)
+{
+	cmd_list_->SetGraphicsRootShaderResourceView(root_param_index, shader_resource->GetGPUVirtualAddress());
+}
+
+void DX12::Master_pimple::SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset)
+{
+	int reg_num = static_cast<int>(size_to_set + 3) >> 2;
+	cmd_list_->SetGraphicsRoot32BitConstants(root_param_index,reg_num,src,offset);
 }
 
 void DX12::Master_pimple::SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline)

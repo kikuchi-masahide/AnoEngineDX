@@ -50,6 +50,12 @@ namespace DX12 {
 			ResourceBarrierState before, ResourceBarrierState after);
 		void AddRootParameterAsDescriptorTable(std::shared_ptr<RootSignature> root_signature,
 			std::vector<DescriptorRange>& ranges, RootParameterShaderVisibility vis);
+		void AddRootParameterAsCBV(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, RootParameterShaderVisibility vis);
+		void AddRootParameterAsSRV(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, RootParameterShaderVisibility vis);
+		void AddRootParameterAsConstant(std::shared_ptr<RootSignature> root_signature,
+			UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis);
 		void Serialize(std::shared_ptr<RootSignature> root_signature);
 		void* Map(std::shared_ptr<VertexBuffer> vert_buffer);
 		unsigned int* Map(std::shared_ptr<IndexBuffer> index_buffer);
@@ -66,6 +72,9 @@ namespace DX12 {
 		void SetRootSignature(std::shared_ptr<RootSignature> root_signature);
 		void SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap);
 		void SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index);
+		void SetGraphicsRootCBV(int root_param_index, std::shared_ptr<ConstBuffer> const_buffer);
+		void SetGraphicsRootSRV(int root_param_index, std::shared_ptr<ShaderResource> shader_resource);
+		void SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset);
 		void SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline);
 		void SetViewports(float top_left_x, float top_left_y, float width, float height, float min_depth, float max_depth);
 		void SetScissorRect(LONG top_left_x, LONG top_left_y, LONG bottom_right_x, LONG bottom_right_y);

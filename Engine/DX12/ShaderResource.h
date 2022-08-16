@@ -22,6 +22,7 @@ namespace DX12 {
 		UINT64 GetHeight() const;
 		ID3D12Resource* GetRawPtr() const;
 		D3D12_RESOURCE_DESC GetDesc() const;
+		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
 	private:
 		ComPtr<ID3D12Resource> resource_;
 		DXGI_FORMAT format_;

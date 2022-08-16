@@ -6,19 +6,6 @@
 
 #include "Log.h"
 
-namespace {
-	D3D12_SHADER_VISIBILITY shader_visibility_correspond[(unsigned char)DX12::RootParameterShaderVisibility::size] = {
-		D3D12_SHADER_VISIBILITY_ALL,
-		D3D12_SHADER_VISIBILITY_VERTEX,
-		D3D12_SHADER_VISIBILITY_PIXEL
-	};
-	D3D12_DESCRIPTOR_RANGE_TYPE desc_range_type_correspond[(unsigned char)DX12::DescriptorRangeType::size] = {
-		D3D12_DESCRIPTOR_RANGE_TYPE_CBV,
-		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-		D3D12_DESCRIPTOR_RANGE_TYPE_UAV
-	};
-}
-
 DX12::RootSignature::RootSignature(int root_param_num)
 	:serialized_(false)
 {
@@ -92,12 +79,12 @@ void DX12::RootSignature::AddRootParameterAsDescriptorTable(std::vector<Descript
 	root_params_.emplace_back();
 	auto& param = root_params_.back();
 	param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	param.ShaderVisibility = shader_visibility_correspond[(unsigned char)vis];
+	param.ShaderVisibility = static_cast<D3D12_SHADER_VISIBILITY>(vis);
 	D3D12_DESCRIPTOR_RANGE* range_desc = DBG_NEW D3D12_DESCRIPTOR_RANGE[ranges.size()];
 	for (int n = 0; n < ranges.size(); n++) {
 		DescriptorRange& range = ranges[n];
 		D3D12_DESCRIPTOR_RANGE& desc = range_desc[n];
-		desc.RangeType = desc_range_type_correspond[(unsigned char)range.range_type_];
+		desc.RangeType = static_cast<D3D12_DESCRIPTOR_RANGE_TYPE>(range.range_type_);
 		desc.NumDescriptors = range.num_descriptors_;
 		desc.BaseShaderRegister = range.base_shader_register_;
 		desc.OffsetInDescriptorsFromTableStart = (range.base_heap_register_ != -1 ? range.base_heap_register_ : D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND);
@@ -106,4 +93,26 @@ void DX12::RootSignature::AddRootParameterAsDescriptorTable(std::vector<Descript
 	param.DescriptorTable.pDescriptorRanges = range_desc;
 	param.DescriptorTable.NumDescriptorRanges = ranges.size();
 	ranges_.push_back(range_desc);
+}
+
+void DX12::RootSignature::AddRootParameterAsCBV(UINT shader_register, RootParameterShaderVisibility vis)
+{
+	root_params_.emplace_back();
+	auto& param = root_params_.back();
+	param.InitAsConstantBufferView(shader_register, 0, static_cast<D3D12_SHADER_VISIBILITY>(vis));
+}
+
+void DX12::RootSignature::AddRootParameterAsSRV(UINT shader_register, RootParameterShaderVisibility vis)
+{
+	root_params_.emplace_back();
+	auto& param = root_params_.back();
+	param.InitAsShaderResourceView(shader_register, 0, static_cast<D3D12_SHADER_VISIBILITY>(vis));
+}
+
+void DX12::RootSignature::AddRootParameterAsConstant(UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis)
+{
+	root_params_.emplace_back();
+	auto& param = root_params_.back();
+	int reg_num = static_cast<int>(const_size + 3) >> 2;
+	param.InitAsConstants(reg_num, shader_register, 0, static_cast<D3D12_SHADER_VISIBILITY>(vis));
 }

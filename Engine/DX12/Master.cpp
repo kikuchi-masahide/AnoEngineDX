@@ -111,6 +111,21 @@ void DX12::Master::AddRootParameterAsDescriptorTable(std::shared_ptr<RootSignatu
 	pimple_->AddRootParameterAsDescriptorTable(root_signature, ranges, vis);
 }
 
+void DX12::Master::AddRootParameterAsCBV(std::shared_ptr<RootSignature> root_signature, UINT shader_register, RootParameterShaderVisibility vis)
+{
+	pimple_->AddRootParameterAsCBV(root_signature, shader_register, vis);
+}
+
+void DX12::Master::AddRootParameterAsSRV(std::shared_ptr<RootSignature> root_signature, UINT shader_register, RootParameterShaderVisibility vis)
+{
+	pimple_->AddRootParameterAsSRV(root_signature, shader_register, vis);
+}
+
+void DX12::Master::AddRootParameterAsConstant(std::shared_ptr<RootSignature> root_signature, UINT shader_register, SIZE_T const_size, RootParameterShaderVisibility vis)
+{
+	pimple_->AddRootParameterAsConstant(root_signature, shader_register, const_size, vis);
+}
+
 void* DX12::Master::Map(std::shared_ptr<VertexBuffer> vert_buffer)
 {
 	return pimple_->Map(vert_buffer);
@@ -188,6 +203,21 @@ void DX12::Master::SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap)
 void DX12::Master::SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index)
 {
 	pimple_->SetGraphicsRootDescriptorTable(root_param_index, desc_heap, base_desc_heap_index);
+}
+
+void DX12::Master::SetGraphicsRootCBV(int root_param_index, std::shared_ptr<ConstBuffer> const_buffer)
+{
+	pimple_->SetGraphicsRootCBV(root_param_index, const_buffer);
+}
+
+void DX12::Master::SetGraphicsRootSRV(int root_param_index, std::shared_ptr<ShaderResource> shader_resource)
+{
+	pimple_->SetGraphicsRootSRV(root_param_index, shader_resource);
+}
+
+void DX12::Master::SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset)
+{
+	pimple_->SetGraphicsRootConstant(root_param_index, size_to_set, src, offset);
 }
 
 void DX12::Master::SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline)
