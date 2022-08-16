@@ -70,6 +70,16 @@ public:
 	template<class T, class... Args>
 	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
 	/// <summary>
+	/// このupd_prioを持つコンポーネントを実行する前に実行する関数を登録する
+	/// (コンポーネントが存在しなければ実行しない)
+	/// </summary>
+	void SetOutputCompsPreFunc(int upd_prio, std::function<void()> func);
+	/// <summary>
+	/// このupd_prioを持つ最後のコンポーネントを実行した後に実行する関数を登録する
+	/// (コンポーネントが存在しなければ実行しない)
+	/// </summary>
+	void SetOutputCompsPostFunc(int upd_prio, std::function<void()> func);
+	/// <summary>
 	/// UIScreenを継承するクラスの追加
 	/// </summary>
 	/// <param name="..._args">コンストラクタに渡す引数</param>

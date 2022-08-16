@@ -39,8 +39,33 @@ void ElementContainer::LaunchUpdateComponents()
 
 void ElementContainer::LaunchOutputComponents()
 {
-	for (auto wkptr : output_components_) {
-		wkptr.lock()->Update();
+	if (output_components_.size() > 0) {
+		//直前に実行したOutputComponentのupd_pirority_
+		int prev_upd_prio = output_components_[0].lock()->upd_priority_;
+		auto itr = output_func_in_.find(prev_upd_prio);
+		if (itr != output_func_in_.end()) {
+			(itr->second)();
+		}
+		for (auto wkptr : output_components_) {
+			auto shptr = wkptr.lock();
+			if (shptr->upd_priority_ != prev_upd_prio) {
+				itr = output_func_out_.find(prev_upd_prio);
+				if (itr != output_func_out_.end()) {
+					//登録した関数を実行
+					(itr->second)();
+				}
+				itr = output_func_in_.find(shptr->upd_priority_);
+				if (itr != output_func_in_.end()) {
+					(itr->second)();
+				}
+				prev_upd_prio = shptr->upd_priority_;
+			}
+			shptr->Update();
+		}
+		itr = output_func_out_.find(prev_upd_prio);
+		if (itr != output_func_out_.end()) {
+			(itr->second)();
+		}
 	}
 }
 
@@ -125,6 +150,17 @@ GameObjectHandle ElementContainer::AddObject(Scene* scene)
 	shp->SetSharedPtr(shp);
 	objs_.push_back(shp);
 	return GameObjectHandle(shp);
+}
+
+void ElementContainer::SetOutputCompsPreFunc(int upd_prio, std::function<void()> func)
+{
+	//HACK:変なこと変なタイミングするとバグる
+	output_func_in_[upd_prio] = func;
+}
+
+void ElementContainer::SetOutputCompsPostFunc(int upd_prio, std::function<void()> func)
+{
+	output_func_out_[upd_prio] = func;
 }
 
 void ElementContainer::Erase(std::weak_ptr<GameObject> ptr)

@@ -38,6 +38,12 @@ public:
 	//objの指すGameObjectにOutputComponentを追加(Scene::AddOutputComponentから呼び出される)
 	template<class T, class... Args>
 	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
+	//このupd_prioを持つコンポーネントを実行する前に実行する関数を登録する
+	//(コンポーネントが存在しなければ実行しない)
+	void SetOutputCompsPreFunc(int upd_prio,std::function<void()> func);
+	//このupd_prioを持つ最後のコンポーネントを実行した後に実行する関数を登録する
+	//(コンポーネントが存在しなければ実行しない)
+	void SetOutputCompsPostFunc(int upd_prio, std::function<void()> func);
 	//このGameObjectを、今フレームOutput後に削除する(Scene::Eraseから呼び出される)
 	void Erase(std::weak_ptr<GameObject> ptr);
 	//このComponentを、今フレームOutput後に削除する(Scene::Eraseから呼び出される)
@@ -90,6 +96,10 @@ private:
 	boost::mutex update_components_mutex_;
 	std::vector<std::weak_ptr<Component>> panding_update_components_;
 	std::vector<std::weak_ptr<Component>> output_components_;
+	//このupd_priority_を持つOutputComponentのUpdateをはじめて実行する前に、このmapに登録した関数を呼び出す
+	std::map<int, std::function<void()>> output_func_in_;
+	//このupd_priority_を持つ最後のOutputComponentのUpdateを実行する前に、このmapに登録した関数を呼び出す
+	std::map<int, std::function<void()>> output_func_out_;
 	boost::mutex output_components_mutex_;
 	std::vector<std::weak_ptr<Component>> panding_output_components_;
 	//Update中にComponentのInitialize()を実行するためのスレッド(CreateCompInitThreadInUpdate()で作成)

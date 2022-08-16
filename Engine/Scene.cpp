@@ -89,6 +89,16 @@ void Scene::SetDeleteFlag()
 	delete_flag_ = true;
 }
 
+void Scene::SetOutputCompsPreFunc(int upd_prio, std::function<void()> func)
+{
+	element_container_.SetOutputCompsPreFunc(upd_prio, func);
+}
+
+void Scene::SetOutputCompsPostFunc(int upd_prio, std::function<void()> func)
+{
+	element_container_.SetOutputCompsPostFunc(upd_prio, func);
+}
+
 Scene::~Scene() {
 	is_executing_destructor_ = true;
 	element_container_.FreeAllElements();
