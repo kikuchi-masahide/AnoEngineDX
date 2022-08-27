@@ -7,6 +7,11 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "boost/pool/pool_alloc.hpp"
+#include "DX12/CommandQueue.h"
+#include "DX12/SwapChain.h"
+#include "DX12/Fence.h"
+#include "DX12/GraphicsCommandList.h"
+#include "DX12/ShaderResource.h"
 
 #pragma comment(lib,"winmm.lib")
 
@@ -16,6 +21,8 @@ Game::Game()
 	Log::Init();
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
+	graphics_cmd_queue_ = dx12_.CreateCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
+	graphics_cmd_queue_->SetDebugName(L"graphics_cmd_queue_");
 	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
 	Scene::InitMemory();
@@ -29,7 +36,6 @@ Game::~Game()
 		DeleteScene(panding_scene_);
 	}
 	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
-	dx12_.CleanUp();
 	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
 }
@@ -44,14 +50,14 @@ void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LP
 	if (use_swapchain) {
 		//ウィンドウに付随するスワップチェーンの追加
 		HWND hwnd = window->GetWindowHandle();
-		std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(hwnd, width, height);
+		std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(graphics_cmd_queue_, hwnd, width, height);
+		swapchain->SetDebugName(L"swapchain");
 		swapchains_.emplace(windowid, swapchain);
-		//スワップチェーンに付随するdepth stencil bufferの追加
 		std::shared_ptr<DX12::DepthStencilBuffer> dsbuffer = dx12_.CreateDepthStencilBuffer(width, height);
-		std::shared_ptr<DX12::DescriptorHeap> desc_heap = dx12_.CreateDescriptorHeap(1, DX12::DescriptorHeapType::DSV, DX12::DescriptorHeapShaderVisibility::NONE, L"");
-		dx12_.CreateDepthStencilBufferView(dsbuffer, desc_heap, 0);
+		std::shared_ptr<DX12::DescriptorHeap> descheap = dx12_.CreateDescriptorHeap(1, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+		dx12_.CreateDepthStencilBufferView(dsbuffer, descheap, 0);
 		dsbuffers_.emplace(windowid, dsbuffer);
-		dsbuffers_desc_heaps_.emplace(windowid, desc_heap);
+		dsv_descheaps_.emplace(windowid, descheap);
 	}
 	return;
 }
@@ -61,6 +67,60 @@ boost::shared_ptr<Window> Game::GetWindow(int windowid) const
 	auto itr = windows_.find(windowid);
 	BOOST_ASSERT_MSG(itr != windows_.end(), "unregistered windowID");
 	return itr->second;
+}
+
+void Game::SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid)
+{
+	auto itr = swapchains_.find(windowid);
+	assert(itr != swapchains_.end());
+	auto swapchain = itr->second;
+	auto bbindex = swapchain->GetCurrentBackBufferIndex();
+	auto rtv_desc = swapchain->GetDescriptorHeap();
+	auto srv_desc = dsv_descheaps_.find(windowid)->second;
+	cmd_list->SetRenderTargets(rtv_desc, bbindex, 1, srv_desc, 0);
+}
+
+void Game::SetBackbufferStateBarrier(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+	D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)
+{
+	auto itr = swapchains_.find(windowid);
+	assert(itr != swapchains_.end());
+	auto backbuffer = itr->second->GetCurrentBackBuffer();
+	cmd_list->SetResourceBarrier(DX12::ResourceBarrierUnit(backbuffer, before, after));
+}
+
+void Game::ClearBackbuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+	float r, float g, float b)
+{
+	auto itr = swapchains_.find(windowid);
+	assert(itr != swapchains_.end());
+	auto bbindex = itr->second->GetCurrentBackBufferIndex();
+	auto rtv_desc = itr->second->GetDescriptorHeap();
+	cmd_list->ClearRenderTargetView(rtv_desc, bbindex, r, g, b);
+}
+
+void Game::ClearDepthStencilBuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+	float value)
+{
+	auto itr = dsv_descheaps_.find(windowid);
+	assert(itr != dsv_descheaps_.end());
+	cmd_list->ClearDepthStencilBufferView(itr->second, 0, value);
+}
+
+std::shared_ptr<DX12::SwapChain> Game::GetSwapChain(int windowid) const
+{
+	auto itr = windows_.find(windowid);
+	if (itr != windows_.end()) {
+		return swapchains_.find(windowid)->second;
+	}
+	else {
+		return nullptr;
+	}
+}
+
+std::shared_ptr<DX12::CommandQueue> Game::GetCommandQueue() const
+{
+	return graphics_cmd_queue_;
 }
 
 /// <summary>
@@ -118,31 +178,6 @@ void Game::RunLoop()
 	}
 }
 
-void Game::OpenSwapChain(int windowid)
-{
-	auto itr = swapchains_.find(windowid);
-	BOOST_ASSERT_MSG(itr != swapchains_.end(), "unregistered windowID");
-	if (current_swapchain_id_ != windowid) {
-		if (current_swapchain_id_ != -1) {
-			dx12_.SetResourceBarrier(swapchains_[current_swapchain_id_],
-				DX12::ResourceBarrierState::RENDER_TARGET, DX12::ResourceBarrierState::PRESENT);
-		}
-		dx12_.SetResourceBarrier(swapchains_[windowid],
-			DX12::ResourceBarrierState::PRESENT, DX12::ResourceBarrierState::RENDER_TARGET);
-		dx12_.SetRenderTarget(swapchains_[windowid], dsbuffers_desc_heaps_[windowid], 0);
-		current_swapchain_id_ = windowid;
-	}
-}
-
-void Game::CloseSwapChain()
-{
-	if (current_swapchain_id_ != -1) {
-		dx12_.SetResourceBarrier(swapchains_[current_swapchain_id_],
-			DX12::ResourceBarrierState::RENDER_TARGET, DX12::ResourceBarrierState::PRESENT);
-		current_swapchain_id_ = -1;
-	}
-}
-
 void Game::Terminate()
 {
 	terminate_flag_ = true;
@@ -158,24 +193,13 @@ void Game::AfterUpdate()
 
 void Game::BeforeOutput()
 {
-	//とりあえずレンダーターゲットのクリアのみ
-	for (auto swapchain : swapchains_) {
-		auto swapid = swapchain.first;
-		auto swapp = swapchain.second;
-		OpenSwapChain(swapid);
-		dx12_.ClearRenderTarget(swapp, 1.0f, 1.0f, 1.0f);
-		auto dsbufferdesc = dsbuffers_desc_heaps_[swapid];
-		dx12_.ClearDepthStencilView(dsbufferdesc, 0);
-		CloseSwapChain();
-	}
 }
 
 void Game::AfterOutput()
 {
-	CloseSwapChain();
 	//全てのスワップチェーンのフリップ
 	for (auto itr = swapchains_.begin(); itr != swapchains_.end(); itr++) {
-		dx12_.Flip(itr->second);
+		itr->second->Flip();
 	}
 }
 

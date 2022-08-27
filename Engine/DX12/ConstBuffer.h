@@ -3,19 +3,13 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12Include.h"
-#include "ConfigEnums.h"
+#include "Buffer.h"
 
 namespace DX12 {
-	class ConstBuffer final :boost::noncopyable {
+	class ConstBuffer :public Buffer {
 	public:
-		ConstBuffer(ComPtr<ID3D12Device> device, SIZE_T size, ResourceHeapType heap_type, LPCWSTR debug_name);
-		void* Map();
-		void Unmap();
-		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress();
-		//256アラインメント済みの、定数バッファのサイズ
-		SIZE_T const whole_256ed_size_;
-	private:
-		ComPtr<ID3D12Resource> resource_;
+		//内部で256アラインメントを行う
+		ConstBuffer(ComPtr<ID3D12Device> device, D3D12_HEAP_TYPE heap_type, SIZE_T size,
+			D3D12_RESOURCE_STATES state);
 	};
 }

@@ -38,9 +38,13 @@
 #include "boost/pool/pool.hpp"
 #include "boost/thread.hpp"
 
-//正直ここに置きたくないが，シェーダとの情報の受け渡しのために仕方なく
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <d3dx12.h>
+#include <DirectXTex.h>
+#include <d3dcompiler.h>
 #include <DirectXMath.h>
-//一部構造体のみ名前空間を外し使う構造体を分かりやすくする
+using namespace Microsoft::WRL;
 using DirectX::XMMATRIX;
 using DirectX::XMFLOAT2;
 using DirectX::XMFLOAT3;

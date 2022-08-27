@@ -1,9 +1,9 @@
+#pragma once
 //================================================================================
 //Copyright <2022> ano3. All rights reserved.
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "ConfigEnums.h"
 
 namespace DX12 {
 	/// <summary>
@@ -14,10 +14,10 @@ namespace DX12 {
 		//セマンティック名("POSITION"など)
 		LPCSTR semantic_name_;
 		//フォーマット
-		VertexLayoutFormat format_;
+		DXGI_FORMAT format_;
 		//入力スロットインデックス
 		UINT input_slot_;
-		VertexLayoutUnit(LPCSTR sem, VertexLayoutFormat format, UINT slot)
+		VertexLayoutUnit(LPCSTR sem, DXGI_FORMAT format, UINT slot)
 			:semantic_name_(sem), format_(format), input_slot_(slot)
 		{}
 	};

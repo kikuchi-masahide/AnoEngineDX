@@ -20,19 +20,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\DX12\Buffer.cpp" />
+    <ClCompile Include="Engine\DX12\CommandQueue.cpp" />
     <ClCompile Include="Engine\DX12\ConstBuffer.cpp" />
     <ClCompile Include="Engine\DX12\DepthStencilBuffer.cpp" />
     <ClCompile Include="Engine\DX12\DescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DX12\Fence.cpp" />
+    <ClCompile Include="Engine\DX12\GraphicsCommandList.cpp" />
     <ClCompile Include="Engine\DX12\GraphicsPipeline.cpp" />
+    <ClCompile Include="Engine\DX12\ImageLoad.cpp" />
     <ClCompile Include="Engine\DX12\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\DX12\Master.cpp" />
+    <ClCompile Include="Engine\DX12\Resource.cpp" />
     <ClCompile Include="Engine\DX12\RootSignature.cpp" />
     <ClCompile Include="Engine\DX12\ShaderObject.cpp" />
     <ClCompile Include="Engine\DX12\ShaderResource.cpp" />
+    <ClCompile Include="Engine\DX12\SwapChain.cpp" />
     <ClCompile Include="Engine\DX12\VertexBuffer.cpp" />
     <ClCompile Include="Engine\ElementContainer.cpp" />
-    <ClCompile Include="engine\DX12\Master.cpp" />
-    <ClCompile Include="Engine\DX12\Master_pimple.cpp" />
-    <ClCompile Include="Engine\DX12\SwapChain.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjectHandle.cpp" />
@@ -62,24 +67,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\DX12\Buffer.h" />
+    <ClInclude Include="Engine\DX12\CommandQueue.h" />
     <ClInclude Include="Engine\DX12\ConstBuffer.h" />
     <ClInclude Include="Engine\DX12\DepthStencilBuffer.h" />
     <ClInclude Include="Engine\DX12\DescriptorHeap.h" />
     <ClInclude Include="Engine\DX12\DescriptorRange.h" />
+    <ClInclude Include="Engine\DX12\Fence.h" />
+    <ClInclude Include="Engine\DX12\GraphicsCommandList.h" />
     <ClInclude Include="Engine\DX12\GraphicsPipeline.h" />
+    <ClInclude Include="Engine\DX12\ImageLoad.h" />
     <ClInclude Include="Engine\DX12\IndexBuffer.h" />
+    <ClInclude Include="Engine\DX12\Master.h" />
+    <ClInclude Include="Engine\DX12\Resource.h" />
     <ClInclude Include="Engine\DX12\RootSignature.h" />
     <ClInclude Include="Engine\DX12\ShaderObject.h" />
     <ClInclude Include="Engine\DX12\ShaderResource.h" />
+    <ClInclude Include="Engine\DX12\SwapChain.h" />
     <ClInclude Include="Engine\DX12\VertexBuffer.h" />
     <ClInclude Include="Engine\DX12\VertexLayout.h" />
     <ClInclude Include="Engine\ElementContainer.h" />
     <ClInclude Include="Engine\ComponentHandle.h" />
-    <ClInclude Include="Engine\DX12\ConfigEnums.h" />
-    <ClInclude Include="Engine\DX12\DX12Include.h" />
-    <ClInclude Include="engine\DX12\Master.h" />
-    <ClInclude Include="Engine\DX12\Master_pimple.h" />
-    <ClInclude Include="Engine\DX12\SwapChain.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\GameObjectHandle.h" />

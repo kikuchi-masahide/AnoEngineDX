@@ -3,15 +3,11 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12Include.h"
-#include "ConfigEnums.h"
+#include "Resource.h"
 
 namespace DX12 {
-	class DepthStencilBuffer final :public boost::noncopyable {
+	class DepthStencilBuffer :public Resource {
 	public:
-		DepthStencilBuffer(ComPtr<ID3D12Device> device, UINT64 width, UINT64 height, ResourceHeapType heap_type = ResourceHeapType::DEFAULT);
-		ID3D12Resource* GetRawPtr() const;
-	private:
-		ComPtr<ID3D12Resource> resource_;
+		DepthStencilBuffer(ComPtr<ID3D12Device> device, UINT64 width, UINT height, D3D12_HEAP_TYPE heap_type);
 	};
 }

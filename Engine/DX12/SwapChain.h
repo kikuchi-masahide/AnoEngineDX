@@ -3,40 +3,25 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12Include.h"
 
 namespace DX12 {
+	class ShaderResource;
 	class DescriptorHeap;
 	/// <summary>
-	/// バックバッファやそのRTVをまとめるクラス
+	/// SwapChain本体やbackbuffer、RTVを保存するdescriptorheapをまとめて管理する
 	/// </summary>
-	class SwapChain final:public boost::noncopyable
-	{
+	class SwapChain final:public boost::noncopyable{
 	public:
 		SwapChain(ComPtr<IDXGIFactory6> factory, ComPtr<ID3D12CommandQueue> cmdqueue,
 			ComPtr<ID3D12Device> device, HWND hwnd, UINT width, UINT height);
-		~SwapChain();
-		UINT GetCurrentBackBufferIndex();
-		/// <summary>
-		/// 今のバックバッファにバリアを張る
-		/// </summary>
-		void SetResourceBarrier(ComPtr<ID3D12GraphicsCommandList> cmdlist,
-			D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
-		/// <summary>
-		/// コマンドリストに今のバックバッファのクリア命令を投げる
-		/// </summary>
-		void ClearRenderTarget(ComPtr<ID3D12GraphicsCommandList> list, float r, float g, float b);
-		/// <summary>
-		/// RenderTargetに指定する
-		/// </summary>
-		void SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist);
-		void SetRenderTarget(ComPtr<ID3D12GraphicsCommandList> cmdlist, std::shared_ptr<DescriptorHeap> desc_heap, int index);
+		void SetDebugName(LPCWSTR debug_name);
 		void Flip();
+		UINT GetCurrentBackBufferIndex() const;
+		std::shared_ptr<ShaderResource> GetCurrentBackBuffer() const;
+		std::shared_ptr<DescriptorHeap> GetDescriptorHeap() const;
 	private:
 		ComPtr<IDXGISwapChain4> swapchain_;
-		ComPtr<ID3D12Resource> buffer_[2];
-		ComPtr<ID3D12DescriptorHeap> desc_heap_;
-		UINT desc_handle_incr_size_;
+		std::shared_ptr<ShaderResource> backbuffer_[2];
+		std::shared_ptr<DescriptorHeap> desc_heap_;
 	};
 }
-

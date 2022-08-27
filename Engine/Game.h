@@ -47,17 +47,30 @@ public:
 	/// </summary>
 	boost::shared_ptr<Window> GetWindow(int windowid) const;
 	/// <summary>
+	/// このwindowidをrender targetにするコマンドを、cmd_listにセットする。
+	/// </summary>
+	void SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid);
+	/// <summary>
+	/// このwindowidのbackbufferのstateを、beforeからafterへ変更する
+	/// </summary>
+	void SetBackbufferStateBarrier(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+		D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
+	/// <summary>
+	/// このwindowidのbackbufferを、指定色でクリアする
+	/// </summary>
+	void ClearBackbuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+		float r, float g, float b);
+	/// <summary>
+	/// 指定windowidのdepth stencil bufferをvalueでクリアする
+	/// </summary>
+	void ClearDepthStencilBuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
+		float value);
+	std::shared_ptr<DX12::SwapChain> GetSwapChain(int windowid) const;
+	std::shared_ptr<DX12::CommandQueue> GetCommandQueue() const;
+	/// <summary>
 	/// ゲームループを開始する main.cppで呼び出す
 	/// </summary>
 	void RunLoop();
-	/// <summary>
-	/// RenderTargetとして指定しているswapchainを切り替える
-	/// </summary>
-	void OpenSwapChain(int windowid);
-	/// <summary>
-	/// 現在RenderTargetとして指定しているswapchainをPRESENT状態にする
-	/// </summary>
-	void CloseSwapChain();
 	/// <summary>
 	/// 次のOutput終了後RunLoopを脱出し，プログラムを終了させる
 	/// </summary>
@@ -101,7 +114,9 @@ private:
 	std::map<unsigned int, boost::shared_ptr<Window>> windows_;
 	std::map<unsigned int, std::shared_ptr<DX12::SwapChain>> swapchains_;
 	std::map<unsigned int, std::shared_ptr<DX12::DepthStencilBuffer>> dsbuffers_;
-	std::map<unsigned int, std::shared_ptr<DX12::DescriptorHeap>> dsbuffers_desc_heaps_;
+	std::map<unsigned int, std::shared_ptr<DX12::DescriptorHeap>> dsv_descheaps_;
+	//swapchains_の作成などに使うcommandqueue
+	std::shared_ptr<DX12::CommandQueue> graphics_cmd_queue_;
 	int current_swapchain_id_;
 	InputSystem input_system_;
 	bool is_executing_destructor_;

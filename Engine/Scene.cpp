@@ -53,7 +53,6 @@ void Scene::Output()
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
 	element_container_.FinishCompInitThread();
-	game_.dx12_.ProcessCommands();
 	//保留していたオブジェクト・コンポーネントの処理を行う
 	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
 	ProcessPandingComps();

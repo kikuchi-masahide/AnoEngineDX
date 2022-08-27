@@ -6,20 +6,21 @@
 
 #include "Log.h"
 
-namespace {
-	LPCSTR shader_type_correspond[(unsigned char)DX12::ShaderType::size] = {
-	"vs_5_0","ps_5_0"
-	};
-}
-
-DX12::ShaderObject::ShaderObject(LPCWSTR filename, DX12::ShaderType shader_type)
+DX12::ShaderObject::ShaderObject(LPCWSTR filename, ShaderType type)
 {
+	LPCSTR shader_type = "";
+	switch (type) {
+	case ShaderType::VertexShader:
+		shader_type = "vs_5_0";
+		break;
+	case ShaderType::PixelShader:
+		shader_type = "ps_5_0";
+		break;
+	}
 	ComPtr<ID3DBlob> errorBlob;
 	auto result = D3DCompileFromFile(
-		filename, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main",
-		shader_type_correspond[(unsigned char)shader_type],
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0,
-		&blob_, &errorBlob
+		filename, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", shader_type,
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &blob_, &errorBlob
 	);
 	if (FAILED(result)) {
 		if (result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))

@@ -4,36 +4,15 @@
 //================================================================================
 #include "GraphicsPipeline.h"
 
+#include "ShaderObject.h"
+#include "RootSignature.h"
 #include "Log.h"
-
-namespace{
-	DXGI_FORMAT vertex_layout_format_correspond[(unsigned char)DX12::VertexLayoutFormat::size] = {
-		DXGI_FORMAT_R32G32B32_FLOAT,
-		DXGI_FORMAT_R8G8B8A8_UNORM,
-		DXGI_FORMAT_R32G32_FLOAT,
-		DXGI_FORMAT_R32_UINT
-	};
-	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitive_topology_type_correspond[(unsigned char)DX12::PrimitiveTopology::size] = {
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT,
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,
-		D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE
-	};
-	D3D12_PRIMITIVE_TOPOLOGY primitive_topology_correspond[(unsigned char)DX12::PrimitiveTopology::size] = {
-		D3D_PRIMITIVE_TOPOLOGY_POINTLIST,
-		D3D_PRIMITIVE_TOPOLOGY_LINELIST,
-		D3D_PRIMITIVE_TOPOLOGY_LINESTRIP,
-		D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
-		D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP
-	};
-}
 
 DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 	std::shared_ptr<ShaderObject> vertex_shader, std::shared_ptr<ShaderObject> pixel_shader,
-	VertexLayoutUnit* layout_unit_array, int layout_unit_num, bool dsbuffer,
-	PrimitiveTopology topology, std::shared_ptr<RootSignature> root_signature, LPCWSTR debug_name)
-	:primitive_topology_(topology)
+	const std::vector<VertexLayoutUnit>& vertex_layout, bool dsbuffer,
+	D3D_PRIMITIVE_TOPOLOGY primitive_topology, std::shared_ptr<RootSignature> root_signature)
+	:primitive_topology_(primitive_topology)
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline = {};
 	gpipeline.pRootSignature = nullptr;
@@ -62,13 +41,13 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 	render_target_blend_desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	gpipeline.BlendState = render_target_blend_desc;
 	//頂点レイアウトの配列を変換
-	D3D12_INPUT_ELEMENT_DESC* layouts = DBG_NEW D3D12_INPUT_ELEMENT_DESC[layout_unit_num];
-	for (int n = 0; n < layout_unit_num; n++) {
+	D3D12_INPUT_ELEMENT_DESC* layouts = DBG_NEW D3D12_INPUT_ELEMENT_DESC[vertex_layout.size()];
+	for (int n = 0; n < vertex_layout.size(); n++) {
 		layouts[n] = {};
-		layouts[n].SemanticName = layout_unit_array[n].semantic_name_;
+		layouts[n].SemanticName = vertex_layout[n].semantic_name_;
 		layouts[n].SemanticIndex = 0;
-		layouts[n].Format = vertex_layout_format_correspond[(unsigned char)layout_unit_array[n].format_];
-		layouts[n].InputSlot = layout_unit_array[n].input_slot_;
+		layouts[n].Format = vertex_layout[n].format_;
+		layouts[n].InputSlot = vertex_layout[n].input_slot_;
 		layouts[n].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 		layouts[n].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
 		layouts[n].InstanceDataStepRate = 0;
@@ -84,9 +63,9 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 		gpipeline.DepthStencilState.DepthEnable = false;
 	}
 	gpipeline.InputLayout.pInputElementDescs = layouts;
-	gpipeline.InputLayout.NumElements = layout_unit_num;
+	gpipeline.InputLayout.NumElements = vertex_layout.size();
 	gpipeline.IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
-	gpipeline.PrimitiveTopologyType = primitive_topology_type_correspond[(unsigned char)primitive_topology_];
+	gpipeline.PrimitiveTopologyType = ConvertToTopologyType(primitive_topology_);
 	gpipeline.NumRenderTargets = 1;
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	gpipeline.SampleDesc.Count = 1;
@@ -98,13 +77,30 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 		Log::OutputTrivial("GraphicsPipeLine Initialising failed");
 		throw 0;
 	}
+}
+
+void DX12::GraphicsPipeline::SetDebugName(LPCWSTR debug_name)
+{
 #ifdef _DEBUG
 	state_->SetName(debug_name);
 #endif
 }
 
-void DX12::GraphicsPipeline::SetGraphicsPipeline(ComPtr<ID3D12GraphicsCommandList> list)
+ID3D12PipelineState* DX12::GraphicsPipeline::GetRawPtr() const
 {
-	list->SetPipelineState(state_.Get());
-	list->IASetPrimitiveTopology(primitive_topology_correspond[(unsigned char)primitive_topology_]);
+	return state_.Get();
+}
+
+D3D12_PRIMITIVE_TOPOLOGY_TYPE DX12::ConvertToTopologyType(D3D12_PRIMITIVE_TOPOLOGY primitive_topology)
+{
+	switch (primitive_topology) {
+	case D3D_PRIMITIVE_TOPOLOGY_POINTLIST:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
+	case D3D_PRIMITIVE_TOPOLOGY_LINELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_LINESTRIP:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST:
+	case D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
+		return D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	}
 }

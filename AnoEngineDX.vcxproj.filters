@@ -58,15 +58,6 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="engine\DX12\Master.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\Master_pimple.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\SwapChain.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="test\Game1.cpp">
       <Filter>test</Filter>
@@ -89,7 +80,28 @@
     <ClCompile Include="test\Component2.cpp">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DX12\ShaderObject.cpp">
+    <ClCompile Include="Engine\DX12\Master.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\GraphicsCommandList.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\CommandQueue.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\Fence.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\SwapChain.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\Resource.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\ShaderResource.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\DescriptorHeap.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DX12\VertexBuffer.cpp">
@@ -98,19 +110,22 @@
     <ClCompile Include="Engine\DX12\IndexBuffer.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DX12\GraphicsPipeline.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\ShaderObject.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\DX12\RootSignature.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DX12\GraphicsPipeline.cpp">
+    <ClCompile Include="Engine\DX12\Buffer.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DX12\ConstBuffer.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DX12\DescriptorHeap.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DX12\ShaderResource.cpp">
+    <ClCompile Include="Engine\DX12\ImageLoad.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DX12\DepthStencilBuffer.cpp">
@@ -170,21 +185,6 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="engine\DX12\Master.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\Master_pimple.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\SwapChain.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\ConfigEnums.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DX12Include.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="test\Game1.h">
       <Filter>test</Filter>
     </ClInclude>
@@ -206,7 +206,28 @@
     <ClInclude Include="test\Component2.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\ShaderObject.h">
+    <ClInclude Include="Engine\DX12\Master.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\GraphicsCommandList.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\CommandQueue.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\Fence.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\SwapChain.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\Resource.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\ShaderResource.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\DescriptorHeap.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\VertexBuffer.h">
@@ -215,25 +236,28 @@
     <ClInclude Include="Engine\DX12\IndexBuffer.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\VertexLayout.h">
+    <ClInclude Include="Engine\DX12\GraphicsPipeline.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\ShaderObject.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\RootSignature.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\GraphicsPipeline.h">
+    <ClInclude Include="Engine\DX12\DescriptorRange.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\VertexLayout.h">
+      <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\Buffer.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\ConstBuffer.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\DescriptorHeap.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\DescriptorRange.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DX12\ShaderResource.h">
+    <ClInclude Include="Engine\DX12\ImageLoad.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\DepthStencilBuffer.h">

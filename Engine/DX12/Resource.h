@@ -3,21 +3,29 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12Include.h"
 
-/// <summary>
-/// D3D12_HEAP_PROPERTIESとD3D12_RESOURCE_DESCからリソースを作成し、共通の操作を実装する
-/// </summary>
 namespace DX12 {
-	class Resource
-	{
+	/// <summary>
+	/// resourceを表す汎用クラス resourceに共通の操作を実装する
+	/// </summary>
+	class Resource :public boost::noncopyable {
 	public:
-		Resource(D3D12_HEAP_PROPERTIES heap_prop, D3D12_RESOURCE_DESC resource_desc);
-		void Map();
-		void Copy(void* src_begin,void* dst_begin, SIZE_T size);
+		//ShaderResourceがSwapChainに対応するための空コンストラクタ
+		Resource();
+		/// <param name="heap_type">
+		/// DEFAULT:CPUからアクセスできない
+		/// UPLOAD:CPUからアクセスできる
+		/// READBACK:CPUから読み取れる
+		/// </param>
+		Resource(ComPtr<ID3D12Device> device, D3D12_HEAP_FLAGS heap_flag, D3D12_HEAP_TYPE heap_type,
+			D3D12_RESOURCE_DESC resource_desc, D3D12_RESOURCE_STATES state);
+		//_DEBUG時のみ有効
+		void SetDebugName(LPCWSTR debug_name);
+		void* Map();
 		void Unmap();
-		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress();
-	private:
+		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
+		ID3D12Resource* GetRawPtr() const;
+	protected:
 		ComPtr<ID3D12Resource> resource_;
 	};
 }

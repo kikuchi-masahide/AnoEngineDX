@@ -3,19 +3,18 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
-#include "DX12Include.h"
+#include "Buffer.h"
 
 namespace DX12 {
-	class IndexBuffer final :public boost::noncopyable
-	{
+	class IndexBuffer:public Buffer {
 	public:
-		IndexBuffer(ComPtr<ID3D12Device> device, int vertex_num, LPCWSTR debug_name);
-		unsigned int* Map();
-		void Unmap();
-		void SetIndexBuffer(ComPtr<ID3D12GraphicsCommandList> list);
-		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
-		int vertex_num_;
-	private:
-		ComPtr<ID3D12Resource> resource_;
+		/// <summary>
+		/// index bufferを作成する
+		/// </summary>
+		/// <param name="state">通常GENERIC_READ</param>
+		/// <param name="vert_num">含まれる全頂点の数 例えば三角形の場合、全頂点は3×三角形の数</param>
+		IndexBuffer(ComPtr<ID3D12Device> device, D3D12_HEAP_TYPE heap_type, D3D12_RESOURCE_STATES state,
+			int vert_num);
+		int const vertex_num_;
 	};
 }
