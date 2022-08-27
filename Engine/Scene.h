@@ -32,6 +32,11 @@ public:
 	//コンストラクタを呼び出せるのは_game自身のAddChildのみ
 	Scene(Game* const game);
 	/// <summary>
+	/// コンストラクタとは別の、非同期で実行する初期化関数
+	/// この関数が終了したフレーム次からこのSceneへ遷移する
+	/// </summary>
+	virtual void AsyncInitialize();
+	/// <summary>
 	/// 更新関数
 	/// </summary>
 	void Update(const InputSystem* input);
@@ -57,8 +62,6 @@ public:
 	/// </summary>
 	virtual void PosteriorUniqueOutput();
 	GameObjectHandle AddObject();
-	bool GetDeleteFlag() const;
-	void SetDeleteFlag();
 	/// <summary>
 	/// objの指すGameObjectにUpdateComponentを追加(GameObject::AddUpdateComponentから呼び出される)
 	/// </summary>
@@ -142,7 +145,6 @@ private:
 	//UIScreenのOutputを奥から呼び出す
 	void LaunchOutputUIScreens();
 	GameObject* operator&() const noexcept;
-	bool delete_flag_;
 	friend Game;
 	bool delete_check_;
 	//コンポーネント・オブジェクトを直接リストに入れられるか?

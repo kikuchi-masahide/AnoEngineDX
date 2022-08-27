@@ -28,14 +28,12 @@ public:
 		if (is_executing_destructor_) {
 			return;
 		}
-		if (!is_scene_changable_) {
-			if (panding_scene_ != nullptr)DeleteScene(panding_scene_);
-			panding_scene_ = DBG_NEW S(this, args...);
-		}
-		else {
-			if (current_scene_ != nullptr)DeleteScene(current_scene_);
-			current_scene_ = DBG_NEW S(this, args...);
-		}
+		//現在実行中の場合中断を通告
+		async_initing_thread_.interrupt();
+		async_initing_thread_.join();
+		Scene* newscene = DBG_NEW S(this, args...);
+		boost::thread th(&Game::AsyncInitializeScene, this, newscene);
+		async_initing_thread_.swap(th);
 	};
 	/// <summary>
 	/// ウィンドウをGameに追加する
@@ -106,11 +104,18 @@ private:
 	/// ゲーム全体の出力生成
 	/// </summary>
 	void GenerateOutput();
+	/// <summary>
+	/// ChangeSceneにて別スレッドで実行する、sceneのAsyncInitializeを実行する関数
+	/// </summary>
+	/// <param name="scene"></param>
+	void AsyncInitializeScene(Scene* scene);
+	//フレームの初めで、scene_を更新
+	void ProcessPandingScene();
 	//このポインタをdeleteしデストラクタを呼ぶ
 	void DeleteScene(Scene* scene);
 	Scene* current_scene_;
 	Scene* panding_scene_;
-	bool is_scene_changable_;
+	boost::mutex panding_scene_mutex_;
 	std::map<unsigned int, boost::shared_ptr<Window>> windows_;
 	std::map<unsigned int, std::shared_ptr<DX12::SwapChain>> swapchains_;
 	std::map<unsigned int, std::shared_ptr<DX12::DepthStencilBuffer>> dsbuffers_;
@@ -121,4 +126,6 @@ private:
 	InputSystem input_system_;
 	bool is_executing_destructor_;
 	bool terminate_flag_;
+	//AsyncInitializeSceneを動かしているスレッド
+	boost::thread async_initing_thread_;
 };

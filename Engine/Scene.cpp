@@ -21,6 +21,10 @@ Scene::Scene(Game* const game)
 	BOOST_ASSERT(game != nullptr);
 }
 
+void Scene::AsyncInitialize()
+{
+}
+
 void Scene::Update(const InputSystem* input)
 {
 	input_system_ = input;
@@ -78,16 +82,6 @@ GameObjectHandle Scene::AddObject()
 	return element_container_.AddObject(this);
 }
 
-bool Scene::GetDeleteFlag() const
-{
-	return delete_flag_;
-}
-
-void Scene::SetDeleteFlag()
-{
-	delete_flag_ = true;
-}
-
 void Scene::SetOutputCompsPreFunc(int upd_prio, std::function<void()> func)
 {
 	element_container_.SetOutputCompsPreFunc(upd_prio, func);
@@ -110,7 +104,6 @@ Scene::~Scene() {
 	{
 		delete uiscreen;
 	}
-	Log::OutputTrivial("Scene::~Scene()");
 }
 
 ButtonState Scene::GetKeyState(int key) const

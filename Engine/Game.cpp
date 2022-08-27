@@ -23,7 +23,6 @@ Game::Game()
 	dx12_.Initialize();
 	graphics_cmd_queue_ = dx12_.CreateCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
 	graphics_cmd_queue_->SetDebugName(L"graphics_cmd_queue_");
-	is_scene_changable_ = true;
 	current_swapchain_id_ = -1;
 	Scene::InitMemory();
 }
@@ -31,11 +30,19 @@ Game::Game()
 Game::~Game()
 {
 	is_executing_destructor_ = true;
-	DeleteScene(current_scene_);
-	if (panding_scene_ != nullptr) {
+	if (current_scene_) {
+		DeleteScene(current_scene_);
+	}
+	if (panding_scene_) {
 		DeleteScene(panding_scene_);
 	}
 	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
+	//OBJECT_DELETED_WHILE_STILL_IN_USE対策
+	std::shared_ptr<DX12::Fence> fence = dx12_.CreateFence();
+	auto eventhandle = CreateEvent(NULL, FALSE, FALSE, NULL);
+	fence->SetEventOnCompletion(1, eventhandle);
+	graphics_cmd_queue_->Signal(fence, 1);
+	WaitForSingleObject(eventhandle, INFINITE);
 	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
 }
@@ -145,6 +152,7 @@ void Game::RunLoop()
 		if (msg.message == WM_QUIT) {
 			break;
 		}
+		ProcessPandingScene();
 		DWORD now = timeGetTime();
 		double time = millisec + (double)(now - start);
 		if (time < kFrameTimeDelta) {
@@ -157,9 +165,14 @@ void Game::RunLoop()
 		start = now;
 		ProcessInput();
 		while (millisec > kFrameTimeDelta) {
-			int obj_num = current_scene_->GetGameObjectNumber();
-			int update_comp_num = current_scene_->GetUpdateComponentNumber();
-			int output_comp_num = current_scene_->GetOutputComponentNumber();
+			int obj_num = 0;
+			int update_comp_num = 0;
+			int output_comp_num = 0;
+			if (current_scene_) {
+				obj_num = current_scene_->GetGameObjectNumber();
+				update_comp_num = current_scene_->GetUpdateComponentNumber();
+				output_comp_num = current_scene_->GetOutputComponentNumber();
+			}
 			DWORD update_time = timeGetTime();
 			UpdateGame();
 			update_time = timeGetTime() - update_time;
@@ -176,6 +189,9 @@ void Game::RunLoop()
 			break;
 		}
 	}
+	//現在実行中の場合中断を通告
+	async_initing_thread_.interrupt();
+	async_initing_thread_.join();
 }
 
 void Game::Terminate()
@@ -211,23 +227,48 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {
 	BeforeUpdate();
-	is_scene_changable_ = false;
-	current_scene_->Update(&input_system_);
+	if (current_scene_) {
+		current_scene_->Update(&input_system_);
+	}
 	AfterUpdate();
 }
 
 void Game::GenerateOutput()
 {
 	BeforeOutput();
-	current_scene_->Output();
+	if (current_scene_) {
+		current_scene_->Output();
+	}
 	AfterOutput();
+}
+
+void Game::AsyncInitializeScene(Scene* scene)
+{
+	try {
+		scene->AsyncInitialize();
+	}
+	//アプリ終了、別のChangeSceneなどでスレッドの中断が入った場合
+	catch (boost::thread_interrupted) {
+		DeleteScene(scene);
+		return;
+	}
+	{
+		boost::unique_lock<boost::mutex> lock(panding_scene_mutex_);
+		panding_scene_ = scene;
+	}
+}
+
+void Game::ProcessPandingScene()
+{
+	boost::unique_lock<boost::mutex> lock(panding_scene_mutex_);
 	if (panding_scene_) {
-		DeleteScene(current_scene_);
+		if (current_scene_) {
+			DeleteScene(current_scene_);
+		}
 		//HACK:この代入で，mPandingSceneのcomponentなどが持っている参照の行き先がおかしくなっているらしい 何故?
 		current_scene_ = panding_scene_;
 		panding_scene_ = nullptr;
 	}
-	is_scene_changable_ = true;
 }
 
 void Game::DeleteScene(Scene* scene)

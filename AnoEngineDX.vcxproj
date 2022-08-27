@@ -64,6 +64,7 @@
     <ClCompile Include="test\Game1.cpp" />
     <ClCompile Include="test\Scene1.cpp" />
     <ClCompile Include="test\Scene2.cpp" />
+    <ClCompile Include="test\Scene3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="test\Game1.h" />
     <ClInclude Include="test\Scene1.h" />
     <ClInclude Include="test\Scene2.h" />
+    <ClInclude Include="test\Scene3.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="test\PixelShader.hlsl">
