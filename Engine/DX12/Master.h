@@ -87,6 +87,14 @@ namespace DX12 {
 		/// </summary>
 		void CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuffer> dsbuffer,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
+		/// <summary>
+		/// desc_heap‚Ìindex”Ô–Ú‚ÉAsampler‚ğì¬
+		/// </summary>
+		/// <param name="address_u">u‚ª0`1‚Ì”ÍˆÍŠO‚Ì‚Æ‚«‚Ì‹““® ’ÊíŒJ‚è•Ô‚µ</param>
+		/// <param name="address_v">v‚ª0`1‚Ì”ÍˆÍŠO‚Ì‚Æ‚«‚Ì‹““® ’ÊíŒJ‚è•Ô‚µ</param>
+		void CreateSampler(std::shared_ptr<DescriptorHeap> desc_heap, int index,
+			D3D12_TEXTURE_ADDRESS_MODE address_u = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+			D3D12_TEXTURE_ADDRESS_MODE address_v = D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 		void Serialize(std::shared_ptr<RootSignature> root_signature);
 		std::shared_ptr<GraphicsPipeline> CreateGraphicsPipeline(
 			std::shared_ptr<ShaderObject> vertex_shader, std::shared_ptr<ShaderObject> pixel_shader,

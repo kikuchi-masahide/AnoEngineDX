@@ -153,6 +153,16 @@ void DX12::GraphicsCommandList::SetDescriptorHeap(std::shared_ptr<DescriptorHeap
 	cmd_list_->SetDescriptorHeaps(1, &pdesc);
 }
 
+void DX12::GraphicsCommandList::SetDescriptorHeaps(std::vector<std::shared_ptr<DescriptorHeap>> desc_heaps)
+{
+	ID3D12DescriptorHeap** arr = DBG_NEW ID3D12DescriptorHeap*[desc_heaps.size()];
+	for (int n = 0; n < desc_heaps.size(); n++) {
+		arr[n] = desc_heaps[n]->GetRawPtr();
+	}
+	cmd_list_->SetDescriptorHeaps(desc_heaps.size(), arr);
+	delete[] arr;
+}
+
 void DX12::GraphicsCommandList::SetGraphicsRootDescriptorTable(int root_param_index,
 	std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index)
 {

@@ -25,18 +25,8 @@ void DX12::RootSignature::Serialize(ComPtr<ID3D12Device> device)
 			params[n] = root_params_[n];
 		}
 	}
-	D3D12_STATIC_SAMPLER_DESC samplerdesc = {};
-	samplerdesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerdesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerdesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerdesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	samplerdesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerdesc.MaxLOD = D3D12_FLOAT32_MAX;
-	samplerdesc.MinLOD = 0.0f;
-	samplerdesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	samplerdesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 	D3D12_ROOT_SIGNATURE_DESC desc = CD3DX12_ROOT_SIGNATURE_DESC(
-		root_params_.size(), params, 1, &samplerdesc);
+		root_params_.size(), params);
 	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	ComPtr<ID3DBlob> root_sig_blob, error_blob;
 	auto result = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1_0,

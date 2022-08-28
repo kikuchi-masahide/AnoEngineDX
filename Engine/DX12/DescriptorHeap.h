@@ -29,6 +29,8 @@ namespace DX12 {
 			std::shared_ptr<ShaderResource> shader_resource, int index);
 		void CreateDepthStencilBufferView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<DepthStencilBuffer> buffer, int index);
+		void CreateSampler(ComPtr<ID3D12Device> device, int index,
+			D3D12_TEXTURE_ADDRESS_MODE address_u, D3D12_TEXTURE_ADDRESS_MODE address_v);
 		D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(int index) const;
 		D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(int index) const;
 		ID3D12DescriptorHeap* GetRawPtr() const;

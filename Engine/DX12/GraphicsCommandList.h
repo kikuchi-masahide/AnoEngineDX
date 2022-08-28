@@ -76,6 +76,11 @@ namespace DX12 {
 		/// </summary>
 		void SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap);
 		/// <summary>
+		/// このDescriptorHeap(複数個)をセットする
+		/// (SetGraphicsRootDescriptorTableとは別に、用いるDescriptorHeapをセットする必要がある)
+		/// </summary>
+		void SetDescriptorHeaps(std::vector<std::shared_ptr<DescriptorHeap>> desc_heaps);
+		/// <summary>
 		/// このDescriptorHeapをRootParameterに対応させる
 		/// </summary>
 		/// <param name="root_param_index">何番目のRootParameterか</param>

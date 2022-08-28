@@ -117,6 +117,12 @@ void DX12::Master::CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuff
 	desc_heap->CreateDepthStencilBufferView(device_, dsbuffer, index);
 }
 
+void DX12::Master::CreateSampler(std::shared_ptr<DescriptorHeap> desc_heap, int index,
+	D3D12_TEXTURE_ADDRESS_MODE address_u, D3D12_TEXTURE_ADDRESS_MODE address_v)
+{
+	desc_heap->CreateSampler(device_, index, address_u, address_v);
+}
+
 void DX12::Master::Serialize(std::shared_ptr<RootSignature> root_signature)
 {
 	root_signature->Serialize(device_);

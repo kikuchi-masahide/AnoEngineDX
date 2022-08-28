@@ -66,11 +66,33 @@ void DX12::DescriptorHeap::CreateShaderResourceView(ComPtr<ID3D12Device> device,
 void DX12::DescriptorHeap::CreateDepthStencilBufferView(ComPtr<ID3D12Device> device,
 	std::shared_ptr<DepthStencilBuffer> buffer, int index)
 {
+	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc = {};
 	desc.Format = DXGI_FORMAT_D32_FLOAT;
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	desc.Flags = D3D12_DSV_FLAG_NONE;
 	device->CreateDepthStencilView(buffer->GetRawPtr(), &desc, GetCPUDescriptorHandle(index));
+}
+
+void DX12::DescriptorHeap::CreateSampler(ComPtr<ID3D12Device> device, int index,
+	D3D12_TEXTURE_ADDRESS_MODE address_u, D3D12_TEXTURE_ADDRESS_MODE address_v)
+{
+	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+	D3D12_SAMPLER_DESC desc = {};
+	desc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	desc.AddressU = address_u;
+	desc.AddressV = address_v;
+	desc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	desc.MipLODBias = 0;
+	desc.MaxAnisotropy = 1;
+	desc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	desc.BorderColor[0] = 0.0f;
+	desc.BorderColor[1] = 0.0f;
+	desc.BorderColor[2] = 0.0f;
+	desc.BorderColor[3] = 1.0f;
+	desc.MinLOD = 0.0f;
+	desc.MaxLOD = D3D12_FLOAT32_MAX;
+	device->CreateSampler(&desc, GetCPUDescriptorHandle(index));
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE DX12::DescriptorHeap::GetCPUDescriptorHandle(int index) const
