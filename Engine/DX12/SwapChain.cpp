@@ -4,7 +4,7 @@
 //================================================================================
 #include "SwapChain.h"
 
-#include "ShaderResource.h"
+#include "Texture2D.h"
 #include "DescriptorHeap.h"
 #include "Log.h"
 
@@ -40,7 +40,7 @@ DX12::SwapChain::SwapChain(ComPtr<IDXGIFactory6> factory, ComPtr<ID3D12CommandQu
 		D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 	for (int n = 0; n < 2; n++) {
 		//‚±‚Ìbackbuffer_[n]‚©‚çRTV‚ðì‚é‚Ì‚ÅAformat‚ÍUNORM_SRGB‚É‚µ‚Ä‚¨‚­
-		backbuffer_[n] = std::make_shared<ShaderResource>(swapchain_, n, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		backbuffer_[n] = std::make_shared<Texture2D>(swapchain_, n, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		desc_heap_->CreateRenderTargetView(device, backbuffer_[n], n);
 	}
 }
@@ -64,7 +64,7 @@ UINT DX12::SwapChain::GetCurrentBackBufferIndex() const
 	return swapchain_->GetCurrentBackBufferIndex();
 }
 
-std::shared_ptr<DX12::ShaderResource> DX12::SwapChain::GetCurrentBackBuffer() const
+std::shared_ptr<DX12::Texture2D> DX12::SwapChain::GetCurrentBackBuffer() const
 {
 	return backbuffer_[GetCurrentBackBufferIndex()];
 }

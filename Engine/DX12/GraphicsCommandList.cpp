@@ -12,7 +12,7 @@
 #include "RootSignature.h"
 #include "GraphicsPipeline.h"
 #include "ImageLoad.h"
-#include "ShaderResource.h"
+#include "Texture2D.h"
 #include "Log.h"
 
 DX12::GraphicsCommandList::GraphicsCommandList(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type)
@@ -90,9 +90,9 @@ void DX12::GraphicsCommandList::CopyBufferRegion(std::shared_ptr<Resource> dst, 
 	cmd_list_->CopyBufferRegion(dst->GetRawPtr(), dst_offset, src->GetRawPtr(), src_offset, copy_size);
 }
 
-void DX12::GraphicsCommandList::CopyBufferToTexture(std::shared_ptr<Buffer> buffer,
+void DX12::GraphicsCommandList::CopyBufferToTexture2D(std::shared_ptr<Buffer> buffer,
 	UINT img_width, UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
-	std::shared_ptr<ShaderResource> texture)
+	std::shared_ptr<Texture2D> texture)
 {
 	D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcfootprint;
 	srcfootprint.Offset = 0;

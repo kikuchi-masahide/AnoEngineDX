@@ -5,7 +5,7 @@
 #pragma once
 
 namespace DX12 {
-	class ShaderResource;
+	class Texture2D;
 	class DescriptorHeap;
 	/// <summary>
 	/// SwapChain–{‘Ì‚âbackbufferARTV‚ğ•Û‘¶‚·‚édescriptorheap‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—‚·‚é
@@ -17,11 +17,11 @@ namespace DX12 {
 		void SetDebugName(LPCWSTR debug_name);
 		void Flip();
 		UINT GetCurrentBackBufferIndex() const;
-		std::shared_ptr<ShaderResource> GetCurrentBackBuffer() const;
+		std::shared_ptr<Texture2D> GetCurrentBackBuffer() const;
 		std::shared_ptr<DescriptorHeap> GetDescriptorHeap() const;
 	private:
 		ComPtr<IDXGISwapChain4> swapchain_;
-		std::shared_ptr<ShaderResource> backbuffer_[2];
+		std::shared_ptr<Texture2D> backbuffer_[2];
 		std::shared_ptr<DescriptorHeap> desc_heap_;
 	};
 }

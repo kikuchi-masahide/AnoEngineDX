@@ -5,7 +5,7 @@
 #pragma once
 
 namespace DX12 {
-	class ShaderResource;
+	class Texture2D;
 	class ConstBuffer;
 	class DepthStencilBuffer;
 	class DescriptorHeap final:public boost::noncopyable {
@@ -22,11 +22,11 @@ namespace DX12 {
 		//_DEBUGŽž‚Ì‚Ý—LŒø
 		void SetDebugName(LPCWSTR debug_name);
 		void CreateRenderTargetView(ComPtr<ID3D12Device> device,
-			std::shared_ptr<ShaderResource> shader_resource, int index);
+			std::shared_ptr<Texture2D> shader_resource, int index);
 		void CreateConstBufferView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<ConstBuffer> buffer, int index);
-		void CreateShaderResourceView(ComPtr<ID3D12Device> device,
-			std::shared_ptr<ShaderResource> shader_resource, int index);
+		void CreateTexture2DView(ComPtr<ID3D12Device> device,
+			std::shared_ptr<Texture2D> shader_resource, int index);
 		void CreateDepthStencilBufferView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<DepthStencilBuffer> buffer, int index);
 		void CreateSampler(ComPtr<ID3D12Device> device, int index,

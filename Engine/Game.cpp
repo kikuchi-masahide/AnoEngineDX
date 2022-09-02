@@ -11,7 +11,7 @@
 #include "DX12/SwapChain.h"
 #include "DX12/Fence.h"
 #include "DX12/GraphicsCommandList.h"
-#include "DX12/ShaderResource.h"
+#include "DX12/Texture2D.h"
 
 #pragma comment(lib,"winmm.lib")
 

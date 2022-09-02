@@ -10,7 +10,7 @@ namespace DX12 {
 	/// </summary>
 	class Resource :public boost::noncopyable {
 	public:
-		//ShaderResourceがSwapChainに対応するための空コンストラクタ
+		//Texture2DがSwapChainに対応するための空コンストラクタ
 		Resource();
 		/// <param name="heap_type">
 		/// DEFAULT:CPUからアクセスできない

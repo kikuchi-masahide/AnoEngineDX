@@ -12,7 +12,7 @@
 #include "IndexBuffer.h"
 #include "ConstBuffer.h"
 #include "Buffer.h"
-#include "ShaderResource.h"
+#include "Texture2D.h"
 #include "DepthStencilBuffer.h"
 #include "DescriptorHeap.h"
 #include "RootSignature.h"
@@ -80,11 +80,11 @@ std::shared_ptr<DX12::Buffer> DX12::Master::CreateBuffer(D3D12_HEAP_TYPE heap_ty
 	return std::make_shared<Buffer>(device_, heap_type, size, state);
 }
 
-std::shared_ptr<DX12::ShaderResource> DX12::Master::CreateShaderResource(UINT64 width, UINT height,
+std::shared_ptr<DX12::Texture2D> DX12::Master::CreateTexture2D(UINT64 width, UINT height,
 	DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,
 	D3D12_RESOURCE_STATES state)
 {
-	return std::make_shared<ShaderResource>(device_, width, height, dxgi_format, heap_type,
+	return std::make_shared<Texture2D>(device_, width, height, dxgi_format, heap_type,
 		texture_layout, state);
 }
 
@@ -106,10 +106,10 @@ void DX12::Master::CreateConstBufferView(std::shared_ptr<ConstBuffer> buffer,
 	desc_heap->CreateConstBufferView(device_, buffer, index);
 }
 
-void DX12::Master::CreateShaderResourceView(std::shared_ptr<ShaderResource> shader_resource,
+void DX12::Master::CreateTexture2DView(std::shared_ptr<Texture2D> shader_resource,
 	std::shared_ptr<DescriptorHeap> desc_heap, int index)
 {
-	desc_heap->CreateShaderResourceView(device_, shader_resource, index);
+	desc_heap->CreateTexture2DView(device_, shader_resource, index);
 }
 
 void DX12::Master::CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuffer> dsbuffer, std::shared_ptr<DescriptorHeap> desc_heap, int index)

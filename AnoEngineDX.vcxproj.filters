@@ -98,7 +98,7 @@
     <ClCompile Include="Engine\DX12\Resource.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DX12\ShaderResource.cpp">
+    <ClCompile Include="Engine\DX12\Texture2D.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DX12\DescriptorHeap.cpp">
@@ -227,7 +227,7 @@
     <ClInclude Include="Engine\DX12\Resource.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\ShaderResource.h">
+    <ClInclude Include="Engine\DX12\Texture2D.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\DescriptorHeap.h">

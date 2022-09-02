@@ -4,7 +4,7 @@
 //================================================================================
 #include "DescriptorHeap.h"
 
-#include "ShaderResource.h"
+#include "Texture2D.h"
 #include "ConstBuffer.h"
 #include "DepthStencilBuffer.h"
 
@@ -29,7 +29,7 @@ void DX12::DescriptorHeap::SetDebugName(LPCWSTR debug_name)
 }
 
 void DX12::DescriptorHeap::CreateRenderTargetView(ComPtr<ID3D12Device> device,
-	std::shared_ptr<ShaderResource> shader_resource, int index)
+	std::shared_ptr<Texture2D> shader_resource, int index)
 {
 	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	D3D12_RENDER_TARGET_VIEW_DESC rtvdesc = {};
@@ -50,8 +50,8 @@ void DX12::DescriptorHeap::CreateConstBufferView(ComPtr<ID3D12Device> device,
 	device->CreateConstantBufferView(&desc, cpuhandle);
 }
 
-void DX12::DescriptorHeap::CreateShaderResourceView(ComPtr<ID3D12Device> device,
-	std::shared_ptr<ShaderResource> shader_resource, int index)
+void DX12::DescriptorHeap::CreateTexture2DView(ComPtr<ID3D12Device> device,
+	std::shared_ptr<Texture2D> shader_resource, int index)
 {
 	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	auto handle = GetCPUDescriptorHandle(index);

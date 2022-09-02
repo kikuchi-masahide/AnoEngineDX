@@ -12,7 +12,7 @@ namespace DX12 {
 	class RootSignature;
 	class GraphicsPipeline;
 	class Buffer;
-	class ShaderResource;
+	class Texture2D;
 	/// <summary>
 	/// resource barrier遷移の指定に使う
 	/// </summary>
@@ -53,9 +53,9 @@ namespace DX12 {
 		/// </summary>
 		void CopyBufferRegion(std::shared_ptr<Resource> dst, UINT64 dst_offset,
 			std::shared_ptr<Resource> src, UINT64 src_offset, UINT64 copy_size);
-		void CopyBufferToTexture(std::shared_ptr<Buffer> buffer,
+		void CopyBufferToTexture2D(std::shared_ptr<Buffer> buffer,
 			UINT img_width,UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
-			std::shared_ptr<ShaderResource> texture);
+			std::shared_ptr<Texture2D> texture);
 		/// <summary>
 		/// num個のRTVをセットする。DSVはなし。
 		/// RTVはdesc_heapのindex番目から連続して並んでいるとする。

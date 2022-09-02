@@ -20,7 +20,7 @@ namespace DX12 {
 	class VertexBuffer;
 	class IndexBuffer;
 	class ConstBuffer;
-	class ShaderResource;
+	class Texture2D;
 	class DepthStencilBuffer;
 	class Buffer;
 	class ShaderObject;
@@ -62,10 +62,10 @@ namespace DX12 {
 		std::shared_ptr<Buffer> CreateBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size,
 			D3D12_RESOURCE_STATES state);
 		/// <summary>
-		/// 空のShaderResourceを作る
+		/// 空のTexture2Dを作る
 		/// </summary>
 		/// <param name="texture_layout">一時バッファからコピーする場合はUNKNOWN</param>
-		std::shared_ptr<ShaderResource> CreateShaderResource(UINT64 width, UINT height,
+		std::shared_ptr<Texture2D> CreateTexture2D(UINT64 width, UINT height,
 			DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,
 			D3D12_RESOURCE_STATES state);
 		std::shared_ptr<DepthStencilBuffer> CreateDepthStencilBuffer(UINT64 width, UINT height,
@@ -80,7 +80,7 @@ namespace DX12 {
 		/// <summary>
 		/// desc_heapのindex番目に、shader_resourceに対するSRVを作成
 		/// </summary>
-		void CreateShaderResourceView(std::shared_ptr<ShaderResource> shader_resource,
+		void CreateTexture2DView(std::shared_ptr<Texture2D> shader_resource,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		/// <summary>
 		/// desc_heapのindex番目に、dsbufferに対するDSVを作成
