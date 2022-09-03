@@ -9,7 +9,6 @@
 class Scene;
 class Window;
 
-//HACK:初期化処理などもGameで完結させる方が分かりやすいなど，Gameを派生したクラスに実装を乗せる形にした方がベターか?
 class Game {
 public:
 	//1フレーム当たりの時間
@@ -38,33 +37,14 @@ public:
 	/// <summary>
 	/// ウィンドウをGameに追加する
 	/// </summary>
-	/// <param name="_windowid">非負整数値ウィンドウID(ウィンドウ，スワップチェーンの指定にはこのIDを使う)</param>
-	void AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid, bool use_swapchain = true);
+	/// <param name="_windowid">整数値ウィンドウID(ウィンドウ，スワップチェーンの指定にはこのIDを使う)</param>
+	/// <returns>作成したwindow</returns>
+	std::weak_ptr<Window> AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height,
+		LPCWSTR windowTitle, int windowid);
 	/// <summary>
-	/// windowidに対応するウィンドウの参照を返す
+	/// windowidに対応するウィンドウのポインタを返す
 	/// </summary>
-	boost::shared_ptr<Window> GetWindow(int windowid) const;
-	/// <summary>
-	/// このwindowidをrender targetにするコマンドを、cmd_listにセットする。
-	/// </summary>
-	void SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid);
-	/// <summary>
-	/// このwindowidのbackbufferのstateを、beforeからafterへ変更する
-	/// </summary>
-	void SetBackbufferStateBarrier(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-		D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after);
-	/// <summary>
-	/// このwindowidのbackbufferを、指定色でクリアする
-	/// </summary>
-	void ClearBackbuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-		float r, float g, float b);
-	/// <summary>
-	/// 指定windowidのdepth stencil bufferをvalueでクリアする
-	/// </summary>
-	void ClearDepthStencilBuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-		float value);
-	std::shared_ptr<DX12::SwapChain> GetSwapChain(int windowid) const;
-	std::shared_ptr<DX12::CommandQueue> GetCommandQueue() const;
+	std::shared_ptr<Window> GetWindow(int windowid) const;
 	/// <summary>
 	/// ゲームループを開始する main.cppで呼び出す
 	/// </summary>
@@ -116,12 +96,7 @@ private:
 	Scene* current_scene_;
 	Scene* panding_scene_;
 	boost::mutex panding_scene_mutex_;
-	std::map<unsigned int, boost::shared_ptr<Window>> windows_;
-	std::map<unsigned int, std::shared_ptr<DX12::SwapChain>> swapchains_;
-	std::map<unsigned int, std::shared_ptr<DX12::DepthStencilBuffer>> dsbuffers_;
-	std::map<unsigned int, std::shared_ptr<DX12::DescriptorHeap>> dsv_descheaps_;
-	//swapchains_の作成などに使うcommandqueue
-	std::shared_ptr<DX12::CommandQueue> graphics_cmd_queue_;
+	std::map<unsigned int, std::shared_ptr<Window>> windows_;
 	int current_swapchain_id_;
 	InputSystem input_system_;
 	bool is_executing_destructor_;

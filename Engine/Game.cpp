@@ -7,11 +7,6 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "boost/pool/pool_alloc.hpp"
-#include "DX12/CommandQueue.h"
-#include "DX12/SwapChain.h"
-#include "DX12/Fence.h"
-#include "DX12/GraphicsCommandList.h"
-#include "DX12/Texture2D.h"
 
 #pragma comment(lib,"winmm.lib")
 
@@ -21,8 +16,6 @@ Game::Game()
 	Log::Init();
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
-	graphics_cmd_queue_ = dx12_.CreateCommandQueue(D3D12_COMMAND_LIST_TYPE_DIRECT);
-	graphics_cmd_queue_->SetDebugName(L"graphics_cmd_queue_");
 	current_swapchain_id_ = -1;
 	Scene::InitMemory();
 }
@@ -37,97 +30,24 @@ Game::~Game()
 		DeleteScene(panding_scene_);
 	}
 	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
-	//OBJECT_DELETED_WHILE_STILL_IN_USE対策
-	std::shared_ptr<DX12::Fence> fence = dx12_.CreateFence();
-	auto eventhandle = CreateEvent(NULL, FALSE, FALSE, NULL);
-	fence->SetEventOnCompletion(1, eventhandle);
-	graphics_cmd_queue_->Signal(fence, 1);
-	WaitForSingleObject(eventhandle, INFINITE);
 	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
 }
 
-void Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height, LPCWSTR windowTitle, int windowid, bool use_swapchain)
+std::weak_ptr<Window> Game::AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height,
+	LPCWSTR windowTitle, int windowid)
 {
-	BOOST_ASSERT_MSG(windowid >= 0, "windowID must be non-negative");
 	BOOST_ASSERT_MSG(windows_.find(windowid) == windows_.end(), "windowID duplicating");
-	//ウィンドウの追加
-	boost::shared_ptr<Window> window(new Window(wndproc, classID, width, height, windowTitle));
-	windows_[windowid] = window;
-	if (use_swapchain) {
-		//ウィンドウに付随するスワップチェーンの追加
-		HWND hwnd = window->GetWindowHandle();
-		std::shared_ptr<DX12::SwapChain> swapchain = dx12_.CreateSwapChain(graphics_cmd_queue_, hwnd, width, height);
-		swapchain->SetDebugName(L"swapchain");
-		swapchains_.emplace(windowid, swapchain);
-		std::shared_ptr<DX12::DepthStencilBuffer> dsbuffer = dx12_.CreateDepthStencilBuffer(width, height);
-		std::shared_ptr<DX12::DescriptorHeap> descheap = dx12_.CreateDescriptorHeap(1, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
-		dx12_.CreateDepthStencilBufferView(dsbuffer, descheap, 0);
-		dsbuffers_.emplace(windowid, dsbuffer);
-		dsv_descheaps_.emplace(windowid, descheap);
-	}
-	return;
+	auto itr = windows_.emplace(windowid,
+		std::make_shared<Window>(wndproc, classID, width, height, windowTitle)).first;
+	return itr->second;
 }
 
-boost::shared_ptr<Window> Game::GetWindow(int windowid) const
+std::shared_ptr<Window> Game::GetWindow(int windowid) const
 {
 	auto itr = windows_.find(windowid);
 	BOOST_ASSERT_MSG(itr != windows_.end(), "unregistered windowID");
 	return itr->second;
-}
-
-void Game::SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid)
-{
-	auto itr = swapchains_.find(windowid);
-	assert(itr != swapchains_.end());
-	auto swapchain = itr->second;
-	auto bbindex = swapchain->GetCurrentBackBufferIndex();
-	auto rtv_desc = swapchain->GetDescriptorHeap();
-	auto srv_desc = dsv_descheaps_.find(windowid)->second;
-	cmd_list->SetRenderTargets(rtv_desc, bbindex, 1, srv_desc, 0);
-}
-
-void Game::SetBackbufferStateBarrier(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-	D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after)
-{
-	auto itr = swapchains_.find(windowid);
-	assert(itr != swapchains_.end());
-	auto backbuffer = itr->second->GetCurrentBackBuffer();
-	cmd_list->SetResourceBarrier(DX12::ResourceBarrierUnit(backbuffer, before, after));
-}
-
-void Game::ClearBackbuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-	float r, float g, float b)
-{
-	auto itr = swapchains_.find(windowid);
-	assert(itr != swapchains_.end());
-	auto bbindex = itr->second->GetCurrentBackBufferIndex();
-	auto rtv_desc = itr->second->GetDescriptorHeap();
-	cmd_list->ClearRenderTargetView(rtv_desc, bbindex, r, g, b);
-}
-
-void Game::ClearDepthStencilBuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, int windowid,
-	float value)
-{
-	auto itr = dsv_descheaps_.find(windowid);
-	assert(itr != dsv_descheaps_.end());
-	cmd_list->ClearDepthStencilBufferView(itr->second, 0, value);
-}
-
-std::shared_ptr<DX12::SwapChain> Game::GetSwapChain(int windowid) const
-{
-	auto itr = windows_.find(windowid);
-	if (itr != windows_.end()) {
-		return swapchains_.find(windowid)->second;
-	}
-	else {
-		return nullptr;
-	}
-}
-
-std::shared_ptr<DX12::CommandQueue> Game::GetCommandQueue() const
-{
-	return graphics_cmd_queue_;
 }
 
 /// <summary>
@@ -138,10 +58,6 @@ void Game::RunLoop()
 	MSG msg = {};
 	//"微妙に"たまっている時間
 	double millisec = 0;
-	//ウィンドウを表示していく
-	for (auto itr = windows_.begin(); itr != windows_.end(); itr++) {
-		itr->second->ShowWindow();
-	}
 	DWORD start = timeGetTime();
 	//メッセージループ
 	while (true) {
@@ -163,7 +79,6 @@ void Game::RunLoop()
 		}
 		millisec = time;
 		start = now;
-		ProcessInput();
 		while (millisec > kFrameTimeDelta) {
 			int obj_num = 0;
 			int update_comp_num = 0;
@@ -173,6 +88,7 @@ void Game::RunLoop()
 				update_comp_num = current_scene_->GetUpdateComponentNumber();
 				output_comp_num = current_scene_->GetOutputComponentNumber();
 			}
+			ProcessInput();
 			DWORD update_time = timeGetTime();
 			UpdateGame();
 			update_time = timeGetTime() - update_time;
@@ -213,8 +129,8 @@ void Game::BeforeOutput()
 
 void Game::AfterOutput()
 {
-	//全てのスワップチェーンのフリップ
-	for (auto itr = swapchains_.begin(); itr != swapchains_.end(); itr++) {
+	//すべてのswapchainのflip
+	for (auto itr = windows_.begin(); itr != windows_.end(); itr++) {
 		itr->second->Flip();
 	}
 }

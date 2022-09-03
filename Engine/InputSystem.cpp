@@ -25,11 +25,11 @@ void InputSystem::ProcessBeforeUpdate()
 	mouse_pos_[cur_index_] = MatVec::Vector2(point.x, point.y);
 }
 
-ButtonState InputSystem::GetKeyState(int _key) const
+ButtonState InputSystem::GetKeyState(int key) const
 {
 	//‘OƒtƒŒ[ƒ€‚Å“ü—Í‚ª‚³‚ê‚Ä‚¢‚½
-	if (key_state_[1 - cur_index_][_key] & 0x80) {
-		if (key_state_[cur_index_][_key] & 0x80) {
+	if (key_state_[1 - cur_index_][key] & 0x80) {
+		if (key_state_[cur_index_][key] & 0x80) {
 			return ButtonState::Held;
 		}
 		else {
@@ -37,7 +37,7 @@ ButtonState InputSystem::GetKeyState(int _key) const
 		}
 	}
 	else {
-		if (key_state_[cur_index_][_key] & 0x80) {
+		if (key_state_[cur_index_][key] & 0x80) {
 			return ButtonState::Pressed;
 		}
 		else {
