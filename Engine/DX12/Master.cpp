@@ -176,8 +176,6 @@ void DX12::Master::InitDevice()
 void DX12::Master::InitFactory()
 {
 #ifdef _DEBUG
-	//HACK:Output‚ªfile‚Æstd‚É‚Å‚«‚Ä‚È‚¢
-	//C++‚Ì—áŠO‚Ì•×‹­
 	if (FAILED(CreateDXGIFactory2(
 		DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(factory_.ReleaseAndGetAddressOf())
 	))) {
@@ -226,7 +224,7 @@ void DX12::Master::InitDebugSetting()
 	filter.DenyList.NumSeverities = _countof(severities);
 	filter.DenyList.pSeverityList = severities;
 	info_queue_->PushStorageFilter(&filter);
-	//D3D12‚ÌƒGƒ‰[Žž‚ÉŽ~‚ß‚é‚æ‚¤‚É‚·‚é
+	//D3D12ã®ã‚¨ãƒ©ãƒ¼æ™‚ã«æ­¢ã‚ã‚‹ã‚ˆã†ã«ã™ã‚‹
 	info_queue_->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
 #endif
 }

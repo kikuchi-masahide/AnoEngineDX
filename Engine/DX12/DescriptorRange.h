@@ -7,18 +7,18 @@
 namespace DX12 {
 	struct DescriptorRange {
 	public:
-		//•ß‘¨‚·‚édescriptor‚Ìí—Ş
+		//æ•æ‰ã™ã‚‹descriptorã®æ•°
 		int num_descriptors_;
-		//•ß‘¨‚·‚édescriptor‚Ìí—Ş
+		//æ•æ‰ã™ã‚‹descriptorã®ç¨®é¡
 		D3D12_DESCRIPTOR_RANGE_TYPE range_type_;
-		//ƒVƒF[ƒ_ƒŒƒWƒXƒ^‚Ì‰½”Ô–Ú‚©‚çè—L‚·‚é‚©
-		//(—á‚¦‚ÎmBaseShaderRegister = 2,mNumDescriptors = 4,mType = CBV‚È‚ç‚ÎC
-		//‚±‚ÌƒfƒBƒXƒNƒŠƒvƒ^ƒŒƒ“ƒW‚Íb2‚©‚çb5‚ğè—L‚·‚é)
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¬ã‚¸ã‚¹ã‚¿ã®ä½•ç•ªç›®ã‹ã‚‰å æœ‰ã™ã‚‹ã‹
+		//(ä¾‹ãˆã°mBaseShaderRegister = 2,mNumDescriptors = 4,mType = CBVãªã‚‰ã°ï¼Œ
+		//ã“ã®ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸ã¯b2ã‹ã‚‰b5ã‚’å æœ‰ã™ã‚‹)
 		int base_shader_register_;
-		//ƒfƒBƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì‰½”Ô–Ú‚©‚çè—L‚·‚é‚©
-		//(—á‚¦‚ÎmBaseHeapRegister = 2,mNumDescriptors = 4‚È‚ç‚ÎC
-		//ƒfƒBƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì2‚©‚ç5”Ô–Ú‚ğè—L‚·‚é)
-		//-1‚È‚ç‚ÎAD3D12_DESCRIPTOR_RANGE_OFFSET_APPENDA‚Â‚Ü‚è‘O‚ÌRange‚Ì’¼Œã‚Æ‰ğß‚·‚é
+		//ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ä½•ç•ªç›®ã‹ã‚‰å æœ‰ã™ã‚‹ã‹
+		//(ä¾‹ãˆã°mBaseHeapRegister = 2,mNumDescriptors = 4ãªã‚‰ã°ï¼Œ
+		//ãƒ‡ã‚£ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®2ã‹ã‚‰5ç•ªç›®ã‚’å æœ‰ã™ã‚‹)
+		//-1ãªã‚‰ã°ã€D3D12_DESCRIPTOR_RANGE_OFFSET_APPENDã€ã¤ã¾ã‚Šå‰ã®Rangeã®ç›´å¾Œã¨è§£é‡ˆã™ã‚‹
 		int base_heap_register_;
 		DescriptorRange(int num_desc, D3D12_DESCRIPTOR_RANGE_TYPE range_type, int base_shader_register,
 			int base_heap_register = -1)

@@ -9,8 +9,8 @@ class Game;
 #include "ComponentHandle.h"
 #include "boost/pool/pool_alloc.hpp"
 
-/// /// <summary>
-/// ƒV[ƒ“‚ÉŠÜ‚Ü‚ê‚éƒIƒuƒWƒFƒNƒgB‚Ù‚Úqcomponent‚ğ‚Ü‚Æ‚ß‚é‹@”\‚Ì‚İ
+/// <summary>
+/// ã‚·ãƒ¼ãƒ³ã«å«ã¾ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚ã»ã¼å­componentã‚’ã¾ã¨ã‚ã‚‹æ©Ÿèƒ½ã®ã¿
 /// </summary>
 class GameObject final {
 public:
@@ -18,27 +18,27 @@ public:
 	GameObject(Scene* scene);
 	~GameObject();
 	/// <summary>
-	/// UpdateComponent‚ğ’Ç‰Á
+	/// UpdateComponentã‚’è¿½åŠ 
 	/// </summary>
 	template<class T, class... Args>
 	ComponentHandle<T> AddUpdateComponent(Args... args);
 	/// <summary>
-	/// OutputComponent‚ğ’Ç‰Á
+	/// OutputComponentã‚’è¿½åŠ 
 	/// </summary>
 	template<class T, class... Args>
 	ComponentHandle<T> AddOutputComponent(Args... args);
 	void SetDeleteFlag();
 	bool GetDeleteFlag() const;
-	//‚·‚×‚Ä‚Ì—LŒø‚Èqcomponent‚Édelete flag‚ğ•t‚¯‚é
+	//ã™ã¹ã¦ã®æœ‰åŠ¹ãªå­componentã«delete flagã‚’ä»˜ã‘ã‚‹
 	void SetAllCompsFlag();
-	//qComponent‚Ì“àÁ‹Ï‚İ‚Ì‚à‚Ì‚ğ“o˜^‰ğœ‚·‚é(Scene::ProcessPandingComps—p)
+	//å­Componentã®å†…æ¶ˆå»æ¸ˆã¿ã®ã‚‚ã®ã‚’ç™»éŒ²è§£é™¤ã™ã‚‹(Scene::ProcessPandingCompsç”¨)
 	void UnregisterInvalidChilds();
-	//this_sh_‚ğƒZƒbƒg‚·‚é(Scene::AddObject‚©‚çˆê“x‚¾‚¯ŒÄ‚Ño‚³‚ê‚é)
+	//this_sh_ã‚’ã‚»ãƒƒãƒˆã™ã‚‹(Scene::AddObjectã‹ã‚‰ä¸€åº¦ã ã‘å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	void SetSharedPtr(std::shared_ptr<GameObject> obj);
-	//this_sh_‚ğƒŠƒZƒbƒg‚µA‚±‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ’¼Œã‚ÉƒfƒXƒgƒ‰ƒNƒ^Às(ˆø”‚ÍŒÄ‚Ño‚µŒ³ƒ`ƒFƒbƒN—p)
+	//this_sh_ã‚’ãƒªã‚»ãƒƒãƒˆã—ã€ã“ã®é–¢æ•°ã®å‘¼ã³å‡ºã—ç›´å¾Œã«ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å®Ÿè¡Œ(å¼•æ•°ã¯å‘¼ã³å‡ºã—å…ƒãƒã‚§ãƒƒã‚¯ç”¨)
 	void ResetSharedPtr(std::shared_ptr<GameObject> obj);
 private:
-	//comps_‚ÌƒAƒƒP[ƒ^‚Æ‚µ‚Ä—p‚¢‚é
+	//comps_ã®ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã¨ã—ã¦ç”¨ã„ã‚‹
 	struct CompsAllocator {
 	public:
 		typedef std::size_t size_type;
@@ -50,14 +50,14 @@ private:
 			delete p;
 		}
 	};
-	//HACK:q‚ğGameObject‚ª”cˆ¬‚·‚éŒ`‚É‚·‚é‚È‚ç‚Î‚±‚ê‚ªÅ‘¬
-	//‚±‚ê‚ğ–³‚­‚¹‚ê‚ÎA–{“–‚ÉGameObject‚ğƒCƒ“ƒXƒ^ƒ“ƒX‚Æ‚µ‚Ä‚Â•K—v‚Í‚È‚­‚È‚èƒƒ‚ƒŠ‚à•‚‚­‚ªA‚Æ‚è‚ ‚¦‚¸‚»‚ê‚ÍŒãXl‚¦‚é
-	//‚ ‚Æ‚±‚ê‚ğ‚â‚é‚È‚çAmainI‚í‚Á‚Ä‚àƒƒ‚ƒŠ‰ğ•ú‚³‚ê‚È‚¢‚Ì‚Í‚¿‚å‚Á‚ÆƒLƒ‚‚¢‚Ì‚Å©•ª‚Åƒv[ƒ‹ì‚Á‚ÄÚ‚¹‚½‚¢
+	//HACK:å­ã‚’GameObjectãŒæŠŠæ¡ã™ã‚‹å½¢ã«ã™ã‚‹ãªã‚‰ã°ã“ã‚ŒãŒæœ€é€Ÿ
+	//ã“ã‚Œã‚’ç„¡ãã›ã‚Œã°ã€æœ¬å½“ã«GameObjectã‚’ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¨ã—ã¦æŒã¤å¿…è¦ã¯ãªããªã‚Šãƒ¡ãƒ¢ãƒªã‚‚æµ®ããŒã€ã¨ã‚Šã‚ãˆãšãã‚Œã¯å¾Œã€…è€ƒãˆã‚‹
+	//ã‚ã¨ã“ã‚Œã‚’ã‚„ã‚‹ãªã‚‰ã€mainçµ‚ã‚ã£ã¦ã‚‚ãƒ¡ãƒ¢ãƒªè§£æ”¾ã•ã‚Œãªã„ã®ã¯ã¡ã‚‡ã£ã¨ã‚­ãƒ¢ã„ã®ã§è‡ªåˆ†ã§ãƒ—ãƒ¼ãƒ«ä½œã£ã¦è¼‰ã›ãŸã„
 	std::list<ComponentHandle<Component>,
 		boost::fast_pool_allocator<ComponentHandle<Component>,CompsAllocator>> comps_;
 	boost::mutex comps_mutex_;
 	bool delete_flag_;
-	//©•ª‚ğw‚·shared_ptr
+	//è‡ªåˆ†ã‚’æŒ‡ã™shared_ptr
 	std::shared_ptr<GameObject> this_sh_;
 };
 

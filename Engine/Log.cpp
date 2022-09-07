@@ -24,7 +24,7 @@ struct ProfileUnit {
 	int update_comp_num_;
 	int output_comp_num_;
 	std::vector<std::string> logs_;
-	//”z—ñŒ^‚Å‚ ‚éDOM—v‘farr‚É©•ª‚Ìƒf[ƒ^‚ğ’Ç‰Á
+	//é…åˆ—å‹ã§ã‚ã‚‹DOMè¦ç´ arrã«è‡ªåˆ†ã®ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 	void AddDataTo(rapidjson::Document&, rapidjson::Value& arr) const;
 };
 
@@ -51,14 +51,14 @@ void Log::Init()
 
 void Log::CleanUp()
 {
-	//‹L˜^“r’†‚ÉI—¹‚µ‚½‚çA‹L˜^“r’†‚Ì•ª‚ğ‘‚«‚¾‚·
+	//è¨˜éŒ²é€”ä¸­ã«çµ‚äº†ã—ãŸã‚‰ã€è¨˜éŒ²é€”ä¸­ã®åˆ†ã‚’æ›¸ãã ã™
 	if (counter_ <= profile_limit_) {
 		boost::thread th(ThreadFunc, finished_profiling_, profile_units_);
 		finished_profiling_++;
 	}
-	//‘‚«‚ñ‚Å‚¢‚é“r’†‚Ìƒf[ƒ^‚ª‚ ‚ê‚Î‚»‚ê‚ğ‘Ò‚Â
+	//æ›¸ãè¾¼ã‚“ã§ã„ã‚‹é€”ä¸­ã®ãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚Œã°ãã‚Œã‚’å¾…ã¤
 	while (finished_profiling_ != jsoned_profiling_) {
-		//HACK:‚±‚±‚à‚¤‚¿‚å‚Á‚Æ‚Ü‚µ‚É‚È‚ç‚È‚¢‚©?
+		//HACK:ã“ã“ã‚‚ã†ã¡ã‚‡ã£ã¨ã¾ã—ã«ãªã‚‰ãªã„ã‹?
 		boost::this_thread::sleep(boost::posix_time::millisec(50));
 	}
 }

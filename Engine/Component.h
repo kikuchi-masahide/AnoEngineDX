@@ -10,34 +10,34 @@
 class Scene;
 
 /// <summary>
-/// ƒIƒuƒWƒFƒNƒg‚Ì‹@”\‚ğ•\‚·ƒNƒ‰ƒX
-/// ƒIƒuƒWƒFƒNƒg‚ÌXV‚ğ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚Æo—Í‚ğ‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚Í—¼•û‚±‚ÌŠî’êƒNƒ‰ƒX‚©‚ç”h¶‚³‚¹‚é
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ©Ÿèƒ½ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°ã‚’ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¨å‡ºåŠ›ã‚’ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ä¸¡æ–¹ã“ã®åŸºåº•ã‚¯ãƒ©ã‚¹ã‹ã‚‰æ´¾ç”Ÿã•ã›ã‚‹
 /// </summary>
 class Component {
 public:
 	const int upd_priority_;
 	GameObjectHandle const obj_;
-	/// <param name="_order">—Dæ“x ‚‚¢‚Ù‚Çæ‚ÉŒÄ‚Ño‚³‚ê‚é</param>
+	/// <param name="_order">å„ªå…ˆåº¦ é«˜ã„ã»ã©å…ˆã«å‘¼ã³å‡ºã•ã‚Œã‚‹</param>
 	Component(GameObjectHandle handle, int order = 0);
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÌÀsŒãA•ÊƒXƒŒƒbƒh‚ÅŒÄ‚Ño‚³‚ê‚é‰Šú‰»ŠÖ”
-	/// (ƒI[ƒo[ƒ‰ƒCƒhæ‚ÅŠî–{ƒNƒ‰ƒX‚ÌAsyncInitialize()‚ğŒÄ‚Ño‚·‚±‚Æ)
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®å®Ÿè¡Œå¾Œã€åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã§å‘¼ã³å‡ºã•ã‚Œã‚‹åˆæœŸåŒ–é–¢æ•°
+	/// (ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰å…ˆã§åŸºæœ¬ã‚¯ãƒ©ã‚¹ã®AsyncInitialize()ã‚’å‘¼ã³å‡ºã™ã“ã¨)
 	/// </summary>
 	virtual void AsyncInitialize();
 	/// <summary>
-	/// Scene‚ÌƒfƒXƒgƒ‰ƒNƒ^‚ªÀs‚³‚ê‚½Û‚ÌŒÄ‚Ño‚µ‚È‚Ç‚Å‚ÍAAdd~Component‚µ‚Ä‚à•K‚¸—LŒø‚ÈComponent‚ª•Ô‚Á‚Ä‚­‚é‚Æ‚ÍŒÀ‚ç‚È‚¢‚±‚Æ‚É’ˆÓ
+	/// Sceneã®ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå®Ÿè¡Œã•ã‚ŒãŸéš›ã®å‘¼ã³å‡ºã—ãªã©ã§ã¯ã€Add~Componentã—ã¦ã‚‚å¿…ãšæœ‰åŠ¹ãªComponentãŒè¿”ã£ã¦ãã‚‹ã¨ã¯é™ã‚‰ãªã„ã“ã¨ã«æ³¨æ„
 	/// </summary>
 	virtual ~Component();
 	/// <summary>
-	/// ƒRƒ“ƒ||ƒlƒ“ƒg‚ÌXVˆ—
+	/// ã‚³ãƒ³ãƒï¼ãƒãƒ³ãƒˆã®æ›´æ–°å‡¦ç†
 	/// </summary>
 	virtual void Update() = 0;
-	//©g‚ğw‚·ƒnƒ“ƒhƒ‹‚ğ•Ô‚·ŠÖ”
+	//è‡ªèº«ã‚’æŒ‡ã™ãƒãƒ³ãƒ‰ãƒ«ã‚’è¿”ã™é–¢æ•°
 	template<class T>
 	ComponentHandle<T> This()
 	{
 #ifdef _DEBUG
-		//ƒfƒoƒbƒO‚Ídynamic_pointer_cast‚ğs‚¢ˆÀ‘S‚ÈŒ^•ÏŠ·‚©Šm”F‚·‚é
+		//ãƒ‡ãƒãƒƒã‚°æ™‚ã¯dynamic_pointer_castã‚’è¡Œã„å®‰å…¨ãªå‹å¤‰æ›ã‹ç¢ºèªã™ã‚‹
 		if (std::shared_ptr<T> result = std::dynamic_pointer_cast<T>(this_sh_)) {
 			return ComponentHandle<T>(result);
 		}
@@ -51,13 +51,13 @@ public:
 	}
 	bool GetDeleteFlag() const;
 	void SetDeleteFlag();
-	//this_sh_‚ğƒZƒbƒg‚·‚é(Scene::AddComponent‚©‚çˆê“x‚¾‚¯ŒÄ‚Ño‚³‚ê‚é)
+	//this_sh_ã‚’ã‚»ãƒƒãƒˆã™ã‚‹(Scene::AddComponentã‹ã‚‰ä¸€åº¦ã ã‘å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	void SetSharedPtr(std::shared_ptr<Component> comp);
-	//this_sh_‚ğƒŠƒZƒbƒg‚µA‚±‚ÌŠÖ”‚ÌŒÄ‚Ño‚µ’¼Œã‚ÉƒfƒXƒgƒ‰ƒNƒ^Às(ˆø”‚ÍŒÄ‚Ño‚µŒ³ƒ`ƒFƒbƒN—p)
+	//this_sh_ã‚’ãƒªã‚»ãƒƒãƒˆã—ã€ã“ã®é–¢æ•°ã®å‘¼ã³å‡ºã—ç›´å¾Œã«ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å®Ÿè¡Œ(å¼•æ•°ã¯å‘¼ã³å‡ºã—å…ƒãƒã‚§ãƒƒã‚¯ç”¨)
 	void ResetSharedPtr(std::shared_ptr<Component> comp);
 protected:
 private:
-	//&‚ÅƒCƒ“ƒXƒ^ƒ“ƒX‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚³‚¹‚È‚¢
+	//&ã§ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã•ã›ãªã„
 	Component* operator&() const noexcept;
 	std::shared_ptr<Component> this_sh_;
 	bool delete_flag_;

@@ -11,23 +11,23 @@ class Window;
 
 class Game {
 public:
-	//1ƒtƒŒ[ƒ€“–‚½‚è‚ÌŠÔ
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å½“ãŸã‚Šã®æ™‚é–“
 	static constexpr double kFrameTimeDelta = 1000.0 / 60;
-	//‘O‚Ìˆ—‚Æ‚ÌŠÔ·‚ª‚±‚ÌŠÔ‚ğ’´‚¦‚½ê‡A‚±‚Ì’l‚É‹¸³‚·‚é
+	//å‰ã®å‡¦ç†ã¨ã®æ™‚é–“å·®ãŒã“ã®æ™‚é–“ã‚’è¶…ãˆãŸå ´åˆã€ã“ã®å€¤ã«çŸ¯æ­£ã™ã‚‹
 	static constexpr double kProcessTimeDeltaLimit = kFrameTimeDelta * 3;
 	Game();
 	virtual ~Game();
 	/// <summary>
-	/// ŸƒtƒŒ[ƒ€‚©‚ç‚Ç‚ÌƒV[ƒ“‚ÉˆÚs‚·‚é‚©w’è‚·‚éD
-	/// (ÀÛ‚ÉƒV[ƒ“‚ª•Ï‚í‚é‚Ì‚ÍŸƒtƒŒ[ƒ€‚©‚ç‚¾‚ªCŸƒV[ƒ“‚Ì‰Šú‰»‚ªs‚í‚ê‚é‚Ì‚ÍŒÄ‚Ño‚µ‚È‚Ì‚ª¢‚é)
+	/// æ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã©ã®ã‚·ãƒ¼ãƒ³ã«ç§»è¡Œã™ã‚‹ã‹æŒ‡å®šã™ã‚‹ï¼
+	/// (å®Ÿéš›ã«ã‚·ãƒ¼ãƒ³ãŒå¤‰ã‚ã‚‹ã®ã¯æ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰ã ãŒï¼Œæ¬¡ã‚·ãƒ¼ãƒ³ã®åˆæœŸåŒ–ãŒè¡Œã‚ã‚Œã‚‹ã®ã¯å‘¼ã³å‡ºã—æ™‚ãªã®ãŒå›°ã‚‹)
 	/// </summary>
 	template<class S, class... Args>
 	void ChangeScene(Args... args) {
-		//HACK:‚±‚±‚Ì’x‰„‰Šú‰»A‚¨‚æ‚ÑƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åpanding‚É“ü‚ê‚½‚Ì‚ğUpdate‘O‚É–{”z—ñ‚ÉˆÚ‚·ˆ—
+		//HACK:ã“ã“ã®é…å»¶åˆæœŸåŒ–ã€ãŠã‚ˆã³ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§pandingã«å…¥ã‚ŒãŸã®ã‚’Updateå‰ã«æœ¬é…åˆ—ã«ç§»ã™å‡¦ç†
 		if (is_executing_destructor_) {
 			return;
 		}
-		//Œ»İÀs’†‚Ìê‡’†’f‚ğ’Ê
+		//ç¾åœ¨å®Ÿè¡Œä¸­ã®å ´åˆä¸­æ–­ã‚’é€šå‘Š
 		async_initing_thread_.interrupt();
 		async_initing_thread_.join();
 		Scene* newscene = DBG_NEW S(this, args...);
@@ -35,63 +35,63 @@ public:
 		async_initing_thread_.swap(th);
 	};
 	/// <summary>
-	/// ƒEƒBƒ“ƒhƒE‚ğGame‚É’Ç‰Á‚·‚é
+	/// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’Gameã«è¿½åŠ ã™ã‚‹
 	/// </summary>
-	/// <param name="_windowid">®”’lƒEƒBƒ“ƒhƒEID(ƒEƒBƒ“ƒhƒECƒXƒƒbƒvƒ`ƒF[ƒ“‚Ìw’è‚É‚Í‚±‚ÌID‚ğg‚¤)</param>
-	/// <returns>ì¬‚µ‚½window</returns>
+	/// <param name="_windowid">æ•´æ•°å€¤ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ID(ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ï¼Œã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³ã®æŒ‡å®šã«ã¯ã“ã®IDã‚’ä½¿ã†)</param>
+	/// <returns>ä½œæˆã—ãŸwindow</returns>
 	std::weak_ptr<Window> AddWindow(WNDPROC wndproc, LPCWSTR classID, int width, int height,
 		LPCWSTR windowTitle, int windowid);
 	/// <summary>
-	/// windowid‚É‘Î‰‚·‚éƒEƒBƒ“ƒhƒE‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+	/// windowidã«å¯¾å¿œã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 	/// </summary>
 	std::shared_ptr<Window> GetWindow(int windowid) const;
 	/// <summary>
-	/// ƒQ[ƒ€ƒ‹[ƒv‚ğŠJn‚·‚é main.cpp‚ÅŒÄ‚Ño‚·
+	/// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’é–‹å§‹ã™ã‚‹ main.cppã§å‘¼ã³å‡ºã™
 	/// </summary>
 	void RunLoop();
 	/// <summary>
-	/// Ÿ‚ÌOutputI—¹ŒãRunLoop‚ğ’Eo‚µCƒvƒƒOƒ‰ƒ€‚ğI—¹‚³‚¹‚é
+	/// æ¬¡ã®Outputçµ‚äº†å¾ŒRunLoopã‚’è„±å‡ºã—ï¼Œãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’çµ‚äº†ã•ã›ã‚‹
 	/// </summary>
 	void Terminate();
 	DX12::Master dx12_;
 protected:
 	/// <summary>
-	/// UpdateGame“à‚ÅAScene‚Ì1‰ñ‚ÌUpdate‚ğs‚¤‘O‚Ìˆ—‚ğs‚¤
+	/// UpdateGameå†…ã§ã€Sceneã®1å›ã®Updateã‚’è¡Œã†å‰ã®å‡¦ç†ã‚’è¡Œã†
 	/// </summary>
 	virtual void BeforeUpdate();
 	/// <summary>
-	/// UpdateGame“à‚ÅAScene‚Ì1‰ñ‚ÌUpdate‚ğs‚Á‚½Œã‚Ìˆ—‚ğs‚¤
+	/// UpdateGameå†…ã§ã€Sceneã®1å›ã®Updateã‚’è¡Œã£ãŸå¾Œã®å‡¦ç†ã‚’è¡Œã†
 	/// </summary>
 	virtual void AfterUpdate();
 	/// <summary>
-	/// GenerateOutput“à‚ÅAScene‚ÌOutput‚ğs‚¤‘O‚Ìˆ—‚ğs‚¤
+	/// GenerateOutputå†…ã§ã€Sceneã®Outputã‚’è¡Œã†å‰ã®å‡¦ç†ã‚’è¡Œã†
 	/// </summary>
 	virtual void BeforeOutput();
 	/// <summary>
-	/// GenerateOutput“à‚ÅAScene‚ÌOutput‚ğs‚Á‚½Œã‚Ìˆ—‚ğs‚¤
+	/// GenerateOutputå†…ã§ã€Sceneã®Outputã‚’è¡Œã£ãŸå¾Œã®å‡¦ç†ã‚’è¡Œã†
 	/// </summary>
 	virtual void AfterOutput();
 private:
 	/// <summary>
-	/// “ü—Íˆ—(2ƒtƒŒ[ƒ€•ªˆÈã‚ÌXVˆ—‚ğs‚¤ê‡AƒL[“ü—Í‚Í1ƒtƒŒ[ƒ€–Ú‚ÌXV’¼‘O‚Ì‚İs‚¤‚½‚ßABeforeUpdate‚É‚ÍŠÜ‚ß‚È‚¢)
+	/// å…¥åŠ›å‡¦ç†(2ãƒ•ãƒ¬ãƒ¼ãƒ åˆ†ä»¥ä¸Šã®æ›´æ–°å‡¦ç†ã‚’è¡Œã†å ´åˆã€ã‚­ãƒ¼å…¥åŠ›ã¯1ãƒ•ãƒ¬ãƒ¼ãƒ ç›®ã®æ›´æ–°ç›´å‰ã®ã¿è¡Œã†ãŸã‚ã€BeforeUpdateã«ã¯å«ã‚ãªã„)
 	/// </summary>
 	void ProcessInput();
 	/// <summary>
-	/// ƒQ[ƒ€‘S‘Ì‚ÌXVˆ—
+	/// ã‚²ãƒ¼ãƒ å…¨ä½“ã®æ›´æ–°å‡¦ç†
 	/// </summary>
 	void UpdateGame();
 	/// <summary>
-	/// ƒQ[ƒ€‘S‘Ì‚Ìo—Í¶¬
+	/// ã‚²ãƒ¼ãƒ å…¨ä½“ã®å‡ºåŠ›ç”Ÿæˆ
 	/// </summary>
 	void GenerateOutput();
 	/// <summary>
-	/// ChangeScene‚É‚Ä•ÊƒXƒŒƒbƒh‚ÅÀs‚·‚éAscene‚ÌAsyncInitialize‚ğÀs‚·‚éŠÖ”
+	/// ChangeSceneã«ã¦åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã§å®Ÿè¡Œã™ã‚‹ã€sceneã®AsyncInitializeã‚’å®Ÿè¡Œã™ã‚‹é–¢æ•°
 	/// </summary>
 	/// <param name="scene"></param>
 	void AsyncInitializeScene(Scene* scene);
-	//ƒtƒŒ[ƒ€‚Ì‰‚ß‚ÅAscene_‚ğXV
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ã®åˆã‚ã§ã€scene_ã‚’æ›´æ–°
 	void ProcessPandingScene();
-	//‚±‚Ìƒ|ƒCƒ“ƒ^‚ğdelete‚µƒfƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ô
+	//ã“ã®ãƒã‚¤ãƒ³ã‚¿ã‚’deleteã—ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã¶
 	void DeleteScene(Scene* scene);
 	Scene* current_scene_;
 	Scene* panding_scene_;
@@ -101,6 +101,6 @@ private:
 	InputSystem input_system_;
 	bool is_executing_destructor_;
 	bool terminate_flag_;
-	//AsyncInitializeScene‚ğ“®‚©‚µ‚Ä‚¢‚éƒXƒŒƒbƒh
+	//AsyncInitializeSceneã‚’å‹•ã‹ã—ã¦ã„ã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰
 	boost::thread async_initing_thread_;
 };

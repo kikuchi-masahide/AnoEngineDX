@@ -25,7 +25,6 @@ DX12::ShaderObject::ShaderObject(LPCWSTR filename, ShaderType type)
 	if (FAILED(result)) {
 		if (result == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))
 		{
-			//HACK:Log‚ÅLPCWSTR‚ðˆµ‚¦‚é‚æ‚¤‚É‚·‚é?
 			Log::OutputCritical("shader file not found");
 		}
 		else {

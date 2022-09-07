@@ -7,15 +7,15 @@
 
 namespace DX12 {
 	/// <summary>
-	/// ���_���C�A�E�g�̈�̗v�f��\�� �p�C�v���C���ɂ͂��̔z��𒸓_���C�A�E�g�S�̂Ƃ��ēn��
+	/// 頂点レイアウトの一つの要素を表す パイプラインにはこの配列を頂点レイアウト全体として渡す
 	/// </summary>
 	struct VertexLayoutUnit {
 	public:
-		//�Z�}���e�B�b�N��("POSITION"�Ȃ�)
+		//セマンティック名("POSITION"など)
 		LPCSTR semantic_name_;
-		//�t�H�[�}�b�g
+		//フォーマット
 		DXGI_FORMAT format_;
-		//���̓X���b�g�C���f�b�N�X
+		//入力スロットインデックス
 		UINT input_slot_;
 		VertexLayoutUnit(LPCSTR sem, DXGI_FORMAT format, UINT slot)
 			:semantic_name_(sem), format_(format), input_slot_(slot)

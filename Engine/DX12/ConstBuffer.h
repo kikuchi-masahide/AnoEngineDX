@@ -8,7 +8,7 @@
 namespace DX12 {
 	class ConstBuffer :public Buffer {
 	public:
-		//内部で256アラインメントを行う
+		//蜀�驛ｨ縺ｧ256繧｢繝ｩ繧､繝ｳ繝｡繝ｳ繝医ｒ陦後≧
 		ConstBuffer(ComPtr<ID3D12Device> device, D3D12_HEAP_TYPE heap_type, SIZE_T size,
 			D3D12_RESOURCE_STATES state);
 	};

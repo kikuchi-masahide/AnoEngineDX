@@ -16,7 +16,7 @@ public:
 	bool operator!() const noexcept;
 	void Reset() noexcept;
 private:
-	//HACK:‚±‚¤‚µ‚È‚¢‚Æ–³—‚È‚Ì‚©?
+	//HACK:ã“ã†ã—ãªã„ã¨ç„¡ç†ãªã®ã‹?
 	friend bool operator<(const GameObjectHandle& a, const GameObjectHandle& b);
 	std::weak_ptr<GameObject> obj_;
 };

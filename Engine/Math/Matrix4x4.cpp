@@ -289,8 +289,8 @@ namespace MatVec {
 
 	MatVec::Matrix4x4 MatVec::GetInverseMatrix(Matrix4x4& A)
 	{
-		//LU•ª‰ð
-		Matrix4x4 L = Identity4x4();   //‘ÎŠp—v‘f1
+		//LUåˆ†è§£
+		Matrix4x4 L = Identity4x4();
 		Matrix4x4 U = Identity4x4();
 		U.m[0][0] = A.m[0][0];
 		U.m[0][1] = A.m[0][1];
@@ -309,7 +309,6 @@ namespace MatVec {
 		L.m[3][2] = (A.m[3][2] - L.m[3][0] * U.m[0][2] - L.m[3][1] * U.m[1][2]) / U.m[2][2];
 		U.m[3][3] = A.m[3][3] - L.m[3][0] * U.m[0][3] - L.m[3][1] * U.m[1][3] - L.m[3][2] * U.m[2][3];
 
-		//LY=E‚È‚éY
 		Matrix4x4 Y;
 		Y.m[0][0] = 1;
 		Y.m[1][0] = 0 - L.m[1][0] * Y.m[0][0];
@@ -328,7 +327,6 @@ namespace MatVec {
 		Y.m[2][3] = 0 - L.m[2][0] * Y.m[0][3] - L.m[2][1] * Y.m[1][3];
 		Y.m[3][3] = 1 - L.m[3][0] * Y.m[0][3] - L.m[3][1] * Y.m[1][3] - L.m[3][2] * Y.m[2][3];
 
-		//UX=Y‚È‚éX(=A^{-1})
 		Matrix4x4 X;
 		X.m[3][0] = (Y.m[3][0]) / U.m[3][3];
 		X.m[2][0] = (Y.m[2][0] - U.m[2][3] * X.m[3][0]) / U.m[2][2];

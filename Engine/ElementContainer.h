@@ -7,117 +7,117 @@
 #include "Component.h"
 #include "ComponentHandle.h"
 
-//Scene‚Å—p‚¢‚éAComponent‚ÌƒRƒ“ƒeƒi‚âŠÖ˜Aˆ—‚ğ‚Ü‚Æ‚ß‚½ƒNƒ‰ƒX
+//Sceneã§ç”¨ã„ã‚‹ã€Componentã®ã‚³ãƒ³ãƒ†ãƒŠã‚„é–¢é€£å‡¦ç†ã‚’ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹
 class ElementContainer
 {
 public:
-	//‰Šúƒv[ƒ‹‚É“¯‚É•Û‘¶‚Å‚«‚éƒIƒuƒWƒFƒNƒg‚ÌÅ‘å”
+	//åˆæœŸãƒ—ãƒ¼ãƒ«ã«åŒæ™‚ã«ä¿å­˜ã§ãã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æœ€å¤§æ•°
 	static constexpr int kMaxObjNum_ = 10000;
-	//Še‰Šúƒv[ƒ‹‚É“¯‚É•Û‘¶‚Å‚«‚éComponent‚ÌÅ‘å”
+	//å„åˆæœŸãƒ—ãƒ¼ãƒ«ã«åŒæ™‚ã«ä¿å­˜ã§ãã‚‹Componentã®æœ€å¤§æ•°
 	static constexpr int kMaxCompNum64_ = 20000;
 	static constexpr int kMaxCompNum96_ = 10000;
 	static constexpr int kMaxCompNum128_ = 10000;
 	static void MemoryInit();
 	ElementContainer();
 	~ElementContainer();
-	//Scene‚ÌUpdate‚ÅŒÄ‚Ño‚µAComponent::Init‚ğŒÄ‚Ño‚·‚½‚ß‚Ìê—pƒXƒŒƒbƒh‚ğ—§‚Ä‚é
+	//Sceneã®Updateã§å‘¼ã³å‡ºã—ã€Component::Initã‚’å‘¼ã³å‡ºã™ãŸã‚ã®å°‚ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ç«‹ã¦ã‚‹
 	void CreateCompInitThread();
-	//‚±‚ÌContainer‚ÉŠÖ”Às“_‚ÅŠÜ‚Ü‚ê‚éAUpdateComponent‚ÌUpdate‚ğ‡ŸÀs‚·‚é
+	//ã“ã®Containerã«é–¢æ•°å®Ÿè¡Œæ™‚ç‚¹ã§å«ã¾ã‚Œã‚‹ã€UpdateComponentã®Updateã‚’é †æ¬¡å®Ÿè¡Œã™ã‚‹
 	void LaunchUpdateComponents();
-	//‚±‚ÌContainer‚ÌOutputComponent‚ÌUpdate‚ğ‡ŸÀs‚·‚é
+	//ã“ã®Containerã®OutputComponentã®Updateã‚’é †æ¬¡å®Ÿè¡Œã™ã‚‹
 	void LaunchOutputComponents();
-	//Œ»İ—­‚Ü‚Á‚Ä‚¢‚éComp‚ÌInit‚ªI‚í‚Á‚½‚çInitƒXƒŒƒbƒh‚ğI—¹‚³‚¹AƒXƒŒƒbƒhI—¹‚Ìƒ^ƒCƒ~ƒ“ƒO‚Åˆ—‚ğ•Ô‚·
+	//ç¾åœ¨æºœã¾ã£ã¦ã„ã‚‹Compã®InitãŒçµ‚ã‚ã£ãŸã‚‰Initã‚¹ãƒ¬ãƒƒãƒ‰ã‚’çµ‚äº†ã•ã›ã€ã‚¹ãƒ¬ãƒƒãƒ‰çµ‚äº†ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã§å‡¦ç†ã‚’è¿”ã™
 	void FinishCompInitThread();
-	//‚±‚ÌƒtƒŒ[ƒ€“à‚Å¶¬‚³‚ê‚½Component‚ÌInitializeÀs‚¨‚æ‚Ñ•s—v‚ÈComponent‚ğíœ‚·‚é
+	//ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ å†…ã§ç”Ÿæˆã•ã‚ŒãŸComponentã®Initializeå®Ÿè¡ŒãŠã‚ˆã³ä¸è¦ãªComponentã‚’å‰Šé™¤ã™ã‚‹
 	void ProcessPandingElements();
-	//ƒƒ‚ƒŠƒv[ƒ‹‚ÉƒIƒuƒWƒFƒNƒg‚ğŠm•Û
+	//ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç¢ºä¿
 	GameObjectHandle AddObject(Scene* scene);
-	//obj‚Ìw‚·GameObject‚ÉUpdateComponent‚ğ’Ç‰Á(Scene::AddUpdateComponent‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	//objã®æŒ‡ã™GameObjectã«UpdateComponentã‚’è¿½åŠ (Scene::AddUpdateComponentã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	template<class T, class... Args>
 	ComponentHandle<T> AddUpdateComponent(std::shared_ptr<GameObject> obj, Args... args);
-	//obj‚Ìw‚·GameObject‚ÉOutputComponent‚ğ’Ç‰Á(Scene::AddOutputComponent‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	//objã®æŒ‡ã™GameObjectã«OutputComponentã‚’è¿½åŠ (Scene::AddOutputComponentã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	template<class T, class... Args>
 	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
-	//‚±‚Ìupd_prio‚ğ‚ÂƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÀs‚·‚é‘O‚ÉÀs‚·‚éŠÖ”‚ğ“o˜^‚·‚é
-	//(ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¯‚ê‚ÎÀs‚µ‚È‚¢)
+	//ã“ã®upd_prioã‚’æŒã¤ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹å‰ã«å®Ÿè¡Œã™ã‚‹é–¢æ•°ã‚’ç™»éŒ²ã™ã‚‹
+	//(ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã‘ã‚Œã°å®Ÿè¡Œã—ãªã„)
 	void SetOutputCompsPreFunc(int upd_prio,std::function<void()> func);
-	//‚±‚Ìupd_prio‚ğ‚ÂÅŒã‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÀs‚µ‚½Œã‚ÉÀs‚·‚éŠÖ”‚ğ“o˜^‚·‚é
-	//(ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¯‚ê‚ÎÀs‚µ‚È‚¢)
+	//ã“ã®upd_prioã‚’æŒã¤æœ€å¾Œã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å®Ÿè¡Œã—ãŸå¾Œã«å®Ÿè¡Œã™ã‚‹é–¢æ•°ã‚’ç™»éŒ²ã™ã‚‹
+	//(ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã‘ã‚Œã°å®Ÿè¡Œã—ãªã„)
 	void SetOutputCompsPostFunc(int upd_prio, std::function<void()> func);
-	//‚±‚ÌGameObject‚ğA¡ƒtƒŒ[ƒ€OutputŒã‚Éíœ‚·‚é(Scene::Erase‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	//ã“ã®GameObjectã‚’ã€ä»Šãƒ•ãƒ¬ãƒ¼ãƒ Outputå¾Œã«å‰Šé™¤ã™ã‚‹(Scene::Eraseã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	void Erase(std::weak_ptr<GameObject> ptr);
-	//‚±‚ÌComponent‚ğA¡ƒtƒŒ[ƒ€OutputŒã‚Éíœ‚·‚é(Scene::Erase‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	//ã“ã®Componentã‚’ã€ä»Šãƒ•ãƒ¬ãƒ¼ãƒ Outputå¾Œã«å‰Šé™¤ã™ã‚‹(Scene::Eraseã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	void Erase(std::weak_ptr<Component> ptr);
-	//‚±‚ÌContainer‚Ì‚à‚ÂGameObject/Component‚ğ‚·‚×‚Ä‰ğ•ú‚·‚é
+	//ã“ã®Containerã®ã‚‚ã¤GameObject/Componentã‚’ã™ã¹ã¦è§£æ”¾ã™ã‚‹
 	void FreeAllElements();
 	int GetGameObjectNumber() const;
 	int GetUpdateComponentNumber() const;
 	int GetOutputComponentNumber() const;
 private:
-	//“n‚³‚ê‚½ƒTƒCƒY‚©‚çAComponent‚ğŠi”[‚·‚×‚«ƒv[ƒ‹‚ğŒˆ’è‚·‚é
+	//æ¸¡ã•ã‚ŒãŸã‚µã‚¤ã‚ºã‹ã‚‰ã€Componentã‚’æ ¼ç´ã™ã¹ããƒ—ãƒ¼ãƒ«ã‚’æ±ºå®šã™ã‚‹
 	static int GetSizeClass(std::size_t size);
-	//GameObject‚ğ•Û‘¶‚·‚éƒƒ‚ƒŠƒv[ƒ‹
-	//HACK:ƒƒ‚ƒŠƒv[ƒ‹‚ÌƒAƒƒP[ƒ^‚ğDBG_NEW‚É‚Å‚«‚ê‚ÎƒŠ[ƒN‚Ì‚É‚±‚Ìs”‚ªo—Í‚Å‚«‚é‚ªA
-	//‚»‚à‚»‚à’Êí‚Ìnew‚Å‚àƒŠ[ƒN©‘Ì‚ÍŒŸo‚Å‚«‚Ä‚¢‚é‚Ì‚ÅA‚Æ‚è‚ ‚¦‚¸¡‚Íl‚¦‚Ä‚¢‚È‚¢
+	//GameObjectã‚’ä¿å­˜ã™ã‚‹ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«
+	//HACK:ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«ã®ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ã‚’DBG_NEWã«ã§ãã‚Œã°ãƒªãƒ¼ã‚¯ã®æ™‚ã«ã“ã®è¡Œæ•°ãŒå‡ºåŠ›ã§ãã‚‹ãŒã€
+	//ãã‚‚ãã‚‚é€šå¸¸ã®newã§ã‚‚ãƒªãƒ¼ã‚¯è‡ªä½“ã¯æ¤œå‡ºã§ãã¦ã„ã‚‹ã®ã§ã€ã¨ã‚Šã‚ãˆãšä»Šã¯è€ƒãˆã¦ã„ãªã„
 	static std::optional<boost::pool<>> obj_pool_;
-	//std::shared_ptr<GameObject>—p‚Ìdeleter
+	//std::shared_ptr<GameObject>ç”¨ã®deleter
 	static void ObjPoolDeleter(GameObject* p);
 	static boost::mutex obj_pool_mutex_;
-	//obj_pool_‚ÌAg—pƒ`ƒƒƒ“ƒN”
+	//obj_pool_ã®ã€ä½¿ç”¨ãƒãƒ£ãƒ³ã‚¯æ•°
 	static int obj_pool_used_chunk_;
-	//ƒ`ƒƒƒ“ƒNƒTƒCƒY‚ª64,96,128ƒoƒCƒg‚Å‚ ‚éComponent—pƒv[ƒ‹
+	//ãƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚ºãŒ64,96,128ãƒã‚¤ãƒˆã§ã‚ã‚‹Componentç”¨ãƒ—ãƒ¼ãƒ«
 	static std::optional<boost::pool<>> comp_pool_64_;
 	static std::optional<boost::pool<>> comp_pool_96_;
 	static std::optional<boost::pool<>> comp_pool_128_;
-	//Šeƒƒ‚ƒŠƒv[ƒ‹‚©‚çæ“¾‚µ‚½ƒƒ‚ƒŠ‚É‘Î‚·‚édeleter(std::shared_ptr—p)
+	//å„ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«ã‹ã‚‰å–å¾—ã—ãŸãƒ¡ãƒ¢ãƒªã«å¯¾ã™ã‚‹deleter(std::shared_ptrç”¨)
 	static void CompPoolDeleter64(Component* p);
 	static void CompPoolDeleter96(Component* p);
 	static void CompPoolDeleter128(Component* p);
 	static boost::mutex comp_pool_64_mutex_;
 	static boost::mutex comp_pool_96_mutex_;
 	static boost::mutex comp_pool_128_mutex_;
-	//componentƒv[ƒ‹‚ÌAg—pƒ`ƒƒƒ“ƒN”
+	//componentãƒ—ãƒ¼ãƒ«ã®ã€ä½¿ç”¨ãƒãƒ£ãƒ³ã‚¯æ•°
 	static int comp_pool_used_chunk_64_;
 	static int comp_pool_used_chunk_96_;
 	static int comp_pool_used_chunk_128_;
-	//ƒƒ‚ƒŠƒv[ƒ‹ã‚ÉƒAƒƒP[ƒg‚µƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğÀs‚·‚é Scene::AddUpdate/OutputComponent—p
+	//ãƒ¡ãƒ¢ãƒªãƒ—ãƒ¼ãƒ«ä¸Šã«ã‚¢ãƒ­ã‚±ãƒ¼ãƒˆã—ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å®Ÿè¡Œã™ã‚‹ Scene::AddUpdate/OutputComponentç”¨
 	template<class T, class... Args>
 	std::shared_ptr<T> AllocateComponentInPool(GameObjectHandle obj, Args... args);
-	//Update’†‚ÉComponent‚ÌInitialize()‚ğ•ÊƒXƒŒƒbƒh‚ÅÀs‚·‚éŠÖ”
+	//Updateä¸­ã«Componentã®Initialize()ã‚’åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã§å®Ÿè¡Œã™ã‚‹é–¢æ•°
 	void CompInitThreadFunc();
-	//update_components_‚Æpanding_update_components_‚ğ®—‚µ—Z‡‚·‚é(ƒ}ƒ‹ƒ`ƒXƒŒƒbƒh—p)
+	//update_components_ã¨panding_update_components_ã‚’æ•´ç†ã—èåˆã™ã‚‹(ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰ç”¨)
 	void MergeUpdateComponents();
-	//output_components_‚Æpanding_output_components_‚ğ®—‚µ—Z‡‚·‚é(ƒ}ƒ‹ƒ`ƒXƒŒƒbƒh—p)
+	//output_components_ã¨panding_output_components_ã‚’æ•´ç†ã—èåˆã™ã‚‹(ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰ç”¨)
 	void MergeOutputComponents();
 	std::vector<std::weak_ptr<GameObject>> objs_;
-	//©g‚Ì‚ÂXVEo—ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒŠƒXƒgC‚¨‚æ‚Ñ•Û—¯ƒRƒ“ƒ|[ƒlƒ“ƒg
-	//HACK:—]—T‚ ‚Á‚½‚ç•Ê‚ÌƒRƒ“ƒeƒi‚É•Ï‚¦‚½ê‡‚ÌƒpƒtƒH[ƒ}ƒ“ƒX”äŠr
+	//è‡ªèº«ã®æŒã¤æ›´æ–°ãƒ»å‡ºåŠ›ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒªã‚¹ãƒˆï¼ŒãŠã‚ˆã³ä¿ç•™ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+	//HACK:ä½™è£•ã‚ã£ãŸã‚‰åˆ¥ã®ã‚³ãƒ³ãƒ†ãƒŠã«å¤‰ãˆãŸå ´åˆã®ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹æ¯”è¼ƒ
 	std::vector<std::weak_ptr<Component>> update_components_;
 	boost::mutex update_components_mutex_;
 	std::vector<std::weak_ptr<Component>> panding_update_components_;
 	std::vector<std::weak_ptr<Component>> output_components_;
-	//‚±‚Ìupd_priority_‚ğ‚ÂOutputComponent‚ÌUpdate‚ğ‚Í‚¶‚ß‚ÄÀs‚·‚é‘O‚ÉA‚±‚Ìmap‚É“o˜^‚µ‚½ŠÖ”‚ğŒÄ‚Ño‚·
+	//ã“ã®upd_priority_ã‚’æŒã¤OutputComponentã®Updateã‚’ã¯ã˜ã‚ã¦å®Ÿè¡Œã™ã‚‹å‰ã«ã€ã“ã®mapã«ç™»éŒ²ã—ãŸé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 	std::map<int, std::function<void()>> output_func_in_;
-	//‚±‚Ìupd_priority_‚ğ‚ÂÅŒã‚ÌOutputComponent‚ÌUpdate‚ğÀs‚·‚é‘O‚ÉA‚±‚Ìmap‚É“o˜^‚µ‚½ŠÖ”‚ğŒÄ‚Ño‚·
+	//ã“ã®upd_priority_ã‚’æŒã¤æœ€å¾Œã®OutputComponentã®Updateã‚’å®Ÿè¡Œã™ã‚‹å‰ã«ã€ã“ã®mapã«ç™»éŒ²ã—ãŸé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 	std::map<int, std::function<void()>> output_func_out_;
 	boost::mutex output_components_mutex_;
 	std::vector<std::weak_ptr<Component>> panding_output_components_;
-	//Update’†‚ÉComponent‚ÌInitialize()‚ğÀs‚·‚é‚½‚ß‚ÌƒXƒŒƒbƒh(CreateCompInitThreadInUpdate()‚Åì¬)
+	//Updateä¸­ã«Componentã®Initialize()ã‚’å®Ÿè¡Œã™ã‚‹ãŸã‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰(CreateCompInitThreadInUpdate()ã§ä½œæˆ)
 	boost::thread comp_init_thread_;
-	//CompInitThreadFunc‚Ìcondition_variable—p‚Ì‚à‚ë‚à‚ë
+	//CompInitThreadFuncã®condition_variableç”¨ã®ã‚‚ã‚ã‚‚ã‚
 	boost::condition_variable comp_init_thread_func_cond_;
 	boost::mutex comp_init_thread_func_mutex_;
-	//‚±‚ê‚ªtrue‚ÌŠÔ‚Ì‚İcomp_init_thread_in_update_‚ğ¶‘¶‚³‚¹‚é
+	//ã“ã‚ŒãŒtrueã®é–“ã®ã¿comp_init_thread_in_update_ã‚’ç”Ÿå­˜ã•ã›ã‚‹
 	bool comp_init_thread_flag_;
-	//Initiate‚ğÀs‚·‚é‚×‚«Component‚½‚¿ Œã‚©‚ç’Ç‰Á‚µA‘O‚©‚çÀs‚µ‚Ä‚¢‚­
+	//Initiateã‚’å®Ÿè¡Œã™ã‚‹ã¹ãComponentãŸã¡ å¾Œã‹ã‚‰è¿½åŠ ã—ã€å‰ã‹ã‚‰å®Ÿè¡Œã—ã¦ã„ã
 	std::list<std::weak_ptr<Component>> update_comps_to_initiate_;
 	boost::mutex update_comps_to_initiate_mutex_;
 	std::list<std::weak_ptr<Component>> output_comps_to_initiate_;
 	boost::mutex output_comps_to_initiate_mutex_;
-	//ŸÁ‚·‚×‚«ƒIƒuƒWƒFƒNƒg‚Ìid
+	//æ¬¡æ¶ˆã™ã¹ãã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®id
 	std::list<std::weak_ptr<GameObject>> delete_objs_;
 	boost::mutex delete_objs_mutex_;
-	//Ÿíœ—\’è‚ÌComponent‚ÌƒŠƒXƒg
+	//æ¬¡å‰Šé™¤äºˆå®šã®Componentã®ãƒªã‚¹ãƒˆ
 	std::list<std::weak_ptr<Component>> delete_comps_;
 	boost::mutex delete_comps_mutex_;
 };

@@ -28,11 +28,11 @@ void Scene::AsyncInitialize()
 void Scene::Update(const InputSystem* input)
 {
 	input_system_ = input;
-	//‚±‚±‚©‚ç‚µ‚Î‚ç‚­‚ÌŠÔC’Ç‰Á‚³‚ê‚éƒIƒuƒWƒFƒNƒgEƒRƒ“ƒ|[ƒlƒ“ƒg‚Í•Û—¯‚É“ü‚ê‚é
+	//ã“ã“ã‹ã‚‰ã—ã°ã‚‰ãã®é–“ï¼Œè¿½åŠ ã•ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ä¿ç•™ã«å…¥ã‚Œã‚‹
 	is_objcomp_addable_ = false;
 	element_container_.CreateCompInitThread();
 	PriorUniqueUpdate();
-	//UIScreen‚ÉƒuƒƒbƒN‚³‚ê‚Ä‚È‚¯‚ê‚ÎUpdate‚ğÀs
+	//UIScreenã«ãƒ–ãƒ­ãƒƒã‚¯ã•ã‚Œã¦ãªã‘ã‚Œã°Updateã‚’å®Ÿè¡Œ
 	if (update_flag_for_comps_)
 	{
 		input_flag_ = input_flag_for_comps_;
@@ -57,8 +57,8 @@ void Scene::Output()
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
 	element_container_.FinishCompInitThread();
-	//•Û—¯‚µ‚Ä‚¢‚½ƒIƒuƒWƒFƒNƒgEƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìˆ—‚ğs‚¤
-	//TODO:–{Ši“I‚ÈƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»‚ğOutput‚ÌŒã‚És‚¤‚æ‚¤‚É‚µ‚½‚¢‚Ì‚ÅAProcessPanding->Delete~‚Ì‡‚É‚·‚é
+	//ä¿ç•™ã—ã¦ã„ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ»ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‡¦ç†ã‚’è¡Œã†
+	//TODO:æœ¬æ ¼çš„ãªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ã‚’Outputã®å¾Œã«è¡Œã†ã‚ˆã†ã«ã—ãŸã„ã®ã§ã€ProcessPanding->Delete~ã®é †ã«ã™ã‚‹
 	ProcessPandingComps();
 	DeleteUIScreen();
 	is_objcomp_addable_ = true;
@@ -75,7 +75,7 @@ void Scene::PosteriorUniqueOutput()
 
 GameObjectHandle Scene::AddObject()
 {
-	//ƒfƒXƒgƒ‰ƒNƒ^Às’†‚È‚Ì‚Å’Ç‰Á‚ğs‚í‚È‚¢
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å®Ÿè¡Œä¸­ãªã®ã§è¿½åŠ ã‚’è¡Œã‚ãªã„
 	if (is_executing_destructor_) {
 		return GameObjectHandle();
 	}
@@ -95,7 +95,7 @@ void Scene::SetOutputCompsPostFunc(int upd_prio, std::function<void()> func)
 Scene::~Scene() {
 	is_executing_destructor_ = true;
 	element_container_.FreeAllElements();
-	//UIScreen‚Ìíœˆ—
+	//UIScreenã®å‰Šé™¤å‡¦ç†
 	for (auto uiscreen : uiscreens_)
 	{
 		delete uiscreen;
@@ -118,19 +118,19 @@ ButtonState Scene::GetKeyState(int key) const
 
 MatVec::Vector2 Scene::GetMouseClientPos(int windowid) const
 {
-	//¶ãŒ´“_
+	//å·¦ä¸ŠåŸç‚¹
 	MatVec::Vector2 screenpos = GetMouseScreenPos();
-	//ƒXƒNƒŠ[ƒ“À•W
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™
 	POINT mousepos;
 	mousepos.x = screenpos(0);
 	mousepos.y = screenpos(1);
 	auto window = game_.GetWindow(windowid);
 	auto hwnd = window->GetWindowHandle();
-	//ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚É•ÏŠ·
+	//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ã«å¤‰æ›
 	ScreenToClient(hwnd, &mousepos);
-	//ƒEƒBƒ“ƒhƒE‚Ì‚‚³‚ğ“üè
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®é«˜ã•ã‚’å…¥æ‰‹
 	auto windowheight = window->GetWindowSize().bottom - window->GetWindowSize().top;
-	//¶‰ºŒ´“_‚É•ÏŠ·
+	//å·¦ä¸‹åŸç‚¹ã«å¤‰æ›
 	mousepos.y = windowheight - mousepos.y;
 	return MatVec::Vector2(mousepos.x, mousepos.y);
 }
@@ -138,14 +138,14 @@ MatVec::Vector2 Scene::GetMouseClientPos(int windowid) const
 MatVec::Vector2 Scene::GetMouseMove() const
 {
 	if (input_flag_) {
-		//ƒXƒNƒŠ[ƒ“À•W(¶ãŒ´“_)
+		//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™(å·¦ä¸ŠåŸç‚¹)
 		MatVec::Vector2 vec = input_system_->GetMouseScreenPos() - prev_mouse_pos_;
-		//¶‰ºŒ´“_‚ÉC³
+		//å·¦ä¸‹åŸç‚¹ã«ä¿®æ­£
 		vec(1) *= -1;
 		return vec;
 	}
 	else {
-		//“ü—Í‚ğ•Ô‚µ‚½‚­‚È‚¢ê‡ˆÚ“®–³‚µ‚Å•Ô‚·
+		//å…¥åŠ›ã‚’è¿”ã—ãŸããªã„å ´åˆç§»å‹•ç„¡ã—ã§è¿”ã™
 		return MatVec::Vector2(0, 0);
 	}
 }
@@ -188,7 +188,7 @@ int Scene::GetOutputComponentNumber()
 void Scene::DeleteUIScreen()
 {
 	int n = uiscreens_.size() - 1;
-	//“Y‚¦š‚ª‘å‚«‚¢•û‚©‚çŒ©‚ÄÁ‚·‚×‚«UIScreen‚ğíœ
+	//æ·»ãˆå­—ãŒå¤§ãã„æ–¹ã‹ã‚‰è¦‹ã¦æ¶ˆã™ã¹ãUIScreenã‚’å‰Šé™¤
 	for (; n >= 0; n--) {
 		if (uiscreens_[n]->GetDeleteFlag() == false)break;
 		delete uiscreens_[n];
@@ -197,7 +197,7 @@ void Scene::DeleteUIScreen()
 		input_flag_for_uiscreens_.erase(input_flag_for_uiscreens_.begin() + n);
 		update_flag_for_uiscreens_.erase(update_flag_for_uiscreens_.begin() + n);
 	}
-	//mMousePosFor~‚ÌXV
+	//mMousePosFor~ã®æ›´æ–°
 	for (n = 0; n < uiscreens_.size(); n++) {
 		if (input_flag_for_uiscreens_[n]) {
 			prev_mouse_pos_for_uiscreens_[n] = GetMouseScreenPos();
@@ -206,7 +206,7 @@ void Scene::DeleteUIScreen()
 	if (input_flag_for_comps_) {
 		prev_mouse_pos_for_comps_ = GetMouseScreenPos();
 	}
-	//mInput/UpdateFlagFor~‚ÌXV
+	//mInput/UpdateFlagFor~ã®æ›´æ–°
 	if (uiscreens_.size() == 0) {
 		input_flag_for_comps_ = true;
 		update_flag_for_comps_ = true;
@@ -245,7 +245,7 @@ void Scene::LaunchUIScreenUpdate()
 {
 	if (uiscreens_.size() == 0)return;
 	for (int n = 0; n < uiscreens_.size(); n++) {
-		//‚±‚ÌUIScreen‚ÌUpdate‚ğÀs‚·‚é‚È‚ç‚ÎCInput‚Ìó‚¯æ‚è‰Â”Û‚ğİ’è‚µ‚ÄUpdate‚ğŒÄ‚Ño‚µ
+		//ï¿½ï¿½ï¿½ï¿½UIScreenï¿½ï¿½Updateï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½È‚ï¿½ÎCInputï¿½Ìó‚¯ï¿½ï¿½Â”Û‚ï¿½İ’è‚µï¿½ï¿½Updateï¿½ï¿½Ä‚Ñoï¿½ï¿½
 		if (update_flag_for_uiscreens_[n]) {
 			input_flag_ = input_flag_for_uiscreens_[n];
 			prev_mouse_pos_ = prev_mouse_pos_for_uiscreens_[n];
@@ -268,7 +268,7 @@ void Scene::ProcessPandingComps()
 
 void Scene::ProcessPandingUIScreens()
 {
-	//Panding‚É‚ ‚éUIScreen‚Ì’Ç‰Á
+	//Pandingï¿½É‚ï¿½ï¿½ï¿½UIScreenï¿½Ì’Ç‰ï¿½
 	for (int n = 0; n < panding_uiscreens_.size(); n++) {
 		uiscreens_.push_back(panding_uiscreens_[n]);
 		prev_mouse_pos_for_uiscreens_.push_back(GetMouseScreenPos());

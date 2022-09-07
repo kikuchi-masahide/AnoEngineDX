@@ -40,7 +40,7 @@ void ElementContainer::LaunchUpdateComponents()
 void ElementContainer::LaunchOutputComponents()
 {
 	if (output_components_.size() > 0) {
-		//’¼‘O‚ÉÀs‚µ‚½OutputComponent‚Ìupd_pirority_
+		//ç›´å‰ã«å®Ÿè¡Œã—ãŸOutputComponentã®upd_pirority_
 		int prev_upd_prio = output_components_[0].lock()->upd_priority_;
 		auto itr = output_func_in_.find(prev_upd_prio);
 		if (itr != output_func_in_.end()) {
@@ -51,7 +51,7 @@ void ElementContainer::LaunchOutputComponents()
 			if (shptr->upd_priority_ != prev_upd_prio) {
 				itr = output_func_out_.find(prev_upd_prio);
 				if (itr != output_func_out_.end()) {
-					//“o˜^‚µ‚½ŠÖ”‚ğÀs
+					//ç™»éŒ²ã—ãŸé–¢æ•°ã‚’å®Ÿè¡Œ
 					(itr->second)();
 				}
 				itr = output_func_in_.find(shptr->upd_priority_);
@@ -81,7 +81,7 @@ void ElementContainer::FinishCompInitThread()
 
 void ElementContainer::ProcessPandingElements()
 {
-	//HACK:ƒ}ƒ‹ƒ`ƒXƒŒƒbƒh‰»‚Å‚«‚é‚©?
+	//HACK:ãƒãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰åŒ–ã§ãã‚‹ã‹?
 	std::set<GameObjectHandle> obj_to_reset_childs;
 	while (true) {
 		if (!delete_comps_.empty()) {
@@ -143,7 +143,7 @@ GameObjectHandle ElementContainer::AddObject(Scene* scene)
 			Log::OutputCritical("Object number exceeded limit");
 		}
 		boost::unique_lock<boost::mutex> lock(obj_pool_mutex_);
-		//HACK:make_shared‚ğg‚¤(ƒAƒƒP[ƒ^‚ª•K—v?)
+		//HACK:make_sharedã‚’ä½¿ã†(ã‚¢ãƒ­ã‚±ãƒ¼ã‚¿ãŒå¿…è¦?)
 		shp = std::shared_ptr<GameObject>(new(obj_pool_->malloc()) GameObject(scene), ObjPoolDeleter);
 		obj_pool_used_chunk_++;
 	}
@@ -154,7 +154,7 @@ GameObjectHandle ElementContainer::AddObject(Scene* scene)
 
 void ElementContainer::SetOutputCompsPreFunc(int upd_prio, std::function<void()> func)
 {
-	//HACK:•Ï‚È‚±‚Æ•Ï‚Èƒ^ƒCƒ~ƒ“ƒO‚·‚é‚ÆƒoƒO‚é
+	//HACK:å¤‰ãªã“ã¨å¤‰ãªã‚¿ã‚¤ãƒŸãƒ³ã‚°ã™ã‚‹ã¨ãƒã‚°ã‚‹
 	output_func_in_[upd_prio] = func;
 }
 
@@ -288,7 +288,7 @@ void ElementContainer::CompInitThreadFunc()
 			size = update_comps_to_initiate_.size();
 		}
 		if (size > 0) {
-			//ˆêƒRƒs[æ
+			//ä¸€æ™‚ã‚³ãƒ”ãƒ¼å…ˆ
 			std::list<std::weak_ptr<Component>> cmps;
 			{
 				boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
@@ -304,7 +304,7 @@ void ElementContainer::CompInitThreadFunc()
 			size = output_comps_to_initiate_.size();
 		}
 		if (size > 0) {
-			//ˆêƒRƒs[æ
+			//ä¸€æ™‚ã‚³ãƒ”ãƒ¼å…ˆ
 			std::list<std::weak_ptr<Component>> cmps;
 			{
 				boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
@@ -337,7 +337,7 @@ void ElementContainer::MergeUpdateComponents()
 	std::copy(panding_update_components_.begin(), panding_update_components_.end(),
 		std::back_inserter(update_components_));
 	panding_update_components_.clear();
-	//HACK:list‚É‚µ‚Ä‘}“ü‚·‚éŠ´‚¶‚Å‚¢‚¯‚Îƒ\[ƒg‚ªO(N)‚É‚È‚é?
+	//HACK:listã«ã—ã¦æŒ¿å…¥ã™ã‚‹æ„Ÿã˜ã§ã„ã‘ã°ã‚½ãƒ¼ãƒˆãŒO(N)ã«ãªã‚‹?
 	std::sort(update_components_.begin(), update_components_.end(),
 		[](const std::weak_ptr<Component>& a, const std::weak_ptr<Component>& b) {
 		return a.lock()->upd_priority_ < b.lock()->upd_priority_;

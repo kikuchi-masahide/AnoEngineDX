@@ -126,7 +126,6 @@ MatVec::Matrix4x4 MatVec::Rotate(Quaternion _q)
 
 MatVec::Quaternion MatVec::Slerp(MatVec::Quaternion _q1, MatVec::Quaternion _q2, double t)
 {
-	//_q1‚Æ_q2‚ÌŠÔ‚ÌŠp“x
 	double omega = acos(Dot(_q1,_q2));
 	return sin((1 - t) * omega) / sin(omega) * _q1 + sin(t * omega) / sin(omega) * _q2;
 }

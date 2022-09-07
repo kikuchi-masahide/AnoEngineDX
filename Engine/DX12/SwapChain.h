@@ -8,7 +8,7 @@ namespace DX12 {
 	class Texture2D;
 	class DescriptorHeap;
 	/// <summary>
-	/// SwapChain–{‘Ì‚âbackbufferARTV‚ğ•Û‘¶‚·‚édescriptorheap‚ğ‚Ü‚Æ‚ß‚ÄŠÇ—‚·‚é
+	/// SwapChainæœ¬ä½“ã‚„backbufferã€RTVã‚’ä¿å­˜ã™ã‚‹descriptorheapã‚’ã¾ã¨ã‚ã¦ç®¡ç†ã™ã‚‹
 	/// </summary>
 	class SwapChain final:public boost::noncopyable{
 	public:

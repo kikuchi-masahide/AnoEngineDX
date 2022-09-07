@@ -8,7 +8,7 @@
 namespace DX12 {
 	class Texture2D final :public Resource {
 	public:
-		//swapchain��index�Ԗڂ�backbuffer���擾 SwapChain�݂̂Ŏg�p
+		//swapchainのindex番目のbackbufferを取得 SwapChainのみで使用
 		Texture2D(ComPtr<IDXGISwapChain> swapchain, int index, DXGI_FORMAT dxgi_format);
 		Texture2D(ComPtr<ID3D12Device> device, UINT64 width, UINT height,
 			DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,

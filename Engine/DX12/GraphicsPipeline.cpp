@@ -27,7 +27,7 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 	gpipeline.RasterizerState.DepthClipEnable = true;
 	gpipeline.BlendState.AlphaToCoverageEnable = true;
 	gpipeline.BlendState.IndependentBlendEnable = false;
-	//HACK:ƒ¿ƒuƒŒƒ“ƒh‚È‚Ç‚ğs‚¤‚È‚ç‚Î•ÏX
+	//HACK:Î±ãƒ–ãƒ¬ãƒ³ãƒ‰ãªã©ã‚’è¡Œã†ãªã‚‰ã°å¤‰æ›´
 	CD3DX12_BLEND_DESC render_target_blend_desc(D3D12_DEFAULT);
 	render_target_blend_desc.RenderTarget[0].BlendEnable = true;
 	render_target_blend_desc.RenderTarget[0].LogicOpEnable = false;
@@ -40,7 +40,7 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 	render_target_blend_desc.RenderTarget[0].LogicOp = D3D12_LOGIC_OP_NOOP;
 	render_target_blend_desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 	gpipeline.BlendState = render_target_blend_desc;
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ì”z—ñ‚ğ•ÏŠ·
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®é…åˆ—ã‚’å¤‰æ›
 	D3D12_INPUT_ELEMENT_DESC* layouts = DBG_NEW D3D12_INPUT_ELEMENT_DESC[vertex_layout.size()];
 	for (int n = 0; n < vertex_layout.size(); n++) {
 		layouts[n] = {};
@@ -52,7 +52,7 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 		layouts[n].InputSlotClass = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
 		layouts[n].InstanceDataStepRate = 0;
 	}
-	//Depth Stencil Buffer‚Ìİ’è
+	//Depth Stencil Bufferã®è¨­å®š
 	if (dsbuffer) {
 		gpipeline.DepthStencilState.DepthEnable = true;
 		gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;

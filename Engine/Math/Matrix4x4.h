@@ -24,20 +24,20 @@ namespace MatVec {
 	bool operator==(const Matrix4x4& v1, const Matrix4x4& v2);
 	bool operator!=(const Matrix4x4& v1, const Matrix4x4& v2);
 	/// <summary>
-	/// 4x4’PˆÊs—ñ
+	/// 4x4å˜ä½è¡Œåˆ—
 	/// </summary>
 	Matrix4x4 Identity4x4();
 	/// <summary>
-	/// LU•ª‰ğ‚Å‹ts—ñ‚ğ‹‚ß‚é
+	/// LUåˆ†è§£ã§é€†è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	/// </summary>
 	Matrix4x4 GetInverseMatrix(Matrix4x4& mat);
 	/// <summary>
-	/// Œ´“_‚ğ’†S‚Æ‚·‚é³Ë‰eƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ‚ğì‚é
+	/// åŸç‚¹ã‚’ä¸­å¿ƒã¨ã™ã‚‹æ­£å°„å½±ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã‚’ä½œã‚‹
 	/// </summary>
-	/// <param name="width">‹ßÚ•½–Ê‚Ì‰¡•[px]</param>
-	/// <param name="height">‹ßÚ•½–Ê‚Ìc•[px]</param>
-	/// <param name="near_z">‹ßÚ•½–Ê‚ÌzÀ•W(•ÏŠ·Œã0‚Æ‚È‚ézÀ•W)</param>
-	/// <param name="far_z">‰“•û•½–Ê‚ÌzÀ•W(•ÏŠ·Œã1‚Æ‚È‚ézÀ•W)</param>
+	/// <param name="width">è¿‘æ¥å¹³é¢ã®æ¨ªå¹…[px]</param>
+	/// <param name="height">è¿‘æ¥å¹³é¢ã®ç¸¦å¹…[px]</param>
+	/// <param name="near_z">è¿‘æ¥å¹³é¢ã®zåº§æ¨™(å¤‰æ›å¾Œ0ã¨ãªã‚‹zåº§æ¨™)</param>
+	/// <param name="far_z">é æ–¹å¹³é¢ã®zåº§æ¨™(å¤‰æ›å¾Œ1ã¨ãªã‚‹zåº§æ¨™)</param>
 	Matrix4x4 GetOrthoGraphicProjection(double width, double height, double near_z, double far_z);
 
 }

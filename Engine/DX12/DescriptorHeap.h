@@ -10,16 +10,16 @@ namespace DX12 {
 	class DepthStencilBuffer;
 	class DescriptorHeap final:public boost::noncopyable {
 	public:
-		/// <param name="capacity">•Û—L‚·‚édescriptor‚Ì”</param>
+		/// <param name="capacity">ä¿æœ‰ã™ã‚‹descriptorã®æ•°</param>
 		/// <param name="type">
-		/// CBV_SRV_UAV,RTV,DSV‚ğw’è(SAMPLER‚Í‚Ü‚¾–¢’²®)
+		/// CBV_SRV_UAV,RTV,DSVã‚’æŒ‡å®š(SAMPLERã¯ã¾ã æœªèª¿æ•´)
 		/// </param>
 		/// <param name="vis">
-		/// NONE‚©SHADER_VISIBLE‚ğw’è
+		/// NONEã‹SHADER_VISIBLEã‚’æŒ‡å®š
 		/// </param>
 		DescriptorHeap(ComPtr<ID3D12Device> device, int capacity, D3D12_DESCRIPTOR_HEAP_TYPE type,
 			D3D12_DESCRIPTOR_HEAP_FLAGS vis);
-		//_DEBUG‚Ì‚İ—LŒø
+		//_DEBUGæ™‚ã®ã¿æœ‰åŠ¹
 		void SetDebugName(LPCWSTR debug_name);
 		void CreateRenderTargetView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<Texture2D> shader_resource, int index);

@@ -1,8 +1,8 @@
 #pragma once
 #include <cmath>
 
-/// /// <summary>
-/// _d‚ª‚Ù‚Ú0‚Å‚ ‚é‚©‚Ç‚¤‚©”»’è‚·‚é
+/// <summary>
+/// _dãŒã»ã¼0ã§ã‚ã‚‹ã‹ã©ã†ã‹åˆ¤å®šã™ã‚‹
 /// </summary>
 inline bool Zero(double _d)
 {

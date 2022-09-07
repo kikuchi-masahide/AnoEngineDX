@@ -12,15 +12,15 @@ namespace DX12 {
 		CommandQueue(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type);
 		void SetDebugName(LPCWSTR debug_name);
 		/// <summary>
-		/// command list‚ÌƒRƒ}ƒ“ƒh‚ğÀs‚·‚é
+		/// command listã®ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã™ã‚‹
 		/// </summary>
 		void ExecuteCommandLists(const std::vector<std::shared_ptr<GraphicsCommandList>>& lists);
 		/// <summary>
-		/// ƒRƒ}ƒ“ƒh‚ÌÀs‚ğŠ®—¹‚µ‚½‚Ì‚¿A‚±‚Ìfence‚Évalue‚ğƒZƒbƒg‚·‚é
+		/// ã‚³ãƒãƒ³ãƒ‰ã®å®Ÿè¡Œã‚’å®Œäº†ã—ãŸã®ã¡ã€ã“ã®fenceã«valueã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		/// </summary>
 		void Signal(std::shared_ptr<Fence> fence, UINT64 value);
 		/// <summary>
-		/// fence‚ªvalueˆÈã‚É‚È‚é‚Ü‚Å‘Ò‚Â
+		/// fenceãŒvalueä»¥ä¸Šã«ãªã‚‹ã¾ã§å¾…ã¤
 		/// </summary>
 		void Wait(std::shared_ptr<Fence> fence, UINT64 value);
 		ID3D12CommandQueue* GetRawPtr() const;

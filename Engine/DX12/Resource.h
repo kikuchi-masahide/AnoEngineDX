@@ -6,20 +6,20 @@
 
 namespace DX12 {
 	/// <summary>
-	/// resource‚ğ•\‚·”Ä—pƒNƒ‰ƒX resource‚É‹¤’Ê‚Ì‘€ì‚ğÀ‘•‚·‚é
+	/// resourceã‚’è¡¨ã™æ±ç”¨ã‚¯ãƒ©ã‚¹ resourceã«å…±é€šã®æ“ä½œã‚’å®Ÿè£…ã™ã‚‹
 	/// </summary>
 	class Resource :public boost::noncopyable {
 	public:
-		//Texture2D‚ªSwapChain‚É‘Î‰‚·‚é‚½‚ß‚Ì‹óƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//Texture2DãŒSwapChainã«å¯¾å¿œã™ã‚‹ãŸã‚ã®ç©ºã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Resource();
 		/// <param name="heap_type">
-		/// DEFAULT:CPU‚©‚çƒAƒNƒZƒX‚Å‚«‚È‚¢
-		/// UPLOAD:CPU‚©‚çƒAƒNƒZƒX‚Å‚«‚é
-		/// READBACK:CPU‚©‚ç“Ç‚İæ‚ê‚é
+		/// DEFAULT:CPUã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„
+		/// UPLOAD:CPUã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹
+		/// READBACK:CPUã‹ã‚‰èª­ã¿å–ã‚Œã‚‹
 		/// </param>
 		Resource(ComPtr<ID3D12Device> device, D3D12_HEAP_FLAGS heap_flag, D3D12_HEAP_TYPE heap_type,
 			D3D12_RESOURCE_DESC resource_desc, D3D12_RESOURCE_STATES state);
-		//_DEBUG‚Ì‚İ—LŒø
+		//_DEBUGæ™‚ã®ã¿æœ‰åŠ¹
 		void SetDebugName(LPCWSTR debug_name);
 		void* Map();
 		void Unmap();

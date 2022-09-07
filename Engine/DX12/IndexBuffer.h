@@ -9,10 +9,10 @@ namespace DX12 {
 	class IndexBuffer:public Buffer {
 	public:
 		/// <summary>
-		/// index buffer���쐬����
+		/// index bufferを作成する
 		/// </summary>
-		/// <param name="state">�ʏ�GENERIC_READ</param>
-		/// <param name="vert_num">�܂܂��S���_�̐� �Ⴆ�ΎO�p�`�̏ꍇ�A�S���_��3�~�O�p�`�̐�</param>
+		/// <param name="state">通常GENERIC_READ</param>
+		/// <param name="vert_num">含まれる全頂点の数 例えば三角形の場合、全頂点は3×三角形の数</param>
 		IndexBuffer(ComPtr<ID3D12Device> device, D3D12_HEAP_TYPE heap_type, D3D12_RESOURCE_STATES state,
 			int vert_num);
 		int const vertex_num_;

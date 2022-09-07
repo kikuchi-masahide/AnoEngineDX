@@ -8,11 +8,11 @@ namespace quill {
 	class Logger;
 }
 
-//ƒpƒtƒH[ƒ}ƒ“ƒXƒvƒƒtƒ@ƒCƒ‹‚ÌÛ‚ÌA1frame‚É‚¨‚¯‚é‹L˜^ƒf[ƒ^
+//ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®éš›ã®ã€1frameã«ãŠã‘ã‚‹è¨˜éŒ²ãƒ‡ãƒ¼ã‚¿
 struct ProfileUnit;
 
 /// <summary>
-/// Log.txt‚ÉƒƒO‚ğæ‚é
+/// Log.txtã«ãƒ­ã‚°ã‚’å–ã‚‹
 /// </summary>
 class Log {
 public:
@@ -23,22 +23,22 @@ public:
 	static void OutputTrivial(const char str[], std::source_location loc = std::source_location::current());
 	static void OutputCritical(const char str[], std::source_location loc = std::source_location::current());
 	/// <summary>
-	/// ‚±‚Ìframe‚ğŠÜ‚ß‚Äduration frame‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‹L˜^‚ğŠJn‚·‚é
-	/// Šù‚ÉŠJn‚³‚ê‚Ä‚¢‚½ê‡Aduration‚¾‚¯ŠÔ‚ª‰„’·‚³‚ê‚é
+	/// ã“ã®frameã‚’å«ã‚ã¦duration frameã®ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹è¨˜éŒ²ã‚’é–‹å§‹ã™ã‚‹
+	/// æ—¢ã«é–‹å§‹ã•ã‚Œã¦ã„ãŸå ´åˆã€durationã ã‘æ™‚é–“ãŒå»¶é•·ã•ã‚Œã‚‹
 	/// </summary>
 	/// <param name="duration"></param>
 	static void StartPerformanceProfile(int duration);
 	/// <summary>
-	/// ‚±‚Ìî•ñ‚ğ‹L˜^‚µALog“à•”‚ÌƒJƒEƒ“ƒ^‚ği‚ß‚é(ƒvƒƒtƒ@ƒCƒ‹‚Ì—L–³‚É‚æ‚ç‚¸Game‚©‚ç–ˆframeŒÄ‚Ño‚·)
+	/// ã“ã®æƒ…å ±ã‚’è¨˜éŒ²ã—ã€Logå†…éƒ¨ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’é€²ã‚ã‚‹(ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®æœ‰ç„¡ã«ã‚ˆã‚‰ãšGameã‹ã‚‰æ¯frameå‘¼ã³å‡ºã™)
 	/// </summary>
 	static void UpdateDatas(int update, int output, int obj, int upcomp, int outcomp);
 private:
-	//JSON‘‚«‹N‚±‚µƒXƒŒƒbƒh‚©‚çŒÄ‚Î‚ê‚éŠÖ”
+	//JSONæ›¸ãèµ·ã“ã—ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
 	static void ThreadFunc(int filenum, std::vector<ProfileUnit> datas);
 	static int counter_;
 	static int profile_limit_;
 	static std::vector<ProfileUnit> profile_units_;
-	//‹L˜^I—¹‚µ‚½ƒvƒƒtƒ@ƒCƒŠƒ“ƒO‚Ì”AJSON‚Å‘‚«‹N‚±‚µ‚ğŠ®—¹‚µ‚½ƒvƒƒtƒ@ƒCƒ‹‚Ì”
+	//è¨˜éŒ²çµ‚äº†ã—ãŸãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒªãƒ³ã‚°ã®æ•°ã€JSONã§æ›¸ãèµ·ã“ã—ã‚’å®Œäº†ã—ãŸãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã®æ•°
 	static int finished_profiling_;
 	static int jsoned_profiling_;
 	static std::vector<std::string> log_buffer_;

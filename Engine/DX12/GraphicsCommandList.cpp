@@ -201,7 +201,7 @@ void DX12::GraphicsCommandList::SetScissorRect(LONG top_left_x, LONG top_left_y,
 
 void DX12::GraphicsCommandList::DrawInstanced(int vertex_num, int start_vertex_loc)
 {
-	//HACK:¡‚Í1ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì•`‰æ‚É“Á‰»
+	//HACK:ä»Šã¯1ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®æç”»ã«ç‰¹åŒ–
 	cmd_list_->DrawInstanced(vertex_num, 1, start_vertex_loc, 0);
 }
 

@@ -27,7 +27,7 @@ namespace DX12 {
 	class RootSignature;
 	class GraphicsPipeline;
 	/// <summary>
-	/// Device‚ÆFactory‚ğŠÇ—‚µAƒIƒuƒWƒFƒNƒgì¬‚Ì’†S‚Æ‚È‚é
+	/// Deviceã¨Factoryã‚’ç®¡ç†ã—ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆã®ä¸­å¿ƒã¨ãªã‚‹
 	/// </summary>
 	class Master final :public boost::noncopyable {
 	public:
@@ -38,33 +38,33 @@ namespace DX12 {
 		std::shared_ptr<SwapChain> CreateSwapChain(std::shared_ptr<CommandQueue> cmd_queue, HWND hwnd,
 			UINT width, UINT height);
 		/// <summary>
-		/// ’¸“_ƒoƒbƒtƒ@‚Ìì¬
+		/// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 		/// </summary>
-		/// <param name="state">’ÊíGENERIC_READ</param>
-		/// <param name="size_per_vert">ˆê’¸“_“–‚½‚è‚Ìƒf[ƒ^ƒTƒCƒY</param>
+		/// <param name="state">é€šå¸¸GENERIC_READ</param>
+		/// <param name="size_per_vert">ä¸€é ‚ç‚¹å½“ãŸã‚Šã®ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º</param>
 		std::shared_ptr<VertexBuffer> CreateVertexBuffer(D3D12_HEAP_TYPE heap_type,
 			D3D12_RESOURCE_STATES state, SIZE_T size_per_vert, int vert_num);
 		/// <summary>
-		/// index buffer‚ğì¬‚·‚é
+		/// index bufferã‚’ä½œæˆã™ã‚‹
 		/// </summary>
-		/// <param name="state">’ÊíGENERIC_READ</param>
-		/// <param name="vert_num">ŠÜ‚Ü‚ê‚é‘S’¸“_‚Ì” —á‚¦‚ÎOŠpŒ`‚Ìê‡A‘S’¸“_‚Í3~OŠpŒ`‚Ì”</param>
+		/// <param name="state">é€šå¸¸GENERIC_READ</param>
+		/// <param name="vert_num">å«ã¾ã‚Œã‚‹å…¨é ‚ç‚¹ã®æ•° ä¾‹ãˆã°ä¸‰è§’å½¢ã®å ´åˆã€å…¨é ‚ç‚¹ã¯3Ã—ä¸‰è§’å½¢ã®æ•°</param>
 		std::shared_ptr<IndexBuffer> CreateIndexBuffer(D3D12_HEAP_TYPE heap_type,
 			D3D12_RESOURCE_STATES state, int vert_num);
 		/// <summary>
-		/// ’è”ƒoƒbƒtƒ@‚ğì¬‚·‚é(“à•”‚Å256ƒAƒ‰ƒCƒ“ƒƒ“ƒg‚³‚ê‚é)
+		/// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆã™ã‚‹(å†…éƒ¨ã§256ã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆã•ã‚Œã‚‹)
 		/// </summary>
 		std::shared_ptr<ConstBuffer> CreateConstBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size,
 			D3D12_RESOURCE_STATES state);
 		/// <summary>
-		/// ˆêŸƒRƒs[—pƒoƒbƒtƒ@‚È‚ÇA”Ä—p“I‚Èƒoƒbƒtƒ@‚ğì¬‚·‚é
+		/// ä¸€æ¬¡ã‚³ãƒ”ãƒ¼ç”¨ãƒãƒƒãƒ•ã‚¡ãªã©ã€æ±ç”¨çš„ãªãƒãƒƒãƒ•ã‚¡ã‚’ä½œæˆã™ã‚‹
 		/// </summary>
 		std::shared_ptr<Buffer> CreateBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size,
 			D3D12_RESOURCE_STATES state);
 		/// <summary>
-		/// ‹ó‚ÌTexture2D‚ğì‚é
+		/// ç©ºã®Texture2Dã‚’ä½œã‚‹
 		/// </summary>
-		/// <param name="texture_layout">ˆêƒoƒbƒtƒ@‚©‚çƒRƒs[‚·‚éê‡‚ÍUNKNOWN</param>
+		/// <param name="texture_layout">ä¸€æ™‚ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ã‚³ãƒ”ãƒ¼ã™ã‚‹å ´åˆã¯UNKNOWN</param>
 		std::shared_ptr<Texture2D> CreateTexture2D(UINT64 width, UINT height,
 			DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,
 			D3D12_RESOURCE_STATES state);
@@ -73,25 +73,25 @@ namespace DX12 {
 		std::shared_ptr<DescriptorHeap> CreateDescriptorHeap(int capacity, D3D12_DESCRIPTOR_HEAP_TYPE type,
 			D3D12_DESCRIPTOR_HEAP_FLAGS vis);
 		/// <summary>
-		/// desc_heap‚Ìindex”Ô–Ú‚ÉAbuffer‚É‘Î‚·‚éCBV‚ğì¬
+		/// desc_heapã®indexç•ªç›®ã«ã€bufferã«å¯¾ã™ã‚‹CBVã‚’ä½œæˆ
 		/// </summary>
 		void CreateConstBufferView(std::shared_ptr<ConstBuffer> buffer,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		/// <summary>
-		/// desc_heap‚Ìindex”Ô–Ú‚ÉAshader_resource‚É‘Î‚·‚éSRV‚ğì¬
+		/// desc_heapã®indexç•ªç›®ã«ã€shader_resourceã«å¯¾ã™ã‚‹SRVã‚’ä½œæˆ
 		/// </summary>
 		void CreateTexture2DView(std::shared_ptr<Texture2D> shader_resource,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		/// <summary>
-		/// desc_heap‚Ìindex”Ô–Ú‚ÉAdsbuffer‚É‘Î‚·‚éDSV‚ğì¬
+		/// desc_heapã®indexç•ªç›®ã«ã€dsbufferã«å¯¾ã™ã‚‹DSVã‚’ä½œæˆ
 		/// </summary>
 		void CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuffer> dsbuffer,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		/// <summary>
-		/// desc_heap‚Ìindex”Ô–Ú‚ÉAsampler‚ğì¬
+		/// desc_heapã®indexç•ªç›®ã«ã€samplerã‚’ä½œæˆ
 		/// </summary>
-		/// <param name="address_u">u‚ª0`1‚Ì”ÍˆÍŠO‚Ì‚Æ‚«‚Ì‹““® ’ÊíŒJ‚è•Ô‚µ</param>
-		/// <param name="address_v">v‚ª0`1‚Ì”ÍˆÍŠO‚Ì‚Æ‚«‚Ì‹““® ’ÊíŒJ‚è•Ô‚µ</param>
+		/// <param name="address_u">uãŒ0ï½1ã®ç¯„å›²å¤–ã®ã¨ãã®æŒ™å‹• é€šå¸¸ç¹°ã‚Šè¿”ã—</param>
+		/// <param name="address_v">vãŒ0ï½1ã®ç¯„å›²å¤–ã®ã¨ãã®æŒ™å‹• é€šå¸¸ç¹°ã‚Šè¿”ã—</param>
 		void CreateSampler(std::shared_ptr<DescriptorHeap> desc_heap, int index,
 			D3D12_TEXTURE_ADDRESS_MODE address_u = D3D12_TEXTURE_ADDRESS_MODE_WRAP,
 			D3D12_TEXTURE_ADDRESS_MODE address_v = D3D12_TEXTURE_ADDRESS_MODE_WRAP);

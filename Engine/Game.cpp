@@ -51,15 +51,15 @@ std::shared_ptr<Window> Game::GetWindow(int windowid) const
 }
 
 /// <summary>
-/// ƒƒCƒ“ƒ‹[ƒv
+/// ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
 /// </summary>
 void Game::RunLoop()
 {
 	MSG msg = {};
-	//"”÷–­‚É"‚½‚Ü‚Á‚Ä‚¢‚éŠÔ
+	//"å¾®å¦™ã«"ãŸã¾ã£ã¦ã„ã‚‹æ™‚é–“
 	double millisec = 0;
 	DWORD start = timeGetTime();
-	//ƒƒbƒZ[ƒWƒ‹[ƒv
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
@@ -105,7 +105,7 @@ void Game::RunLoop()
 			break;
 		}
 	}
-	//Œ»İÀs’†‚Ìê‡’†’f‚ğ’Ê
+	//ç¾åœ¨å®Ÿè¡Œä¸­ã®å ´åˆä¸­æ–­ã‚’é€šå‘Š
 	async_initing_thread_.interrupt();
 	async_initing_thread_.join();
 }
@@ -129,7 +129,7 @@ void Game::BeforeOutput()
 
 void Game::AfterOutput()
 {
-	//‚·‚×‚Ä‚Ìswapchain‚Ìflip
+	//ã™ã¹ã¦ã®swapchainã®flip
 	for (auto itr = windows_.begin(); itr != windows_.end(); itr++) {
 		itr->second->Flip();
 	}
@@ -163,7 +163,7 @@ void Game::AsyncInitializeScene(Scene* scene)
 	try {
 		scene->AsyncInitialize();
 	}
-	//ƒAƒvƒŠI—¹A•Ê‚ÌChangeScene‚È‚Ç‚ÅƒXƒŒƒbƒh‚Ì’†’f‚ª“ü‚Á‚½ê‡
+	//ã‚¢ãƒ—ãƒªçµ‚äº†ã€åˆ¥ã®ChangeSceneãªã©ã§ã‚¹ãƒ¬ãƒƒãƒ‰ã®ä¸­æ–­ãŒå…¥ã£ãŸå ´åˆ
 	catch (boost::thread_interrupted) {
 		DeleteScene(scene);
 		return;
@@ -181,7 +181,7 @@ void Game::ProcessPandingScene()
 		if (current_scene_) {
 			DeleteScene(current_scene_);
 		}
-		//HACK:‚±‚Ì‘ã“ü‚ÅCmPandingScene‚Ìcomponent‚È‚Ç‚ª‚Á‚Ä‚¢‚éQÆ‚Ìs‚«æ‚ª‚¨‚©‚µ‚­‚È‚Á‚Ä‚¢‚é‚ç‚µ‚¢ ‰½ŒÌ?
+		//HACK:ã“ã®ä»£å…¥ã§ï¼ŒmPandingSceneã®componentãªã©ãŒæŒã£ã¦ã„ã‚‹å‚ç…§ã®è¡Œãå…ˆãŒãŠã‹ã—ããªã£ã¦ã„ã‚‹ã‚‰ã—ã„ ä½•æ•…?
 		current_scene_ = panding_scene_;
 		panding_scene_ = nullptr;
 	}

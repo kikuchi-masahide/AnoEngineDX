@@ -15,11 +15,11 @@ InputSystem::InputSystem()
 
 void InputSystem::ProcessBeforeUpdate()
 {
-	//mCurIndex‚Ì”½“]
+	//mCurIndexã®åè»¢
 	cur_index_ = 1 - cur_index_;
-	//Œ»İ‚Ìó‘Ô‚ğmKeyState[cur_index_]‚É•Û‘¶
+	//ç¾åœ¨ã®çŠ¶æ…‹ã‚’mKeyState[cur_index_]ã«ä¿å­˜
 	GetKeyboardState(key_state_[cur_index_]);
-	//ƒJ[ƒ\ƒ‹ˆÊ’u‚Ìæ“¾
+	//ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®å–å¾—
 	POINT point;
 	GetCursorPos(&point);
 	mouse_pos_[cur_index_] = MatVec::Vector2(point.x, point.y);
@@ -27,7 +27,7 @@ void InputSystem::ProcessBeforeUpdate()
 
 ButtonState InputSystem::GetKeyState(int key) const
 {
-	//‘OƒtƒŒ[ƒ€‚Å“ü—Í‚ª‚³‚ê‚Ä‚¢‚½
+	//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§å…¥åŠ›ãŒã•ã‚Œã¦ã„ãŸ
 	if (key_state_[1 - cur_index_][key] & 0x80) {
 		if (key_state_[cur_index_][key] & 0x80) {
 			return ButtonState::Held;
@@ -49,7 +49,7 @@ ButtonState InputSystem::GetKeyState(int key) const
 MatVec::Vector2 InputSystem::GetMouseMove() const
 {
 	MatVec::Vector2 vec = mouse_pos_[cur_index_] - mouse_pos_[1 - cur_index_];
-	//ƒXƒNƒŠ[ƒ“À•WyÀ•W‚Í‰ºŒü‚«‚È‚Ì‚Å”½“]
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™yåº§æ¨™ã¯ä¸‹å‘ããªã®ã§åè»¢
 	vec(1) *= -1;
 	return vec;
 }

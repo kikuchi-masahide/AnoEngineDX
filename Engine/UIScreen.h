@@ -12,27 +12,27 @@ public:
 	bool GetDeleteFlag();
 	virtual ~UIScreen() {};
 	/// <summary>
-	/// Input‚ğ‰œ‚É—¬‚·‚©‚Ç‚¤‚©‚ğ•Ô‚·
+	/// Inputã‚’å¥¥ã«æµã™ã‹ã©ã†ã‹ã‚’è¿”ã™
 	/// </summary>
 	bool DoesInputGoThrough();
 	/// <summary>
-	/// Component‚ğUpdate‚·‚é‚©‚Ç‚¤‚©•Ô‚·
+	/// Componentã‚’Updateã™ã‚‹ã‹ã©ã†ã‹è¿”ã™
 	/// </summary>
 	bool DoesUpdateComp();
 	/// <summary>
-	/// Input‚ğ‰œ‚É—¬‚·‚©‚Ç‚¤‚©‚ğ•ÏX‚·‚é
+	/// Inputã‚’å¥¥ã«æµã™ã‹ã©ã†ã‹ã‚’å¤‰æ›´ã™ã‚‹
 	/// </summary>
 	void SetInputTransparency(bool _flag);
 	/// <summary>
-	/// Comp‚ğUpdate‚·‚é‚©”Û‚©‚ğ•ÏX‚·‚é
+	/// Compã‚’Updateã™ã‚‹ã‹å¦ã‹ã‚’å¤‰æ›´ã™ã‚‹
 	/// </summary>
 	void SetCompUpdateFlag(bool _flag);
 	Scene* const mScene;
 protected:
 private:
 	bool mDeleteFlag;
-	//Input‚ğ‰œ‚É—¬‚·‚©‚Ç‚¤‚©
+	//Inputã‚’å¥¥ã«æµã™ã‹ã©ã†ã‹
 	bool mDoesInputGoThrough;
-	//Component‚ğUpdate‚·‚é‚©
+	//Componentã‚’Updateã™ã‚‹ã‹
 	bool mDoesUpdateComp;
 };

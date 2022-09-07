@@ -6,22 +6,22 @@
 
 namespace DX12 {
 	/// <summary>
-	/// CommandQueue‚Ì“¯Šú‚ğs‚¤Fence‚Ìƒ‰ƒbƒp[
+	/// CommandQueueã®åŒæœŸã‚’è¡Œã†Fenceã®ãƒ©ãƒƒãƒ‘ãƒ¼
 	/// </summary>
 	class Fence final:public boost::noncopyable {
 	public:
 		Fence(ComPtr<ID3D12Device> device, UINT64 value0);
 		void SetDebugName(LPCWSTR debug_name);
 		/// <summary>
-		/// fence‚ªvalueˆÈã‚É‚È‚Á‚½‚Æ‚«‚É”­‰Î‚·‚éƒCƒxƒ“ƒgevent‚ğw’è‚·‚é
+		/// fenceãŒvalueä»¥ä¸Šã«ãªã£ãŸã¨ãã«ç™ºç«ã™ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆeventã‚’æŒ‡å®šã™ã‚‹
 		/// </summary>
 		void SetEventOnCompletion(UINT64 value, HANDLE event);
 		/// <summary>
-		/// fence‚Évalue‚ğƒZƒbƒg‚·‚é
+		/// fenceã«valueã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		/// </summary>
 		void Signal(UINT64 value);
 		/// <summary>
-		/// fence‚ÌŒ»İ‚Ì’l‚ğ“¾‚é
+		/// fenceã®ç¾åœ¨ã®å€¤ã‚’å¾—ã‚‹
 		/// </summary>
 		UINT64 GetCompletedValue() const;
 		ID3D12Fence* GetRawPtr() const;

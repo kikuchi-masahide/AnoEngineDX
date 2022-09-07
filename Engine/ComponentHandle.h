@@ -7,7 +7,7 @@
 
 class Component;
 
-//Component‚ðŒp³‚µ‚½ƒNƒ‰ƒX‚Ìƒ|ƒCƒ“ƒ^‘ã‚í‚è‚ÉŽg‚¤ƒnƒ“ƒhƒ‰
+//Componentã‚’ç¶™æ‰¿ã—ãŸã‚¯ãƒ©ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ä»£ã‚ã‚Šã«ä½¿ã†ãƒãƒ³ãƒ‰ãƒ©
 template<class T>
 class ComponentHandle final {
 public:
@@ -67,7 +67,7 @@ template<class T>
 template<class U>
 inline ComponentHandle<T>::operator ComponentHandle<U>() const noexcept
 {
-	//_DEBUGŽž‚Ì‚Ýdynamic_cast‚ðs‚¢A–³Œø‚ÈŒ^•ÏŠ·‚È‚ç‚Înull‚ð•Ô‚·
+	//_DEBUGæ™‚ã®ã¿dynamic_castã‚’è¡Œã„ã€ç„¡åŠ¹ãªåž‹å¤‰æ›ãªã‚‰ã°nullã‚’è¿”ã™
 #ifdef _DEBUG
 	if (std::shared_ptr<U> result = std::dynamic_pointer_cast<U>(comp_.lock())) {
 		return ComponentHandle<U>(result);

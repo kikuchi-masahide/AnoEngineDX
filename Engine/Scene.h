@@ -14,78 +14,79 @@ class Game;
 class UIScreen;
 class InputSystem;
 
-//HACK:ƒvƒƒtƒ@ƒCƒ‰‚ª‚Å‚«‚½‚ç‚·‚±‚Æ
-//EƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‰Šú‰»‚ğstd::any‚Å‚à‚È‚ñ‚Å‚àg‚Á‚ÄAAdd~Component‚Ås‚í‚È‚¢‚æ‚¤‚É‚·‚é
-//EComponentHandle‚Åstd::weak_ptr‚ğg‚¦‚È‚¢‚©?g‚Á‚½ê‡‚Ì‘¬“x”äŠr
-//Estd::set‚È‚Ç‚ğstd::vector“™•Ê‚ÌƒRƒ“ƒeƒi‚É•Ï‚¦‚½ê‡‚Ì”äŠr
-//Epool‚ğg‚¦‚é‚Æ‚±‚ë‚Å‚à‚Á‚Æg‚Á‚½ê‡‚Ì”äŠr
+//HACK:ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ©ãŒã§ããŸã‚‰è©¦ã™ã“ã¨
+//ãƒ»ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åˆæœŸåŒ–ã‚’std::anyã§ã‚‚ãªã‚“ã§ã‚‚ä½¿ã£ã¦ã€Add~Componentã§è¡Œã‚ãªã„ã‚ˆã†ã«ã™ã‚‹
+//ãƒ»ComponentHandleã§std::weak_ptrã‚’ä½¿ãˆãªã„ã‹?ä½¿ã£ãŸå ´åˆã®é€Ÿåº¦æ¯”è¼ƒ
+//ãƒ»std::setãªã©ã‚’std::vectorç­‰åˆ¥ã®ã‚³ãƒ³ãƒ†ãƒŠã«å¤‰ãˆãŸå ´åˆã®æ¯”è¼ƒ
+//ãƒ»poolã‚’ä½¿ãˆã‚‹ã¨ã“ã‚ã§ã‚‚ã£ã¨ä½¿ã£ãŸå ´åˆã®æ¯”è¼ƒ
 
 /// <summary>
-/// ƒV[ƒ“‚ğ•\‚·ƒNƒ‰ƒX
+/// ã‚·ãƒ¼ãƒ³ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹
 /// </summary>
 class Scene {
 public:
 	/// <summary>
-	/// ƒv[ƒ‹‚È‚Ç‚Ì‰Šú‰»BGame‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚©‚çŒÄ‚Ño‚·
+	/// ãƒ—ãƒ¼ãƒ«ãªã©ã®åˆæœŸåŒ–ã€‚Gameã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‹ã‚‰å‘¼ã³å‡ºã™
 	/// </summary>
 	static void InitMemory();
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚¹‚é‚Ì‚Í_game©g‚ÌAddChild‚Ì‚İ
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã›ã‚‹ã®ã¯_gameè‡ªèº«ã®AddChildã®ã¿
 	Scene(Game* const game);
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Æ‚Í•Ê‚ÌA”ñ“¯Šú‚ÅÀs‚·‚é‰Šú‰»ŠÖ”
-	/// ‚±‚ÌŠÖ”‚ªI—¹‚µ‚½ƒtƒŒ[ƒ€Ÿ‚©‚ç‚±‚ÌScene‚Ö‘JˆÚ‚·‚é
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¨ã¯åˆ¥ã®ã€éåŒæœŸã§å®Ÿè¡Œã™ã‚‹åˆæœŸåŒ–é–¢æ•°
+	/// ã“ã®é–¢æ•°ãŒçµ‚äº†ã—ãŸãƒ•ãƒ¬ãƒ¼ãƒ æ¬¡ã‹ã‚‰ã“ã®Sceneã¸é·ç§»ã™ã‚‹
 	/// </summary>
 	virtual void AsyncInitialize();
 	/// <summary>
-	/// XVŠÖ”
+	/// æ›´æ–°é–¢æ•°
 	/// </summary>
 	void Update(const InputSystem* input);
 	/// <summary>
-	/// GameObject‚âUIScreen‚âXVˆ—‚Ì‘O‚ÉÀs‚³‚ê‚éCoverride‰Â”\‚È“Æ©ˆ—
+	/// GameObjectã‚„UIScreenã‚„æ›´æ–°å‡¦ç†ã®å‰ã«å®Ÿè¡Œã•ã‚Œã‚‹ï¼Œoverrideå¯èƒ½ãªç‹¬è‡ªå‡¦ç†
 	/// </summary>
 	virtual void PriorUniqueUpdate();
 	/// <summary>
-	/// GameObject‚âUIScreen‚âXVˆ—‚ÌŒã‚ÉÀs‚³‚ê‚éCoverride‰Â”\‚È“Æ©ˆ—
+	/// GameObjectã‚„UIScreenã‚„æ›´æ–°å‡¦ç†ã®å¾Œã«å®Ÿè¡Œã•ã‚Œã‚‹ï¼Œoverrideå¯èƒ½ãªç‹¬è‡ªå‡¦ç†
 	/// </summary>
 	virtual void PosteriorUniqueUpdate();
 	/// <summary>
-	/// o—ÍŠÖ”
+	/// å‡ºåŠ›é–¢æ•°
 	/// </summary>
 	void Output();
 	/// <summary>
-	/// GameObject“™‚ÌUpdate‚Ì‘O‚ÉÀs‚³‚ê‚éCoverride‰Â”\‚È“Æ©ˆ—
+	/// GameObjectç­‰ã®Updateã®å‰ã«å®Ÿè¡Œã•ã‚Œã‚‹ï¼Œoverrideå¯èƒ½ãªç‹¬è‡ªå‡¦ç†
 	/// </summary>
 	virtual void PriorUniqueOutput();
 	/// <summary>
-	/// GameObject“™‚ÌUpdate‚ÌŒã‚ÉÀs‚³‚ê‚éCoverride‰Â”\‚È“Æ©ˆ—
-	/// (‚±‚ÌƒtƒŒ[ƒ€‚Å‚ÌGameObjectCComponent’Ç‰Á‚Í‚Ü‚¾•Û—¯ó‘Ô)
+	/// GameObjectç­‰ã®Updateã®å¾Œã«å®Ÿè¡Œã•ã‚Œã‚‹ï¼Œoverrideå¯èƒ½ãªç‹¬è‡ªå‡¦ç†
+	/// (ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã§ã®GameObjectï¼ŒComponentè¿½åŠ ã¯ã¾ã ä¿ç•™çŠ¶æ…‹)
 	/// </summary>
 	virtual void PosteriorUniqueOutput();
 	GameObjectHandle AddObject();
 	/// <summary>
-	/// obj‚Ìw‚·GameObject‚ÉUpdateComponent‚ğ’Ç‰Á(GameObject::AddUpdateComponent‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	/// objã®æŒ‡ã™GameObjectã«UpdateComponentã‚’è¿½åŠ (GameObject::AddUpdateComponentã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	/// </summary>
 	template<class T, class... Args>
 	ComponentHandle<T> AddUpdateComponent(std::shared_ptr<GameObject> obj, Args... args);
 	/// <summary>
-	/// obj‚Ìw‚·GameObject‚ÉOutputComponent‚ğ’Ç‰Á(GameObject::AddOutputComponent‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	/// objã®æŒ‡ã™GameObjectã«OutputComponentã‚’è¿½åŠ (GameObject::AddOutputComponentã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	/// </summary>
 	template<class T, class... Args>
 	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
 	/// <summary>
-	/// ‚±‚Ìupd_prio‚ğ‚ÂƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÀs‚·‚é‘O‚ÉÀs‚·‚éŠÖ”‚ğ“o˜^‚·‚é
-	/// (ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¯‚ê‚ÎÀs‚µ‚È‚¢)
+	/// ã“ã®upd_prioã‚’æŒã¤ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹å‰ã«å®Ÿè¡Œã™ã‚‹é–¢æ•°ã‚’ç™»éŒ²ã™ã‚‹
+	/// (ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã‘ã‚Œã°å®Ÿè¡Œã—ãªã„)
 	/// </summary>
 	void SetOutputCompsPreFunc(int upd_prio, std::function<void()> func);
 	/// <summary>
-	/// ‚±‚Ìupd_prio‚ğ‚ÂÅŒã‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğÀs‚µ‚½Œã‚ÉÀs‚·‚éŠÖ”‚ğ“o˜^‚·‚é
-	/// (ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª‘¶İ‚µ‚È‚¯‚ê‚ÎÀs‚µ‚È‚¢)
+	/// <summary>
+	/// ã“ã®upd_prioã‚’æŒã¤æœ€å¾Œã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å®Ÿè¡Œã—ãŸå¾Œã«å®Ÿè¡Œã™ã‚‹é–¢æ•°ã‚’ç™»éŒ²ã™ã‚‹
+	/// (ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã—ãªã‘ã‚Œã°å®Ÿè¡Œã—ãªã„)
 	/// </summary>
 	void SetOutputCompsPostFunc(int upd_prio, std::function<void()> func);
 	/// <summary>
-	/// UIScreen‚ğŒp³‚·‚éƒNƒ‰ƒX‚Ì’Ç‰Á
+	/// UIScreenã‚’ç¶™æ‰¿ã™ã‚‹ã‚¯ãƒ©ã‚¹ã®è¿½åŠ 
 	/// </summary>
-	/// <param name="..._args">ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚É“n‚·ˆø”</param>
+	/// <param name="..._args">ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«æ¸¡ã™å¼•æ•°</param>
 	template<class T, class... Args>
 	T* AddUIScreen(Args... _args)
 	{
@@ -112,24 +113,24 @@ public:
 		}
 	}
 	/// <summary>
-	///ŠeƒL[Eƒ}ƒEƒX‚Ìƒ{ƒ^ƒ“‚Ìó‘Ô‚ğó‚¯æ‚é
+	///å„ã‚­ãƒ¼ãƒ»ãƒã‚¦ã‚¹ã®ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã‚’å—ã‘å–ã‚‹
 	/// </summary>
 	ButtonState GetKeyState(int _key) const;
 	/// <summary>
-	//ƒ}ƒEƒX‚ÌƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚ğ“¾‚é(¶‰ºŒ´“_)
+	//ãƒã‚¦ã‚¹ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ã‚’å¾—ã‚‹(å·¦ä¸‹åŸç‚¹)
 	/// </summary>
 	MatVec::Vector2 GetMouseClientPos(int windowid) const;
 	/// <summary>
-	//ƒ}ƒEƒX‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ğ“¾‚é(¶‰ºŒ´“_)
+	//ãƒã‚¦ã‚¹ã®ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’å¾—ã‚‹(å·¦ä¸‹åŸç‚¹)
 	/// </summary>
 	MatVec::Vector2 GetMouseMove() const;
 	/// <summary>
-	//ƒ}ƒEƒX‚ÌƒXƒNƒŠ[ƒ“À•W‚ğ“¾‚é(¶ãŒ´“_)
+	//ãƒã‚¦ã‚¹ã®ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã‚’å¾—ã‚‹(å·¦ä¸ŠåŸç‚¹)
 	/// </summary>
 	MatVec::Vector2 GetMouseScreenPos() const;
 	Game& game_;
 
-	//‚±‚ÌGameObject‚ğAƒtƒŒ[ƒ€Ø‚è‘Ö‚¦‘O‚ÉÁ‹‚·‚é(GameObject::SetDeleteFlag‚©‚çŒÄ‚Ño‚³‚ê‚é)
+	//ã“ã®GameObjectã‚’ã€ãƒ•ãƒ¬ãƒ¼ãƒ åˆ‡ã‚Šæ›¿ãˆå‰ã«æ¶ˆå»ã™ã‚‹(GameObject::SetDeleteFlagã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹)
 	void Erase(std::weak_ptr<GameObject> ptr);
 	void Erase(std::weak_ptr<Component> ptr);
 	int GetGameObjectNumber();
@@ -138,39 +139,39 @@ public:
 protected:
 	virtual ~Scene();
 private:
-	//©•ª‚Ì‚Â‘SXVEo—ÍƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌUpdate‚ğŒÄ‚Ño‚·(•Û—¯ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‚»‚ê‚ÍÀs‚µ‚È‚¢)
+	//è‡ªåˆ†ã®æŒã¤å…¨æ›´æ–°ãƒ»å‡ºåŠ›ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®Updateã‚’å‘¼ã³å‡ºã™(ä¿ç•™ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãã‚Œã¯å®Ÿè¡Œã—ãªã„)
 	void DeleteUIScreen();
-	//UIScreen‚ÌUpdate‚ğ‰œ‚©‚çŒÄ‚Ño‚·
+	//UIScreenã®Updateã‚’å¥¥ã‹ã‚‰å‘¼ã³å‡ºã™
 	void LaunchUIScreenUpdate();
-	//UIScreen‚ÌOutput‚ğ‰œ‚©‚çŒÄ‚Ño‚·
+	//UIScreenã®Outputã‚’å¥¥ã‹ã‚‰å‘¼ã³å‡ºã™
 	void LaunchOutputUIScreens();
 	GameObject* operator&() const noexcept;
 	friend Game;
 	bool delete_check_;
-	//ƒRƒ“ƒ|[ƒlƒ“ƒgEƒIƒuƒWƒFƒNƒg‚ğ’¼ÚƒŠƒXƒg‚É“ü‚ê‚ç‚ê‚é‚©?
+	//ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãƒ»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç›´æ¥ãƒªã‚¹ãƒˆã«å…¥ã‚Œã‚‰ã‚Œã‚‹ã‹?
 	bool is_objcomp_addable_;
-	//‚Á‚Ä‚¢‚éUIScreenŒQ(“Y‚¦š‚Ì‘å‚«‚¢‚à‚Ì‚ªŒã‚É’Ç‰Á‚³‚ê‚½UIScreen)
+	//æŒã£ã¦ã„ã‚‹UIScreenç¾¤(æ·»ãˆå­—ã®å¤§ãã„ã‚‚ã®ãŒå¾Œã«è¿½åŠ ã•ã‚ŒãŸUIScreen)
 	std::vector<UIScreen*> uiscreens_;
-	//•Û—¯UIScreen
+	//ä¿ç•™UIScreen
 	std::vector<UIScreen*> panding_uiscreens_;
 	const InputSystem* input_system_;
-	//¡tickCComponent‚É“ü—Íî•ñ‚ğ“n‚·‚©”Û‚©
+	//ä»Štickï¼ŒComponentã«å…¥åŠ›æƒ…å ±ã‚’æ¸¡ã™ã‹å¦ã‹
 	bool input_flag_for_comps_;
-	//¡tickCComponent‚ÌUpdate‚ğÀs‚·‚é‚©”Û‚©
+	//ä»Štickï¼ŒComponentã®Updateã‚’å®Ÿè¡Œã™ã‚‹ã‹å¦ã‹
 	bool update_flag_for_comps_;
-	//¡tickC‘Î‰UIScreen‚É“ü—Íî•ñ‚ğ“n‚·‚©”Û‚©
+	//ä»Štickï¼Œå¯¾å¿œUIScreenã«å…¥åŠ›æƒ…å ±ã‚’æ¸¡ã™ã‹å¦ã‹
 	std::vector<bool> input_flag_for_uiscreens_;
-	//¡tickC‘Î‰UIScreen‚ÌUpdate‚ğÀs‚·‚é‚©”Û‚©
+	//ä»Štickï¼Œå¯¾å¿œUIScreenã«å…¥åŠ›æƒ…å ±ã‚’æ¸¡ã™ã‹å¦ã‹
 	std::vector<bool> update_flag_for_uiscreens_;
-	//GetButtonState“™‚Åg‚¤C“ü—Íî•ñ‚ğ“n‚·‚©”Û‚©‚Ìƒtƒ‰ƒO
+	//GetButtonStateç­‰ã§ä½¿ã†ï¼Œå…¥åŠ›æƒ…å ±ã‚’æ¸¡ã™ã‹å¦ã‹ã®ãƒ•ãƒ©ã‚°
 	bool input_flag_;
-	//GetClientMousePos“™‚Åg‚¤C‘Otick‚Å‚Ìƒ}ƒEƒXˆÊ’u
+	//GetClientMousePosç­‰ã§ä½¿ã†ï¼Œå‰tickã§ã®ãƒã‚¦ã‚¹ä½ç½®
 	MatVec::Vector2 prev_mouse_pos_;
-	//Comps‚É‚Æ‚Á‚Ä‚Ì‘Otickƒ}ƒEƒXˆÊ’u(¶ãŒ´“_ƒXƒNƒŠ[ƒ“À•W)
+	//Compsã«ã¨ã£ã¦ã®å‰tickãƒã‚¦ã‚¹ä½ç½®(å·¦ä¸ŠåŸç‚¹ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™)
 	MatVec::Vector2 prev_mouse_pos_for_comps_;
-	//UIScreen‚É‚Æ‚Á‚Ä‚Ì‘Otickƒ}ƒEƒXˆÊ’u(¶ãŒ´“_ƒXƒNƒŠ[ƒ“À•W)
+	//UIScreenã«ã¨ã£ã¦ã®å‰tickãƒã‚¦ã‚¹ä½ç½®(å·¦ä¸ŠåŸç‚¹ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™)
 	std::vector<MatVec::Vector2> prev_mouse_pos_for_uiscreens_;
-	//ƒfƒXƒgƒ‰ƒNƒ^Às‚Ì‚İtrue
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿å®Ÿè¡Œæ™‚ã®ã¿true
 	bool is_executing_destructor_;
 	void ProcessPandingComps();
 	void ProcessPandingUIScreens();

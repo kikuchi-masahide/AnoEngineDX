@@ -49,9 +49,6 @@ using DirectX::XMMATRIX;
 using DirectX::XMFLOAT2;
 using DirectX::XMFLOAT3;
 
-//DBG_NEWを用いるカスタムアロケータ
-//HACK:今はメモリプールなどは特に考えず常にDBG_NEWを使うのでとりあえずこれにしているが、
-//メモリプールなどを使いそうになったら訂正する
 template<class T>
 class DBG_NEW_allocator {
 public:

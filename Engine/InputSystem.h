@@ -7,7 +7,7 @@
 #include "Math/Math.h"
 
 /// <summary>
-/// �e�L�[�E�}�E�X�{�^���̏�Ԃ�\��enum
+/// 各キー・マウスボタンの状態を表すenum
 /// None:off->off
 /// Pressed:off->on
 /// Released:on->off
@@ -21,36 +21,35 @@ enum class ButtonState : char {
 };
 
 /// <summary>
-/// Game�����C���͂��Ǘ�����N���X
+/// Gameが持つ，入力を管理するクラス
 /// </summary>
 class InputSystem : public boost::noncopyable {
 public:
 	/// <summary>
-	/// Game����̂݌Ă΂ꂤ��R���X�g���N�^
+	/// Gameからのみ呼ばれうるコンストラクタ
 	/// </summary>
 	InputSystem();
 	/// <summary>
-	/// �V�[���C�I�u�W�F�N�g����Update���Ăяo�����O�̑O����(Game�݂̂��Ăяo����)
+	/// シーン，オブジェクト等のUpdateが呼び出される前の前処理(Gameのみが呼び出せる)
 	void ProcessBeforeUpdate();
 	/// <summary>
-	/// �w��L�[�̏�Ԃ�ButtonState�^�ŕԂ�
+	/// 指定キーの状態をButtonState型で返す
 	/// </summary>
-	/// <param name="_key">�����L�[�̏ꍇ�Ή������啶���̃L�[�R�[�h('A'�Ȃ�)�C����ȊO�̏ꍇVK_�`�`�̊Y������ϐ�</param>
-	/// <returns></returns>
+	/// <param name="_key">文字キーの場合対応文字大文字のキーコード('A'など)，それ以外の場合VK_～～の該当する変数</param>
 	ButtonState GetKeyState(int key) const;
 	/// <summary>
-	/// �O�t���[�����猻�t���[���ł̃}�E�X�̈ړ����x�N�g���Ŏ擾(���ʒu-�O�ʒu�C�������_)
+	/// 前フレームから現フレームでのマウスの移動をベクトルで取得(現位置-前位置，左下原点)
 	/// </summary>
 	MatVec::Vector2 GetMouseMove() const;
 	/// <summary>
-	/// �}�E�X�̃X�N���[�����W���擾(���㌴�_�͂��̂܂�)
+	/// マウスのスクリーン座標を取得(左上原点はそのまま)
 	/// </summary>
 	MatVec::Vector2 GetMouseScreenPos() const;
 private:
-	//�O�E���t���[���̃L�[�{�[�h�̏�
+	//前・現フレームのキーボードの状況
 	BYTE key_state_[2][256];
-	//�O�E���t���[���̃}�E�X�J�[�\���ʒu(����������̓X�N���[�����W�ł��邱�Ƃɒ���)
+	//前・現フレームのマウスカーソル位置(ただしこれはスクリーン座標であることに注意)
 	MatVec::Vector2 mouse_pos_[2];
-	//key_state_�Cmouse_pos_�ł̌��t���[���󋵂̓Y����
+	//key_state_，mouse_pos_での現フレーム状況の添え字
 	unsigned int cur_index_;
 };

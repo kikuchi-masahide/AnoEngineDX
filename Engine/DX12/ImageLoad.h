@@ -7,16 +7,16 @@
 namespace DX12 {
 	class Buffer;
 	/// <summary>
-	/// ‰æ‘œƒf[ƒ^‚ğ“Ç‚İ‚İAimg‚É•Û‘¶‚·‚é
+	/// ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã¿ã€imgã«ä¿å­˜ã™ã‚‹
 	/// </summary>
 	void LoadImageToScratchImage(LPCWSTR filename, DirectX::ScratchImage& img);
 	/// <summary>
-	/// ‰æ‘œ‚ğ1ŸŒ³‰»‚µû”[‚·‚éÛAˆês“–‚½‚è‚ÌƒTƒCƒY‚ğ‰½ƒoƒCƒg‚ÉƒAƒ‰ƒCƒ“ƒƒ“ƒg‚µ‚ÄBuffer‚ğì¬‚·‚é‚×‚«‚©‚ğ•Ô‚·
+	/// ç”»åƒã‚’1æ¬¡å…ƒåŒ–ã—åç´ã™ã‚‹éš›ã€ä¸€è¡Œå½“ãŸã‚Šã®ã‚µã‚¤ã‚ºã‚’ä½•ãƒã‚¤ãƒˆã«ã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆã—ã¦Bufferã‚’ä½œæˆã™ã‚‹ã¹ãã‹ã‚’è¿”ã™
 	/// </summary>
-	/// <param name="row_pitch">‰æ‘œ‚Ìˆês“–‚½‚è‚Ìƒf[ƒ^ƒTƒCƒY</param>
+	/// <param name="row_pitch">ç”»åƒã®ä¸€è¡Œå½“ãŸã‚Šã®ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º</param>
 	UINT64 GetAlignmentedRowPitch(int row_pitch);
 	/// <summary>
-	///  img‚Ìƒf[ƒ^‚ğˆêŸŒ³‰»‚µbuffer‚Éƒ}ƒbƒv‚·‚é
+	///  imgã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¸€æ¬¡å…ƒåŒ–ã—bufferã«ãƒãƒƒãƒ—ã™ã‚‹
 	/// </summary>
 	void MapImageToBuffer(DirectX::ScratchImage& scratchimg, std::shared_ptr<Buffer> buffer);
 }

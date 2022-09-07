@@ -28,7 +28,7 @@ namespace MatVec
 	bool operator==(const Vector3& v1, const Vector3& v2);
 	bool operator!=(const Vector3& v1, const Vector3& v2);
 	/// <summary>
-	/// “àÏ‚ğ‹‚ß‚é
+	/// å†…ç©ã‚’æ±‚ã‚ã‚‹
 	/// </summary>
 	inline double Dot(Vector3 v1, Vector3 v2)
 	{

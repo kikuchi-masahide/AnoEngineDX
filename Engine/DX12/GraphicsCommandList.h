@@ -14,7 +14,7 @@ namespace DX12 {
 	class Buffer;
 	class Texture2D;
 	/// <summary>
-	/// resource barrier‘JˆÚ‚Ìw’è‚Ég‚¤
+	/// resource barrieré·ç§»ã®æŒ‡å®šã«ä½¿ã†
 	/// </summary>
 	struct ResourceBarrierUnit final{
 	public:
@@ -26,30 +26,30 @@ namespace DX12 {
 		D3D12_RESOURCE_STATES after_;
 	};
 	/// <summary>
-	/// GraphicsCommandList‚ÆCommandAllocator‚ğŠÇ—‚·‚é
-	/// CommandList‚ÆAllocator‚ğ1:1‚Å‘Î‰‚³‚¹‚é
+	/// GraphicsCommandListã¨CommandAllocatorã‚’ç®¡ç†ã™ã‚‹
+	/// CommandListã¨Allocatorã‚’1:1ã§å¯¾å¿œã•ã›ã‚‹
 	/// </summary>
 	class GraphicsCommandList final :public boost::noncopyable {
 	public:
-		//Master‚©‚çŒÄ‚Ño‚·
+		//Masterã‹ã‚‰å‘¼ã³å‡ºã™
 		GraphicsCommandList(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type);
 		void SetDebugName(LPCWSTR debug_name);
 		/// <summary>
-		/// desc_heap_‚Ìindex”Ô–Ú‚ÌRTV‚ğw’èF‚ÅƒNƒŠƒA
+		/// desc_heap_ã®indexç•ªç›®ã®RTVã‚’æŒ‡å®šè‰²ã§ã‚¯ãƒªã‚¢
 		/// </summary>
 		void ClearRenderTargetView(std::shared_ptr<DescriptorHeap> desc_heap, int index, float r, float g, float b);
 		/// <summary>
-		/// desc_heap_‚Ìindex”Ô–Ú‚ÌDSV‚ğw’è’l‚ÅƒNƒŠƒA
+		/// desc_heap_ã®indexç•ªç›®ã®DSVã‚’æŒ‡å®šå€¤ã§ã‚¯ãƒªã‚¢
 		/// </summary>
 		void ClearDepthStencilBufferView(std::shared_ptr<DescriptorHeap> desc_heap, int index, float depth_value);
 		void SetResourceBarrier(ResourceBarrierUnit unit);
 		void SetResourceBarrier(const std::vector<ResourceBarrierUnit>& units);
 		/// <summary>
-		/// Resource‘S‘Ì‚ğƒRƒs[‚·‚é
+		/// Resourceå…¨ä½“ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 		/// </summary>
 		void CopyResource(std::shared_ptr<Resource> dst, std::shared_ptr<Resource> src);
 		/// <summary>
-		/// Buffer‚Ìˆê•”•ª‚ğBuffer‚ÖƒRƒs[‚·‚é
+		/// Bufferã®ä¸€éƒ¨åˆ†ã‚’Bufferã¸ã‚³ãƒ”ãƒ¼ã™ã‚‹
 		/// </summary>
 		void CopyBufferRegion(std::shared_ptr<Resource> dst, UINT64 dst_offset,
 			std::shared_ptr<Resource> src, UINT64 src_offset, UINT64 copy_size);
@@ -57,13 +57,13 @@ namespace DX12 {
 			UINT img_width,UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
 			std::shared_ptr<Texture2D> texture);
 		/// <summary>
-		/// numŒÂ‚ÌRTV‚ğƒZƒbƒg‚·‚éBDSV‚Í‚È‚µB
-		/// RTV‚Ídesc_heap‚Ìindex”Ô–Ú‚©‚ç˜A‘±‚µ‚Ä•À‚ñ‚Å‚¢‚é‚Æ‚·‚éB
+		/// numå€‹ã®RTVã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚DSVã¯ãªã—ã€‚
+		/// RTVã¯desc_heapã®indexç•ªç›®ã‹ã‚‰é€£ç¶šã—ã¦ä¸¦ã‚“ã§ã„ã‚‹ã¨ã™ã‚‹ã€‚
 		/// </summary>
 		void SetRenderTargets(std::shared_ptr<DescriptorHeap> desc_heap, int index, int num);
 		/// <summary>
-		/// numŒÂ‚ÌRTV‚ğƒZƒbƒg‚·‚éBDSV‚Ídsv_desc_heap‚Ìdsv_index”Ô–ÚB
-		/// RTV‚Írtv_desc_heap‚Ìrtv_index”Ô–Ú‚©‚ç˜A‘±‚µ‚Ä•À‚ñ‚Å‚¢‚é‚Æ‚·‚éB
+		/// numå€‹ã®RTVã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€‚DSVã¯dsv_desc_heapã®dsv_indexç•ªç›®ã€‚
+		/// RTVã¯rtv_desc_heapã®rtv_indexç•ªç›®ã‹ã‚‰é€£ç¶šã—ã¦ä¸¦ã‚“ã§ã„ã‚‹ã¨ã™ã‚‹ã€‚
 		/// </summary>
 		void SetRenderTargets(std::shared_ptr<DescriptorHeap> rtv_desc_heap, int rtv_index, int num,
 			std::shared_ptr<DescriptorHeap> dsv_desc_heap, int dsv_index);
@@ -71,59 +71,59 @@ namespace DX12 {
 		void SetIndexBuffer(std::shared_ptr<IndexBuffer> index_buff);
 		void SetRootSignature(std::shared_ptr<RootSignature> root_signature);
 		/// <summary>
-		/// ‚±‚ÌDescriptorHeap‚ğƒZƒbƒg‚·‚é
-		/// (SetGraphicsRootDescriptorTable‚Æ‚Í•Ê‚ÉA—p‚¢‚éDescriptorHeap‚ğƒZƒbƒg‚·‚é•K—v‚ª‚ ‚é)
+		/// ã“ã®DescriptorHeapã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		/// (SetGraphicsRootDescriptorTableã¨ã¯åˆ¥ã«ã€ç”¨ã„ã‚‹DescriptorHeapã‚’ã‚»ãƒƒãƒˆã™ã‚‹å¿…è¦ãŒã‚ã‚‹)
 		/// </summary>
 		void SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap);
 		/// <summary>
-		/// ‚±‚ÌDescriptorHeap(•¡”ŒÂ)‚ğƒZƒbƒg‚·‚é
-		/// (SetGraphicsRootDescriptorTable‚Æ‚Í•Ê‚ÉA—p‚¢‚éDescriptorHeap‚ğƒZƒbƒg‚·‚é•K—v‚ª‚ ‚é)
+		/// ã“ã®DescriptorHeap(è¤‡æ•°å€‹)ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+		/// (SetGraphicsRootDescriptorTableã¨ã¯åˆ¥ã«ã€ç”¨ã„ã‚‹DescriptorHeapã‚’ã‚»ãƒƒãƒˆã™ã‚‹å¿…è¦ãŒã‚ã‚‹)
 		/// </summary>
 		void SetDescriptorHeaps(std::vector<std::shared_ptr<DescriptorHeap>> desc_heaps);
 		/// <summary>
-		/// ‚±‚ÌDescriptorHeap‚ğRootParameter‚É‘Î‰‚³‚¹‚é
+		/// ã“ã®DescriptorHeapã‚’RootParameterã«å¯¾å¿œã•ã›ã‚‹
 		/// </summary>
-		/// <param name="root_param_index">‰½”Ô–Ú‚ÌRootParameter‚©</param>
-		/// <param name="base_desc_heap_index">desc_heap‚Ì‰½”Ô–Ú‚ÌDescriptor‚©‚ç‚ğƒZƒbƒg‚·‚é‚©</param>
+		/// <param name="root_param_index">ä½•ç•ªç›®ã®RootParameterã‹</param>
+		/// <param name="base_desc_heap_index">desc_heapã®ä½•ç•ªç›®ã®Descriptorã‹ã‚‰ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã‹</param>
 		void SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap,
 			int base_desc_heap_index = 0);
 		/// <summary>
-		/// ‚±‚ÌConstBuffer‚ğRootParameter‚É‘Î‰‚³‚¹‚é
+		/// ã“ã®ConstBufferã‚’RootParameterã«å¯¾å¿œã•ã›ã‚‹
 		/// </summary>
-		/// <param name="root_param_index">RootSignature‚Ì‰½”Ô–Ú‚ÌRootParameter‚©</param>
+		/// <param name="root_param_index">RootSignatureã®ä½•ç•ªç›®ã®RootParameterã‹</param>
 		void SetGraphicsRootCBV(int root_param_index, std::shared_ptr<Buffer> const_buffer);
 		/// <summary>
-		/// src‚©‚çn‚Ü‚éƒf[ƒ^‚ğRootSignature‚Ìroot_param_index”Ô–Ú‚ÌRootSignature‚ÉƒZƒbƒg‚·‚é
+		/// srcã‹ã‚‰å§‹ã¾ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’RootSignatureã®root_param_indexç•ªç›®ã®RootSignatureã«ã‚»ãƒƒãƒˆã™ã‚‹
 		/// </summary>
 		void SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset = 0);
 		void SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline);
 		/// <summary>
-		/// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚¤‚¿A‚Ç‚Ì’·•ûŒ`•”•ª‚É‹‘ä‚ğ•`‰æ‚·‚é‚©w’è‚·‚é
+		/// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ã†ã¡ã€ã©ã®é•·æ–¹å½¢éƒ¨åˆ†ã«è¦–éŒå°ã‚’æç”»ã™ã‚‹ã‹æŒ‡å®šã™ã‚‹
 		/// </summary>
-		/// <param name="top_left_x">ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚Ì¶xÀ•W</param>
-		/// <param name="top_left_y">ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚ÌãyÀ•W</param>
-		/// <param name="width">px’PˆÊ‚Å‚Ì•</param>
-		/// <param name="height">px’PˆÊ‚Å‚Ì‚‚³</param>
-		/// <param name="min_depth">‹ßÚ•½–Ê‚ÌzÀ•W</param>
-		/// <param name="max_depth">‰“•½–Ê‚ÌzÀ•W</param>
+		/// <param name="top_left_x">ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®å·¦xåº§æ¨™</param>
+		/// <param name="top_left_y">ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆå·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®ä¸Šyåº§æ¨™</param>
+		/// <param name="width">pxå˜ä½ã§ã®å¹…</param>
+		/// <param name="height">pxå˜ä½ã§ã®é«˜ã•</param>
+		/// <param name="min_depth">è¿‘æ¥å¹³é¢ã®zåº§æ¨™</param>
+		/// <param name="max_depth">é å¹³é¢ã®zåº§æ¨™</param>
 		void SetViewports(float top_left_x, float top_left_y, float width, float height, float min_depth, float max_depth);
 		/// <summary>
-		/// ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒg‚Ì‚¤‚¿A‚Ç‚Ì’·•ûŒ`•”•ª‚ğƒVƒU[ƒŒƒNƒg‚É‚·‚é‚©w’è‚·‚é
-		/// ƒVƒU[ƒŒƒNƒgŠO‚ÌƒsƒNƒZƒ‹‚ÍÌ‚Ä‚ç‚ê‚é
+		/// ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ã†ã¡ã€ã©ã®é•·æ–¹å½¢éƒ¨åˆ†ã‚’ã‚·ã‚¶ãƒ¼ãƒ¬ã‚¯ãƒˆã«ã™ã‚‹ã‹æŒ‡å®šã™ã‚‹
+		/// ã‚·ã‚¶ãƒ¼ãƒ¬ã‚¯ãƒˆå¤–ã®ãƒ”ã‚¯ã‚»ãƒ«ã¯æ¨ã¦ã‚‰ã‚Œã‚‹
 		/// </summary>
-		/// <param name="top_left_x">¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚Ì¶xÀ•W</param>
-		/// <param name="top_left_y">¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚ÌãyÀ•W</param>
-		/// <param name="bottom_right_x">¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚Ì‰ExÀ•W</param>
-		/// <param name="bottom_right_y">¶ã‚ğ(0,0)‚Æ‚µ‚½‚Æ‚«‚ÌApx’PˆÊ‚Å‚Ì‰ºyÀ•W</param>
+		/// <param name="top_left_x">å·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®å·¦xåº§æ¨™</param>
+		/// <param name="top_left_y">å·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®ä¸Šyåº§æ¨™</param>
+		/// <param name="bottom_right_x">å·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®å³xåº§æ¨™</param>
+		/// <param name="bottom_right_y">å·¦ä¸Šã‚’(0,0)ã¨ã—ãŸã¨ãã®ã€pxå˜ä½ã§ã®ä¸‹yåº§æ¨™</param>
 		void SetScissorRect(LONG top_left_x, LONG top_left_y, LONG bottom_right_x, LONG bottom_right_y);
-		/// <param name="vertex_num">•`‰æ‚·‚é’¸“_”</param>
-		/// <param name="start_vertex_loc">‚Ç‚Ì’¸“_‚©‚ç•`‰æ‚·‚é‚©</param>
+		/// <param name="vertex_num">æç”»ã™ã‚‹é ‚ç‚¹æ•°</param>
+		/// <param name="start_vertex_loc">ã©ã®é ‚ç‚¹ã‹ã‚‰æç”»ã™ã‚‹ã‹</param>
 		void DrawInstanced(int vertex_num, int start_vertex_loc = 0);
-		/// <param name="index_num">•`‰æ‚·‚éƒCƒ“ƒfƒbƒNƒX‚Ì”</param>
-		/// <param name="start_index_loc">‚Ç‚ÌƒCƒ“ƒfƒbƒNƒX‚©‚ç•`‰æ‚·‚é‚©</param>
+		/// <param name="index_num">æç”»ã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®æ•°</param>
+		/// <param name="start_index_loc">ã©ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‹ã‚‰æç”»ã™ã‚‹ã‹</param>
 		void DrawIndexedInstanced(int index_num, int start_index_loc = 0);
 		/// <summary>
-		/// CommandList‚ğƒNƒ[ƒY‚·‚é(record‚ğ~‚ß‚é) execute‚Ì‘O‚ÉÀs‚·‚é
+		/// CommandListã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã™ã‚‹(recordã‚’æ­¢ã‚ã‚‹) executeã®å‰ã«å®Ÿè¡Œã™ã‚‹
 		/// </summary>
 		void Close();
 		void ResetCommandList();

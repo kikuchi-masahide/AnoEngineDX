@@ -14,46 +14,46 @@ namespace DX12 {
 }
 
 /// <summary>
-/// 1‚Â‚ÌƒEƒBƒ“ƒhƒE‚ğ•\‚·ƒNƒ‰ƒX(ƒRƒs[•s‰Â)
+/// 1ã¤ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ã™ã‚¯ãƒ©ã‚¹(ã‚³ãƒ”ãƒ¼ä¸å¯)
 /// </summary>
 class Window : public boost::noncopyable {
 public:
 	/// <summary>
-	/// ƒEƒBƒ“ƒhƒE‚Ìì¬‚ğ“¯‚És‚¤ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½œæˆã‚’åŒæ™‚ã«è¡Œã†ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
-	/// <param name="_wndproc">ƒEƒBƒ“ƒhƒEƒvƒƒVƒƒ\ƒWƒƒ</param>
-	/// <param name="_classID">ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ•\‚·ID</param>
-	/// <param name="_width">•</param>
-	/// <param name="_height">‚‚³</param>
-	/// <param name="_windowTitle">ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹</param>
+	/// <param name="_wndproc">ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ£â€•ã‚¸ãƒ£</param>
+	/// <param name="_classID">ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’è¡¨ã™ID</param>
+	/// <param name="_width">å¹…</param>
+	/// <param name="_height">é«˜ã•</param>
+	/// <param name="_windowTitle">ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«</param>
 	Window(WNDPROC wndproc, LPCWSTR classid, int width, int height, LPCWSTR window_title);
 	~Window();
 	/// <summary>
-	/// —^‚¦‚ç‚ê‚½command queue‚ğ—p‚¢‚Äswapchain‚ğì¬‚·‚é
+	/// ä¸ãˆã‚‰ã‚ŒãŸcommand queueã‚’ç”¨ã„ã¦swapchainã‚’ä½œæˆã™ã‚‹
 	/// </summary>
 	void CreateSwapChain(DX12::Master& dx12, std::shared_ptr<DX12::CommandQueue> cmd_queue);
 	/// <summary>
-	/// ‚±‚Ìswapchain‚ğrender target‚É‚·‚éƒRƒ}ƒ“ƒh‚ğAcmd_list‚ÉƒZƒbƒg‚·‚éB
+	/// ã“ã®swapchainã‚’render targetã«ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‚’ã€cmd_listã«ã‚»ãƒƒãƒˆã™ã‚‹ã€‚
 	/// </summary>
 	void SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list) const;
 	/// <summary>
-	/// ‚±‚Ìswapchain‚ğrender target‚É‚·‚éƒRƒ}ƒ“ƒh‚ğAdepth stencil buffer‚ğw’è‚µ‚Äcmd_list‚ÉƒZƒbƒg‚·‚é
+	/// ã“ã®swapchainã‚’render targetã«ã™ã‚‹ã‚³ãƒãƒ³ãƒ‰ã‚’ã€depth stencil bufferã‚’æŒ‡å®šã—ã¦cmd_listã«ã‚»ãƒƒãƒˆã™ã‚‹
 	/// </summary>
-	/// <param name="dsv_heap">depth buffer view‚Ì‚ ‚édescriptor heap</param>
-	/// <param name="dsv_index">dsv_heap‚Ì‰½”Ô–Ú‚Éview‚ª‚ ‚é‚©</param>
+	/// <param name="dsv_heap">depth buffer viewã®ã‚ã‚‹descriptor heap</param>
+	/// <param name="dsv_index">dsv_heapã®ä½•ç•ªç›®ã«viewãŒã‚ã‚‹ã‹</param>
 	void SetRenderTarget(std::shared_ptr<DX12::GraphicsCommandList> cmd_list,
 		std::shared_ptr<DX12::DescriptorHeap> dsv_heap, int dsv_index) const;
 	/// <summary>
-	/// ‚±‚Ìswapchain‚Ìbackbuffer‚Ìstate‚ğAbefore‚©‚çafter‚Ö•ÏX‚·‚é
+	/// ã“ã®swapchainã®backbufferã®stateã‚’ã€beforeã‹ã‚‰afterã¸å¤‰æ›´ã™ã‚‹
 	/// </summary>
 	void SetBackbufferStateBarrier(std::shared_ptr<DX12::GraphicsCommandList> cmd_list,
 		D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after) const;
 	/// <summary>
-	/// ‚±‚Ìswapchain‚Ìbackbuffer‚ğAw’èF‚ÅƒNƒŠƒA‚·‚é
+	/// ã“ã®swapchainã®backbufferã‚’ã€æŒ‡å®šè‰²ã§ã‚¯ãƒªã‚¢ã™ã‚‹
 	/// </summary>
 	void ClearBackbuffer(std::shared_ptr<DX12::GraphicsCommandList> cmd_list, float r, float g, float b) const;
 	/// <summary>
-	/// ‚±‚Ìwindow‚Ìswapchain‚ğflip‚·‚é
+	/// ã“ã®windowã®swapchainã‚’flipã™ã‚‹
 	/// </summary>
 	void Flip() const;
 	HWND GetWindowHandle() const;
@@ -63,6 +63,6 @@ private:
 	void Create(WNDPROC wndproc, LPCWSTR classid, int width, int height, LPCWSTR window_title);
 	WNDCLASSEX window_class_;
 	HWND hwnd_;
-	//ƒEƒBƒ“ƒhƒE‚É•t‘®‚·‚éswapchain(g‚í‚È‚¢‚È‚ç‚Înullptr)
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ä»˜å±ã™ã‚‹swapchain(ä½¿ã‚ãªã„ãªã‚‰ã°nullptr)
 	std::shared_ptr<DX12::SwapChain> swapchain_;
 };

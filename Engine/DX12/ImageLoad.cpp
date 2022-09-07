@@ -26,8 +26,8 @@ void DX12::MapImageToBuffer(DirectX::ScratchImage& scratchimg, std::shared_ptr<B
 	auto img = scratchimg.GetImage(0, 0, 0);
 	auto srcaddress = img->pixels;
 	auto dstrowpitch = GetAlignmentedRowPitch(img->rowPitch);
-	//buffer‚ÌƒTƒCƒY‚ÌŠm”F
-	//HACK:—áŠO”ò‚Î‚·Œ`‚É‚·‚é‚©?
+	//bufferã®ã‚µã‚¤ã‚ºã®ç¢ºèª
+	//HACK:ä¾‹å¤–é£›ã°ã™å½¢ã«ã™ã‚‹ã‹?
 	assert(buffer->size_ >= dstrowpitch * img->height);
 	for (int y = 0; y < img->height; y++) {
 		std::copy_n(srcaddress, img->rowPitch, mapforimg);

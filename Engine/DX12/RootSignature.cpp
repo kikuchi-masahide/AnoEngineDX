@@ -16,8 +16,8 @@ void DX12::RootSignature::Serialize(ComPtr<ID3D12Device> device)
 {
 	assert(!serialized_);
 	serialized_ = true;
-	//HACK:‚ ‚Æ‚©‚çƒ‹[ƒgƒpƒ‰ƒƒ^‚âƒTƒ“ƒvƒ‰[‚ð’Ç‰Á‚·‚é
-	//RootParameter‚ÌÝ’è
+	//HACK:ã‚ã¨ã‹ã‚‰ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ã‚¿ã‚„ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
+	//RootParameterã®è¨­å®š
 	D3D12_ROOT_PARAMETER* params = nullptr;
 	if (root_params_.size() > 0) {
 		params = DBG_NEW D3D12_ROOT_PARAMETER[root_params_.size()];

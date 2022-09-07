@@ -27,21 +27,21 @@ namespace MatVec
 	bool operator==(const Vector2& v1, const Vector2& v2);
 	bool operator!=(const Vector2& v1, const Vector2& v2);
 	/// <summary>
-	/// “àÏ‚ğ‹‚ß‚é
+	/// å†…ç©ã‚’æ±‚ã‚ã‚‹
 	/// </summary>
 	inline double Dot(Vector2 v1, Vector2 v2)
 	{
 		return (v1.v[0] * v2.v[0] + v1.v[1] * v2.v[1]);
 	}
 	/// <summary>
-	/// ŠOÏ‚ğ‹‚ß‚é
+	/// å¤–ç©ã‚’æ±‚ã‚ã‚‹
 	/// </summary>
 	inline double Cross(Vector2 v1, Vector2 v2)
 	{
 		return v1(0) * v2(1) - v1(1) * v2(0);
 	}
 	/// <summary>
-	/// x²‚Æ‚È‚·Šp‚ªangle‚Å‚ ‚éC’·‚³1‚ÌVector2‚ğ•Ô‚·
+	/// xè»¸ã¨ãªã™è§’ãŒangleã§ã‚ã‚‹ï¼Œé•·ã•1ã®Vector2ã‚’è¿”ã™
 	/// </summary>
 	inline Vector2 DirectionVector(double angle)
 	{

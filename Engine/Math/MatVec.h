@@ -11,52 +11,52 @@ namespace MatVec
 	Vector4 operator*(const Matrix4x4& m, const Vector4& v);
 
 	/// <summary>
-	/// (x,y,z)‚ğ(x,y,z,1)‚ÉŠg’£
+	/// (x,y,z)ã‚’(x,y,z,1)ã«æ‹¡å¼µ
 	/// </summary>
 	Vector4 XYZ1(Vector3 _vec3);
 	/// <summary>
-	/// (x,y,z)‚ğ(x,y,z,0)‚ÉŠg’£
+	/// (x,y,z)ã‚’(x,y,z,0)ã«æ‹¡å¼µ
 	/// </summary>
 	Vector4 XYZ0(Vector3 _vec3);
 	/// <summary>
-	/// (x,y,z,w)‚ğ(x,y,z)‚É•ÏŠ·
-	/// (w=0‚È‚ç‚»‚Ì‚Ü‚ÜCw\neq 0‚È‚ç‚Î/w)
+	/// (x,y,z,w)ã‚’(x,y,z)ã«å¤‰æ›
+	/// (w=0ãªã‚‰ãã®ã¾ã¾ï¼Œw\neq 0ãªã‚‰ã°/w)
 	/// </summary>
 	Vector3 XYZ(Vector4 _vec4);
 	/// <summary>
-	/// (x,y)‚ğ(x,y,0)‚É•ÏŠ·
+	/// (x,y)ã‚’(x,y,0)ã«å¤‰æ›
 	/// </summary>
 	Vector3 XY0(Vector2 _vec2);
 	/// <summary>
-	/// (_x,_y,_z)‚¾‚¯•½sˆÚ“®s—ñ
+	/// (_x,_y,_z)ã ã‘å¹³è¡Œç§»å‹•è¡Œåˆ—
 	/// </summary>
 	Matrix4x4 Translation(double _x, double _y,double _z);
 	/// <summary>
-	/// _vec‚¾‚¯•½sˆÚ“®‚·‚és—ñ
+	/// _vecã ã‘å¹³è¡Œç§»å‹•ã™ã‚‹è¡Œåˆ—
 	/// </summary>
 	Matrix4x4 Translation(Vector3 _vec);
 	/// <summary>
-	/// xÀ•W‚ğ_xCyÀ•W‚ğ_yCzÀ•W‚ğ_z”{‚ÉŠg‘å‚·‚és—ñ
+	/// xåº§æ¨™ã‚’_xï¼Œyåº§æ¨™ã‚’_yï¼Œzåº§æ¨™ã‚’_zå€ã«æ‹¡å¤§ã™ã‚‹è¡Œåˆ—
 	/// </summary>
 	Matrix4x4 Expand(double _x, double _y, double _z);
 	/// <summary>
-	/// xÀ•W‚ğ_vec[0]CyÀ•W‚ğ_vec[1]CzÀ•W‚ğ_vec[2]”{‚ÉŠg‘å‚·‚és—ñ
+	/// xåº§æ¨™ã‚’_vec[0]ï¼Œyåº§æ¨™ã‚’_vec[1]ï¼Œzåº§æ¨™ã‚’_vec[2]å€ã«æ‹¡å¤§ã™ã‚‹è¡Œåˆ—
 	/// </summary>
 	Matrix4x4 Expand(Vector3 _vec);
 	/// <summary>
-	/// quaternion‚Í4ŸŒ³ƒxƒNƒgƒ‹‚ğ—¬—p
+	/// quaternionã¯4æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã‚’æµç”¨
 	/// </summary>
 	using Quaternion = Vector4;
 	/// <summary>
-	/// ‰ñ“]²‚ÆŠp“x‚ğw’è‚µ‚Äquaternion‚ğæ“¾
+	/// å›è»¢è»¸ã¨è§’åº¦ã‚’æŒ‡å®šã—ã¦quaternionã‚’å–å¾—
 	/// </summary>
 	Quaternion GetQuaternion(Vector3 _axis, double _theta);
 	/// <summary>
-	/// quaternion‚ğ‰ñ“]s—ñ‚É•ÏŠ·
+	/// quaternionã‚’å›è»¢è¡Œåˆ—ã«å¤‰æ›
 	/// </summary>
 	Matrix4x4 Rotate(Quaternion _q);
 	/// <summary>
-	/// _q1‚Æ_q2‚ğt:(1-t)‚Å•âŠ®
+	/// _q1ã¨_q2ã‚’t:(1-t)ã§è£œå®Œ
 	/// </summary>
 	Quaternion Slerp(Quaternion _q1, Quaternion _q2, double t);
 	XMMATRIX ConvertToXMMATRIX(Matrix4x4 mat);

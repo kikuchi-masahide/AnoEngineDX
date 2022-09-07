@@ -10,7 +10,6 @@ namespace DX12 {
 	public:
 		RootSignature(int root_param_num);
 		void Serialize(ComPtr<ID3D12Device> device);
-		//DescriptorTableƒ^ƒCƒv‚ÌRootParameter‚ð’Ç‰Á‚·‚é
 		void AddRootParameterAsDescriptorTable(std::vector<DescriptorRange>& ranges,
 			D3D12_SHADER_VISIBILITY vis);
 		void AddRootParameterAsCBV(UINT shader_register, D3D12_SHADER_VISIBILITY vis);
