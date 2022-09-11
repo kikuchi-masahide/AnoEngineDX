@@ -5,6 +5,7 @@
 #pragma once
 #include "DX12/Master.h"
 #include "InputSystem.h"
+#include "FontMaster.h"
 
 class Scene;
 class Window;
@@ -54,6 +55,7 @@ public:
 	/// </summary>
 	void Terminate();
 	DX12::Master dx12_;
+	FontMaster fontmaster_;
 protected:
 	/// <summary>
 	/// UpdateGame内で、Sceneの1回のUpdateを行う前の処理を行う

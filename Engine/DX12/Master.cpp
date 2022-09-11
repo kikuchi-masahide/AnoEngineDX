@@ -13,6 +13,7 @@
 #include "ConstBuffer.h"
 #include "Buffer.h"
 #include "Texture2D.h"
+#include "Texture1D.h"
 #include "DepthStencilBuffer.h"
 #include "DescriptorHeap.h"
 #include "RootSignature.h"
@@ -88,6 +89,12 @@ std::shared_ptr<DX12::Texture2D> DX12::Master::CreateTexture2D(UINT64 width, UIN
 		texture_layout, state);
 }
 
+std::shared_ptr<DX12::Texture1D> DX12::Master::CreateTexture1D(UINT64 width, DXGI_FORMAT dxgi_format,
+	D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout, D3D12_RESOURCE_STATES state)
+{
+	return std::make_shared<Texture1D>(device_, width, dxgi_format, heap_type, texture_layout, state);
+}
+
 std::shared_ptr<DX12::DepthStencilBuffer> DX12::Master::CreateDepthStencilBuffer(UINT64 width, UINT height,
 	D3D12_HEAP_TYPE heap_type)
 {
@@ -110,6 +117,23 @@ void DX12::Master::CreateTexture2DView(std::shared_ptr<Texture2D> shader_resourc
 	std::shared_ptr<DescriptorHeap> desc_heap, int index)
 {
 	desc_heap->CreateTexture2DView(device_, shader_resource, index);
+}
+
+void DX12::Master::CreateTexture1DView(std::shared_ptr<Texture1D> shader_resource, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+{
+	desc_heap->CreateTexture1DView(device_, shader_resource, index);
+}
+
+void DX12::Master::CreateBufferView(std::shared_ptr<Buffer> shader_resource,
+	DXGI_FORMAT dxgi_format, int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+{
+	desc_heap->CreateBufferView(device_, shader_resource, dxgi_format, num_element, index);
+}
+
+void DX12::Master::CreateBufferView(std::shared_ptr<Buffer> shader_resource,
+	size_t structure_byte_stride, int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+{
+	desc_heap->CreateBufferView(device_, shader_resource, structure_byte_stride, num_element, index);
 }
 
 void DX12::Master::CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuffer> dsbuffer, std::shared_ptr<DescriptorHeap> desc_heap, int index)
@@ -176,9 +200,11 @@ void DX12::Master::InitDevice()
 void DX12::Master::InitFactory()
 {
 #ifdef _DEBUG
-	if (FAILED(CreateDXGIFactory2(
-		DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(factory_.ReleaseAndGetAddressOf())
-	))) {
+	//auto handle = CreateDXGIFactory2(
+	//	DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(factory_.ReleaseAndGetAddressOf())
+	//);
+	auto handle = CreateDXGIFactory1(IID_PPV_ARGS(factory_.ReleaseAndGetAddressOf()));
+	if (FAILED(handle)) {
 		Log::OutputCritical("Initialization of IDXGIFactory2 failed");
 		throw 0;
 	}

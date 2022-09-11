@@ -13,6 +13,7 @@ namespace DX12 {
 	class GraphicsPipeline;
 	class Buffer;
 	class Texture2D;
+	class Texture1D;
 	/// <summary>
 	/// resource barrier遷移の指定に使う
 	/// </summary>
@@ -56,6 +57,9 @@ namespace DX12 {
 		void CopyBufferToTexture2D(std::shared_ptr<Buffer> buffer,
 			UINT img_width,UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
 			std::shared_ptr<Texture2D> texture);
+		void CopyBufferToTexture1D(std::shared_ptr<Buffer> buffer,
+			UINT img_width, DXGI_FORMAT img_format, UINT img_rowpitch,
+			std::shared_ptr<Texture1D> texture);
 		/// <summary>
 		/// num個のRTVをセットする。DSVはなし。
 		/// RTVはdesc_heapのindex番目から連続して並んでいるとする。
@@ -121,7 +125,8 @@ namespace DX12 {
 		void DrawInstanced(int vertex_num, int start_vertex_loc = 0);
 		/// <param name="index_num">描画するインデックスの数</param>
 		/// <param name="start_index_loc">どのインデックスから描画するか</param>
-		void DrawIndexedInstanced(int index_num, int start_index_loc = 0);
+		void DrawIndexedInstanced(unsigned int index_count_per_instance, unsigned int instance_count,
+			unsigned int start_index_location, int base_vertex_location, unsigned int start_instance_location);
 		/// <summary>
 		/// CommandListをクローズする(recordを止める) executeの前に実行する
 		/// </summary>

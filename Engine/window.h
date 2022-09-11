@@ -4,9 +4,9 @@
 //================================================================================
 #pragma once
 #include <Windows.h>
+#include "DX12/Master.h"
 
 namespace DX12 {
-	class Master;
 	class SwapChain;
 	class CommandQueue;
 	class GraphicsCommandList;

@@ -6,6 +6,8 @@
 
 namespace DX12 {
 	class Texture2D;
+	class Texture1D;
+	class Buffer;
 	class ConstBuffer;
 	class DepthStencilBuffer;
 	class DescriptorHeap final:public boost::noncopyable {
@@ -27,6 +29,12 @@ namespace DX12 {
 			std::shared_ptr<ConstBuffer> buffer, int index);
 		void CreateTexture2DView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<Texture2D> shader_resource, int index);
+		void CreateTexture1DView(ComPtr<ID3D12Device> device,
+			std::shared_ptr<Texture1D> shader_resource, int index);
+		void CreateBufferView(ComPtr<ID3D12Device> device,
+			std::shared_ptr<Buffer> shader_resource, DXGI_FORMAT dxgi_format, int num_element, int index);
+		void CreateBufferView(ComPtr<ID3D12Device> device, std::shared_ptr<Buffer> shader_resource,
+			size_t structure_byte_stride, int num_element, int index);
 		void CreateDepthStencilBufferView(ComPtr<ID3D12Device> device,
 			std::shared_ptr<DepthStencilBuffer> buffer, int index);
 		void CreateSampler(ComPtr<ID3D12Device> device, int index,

@@ -134,6 +134,12 @@
     <ClCompile Include="test\Game1.cpp">
       <Filter>test</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\FontMaster.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DX12\Texture1D.cpp">
+      <Filter>Engine\DX12</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -268,6 +274,12 @@
     </ClInclude>
     <ClInclude Include="test\Game1.h">
       <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\FontMaster.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DX12\Texture1D.h">
+      <Filter>Engine\DX12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

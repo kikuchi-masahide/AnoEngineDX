@@ -16,6 +16,7 @@ Game::Game()
 	Log::Init();
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
+	fontmaster_.Init(&dx12_);
 	current_swapchain_id_ = -1;
 	Scene::InitMemory();
 }

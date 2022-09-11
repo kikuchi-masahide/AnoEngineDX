@@ -11,10 +11,10 @@ DX12::ShaderObject::ShaderObject(LPCWSTR filename, ShaderType type)
 	LPCSTR shader_type = "";
 	switch (type) {
 	case ShaderType::VertexShader:
-		shader_type = "vs_5_0";
+		shader_type = "vs_5_1";
 		break;
 	case ShaderType::PixelShader:
-		shader_type = "ps_5_0";
+		shader_type = "ps_5_1";
 		break;
 	}
 	ComPtr<ID3DBlob> errorBlob;

@@ -21,6 +21,7 @@ namespace DX12 {
 	class IndexBuffer;
 	class ConstBuffer;
 	class Texture2D;
+	class Texture1D;
 	class DepthStencilBuffer;
 	class Buffer;
 	class ShaderObject;
@@ -68,6 +69,8 @@ namespace DX12 {
 		std::shared_ptr<Texture2D> CreateTexture2D(UINT64 width, UINT height,
 			DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,
 			D3D12_RESOURCE_STATES state);
+		std::shared_ptr<Texture1D> CreateTexture1D(UINT64 width, DXGI_FORMAT dxgi_format,
+			D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout, D3D12_RESOURCE_STATES state);
 		std::shared_ptr<DepthStencilBuffer> CreateDepthStencilBuffer(UINT64 width, UINT height,
 			D3D12_HEAP_TYPE heap_type = D3D12_HEAP_TYPE_DEFAULT);
 		std::shared_ptr<DescriptorHeap> CreateDescriptorHeap(int capacity, D3D12_DESCRIPTOR_HEAP_TYPE type,
@@ -82,6 +85,25 @@ namespace DX12 {
 		/// </summary>
 		void CreateTexture2DView(std::shared_ptr<Texture2D> shader_resource,
 			std::shared_ptr<DescriptorHeap> desc_heap, int index);
+		/// <summary>
+		/// desc_heapのindex番目に、shader_resourceに対するSRVを作成
+		/// </summary>
+		void CreateTexture1DView(std::shared_ptr<Texture1D> shader_resource,
+			std::shared_ptr<DescriptorHeap> desc_heap, int index);
+		/// <summary>
+		/// desc_heapのindex番目に、Bufferであるshader_resourceに対するSRVを作成
+		/// </summary>
+		/// <param name="dxgi_format">このBufferに含まれる構造体をDXGI_FORMATで指定する</param>
+		/// <param name="num_element">このBufferに含まれる構造体の数</param>
+		void CreateBufferView(std::shared_ptr<Buffer> shader_resource,
+			DXGI_FORMAT dxgi_format, int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index);
+		/// <summary>
+		/// desc_heapのindex番目に、shader_resourceに対するSRVを作成
+		/// </summary>
+		/// <param name="dxgi_format">このStructuredBufferに含まれる構造体1つ当たりのサイズ</param>
+		/// <param name="num_element">このStructuredBufferに含まれる構造体の数</param>
+		void CreateBufferView(std::shared_ptr<Buffer> shader_resource, size_t structure_byte_stride,
+			int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index);
 		/// <summary>
 		/// desc_heapのindex番目に、dsbufferに対するDSVを作成
 		/// </summary>

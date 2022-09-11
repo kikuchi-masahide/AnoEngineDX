@@ -5,6 +5,7 @@
 #include "DescriptorHeap.h"
 
 #include "Texture2D.h"
+#include "Texture1D.h"
 #include "ConstBuffer.h"
 #include "DepthStencilBuffer.h"
 
@@ -59,6 +60,51 @@ void DX12::DescriptorHeap::CreateTexture2DView(ComPtr<ID3D12Device> device,
 	srvdesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvdesc.Format = static_cast<DXGI_FORMAT>(shader_resource->dxgi_format_);
 	srvdesc.Texture2D.MipLevels = 1;
+	srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	device->CreateShaderResourceView(shader_resource->GetRawPtr(), &srvdesc, handle);
+}
+
+void DX12::DescriptorHeap::CreateTexture1DView(ComPtr<ID3D12Device> device,
+	std::shared_ptr<Texture1D> shader_resource, int index)
+{
+	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	auto handle = GetCPUDescriptorHandle(index);
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc = {};
+	srvdesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE1D;
+	srvdesc.Format = shader_resource->dxgi_format_;
+	srvdesc.Texture1D.MipLevels = 1;
+	srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	device->CreateShaderResourceView(shader_resource->GetRawPtr(), &srvdesc, handle);
+}
+
+void DX12::DescriptorHeap::CreateBufferView(ComPtr<ID3D12Device> device,
+	std::shared_ptr<Buffer> shader_resource, DXGI_FORMAT dxgi_format, int num_element, int index)
+{
+	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	auto handle = GetCPUDescriptorHandle(index);
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc = {};
+	srvdesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvdesc.Format = dxgi_format;
+	srvdesc.Buffer.FirstElement = 0;
+	srvdesc.Buffer.NumElements = num_element;
+	srvdesc.Buffer.StructureByteStride = 0;
+	srvdesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	device->CreateShaderResourceView(shader_resource->GetRawPtr(), &srvdesc, handle);
+}
+
+void DX12::DescriptorHeap::CreateBufferView(ComPtr<ID3D12Device> device,
+	std::shared_ptr<Buffer> shader_resource, size_t structure_byte_stride, int num_element, int index)
+{
+	assert(heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	auto handle = GetCPUDescriptorHandle(index);
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc = {};
+	srvdesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	srvdesc.Format = DXGI_FORMAT_UNKNOWN;
+	srvdesc.Buffer.FirstElement = 0;
+	srvdesc.Buffer.NumElements = num_element;
+	srvdesc.Buffer.StructureByteStride = structure_byte_stride;
+	srvdesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	device->CreateShaderResourceView(shader_resource->GetRawPtr(), &srvdesc, handle);
 }

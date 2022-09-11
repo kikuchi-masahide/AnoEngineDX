@@ -13,6 +13,7 @@
 #include "GraphicsPipeline.h"
 #include "ImageLoad.h"
 #include "Texture2D.h"
+#include "Texture1D.h"
 #include "Log.h"
 
 DX12::GraphicsCommandList::GraphicsCommandList(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type)
@@ -99,6 +100,21 @@ void DX12::GraphicsCommandList::CopyBufferToTexture2D(std::shared_ptr<Buffer> bu
 	srcfootprint.Footprint.Format = img_format;
 	srcfootprint.Footprint.Width = img_width;
 	srcfootprint.Footprint.Height = img_height;
+	srcfootprint.Footprint.Depth = 1;
+	srcfootprint.Footprint.RowPitch = GetAlignmentedRowPitch(img_rowpitch);
+	CD3DX12_TEXTURE_COPY_LOCATION src(buffer->GetRawPtr(), srcfootprint);
+	CD3DX12_TEXTURE_COPY_LOCATION dst(texture->GetRawPtr(), 0);
+	cmd_list_->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+}
+
+void DX12::GraphicsCommandList::CopyBufferToTexture1D(std::shared_ptr<Buffer> buffer, UINT img_width,
+	DXGI_FORMAT img_format, UINT img_rowpitch, std::shared_ptr<Texture1D> texture)
+{
+	D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcfootprint;
+	srcfootprint.Offset = 0;
+	srcfootprint.Footprint.Format = img_format;
+	srcfootprint.Footprint.Width = img_width;
+	srcfootprint.Footprint.Height = 1;
 	srcfootprint.Footprint.Depth = 1;
 	srcfootprint.Footprint.RowPitch = GetAlignmentedRowPitch(img_rowpitch);
 	CD3DX12_TEXTURE_COPY_LOCATION src(buffer->GetRawPtr(), srcfootprint);
@@ -205,9 +221,10 @@ void DX12::GraphicsCommandList::DrawInstanced(int vertex_num, int start_vertex_l
 	cmd_list_->DrawInstanced(vertex_num, 1, start_vertex_loc, 0);
 }
 
-void DX12::GraphicsCommandList::DrawIndexedInstanced(int index_num, int start_index_loc)
+void DX12::GraphicsCommandList::DrawIndexedInstanced(unsigned int index_count_per_instance, unsigned int instance_count, unsigned int start_index_location, int base_vertex_location, unsigned int start_instance_location)
 {
-	cmd_list_->DrawIndexedInstanced(index_num, 1, start_index_loc, 0, 0);
+	cmd_list_->DrawIndexedInstanced(index_count_per_instance, instance_count, start_index_location,
+		base_vertex_location, start_instance_location);
 }
 
 void DX12::GraphicsCommandList::Close()
