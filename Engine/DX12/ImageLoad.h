@@ -11,6 +11,12 @@ namespace DX12 {
 	/// </summary>
 	void LoadImageToScratchImage(LPCWSTR filename, DirectX::ScratchImage& img);
 	/// <summary>
+	/// データから画像を読み込み、imgを保存する
+	/// </summary>
+	/// <param name="size">データのサイズ</param>
+	void LoadImageToScratchImage(std::shared_ptr<unsigned char[]> data, size_t size,
+		DirectX::ScratchImage& img);
+	/// <summary>
 	/// 画像を1次元化し収納する際、一行当たりのサイズを何バイトにアラインメントしてBufferを作成するべきかを返す
 	/// </summary>
 	/// <param name="row_pitch">画像の一行当たりのデータサイズ</param>

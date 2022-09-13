@@ -140,6 +140,9 @@
     <ClCompile Include="Engine\DX12\Texture1D.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\CryptoMaster.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="Engine\DX12\Texture1D.h">
       <Filter>Engine\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CryptoMaster.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

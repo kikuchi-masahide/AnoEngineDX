@@ -14,6 +14,7 @@
 #include "DX12/Fence.h"
 #include "DX12/VertexBuffer.h"
 #include "DX12/IndexBuffer.h"
+#include "CryptoMaster.h"
 #include "Log.h"
 
 namespace {
@@ -27,7 +28,7 @@ namespace {
 
 //与えられたバッファ位置からT型のデータを読み出し、位置をずらす
 template<class T>
-T ReadBuffer(char*& buffer) {
+T ReadBuffer(unsigned char*& buffer) {
 	T val = *((T*)buffer);
 	buffer += sizeof(T);
 	return val;
@@ -50,18 +51,9 @@ void FontMaster::LoadFTMFile(std::string filename)
 			return;
 		}
 	}
-	std::ifstream ifs(filename, std::ios::binary);
-	if (!ifs) {
-		Log::OutputCritical("unexist .ftm file");
-	}
-	ifs.seekg(0, std::ios_base::end);
-	size_t filesize = ifs.tellg();
-	ifs.seekg(0, std::ios_base::beg);
-	//ファイルの内容
-	char* buffer = DBG_NEW char[filesize];
-	ifs.read(buffer, filesize);
+	std::shared_ptr<unsigned char[]> buffer = CryptoMaster::Decrypt(filename).first;
 	//読み込む位置
-	char* bufferpos = buffer;
+	unsigned char* bufferpos = buffer.get();
 	std::map<int, std::vector<SizeInfo>> fontmap;
 	//フォントidとサイズの組の名前
 	int idsize_pair_num = ReadBuffer<int>(bufferpos);
@@ -141,8 +133,6 @@ void FontMaster::LoadFTMFile(std::string filename)
 		FileInfo& fileinfo = files_.find(filename)->second;
 		fileinfo.fonts_.swap(fontmap);
 	}
-	ifs.close();
-	delete[] buffer;
 }
 
 void FontMaster::ReleaseFTMFile(std::string filename)

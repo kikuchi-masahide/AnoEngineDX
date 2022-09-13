@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\CryptoMaster.cpp" />
     <ClCompile Include="Engine\DX12\Buffer.cpp" />
     <ClCompile Include="Engine\DX12\CommandQueue.cpp" />
     <ClCompile Include="Engine\DX12\ConstBuffer.cpp" />
@@ -70,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\CryptoMaster.h" />
     <ClInclude Include="Engine\DX12\Buffer.h" />
     <ClInclude Include="Engine\DX12\CommandQueue.h" />
     <ClInclude Include="Engine\DX12\ConstBuffer.h" />

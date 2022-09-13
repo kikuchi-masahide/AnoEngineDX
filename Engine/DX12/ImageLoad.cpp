@@ -15,6 +15,17 @@ void DX12::LoadImageToScratchImage(LPCWSTR filename, DirectX::ScratchImage& img)
 	}
 }
 
+void DX12::LoadImageToScratchImage(std::shared_ptr<unsigned char[]> data, size_t size,
+	DirectX::ScratchImage& img)
+{
+	DirectX::TexMetadata meta = {};
+	auto result = DirectX::LoadFromWICMemory((const void*)data.get(), size, DirectX::WIC_FLAGS_NONE,
+		&meta, img);
+	if (FAILED(result)) {
+		throw 0;
+	}
+}
+
 UINT64 DX12::GetAlignmentedRowPitch(int row_pitch)
 {
 	return row_pitch + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - row_pitch % D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;

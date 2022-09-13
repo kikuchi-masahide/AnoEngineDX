@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "boost/pool/pool_alloc.hpp"
+#include "CryptoMaster.h"
 
 #pragma comment(lib,"winmm.lib")
 

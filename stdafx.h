@@ -50,3 +50,5 @@ using DirectX::XMFLOAT2;
 using DirectX::XMFLOAT3;
 using DirectX::XMFLOAT4;
 
+#include "cryptopp/cryptlib.h"
+#include "cryptopp/salsa.h"
