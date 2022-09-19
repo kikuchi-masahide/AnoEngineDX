@@ -18,6 +18,7 @@ Game::Game()
 	Log::OutputTrivial("DX12 Initialization");
 	dx12_.Initialize();
 	fontmaster_.Init(&dx12_);
+	audiomaster_.Initialize();
 	current_swapchain_id_ = -1;
 	Scene::InitMemory();
 }
@@ -31,6 +32,7 @@ Game::~Game()
 	if (panding_scene_) {
 		DeleteScene(panding_scene_);
 	}
+	audiomaster_.Shutdown();
 	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
 	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
@@ -127,6 +129,7 @@ void Game::AfterUpdate()
 
 void Game::BeforeOutput()
 {
+	audiomaster_.Update();
 }
 
 void Game::AfterOutput()

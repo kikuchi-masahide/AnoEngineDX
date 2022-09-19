@@ -6,6 +6,7 @@
 #include "DX12/Master.h"
 #include "InputSystem.h"
 #include "FontMaster.h"
+#include "AudioMaster.h"
 
 class Scene;
 class Window;
@@ -56,6 +57,7 @@ public:
 	void Terminate();
 	DX12::Master dx12_;
 	FontMaster fontmaster_;
+	AudioMaster audiomaster_;
 protected:
 	/// <summary>
 	/// UpdateGame内で、Sceneの1回のUpdateを行う前の処理を行う

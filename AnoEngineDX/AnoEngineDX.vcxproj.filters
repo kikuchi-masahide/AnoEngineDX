@@ -143,6 +143,12 @@
     <ClCompile Include="Engine\CryptoMaster.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\AudioMaster.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\SoundEvent.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -285,6 +291,12 @@
       <Filter>Engine\DX12</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CryptoMaster.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AudioMaster.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SoundEvent.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>

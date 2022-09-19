@@ -6,6 +6,8 @@
 
 class GameObject;
 
+//HACK:ほんとうに必要か?オブジェクト作成を行ったらstd::weak_ptrを返すのではだめなのか?
+//シリアライズ時に個体番号を記録する場合を考えてこのクラスを作っていたが、それは必要になったらGameObjectに載せるべき機能では?
 class GameObjectHandle
 {
 public:

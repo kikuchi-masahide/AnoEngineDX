@@ -53,6 +53,8 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\AudioMaster.cpp" />
+    <ClCompile Include="Engine\SoundEvent.cpp" />
     <ClCompile Include="Engine\UIScreen.cpp" />
     <ClCompile Include="Engine\window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -109,6 +111,8 @@
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Scene.h" />
+    <ClInclude Include="Engine\AudioMaster.h" />
+    <ClInclude Include="Engine\SoundEvent.h" />
     <ClInclude Include="Engine\UIScreen.h" />
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
@@ -214,7 +218,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(EIGEN_INCLUDE);$(DXTEX_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FMODSTUDIOAPI)\studio\inc;$(FMODSTUDIOAPI)\fsbank\inc;$(FMODSTUDIOAPI)\core\inc;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -223,7 +227,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Boost\lib\Win32;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Debug;d3d12.lib;dxgi.lib;DirectXTex.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FMODSTUDIOAPI)\studio\lib\x86;$(FMODSTUDIOAPI)\fsbank\lib\x86;$(FMODSTUDIOAPI)\core\lib\x86;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Debug;d3d12.lib;dxgi.lib;DirectXTex.lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.1</ShaderModel>
@@ -238,7 +243,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Boost\include\boost-1_73;$(DXTEX_DIR);$(EIGEN_INCLUDE);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FMODSTUDIOAPI)\studio\inc;$(FMODSTUDIOAPI)\fsbank\inc;$(FMODSTUDIOAPI)\core\inc;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -249,7 +254,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Boost\lib\Win32;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FMODSTUDIOAPI)\studio\lib\x86;$(FMODSTUDIOAPI)\fsbank\lib\x86;$(FMODSTUDIOAPI)\core\lib\x86;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\Win32\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.1</ShaderModel>
@@ -262,7 +268,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FMODSTUDIOAPI)\studio\inc;$(FMODSTUDIOAPI)\fsbank\inc;$(FMODSTUDIOAPI)\core\inc;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;../stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -271,7 +277,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FMODSTUDIOAPI)\studio\lib\x64;$(FMODSTUDIOAPI)\fsbank\lib\x64;$(FMODSTUDIOAPI)\core\lib\x64;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.1</ShaderModel>
@@ -286,7 +293,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FMODSTUDIOAPI)\studio\inc;$(FMODSTUDIOAPI)\fsbank\inc;$(FMODSTUDIOAPI)\core\inc;$(DXTEX_DIR);$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -297,7 +304,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FMODSTUDIOAPI)\studio\lib\x64;$(FMODSTUDIOAPI)\fsbank\lib\x64;$(FMODSTUDIOAPI)\core\lib\x64;$(DXTEX_DIR)\Bin\Desktop_2019_Win10\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <ShaderModel>5.1</ShaderModel>
