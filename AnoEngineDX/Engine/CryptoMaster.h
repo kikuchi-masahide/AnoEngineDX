@@ -1,4 +1,4 @@
-//================================================================================
+ï»¿//================================================================================
 //Copyright <2022> ano3. All rights reserved.
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
@@ -7,33 +7,33 @@
 class CryptoMaster {
 public:
 	/// <summary>
-	/// •œ†‰»
+	/// å¾©å·åŒ–
 	/// </summary>
-	/// <param name="src">ƒf[ƒ^</param>
-	/// <param name="length">ƒf[ƒ^‚Ì’·‚³(•¡‡‰»‚µ‚½ƒf[ƒ^‚à“¯‚¶’·‚³‚ğ‚Â)</param>
-	/// <returns>•¡‡‰»‚µ‚½ƒf[ƒ^</returns>
+	/// <param name="src">ãƒ‡ãƒ¼ã‚¿</param>
+	/// <param name="length">ãƒ‡ãƒ¼ã‚¿ã®é•·ã•(è¤‡åˆåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚‚åŒã˜é•·ã•ã‚’æŒã¤)</param>
+	/// <returns>è¤‡åˆåŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿</returns>
 	static std::shared_ptr<unsigned char[]> Decrypt(std::shared_ptr<unsigned char[]> src, size_t length);
 	/// <summary>
-	/// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğ•œ†‰»‚·‚é
+	/// ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’å¾©å·åŒ–ã™ã‚‹
 	/// </summary>
-	/// <returns>“Ç‚İ‚ñ‚¾ƒf[ƒ^‚Æƒf[ƒ^’·‚ÌƒyƒA</returns>
+	/// <returns>èª­ã¿è¾¼ã‚“ã ãƒ‡ãƒ¼ã‚¿ã¨ãƒ‡ãƒ¼ã‚¿é•·ã®ãƒšã‚¢</returns>
 	static std::pair<std::shared_ptr<unsigned char[]>, size_t> Decrypt(std::string filename);
 	/// <summary>
-	/// ˆÃ†‰»
+	/// æš—å·åŒ–
 	/// </summary>
-	/// <param name="src">ƒf[ƒ^</param>
-	/// <param name="length">ƒf[ƒ^‚Ì’·‚³(ˆÃ†‰»‚µ‚½ƒf[ƒ^‚à“¯‚¶’·‚³‚ğ‚Â)</param>
-	/// <returns>ˆÃ†‰»‚µ‚½ƒf[ƒ^</returns>
+	/// <param name="src">ãƒ‡ãƒ¼ã‚¿</param>
+	/// <param name="length">ãƒ‡ãƒ¼ã‚¿ã®é•·ã•(æš—å·åŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚‚åŒã˜é•·ã•ã‚’æŒã¤)</param>
+	/// <returns>æš—å·åŒ–ã—ãŸãƒ‡ãƒ¼ã‚¿</returns>
 	static std::shared_ptr<unsigned char[]> Encrypt(std::shared_ptr<unsigned char[]> src, size_t length);
 	/// <summary>
-	/// ƒf[ƒ^‚ğˆÃ†‰»‚µƒoƒCƒiƒŠƒtƒ@ƒCƒ‹‚É‘‚«‚Ş
+	/// ãƒ‡ãƒ¼ã‚¿ã‚’æš—å·åŒ–ã—ãƒã‚¤ãƒŠãƒªãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€
 	/// </summary>
-	/// <param name="src">ˆÃ†‰»‚·‚éƒf[ƒ^</param>
-	/// <param name="length">ƒf[ƒ^‚ÌƒTƒCƒY</param>
-	/// <param name="filename">o—Íƒtƒ@ƒCƒ‹–¼(—vŠg’£q)</param>
+	/// <param name="src">æš—å·åŒ–ã™ã‚‹ãƒ‡ãƒ¼ã‚¿</param>
+	/// <param name="length">ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º</param>
+	/// <param name="filename">å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å(è¦æ‹¡å¼µå­)</param>
 	static void Encrypt(std::shared_ptr<unsigned char[]> src, size_t length, std::string filename);
 private:
-	//ƒf[ƒ^‚ğ‚±‚Ì’·‚³‚É‹æØ‚Á‚Ä•ÏŠ·‚·‚é
+	//ãƒ‡ãƒ¼ã‚¿ã‚’ã“ã®é•·ã•ã«åŒºåˆ‡ã£ã¦å¤‰æ›ã™ã‚‹
 	static constexpr size_t process_section_size = 256;
 	static constexpr unsigned char key0[16] = "AnoEngineDXkey";
 	static constexpr unsigned char iv0[8] = "AnoEgIV";

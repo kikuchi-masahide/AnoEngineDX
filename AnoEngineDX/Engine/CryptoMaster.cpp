@@ -1,4 +1,4 @@
-//================================================================================
+ï»¿//================================================================================
 //Copyright <2022> ano3. All rights reserved.
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
@@ -53,7 +53,7 @@ std::pair<std::shared_ptr<unsigned char[]>, size_t> CryptoMaster::Decrypt(std::s
     size_t filesize = ifs.tellg();
     ifs.seekg(0, std::ios_base::beg);
     std::shared_ptr<unsigned char[]> dst = std::make_shared<unsigned char[]>(filesize);
-    //process_section_sizeƒoƒCƒg‚²‚Æ‚É‚¿‚Ü‚¿‚Ü“Ç‚İ‚Ş
+    //process_section_sizeãƒã‚¤ãƒˆã”ã¨ã«ã¡ã¾ã¡ã¾èª­ã¿è¾¼ã‚€
     std::shared_ptr<unsigned char[]> src = std::make_shared<unsigned char[]>(process_section_size);
     size_t processed = 0;
     unsigned char* dst_pos = dst.get();
