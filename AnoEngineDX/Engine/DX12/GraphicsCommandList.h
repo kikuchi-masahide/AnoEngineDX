@@ -3,14 +3,14 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
+#include "GraphicsPipeline.h"
+#include "Resource.h"
 
 namespace DX12 {
 	class DescriptorHeap;
-	class Resource;
 	class VertexBuffer;
 	class IndexBuffer;
 	class RootSignature;
-	class GraphicsPipeline;
 	class Buffer;
 	class Texture2D;
 	class Texture1D;
@@ -19,88 +19,87 @@ namespace DX12 {
 	/// </summary>
 	struct ResourceBarrierUnit final{
 	public:
-		ResourceBarrierUnit(std::shared_ptr<Resource> r,D3D12_RESOURCE_STATES b,D3D12_RESOURCE_STATES a)
+		ResourceBarrierUnit(Resource r,D3D12_RESOURCE_STATES b,D3D12_RESOURCE_STATES a)
 			:resource_(r),before_(b),after_(a)
 		{}
-		std::shared_ptr<Resource> resource_;
+		Resource resource_;
 		D3D12_RESOURCE_STATES before_;
 		D3D12_RESOURCE_STATES after_;
 	};
 	/// <summary>
-	/// GraphicsCommandListとCommandAllocatorを管理する
+	/// GraphicsCommandListとCommandAllocatorを管理する、ComPtrのラッパー
 	/// CommandListとAllocatorを1:1で対応させる
 	/// </summary>
-	class GraphicsCommandList final :public boost::noncopyable {
+	class GraphicsCommandList final {
 	public:
+		GraphicsCommandList();
 		//Masterから呼び出す
 		GraphicsCommandList(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type);
 		void SetDebugName(LPCWSTR debug_name);
 		/// <summary>
 		/// desc_heap_のindex番目のRTVを指定色でクリア
 		/// </summary>
-		void ClearRenderTargetView(std::shared_ptr<DescriptorHeap> desc_heap, int index, float r, float g, float b);
+		void ClearRenderTargetView(DescriptorHeap desc_heap, int index, float r, float g, float b);
 		/// <summary>
 		/// desc_heap_のindex番目のDSVを指定値でクリア
 		/// </summary>
-		void ClearDepthStencilBufferView(std::shared_ptr<DescriptorHeap> desc_heap, int index, float depth_value);
+		void ClearDepthStencilBufferView(DescriptorHeap desc_heap, int index, float depth_value);
 		void SetResourceBarrier(ResourceBarrierUnit unit);
 		void SetResourceBarrier(const std::vector<ResourceBarrierUnit>& units);
 		/// <summary>
 		/// Resource全体をコピーする
 		/// </summary>
-		void CopyResource(std::shared_ptr<Resource> dst, std::shared_ptr<Resource> src);
+		void CopyResource(Resource dst,Resource src);
 		/// <summary>
 		/// Bufferの一部分をBufferへコピーする
 		/// </summary>
-		void CopyBufferRegion(std::shared_ptr<Resource> dst, UINT64 dst_offset,
-			std::shared_ptr<Resource> src, UINT64 src_offset, UINT64 copy_size);
-		void CopyBufferToTexture2D(std::shared_ptr<Buffer> buffer,
-			UINT img_width,UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
-			std::shared_ptr<Texture2D> texture);
-		void CopyBufferToTexture1D(std::shared_ptr<Buffer> buffer,
-			UINT img_width, DXGI_FORMAT img_format, UINT img_rowpitch,
-			std::shared_ptr<Texture1D> texture);
+		void CopyBufferRegion(Buffer dst, UINT64 dst_offset,
+			Buffer src, UINT64 src_offset, UINT64 copy_size);
+		void CopyBufferToTexture2D(Buffer buffer,
+			UINT img_width,UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch, Texture2D texture);
+		void CopyBufferToTexture1D(Buffer buffer,
+			UINT img_width, DXGI_FORMAT img_format, UINT img_rowpitch, Texture1D texture);
 		/// <summary>
 		/// num個のRTVをセットする。DSVはなし。
 		/// RTVはdesc_heapのindex番目から連続して並んでいるとする。
 		/// </summary>
-		void SetRenderTargets(std::shared_ptr<DescriptorHeap> desc_heap, int index, int num);
+		void SetRenderTargets(DescriptorHeap desc_heap, int index, int num);
 		/// <summary>
 		/// num個のRTVをセットする。DSVはdsv_desc_heapのdsv_index番目。
 		/// RTVはrtv_desc_heapのrtv_index番目から連続して並んでいるとする。
 		/// </summary>
-		void SetRenderTargets(std::shared_ptr<DescriptorHeap> rtv_desc_heap, int rtv_index, int num,
-			std::shared_ptr<DescriptorHeap> dsv_desc_heap, int dsv_index);
-		void SetVertexBuffer(std::shared_ptr<VertexBuffer> vert_buff, int slot_id = 0);
-		void SetIndexBuffer(std::shared_ptr<IndexBuffer> index_buff);
-		void SetRootSignature(std::shared_ptr<RootSignature> root_signature);
+		void SetRenderTargets(DescriptorHeap rtv_desc_heap, int rtv_index, int num,
+			DescriptorHeap dsv_desc_heap, int dsv_index);
+		void SetVertexBuffer(VertexBuffer vert_buff, int slot_id = 0);
+		void SetIndexBuffer(IndexBuffer index_buff);
+		void SetRootSignature(RootSignature root_signature);
 		/// <summary>
 		/// このDescriptorHeapをセットする
 		/// (SetGraphicsRootDescriptorTableとは別に、用いるDescriptorHeapをセットする必要がある)
 		/// </summary>
-		void SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap);
+		void SetDescriptorHeap(DescriptorHeap desc_heap);
 		/// <summary>
 		/// このDescriptorHeap(複数個)をセットする
 		/// (SetGraphicsRootDescriptorTableとは別に、用いるDescriptorHeapをセットする必要がある)
 		/// </summary>
-		void SetDescriptorHeaps(std::vector<std::shared_ptr<DescriptorHeap>> desc_heaps);
+		void SetDescriptorHeaps(std::vector<DescriptorHeap> desc_heaps);
 		/// <summary>
 		/// このDescriptorHeapをRootParameterに対応させる
 		/// </summary>
 		/// <param name="root_param_index">何番目のRootParameterか</param>
 		/// <param name="base_desc_heap_index">desc_heapの何番目のDescriptorからをセットするか</param>
-		void SetGraphicsRootDescriptorTable(int root_param_index, std::shared_ptr<DescriptorHeap> desc_heap,
+		void SetGraphicsRootDescriptorTable(int root_param_index, DescriptorHeap desc_heap,
 			int base_desc_heap_index = 0);
 		/// <summary>
 		/// このConstBufferをRootParameterに対応させる
 		/// </summary>
 		/// <param name="root_param_index">RootSignatureの何番目のRootParameterか</param>
-		void SetGraphicsRootCBV(int root_param_index, std::shared_ptr<Buffer> const_buffer);
+		void SetGraphicsRootCBV(int root_param_index, Buffer const_buffer);
 		/// <summary>
 		/// srcから始まるデータをRootSignatureのroot_param_index番目のRootSignatureにセットする
 		/// </summary>
 		void SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset = 0);
-		void SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline);
+		void SetGraphicsPipeline(GraphicsPipeline pipeline);
 		/// <summary>
 		/// レンダーターゲットのうち、どの長方形部分に視錐台を描画するか指定する
 		/// </summary>
@@ -133,6 +132,8 @@ namespace DX12 {
 		void Close();
 		void ResetCommandList();
 		void ResetCommandAllocator();
+		//このハンドルが有効か返す
+		bool IsValid() const;
 		ID3D12GraphicsCommandList* GetCommandListRawPtr() const;
 	private:
 		ComPtr<ID3D12GraphicsCommandList> cmd_list_;

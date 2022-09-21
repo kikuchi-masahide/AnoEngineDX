@@ -8,8 +8,9 @@ namespace DX12 {
 	/// <summary>
 	/// CommandQueueの同期を行うFenceのラッパー
 	/// </summary>
-	class Fence final:public boost::noncopyable {
+	class Fence final {
 	public:
+		Fence();
 		Fence(ComPtr<ID3D12Device> device, UINT64 value0);
 		void SetDebugName(LPCWSTR debug_name);
 		/// <summary>
@@ -20,6 +21,7 @@ namespace DX12 {
 		/// fenceにvalueをセットする
 		/// </summary>
 		void Signal(UINT64 value);
+		bool IsValid() const;
 		/// <summary>
 		/// fenceの現在の値を得る
 		/// </summary>

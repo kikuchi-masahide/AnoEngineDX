@@ -4,6 +4,11 @@
 //================================================================================
 #include "Texture2D.h"
 
+DX12::Texture2D::Texture2D()
+	:dxgi_format_(DXGI_FORMAT_UNKNOWN),width_(0),height_(0)
+{
+}
+
 DX12::Texture2D::Texture2D(ComPtr<IDXGISwapChain> swapchain, int index, DXGI_FORMAT dxgi_format)
 	:dxgi_format_(dxgi_format), width_(0), height_(0)
 {
@@ -19,4 +24,19 @@ DX12::Texture2D::Texture2D(ComPtr<ID3D12Device> device, UINT64 width, UINT heigh
 			dxgi_format, width, height, 1, 0, 1, 0, D3D12_RESOURCE_FLAG_NONE, texture_layout), state),
 	dxgi_format_(dxgi_format), width_(width), height_(height)
 {
+}
+
+DXGI_FORMAT DX12::Texture2D::GetDXGIFormat() const
+{
+	return dxgi_format_;
+}
+
+UINT64 DX12::Texture2D::GetWidth() const
+{
+	return width_;
+}
+
+UINT DX12::Texture2D::GetHeight() const
+{
+	return height_;
 }

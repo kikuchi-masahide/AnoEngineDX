@@ -4,8 +4,15 @@
 //================================================================================
 #pragma once
 #include "unicode/ustring.h"
-#include "DX12/Master.h"
+#include "DX12/GraphicsCommandList.h"
+#include "DX12/CommandQueue.h"
+#include "DX12/Fence.h"
+#include "DX12/Texture2D.h"
 #include "Math/MatVec.h"
+
+namespace DX12 {
+	class Master;
+}
 
 /// <summary>
 /// .ftmファイルを読み込み、フォント情報蓄積や描画を行う
@@ -21,9 +28,9 @@ public:
 	//GetDrawInfoForで出力される、文字出力の位置情報
 	struct CharDrawInfo {
 	public:
-		CharDrawInfo(std::shared_ptr<DX12::Texture2D> bitmap, double leftx, double bottomy, double w, double h)
+		CharDrawInfo(DX12::Texture2D bitmap, double leftx, double bottomy, double w, double h)
 			:bitmap_(bitmap), left_x_(leftx), bottom_y_(bottomy), width_(w), height_(h) {};
-		std::shared_ptr<DX12::Texture2D> bitmap_;
+		DX12::Texture2D bitmap_;
 		//bitmap_を表示する領域の左端x座標(文字列全体の位置の左下を原点とする)
 		double left_x_;
 		//bitmap_を表示する領域の下端y座標(文字列全体の位置の左下を原点とする)
@@ -44,7 +51,7 @@ private:
 	//1つの文字に関する情報
 	struct CharInfo {
 	public:
-		CharInfo(int gmbx,int gmby,int bmptx,int bmpty,int gmcx,std::shared_ptr<DX12::Texture2D> b)
+		CharInfo(int gmbx,int gmby,int bmptx,int bmpty,int gmcx,DX12::Texture2D b)
 			:gmBlackBoxX_(gmbx),gmBlackBoxY_(gmby),bmptGlyphOriginX_(bmptx),bmptGlyphOriginY_(bmpty),
 			gmCellIncX_(gmcx),bitmap_(b){}
 		int gmBlackBoxX_;
@@ -52,7 +59,7 @@ private:
 		int bmptGlyphOriginX_;
 		int bmptGlyphOriginY_;
 		int gmCellIncX_;
-		std::shared_ptr<DX12::Texture2D> bitmap_;
+		DX12::Texture2D bitmap_;
 	};
 	//特定フォントの、一つのサイズについての情報
 	struct SizeInfo {
@@ -75,7 +82,7 @@ private:
 	boost::mutex files_mutex_;
 	DX12::Master* dx12_;
 	//リソース転送用のオブジェクト
-	std::shared_ptr<DX12::CommandQueue> upload_cmd_queue_;
-	std::shared_ptr<DX12::GraphicsCommandList> upload_cmd_list_;
-	std::shared_ptr<DX12::Fence> upload_fence_;
+	DX12::CommandQueue upload_cmd_queue_;
+	DX12::GraphicsCommandList upload_cmd_list_;
+	DX12::Fence upload_fence_;
 };

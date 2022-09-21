@@ -10,7 +10,6 @@
 #include "SwapChain.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-#include "ConstBuffer.h"
 #include "Buffer.h"
 #include "Texture2D.h"
 #include "Texture1D.h"
@@ -18,6 +17,7 @@
 #include "DescriptorHeap.h"
 #include "RootSignature.h"
 #include "GraphicsPipeline.h"
+#include "ShaderObject.h"
 #include "Log.h"
 
 void DX12::Master::Initialize()
@@ -36,128 +36,121 @@ void DX12::Master::Initialize()
 	}
 }
 
-std::shared_ptr<DX12::CommandQueue> DX12::Master::CreateCommandQueue(D3D12_COMMAND_LIST_TYPE cmdlist_type)
+DX12::CommandQueue DX12::Master::CreateCommandQueue(D3D12_COMMAND_LIST_TYPE cmdlist_type)
 {
-	return std::make_shared<CommandQueue>(device_, cmdlist_type);
+	return CommandQueue(device_, cmdlist_type);
 }
 
-std::shared_ptr<DX12::Fence> DX12::Master::CreateFence(UINT64 value0)
+DX12::Fence DX12::Master::CreateFence(UINT64 value0)
 {
-	return std::make_shared<Fence>(device_, value0);
+	return Fence(device_, value0);
 }
 
-std::shared_ptr<DX12::GraphicsCommandList> DX12::Master::CreateGraphicsCommandList(
+DX12::GraphicsCommandList DX12::Master::CreateGraphicsCommandList(
 	D3D12_COMMAND_LIST_TYPE cmdlist_type)
 {
-	return std::make_shared<GraphicsCommandList>(device_, cmdlist_type);
+	return GraphicsCommandList(device_, cmdlist_type);
 }
 
-std::shared_ptr<DX12::SwapChain> DX12::Master::CreateSwapChain(std::shared_ptr<CommandQueue> cmd_queue,
-	HWND hwnd, UINT width, UINT height)
+DX12::SwapChain DX12::Master::CreateSwapChain(CommandQueue cmd_queue, HWND hwnd, UINT width, UINT height)
 {
-	return std::make_shared<SwapChain>(factory_, cmd_queue->GetRawPtr(), device_, hwnd, width, height);
+	return SwapChain(factory_, cmd_queue.GetRawPtr(), device_, hwnd, width, height);
 }
 
-std::shared_ptr<DX12::VertexBuffer> DX12::Master::CreateVertexBuffer(D3D12_HEAP_TYPE heap_type,
+DX12::VertexBuffer DX12::Master::CreateVertexBuffer(D3D12_HEAP_TYPE heap_type,
 	D3D12_RESOURCE_STATES state, SIZE_T size_per_vert, int vert_num)
 {
-	return std::make_shared<VertexBuffer>(device_, heap_type, state, size_per_vert, vert_num);
+	return VertexBuffer(device_, heap_type, state, size_per_vert, vert_num);
 }
 
-std::shared_ptr<DX12::IndexBuffer> DX12::Master::CreateIndexBuffer(D3D12_HEAP_TYPE heap_type,
+DX12::IndexBuffer DX12::Master::CreateIndexBuffer(D3D12_HEAP_TYPE heap_type,
 	D3D12_RESOURCE_STATES state, int vert_num)
 {
-	return std::make_shared<IndexBuffer>(device_, heap_type, state, vert_num);
+	return IndexBuffer(device_, heap_type, state, vert_num);
 }
 
-std::shared_ptr<DX12::ConstBuffer> DX12::Master::CreateConstBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size, D3D12_RESOURCE_STATES state)
-{
-	return std::make_shared<ConstBuffer>(device_, heap_type, size, state);
-}
-
-std::shared_ptr<DX12::Buffer> DX12::Master::CreateBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size,
+DX12::Buffer DX12::Master::CreateBuffer(D3D12_HEAP_TYPE heap_type, SIZE_T size,
 	D3D12_RESOURCE_STATES state)
 {
-	return std::make_shared<Buffer>(device_, heap_type, size, state);
+	return Buffer(device_, heap_type, size, state);
 }
 
-std::shared_ptr<DX12::Texture2D> DX12::Master::CreateTexture2D(UINT64 width, UINT height,
+DX12::Texture2D DX12::Master::CreateTexture2D(UINT64 width, UINT height,
 	DXGI_FORMAT dxgi_format, D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout,
 	D3D12_RESOURCE_STATES state)
 {
-	return std::make_shared<Texture2D>(device_, width, height, dxgi_format, heap_type,
+	return Texture2D(device_, width, height, dxgi_format, heap_type,
 		texture_layout, state);
 }
 
-std::shared_ptr<DX12::Texture1D> DX12::Master::CreateTexture1D(UINT64 width, DXGI_FORMAT dxgi_format,
+DX12::Texture1D DX12::Master::CreateTexture1D(UINT64 width, DXGI_FORMAT dxgi_format,
 	D3D12_HEAP_TYPE heap_type, D3D12_TEXTURE_LAYOUT texture_layout, D3D12_RESOURCE_STATES state)
 {
-	return std::make_shared<Texture1D>(device_, width, dxgi_format, heap_type, texture_layout, state);
+	return Texture1D(device_, width, dxgi_format, heap_type, texture_layout, state);
 }
 
-std::shared_ptr<DX12::DepthStencilBuffer> DX12::Master::CreateDepthStencilBuffer(UINT64 width, UINT height,
+DX12::DepthStencilBuffer DX12::Master::CreateDepthStencilBuffer(UINT64 width, UINT height,
 	D3D12_HEAP_TYPE heap_type)
 {
-	return std::make_shared<DepthStencilBuffer>(device_, width, height, heap_type);
+	return DepthStencilBuffer(device_, width, height, heap_type);
 }
 
-std::shared_ptr<DX12::DescriptorHeap> DX12::Master::CreateDescriptorHeap(int capacity,
+DX12::DescriptorHeap DX12::Master::CreateDescriptorHeap(int capacity,
 	D3D12_DESCRIPTOR_HEAP_TYPE type, D3D12_DESCRIPTOR_HEAP_FLAGS vis)
 {
-	return std::make_shared<DescriptorHeap>(device_, capacity, type, vis);
+	return DescriptorHeap(device_, capacity, type, vis);
 }
 
-void DX12::Master::CreateConstBufferView(std::shared_ptr<ConstBuffer> buffer,
-	std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateConstBufferView(Buffer buffer, DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateConstBufferView(device_, buffer, index);
+	desc_heap.CreateConstBufferView(device_, buffer, index);
 }
 
-void DX12::Master::CreateTexture2DView(std::shared_ptr<Texture2D> shader_resource,
-	std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateTexture2DView(Texture2D shader_resource, DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateTexture2DView(device_, shader_resource, index);
+	desc_heap.CreateTexture2DView(device_, shader_resource, index);
 }
 
-void DX12::Master::CreateTexture1DView(std::shared_ptr<Texture1D> shader_resource, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateTexture1DView(Texture1D shader_resource, DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateTexture1DView(device_, shader_resource, index);
+	desc_heap.CreateTexture1DView(device_, shader_resource, index);
 }
 
-void DX12::Master::CreateBufferView(std::shared_ptr<Buffer> shader_resource,
-	DXGI_FORMAT dxgi_format, int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateBufferView(Buffer shader_resource,
+	DXGI_FORMAT dxgi_format, int num_element, DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateBufferView(device_, shader_resource, dxgi_format, num_element, index);
+	desc_heap.CreateBufferView(device_, shader_resource, dxgi_format, num_element, index);
 }
 
-void DX12::Master::CreateBufferView(std::shared_ptr<Buffer> shader_resource,
-	size_t structure_byte_stride, int num_element, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateBufferView(Buffer shader_resource,
+	size_t structure_byte_stride, int num_element, DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateBufferView(device_, shader_resource, structure_byte_stride, num_element, index);
+	desc_heap.CreateBufferView(device_, shader_resource, structure_byte_stride, num_element, index);
 }
 
-void DX12::Master::CreateDepthStencilBufferView(std::shared_ptr<DepthStencilBuffer> dsbuffer, std::shared_ptr<DescriptorHeap> desc_heap, int index)
+void DX12::Master::CreateDepthStencilBufferView(DepthStencilBuffer dsbuffer,
+	DescriptorHeap desc_heap, int index)
 {
-	desc_heap->CreateDepthStencilBufferView(device_, dsbuffer, index);
+	desc_heap.CreateDepthStencilBufferView(device_, dsbuffer, index);
 }
 
-void DX12::Master::CreateSampler(std::shared_ptr<DescriptorHeap> desc_heap, int index,
+void DX12::Master::CreateSampler(DescriptorHeap desc_heap, int index,
 	D3D12_TEXTURE_ADDRESS_MODE address_u, D3D12_TEXTURE_ADDRESS_MODE address_v)
 {
-	desc_heap->CreateSampler(device_, index, address_u, address_v);
+	desc_heap.CreateSampler(device_, index, address_u, address_v);
 }
 
-void DX12::Master::Serialize(std::shared_ptr<RootSignature> root_signature)
+void DX12::Master::Serialize(RootSignature& root_signature)
 {
-	root_signature->Serialize(device_);
+	root_signature.Serialize(device_);
 }
 
-std::shared_ptr<DX12::GraphicsPipeline> DX12::Master::CreateGraphicsPipeline(
-	std::shared_ptr<ShaderObject> vertex_shader, std::shared_ptr<ShaderObject> pixel_shader,
+DX12::GraphicsPipeline DX12::Master::CreateGraphicsPipeline(
+	ShaderObject vertex_shader, ShaderObject pixel_shader,
 	const std::vector<VertexLayoutUnit>& vertex_layout, bool dsbuffer,
-	D3D_PRIMITIVE_TOPOLOGY primitive_topology, std::shared_ptr<RootSignature> root_signature)
+	D3D_PRIMITIVE_TOPOLOGY primitive_topology, RootSignature root_signature)
 {
-	return std::make_shared<GraphicsPipeline>(device_, vertex_shader, pixel_shader,
+	return GraphicsPipeline(device_, vertex_shader, pixel_shader,
 		vertex_layout, dsbuffer, primitive_topology, root_signature);
 }
 

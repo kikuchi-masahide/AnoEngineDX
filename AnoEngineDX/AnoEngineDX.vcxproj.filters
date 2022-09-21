@@ -107,9 +107,6 @@
     <ClCompile Include="Engine\DX12\Buffer.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DX12\ConstBuffer.cpp">
-      <Filter>Engine\DX12</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DX12\ImageLoad.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
@@ -126,9 +123,6 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="test\Component1.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="test\Component2.cpp">
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="test\Game1.cpp">
@@ -257,9 +251,6 @@
     <ClInclude Include="Engine\DX12\Buffer.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DX12\ConstBuffer.h">
-      <Filter>Engine\DX12</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DX12\ImageLoad.h">
       <Filter>Engine\DX12</Filter>
     </ClInclude>
@@ -276,9 +267,6 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\Component1.h">
-      <Filter>test</Filter>
-    </ClInclude>
-    <ClInclude Include="test\Component2.h">
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\Game1.h">

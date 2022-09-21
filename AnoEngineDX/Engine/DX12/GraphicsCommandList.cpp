@@ -10,11 +10,14 @@
 #include "IndexBuffer.h"
 #include "Buffer.h"
 #include "RootSignature.h"
-#include "GraphicsPipeline.h"
 #include "ImageLoad.h"
 #include "Texture2D.h"
 #include "Texture1D.h"
 #include "Log.h"
+
+DX12::GraphicsCommandList::GraphicsCommandList()
+{
+}
 
 DX12::GraphicsCommandList::GraphicsCommandList(ComPtr<ID3D12Device> device, D3D12_COMMAND_LIST_TYPE cmdlist_type)
 {
@@ -38,18 +41,18 @@ void DX12::GraphicsCommandList::SetDebugName(LPCWSTR debug_name)
 #endif
 }
 
-void DX12::GraphicsCommandList::ClearRenderTargetView(std::shared_ptr<DescriptorHeap> desc_heap, int index,
+void DX12::GraphicsCommandList::ClearRenderTargetView(DescriptorHeap desc_heap, int index,
 	float r, float g, float b)
 {
-	assert(desc_heap->heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	assert(desc_heap.GetHeapType() == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	float color[4] = { r,g,b,1.0f };
-	cmd_list_->ClearRenderTargetView(desc_heap->GetCPUDescriptorHandle(index), color, 0, nullptr);
+	cmd_list_->ClearRenderTargetView(desc_heap.GetCPUDescriptorHandle(index), color, 0, nullptr);
 }
 
-void DX12::GraphicsCommandList::ClearDepthStencilBufferView(std::shared_ptr<DescriptorHeap> desc_heap, int index, float depth_value)
+void DX12::GraphicsCommandList::ClearDepthStencilBufferView(DescriptorHeap desc_heap, int index, float depth_value)
 {
-	assert(desc_heap->heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	cmd_list_->ClearDepthStencilView(desc_heap->GetCPUDescriptorHandle(index),
+	assert(desc_heap.GetHeapType() == D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	cmd_list_->ClearDepthStencilView(desc_heap.GetCPUDescriptorHandle(index),
 		D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, depth_value, 0.0f, 0, nullptr);
 }
 
@@ -58,7 +61,7 @@ void DX12::GraphicsCommandList::SetResourceBarrier(ResourceBarrierUnit unit)
 	D3D12_RESOURCE_BARRIER barrier;
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = unit.resource_->GetRawPtr();
+	barrier.Transition.pResource = unit.resource_.GetRawPtr();
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 	barrier.Transition.StateBefore = unit.before_;
 	barrier.Transition.StateAfter = unit.after_;
@@ -72,7 +75,7 @@ void DX12::GraphicsCommandList::SetResourceBarrier(const std::vector<ResourceBar
 		D3D12_RESOURCE_BARRIER& barrier = arr[n];
 		barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 		barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-		barrier.Transition.pResource = units[n].resource_->GetRawPtr();
+		barrier.Transition.pResource = units[n].resource_.GetRawPtr();
 		barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 		barrier.Transition.StateBefore = units[n].before_;
 		barrier.Transition.StateAfter = units[n].after_;
@@ -81,19 +84,19 @@ void DX12::GraphicsCommandList::SetResourceBarrier(const std::vector<ResourceBar
 	delete arr;
 }
 
-void DX12::GraphicsCommandList::CopyResource(std::shared_ptr<Resource> dst, std::shared_ptr<Resource> src)
+void DX12::GraphicsCommandList::CopyResource(Resource dst, Resource src)
 {
-	cmd_list_->CopyResource(dst->GetRawPtr(), src->GetRawPtr());
+	cmd_list_->CopyResource(dst.GetRawPtr(), src.GetRawPtr());
 }
 
-void DX12::GraphicsCommandList::CopyBufferRegion(std::shared_ptr<Resource> dst, UINT64 dst_offset, std::shared_ptr<Resource> src, UINT64 src_offset, UINT64 copy_size)
+void DX12::GraphicsCommandList::CopyBufferRegion(Buffer dst, UINT64 dst_offset,
+	Buffer src, UINT64 src_offset, UINT64 copy_size)
 {
-	cmd_list_->CopyBufferRegion(dst->GetRawPtr(), dst_offset, src->GetRawPtr(), src_offset, copy_size);
+	cmd_list_->CopyBufferRegion(dst.GetRawPtr(), dst_offset, src.GetRawPtr(), src_offset, copy_size);
 }
 
-void DX12::GraphicsCommandList::CopyBufferToTexture2D(std::shared_ptr<Buffer> buffer,
-	UINT img_width, UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch,
-	std::shared_ptr<Texture2D> texture)
+void DX12::GraphicsCommandList::CopyBufferToTexture2D(Buffer buffer,
+	UINT img_width, UINT img_height, DXGI_FORMAT img_format, UINT img_rowpitch, Texture2D texture)
 {
 	D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcfootprint;
 	srcfootprint.Offset = 0;
@@ -102,13 +105,13 @@ void DX12::GraphicsCommandList::CopyBufferToTexture2D(std::shared_ptr<Buffer> bu
 	srcfootprint.Footprint.Height = img_height;
 	srcfootprint.Footprint.Depth = 1;
 	srcfootprint.Footprint.RowPitch = GetAlignmentedRowPitch(img_rowpitch);
-	CD3DX12_TEXTURE_COPY_LOCATION src(buffer->GetRawPtr(), srcfootprint);
-	CD3DX12_TEXTURE_COPY_LOCATION dst(texture->GetRawPtr(), 0);
+	CD3DX12_TEXTURE_COPY_LOCATION src(buffer.GetRawPtr(), srcfootprint);
+	CD3DX12_TEXTURE_COPY_LOCATION dst(texture.GetRawPtr(), 0);
 	cmd_list_->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 }
 
-void DX12::GraphicsCommandList::CopyBufferToTexture1D(std::shared_ptr<Buffer> buffer, UINT img_width,
-	DXGI_FORMAT img_format, UINT img_rowpitch, std::shared_ptr<Texture1D> texture)
+void DX12::GraphicsCommandList::CopyBufferToTexture1D(Buffer buffer, UINT img_width,
+	DXGI_FORMAT img_format, UINT img_rowpitch, Texture1D texture)
 {
 	D3D12_PLACED_SUBRESOURCE_FOOTPRINT srcfootprint;
 	srcfootprint.Offset = 0;
@@ -117,78 +120,78 @@ void DX12::GraphicsCommandList::CopyBufferToTexture1D(std::shared_ptr<Buffer> bu
 	srcfootprint.Footprint.Height = 1;
 	srcfootprint.Footprint.Depth = 1;
 	srcfootprint.Footprint.RowPitch = GetAlignmentedRowPitch(img_rowpitch);
-	CD3DX12_TEXTURE_COPY_LOCATION src(buffer->GetRawPtr(), srcfootprint);
-	CD3DX12_TEXTURE_COPY_LOCATION dst(texture->GetRawPtr(), 0);
+	CD3DX12_TEXTURE_COPY_LOCATION src(buffer.GetRawPtr(), srcfootprint);
+	CD3DX12_TEXTURE_COPY_LOCATION dst(texture.GetRawPtr(), 0);
 	cmd_list_->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
 }
 
-void DX12::GraphicsCommandList::SetRenderTargets(std::shared_ptr<DescriptorHeap> desc_heap, int index,
+void DX12::GraphicsCommandList::SetRenderTargets(DescriptorHeap desc_heap, int index,
 	int num)
 {
-	assert(desc_heap->heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	auto handle = desc_heap->GetCPUDescriptorHandle(index);
+	assert(desc_heap.GetHeapType() == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	auto handle = desc_heap.GetCPUDescriptorHandle(index);
 	cmd_list_->OMSetRenderTargets(num, &handle, true, nullptr);
 }
 
-void DX12::GraphicsCommandList::SetRenderTargets(std::shared_ptr<DescriptorHeap> rtv_desc_heap,
-	int rtv_index, int num, std::shared_ptr<DescriptorHeap> dsv_desc_heap, int dsv_index)
+void DX12::GraphicsCommandList::SetRenderTargets(DescriptorHeap rtv_desc_heap,
+	int rtv_index, int num, DescriptorHeap dsv_desc_heap, int dsv_index)
 {
-	assert(rtv_desc_heap->heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	assert(dsv_desc_heap->heap_type_ == D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	auto rtv_handle = rtv_desc_heap->GetCPUDescriptorHandle(rtv_index);
-	auto dsv_handle = dsv_desc_heap->GetCPUDescriptorHandle(dsv_index);
+	assert(rtv_desc_heap.GetHeapType() == D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	assert(dsv_desc_heap.GetHeapType() == D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	auto rtv_handle = rtv_desc_heap.GetCPUDescriptorHandle(rtv_index);
+	auto dsv_handle = dsv_desc_heap.GetCPUDescriptorHandle(dsv_index);
 	cmd_list_->OMSetRenderTargets(num, &rtv_handle, true, &dsv_handle);
 }
 
-void DX12::GraphicsCommandList::SetVertexBuffer(std::shared_ptr<VertexBuffer> vert_buff, int slot_id)
+void DX12::GraphicsCommandList::SetVertexBuffer(VertexBuffer vert_buff, int slot_id)
 {
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	vbView.BufferLocation = vert_buff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = vert_buff->size_per_vert_ * vert_buff->vertex_num_;
-	vbView.StrideInBytes = vert_buff->size_per_vert_;
+	vbView.BufferLocation = vert_buff.GetGPUVirtualAddress();
+	vbView.SizeInBytes = vert_buff.GetSizePerVert() * vert_buff.GetVertexNum();
+	vbView.StrideInBytes = vert_buff.GetSizePerVert();
 	cmd_list_->IASetVertexBuffers(slot_id, 1, &vbView);
 }
 
-void DX12::GraphicsCommandList::SetIndexBuffer(std::shared_ptr<IndexBuffer> index_buff)
+void DX12::GraphicsCommandList::SetIndexBuffer(IndexBuffer index_buff)
 {
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
-	ibView.BufferLocation = index_buff->GetGPUVirtualAddress();
+	ibView.BufferLocation = index_buff.GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R32_UINT;
-	ibView.SizeInBytes = sizeof(unsigned int) * index_buff->vertex_num_;
+	ibView.SizeInBytes = sizeof(unsigned int) * index_buff.GetVertexNum();
 	cmd_list_->IASetIndexBuffer(&ibView);
 }
 
-void DX12::GraphicsCommandList::SetRootSignature(std::shared_ptr<RootSignature> root_signature)
+void DX12::GraphicsCommandList::SetRootSignature(RootSignature root_signature)
 {
-	cmd_list_->SetGraphicsRootSignature(root_signature->GetRawPtr());
+	cmd_list_->SetGraphicsRootSignature(root_signature.GetRawPtr());
 }
 
-void DX12::GraphicsCommandList::SetDescriptorHeap(std::shared_ptr<DescriptorHeap> desc_heap)
+void DX12::GraphicsCommandList::SetDescriptorHeap(DescriptorHeap desc_heap)
 {
-	auto pdesc = desc_heap->GetRawPtr();
+	auto pdesc = desc_heap.GetRawPtr();
 	cmd_list_->SetDescriptorHeaps(1, &pdesc);
 }
 
-void DX12::GraphicsCommandList::SetDescriptorHeaps(std::vector<std::shared_ptr<DescriptorHeap>> desc_heaps)
+void DX12::GraphicsCommandList::SetDescriptorHeaps(std::vector<DescriptorHeap> desc_heaps)
 {
 	ID3D12DescriptorHeap** arr = DBG_NEW ID3D12DescriptorHeap*[desc_heaps.size()];
 	for (int n = 0; n < desc_heaps.size(); n++) {
-		arr[n] = desc_heaps[n]->GetRawPtr();
+		arr[n] = desc_heaps[n].GetRawPtr();
 	}
 	cmd_list_->SetDescriptorHeaps(desc_heaps.size(), arr);
 	delete[] arr;
 }
 
 void DX12::GraphicsCommandList::SetGraphicsRootDescriptorTable(int root_param_index,
-	std::shared_ptr<DescriptorHeap> desc_heap, int base_desc_heap_index)
+	DescriptorHeap desc_heap, int base_desc_heap_index)
 {
 	cmd_list_->SetGraphicsRootDescriptorTable(root_param_index,
-		desc_heap->GetGPUDescriptorHandle(base_desc_heap_index));
+		desc_heap.GetGPUDescriptorHandle(base_desc_heap_index));
 }
 
-void DX12::GraphicsCommandList::SetGraphicsRootCBV(int root_param_index, std::shared_ptr<Buffer> const_buffer)
+void DX12::GraphicsCommandList::SetGraphicsRootCBV(int root_param_index, Buffer const_buffer)
 {
-	cmd_list_->SetGraphicsRootConstantBufferView(root_param_index, const_buffer->GetGPUVirtualAddress());
+	cmd_list_->SetGraphicsRootConstantBufferView(root_param_index, const_buffer.GetGPUVirtualAddress());
 }
 
 void DX12::GraphicsCommandList::SetGraphicsRootConstant(int root_param_index, SIZE_T size_to_set, void* src, int offset)
@@ -197,10 +200,10 @@ void DX12::GraphicsCommandList::SetGraphicsRootConstant(int root_param_index, SI
 	cmd_list_->SetGraphicsRoot32BitConstants(root_param_index, reg_num, src, offset);
 }
 
-void DX12::GraphicsCommandList::SetGraphicsPipeline(std::shared_ptr<GraphicsPipeline> pipeline)
+void DX12::GraphicsCommandList::SetGraphicsPipeline(GraphicsPipeline pipeline)
 {
-	cmd_list_->SetPipelineState(pipeline->GetRawPtr());
-	cmd_list_->IASetPrimitiveTopology(pipeline->primitive_topology_);
+	cmd_list_->SetPipelineState(pipeline.GetRawPtr());
+	cmd_list_->IASetPrimitiveTopology(pipeline.GetPrimitiveTopology());
 }
 
 void DX12::GraphicsCommandList::SetViewports(float top_left_x, float top_left_y, float width, float height, float min_depth, float max_depth)
@@ -217,7 +220,6 @@ void DX12::GraphicsCommandList::SetScissorRect(LONG top_left_x, LONG top_left_y,
 
 void DX12::GraphicsCommandList::DrawInstanced(int vertex_num, int start_vertex_loc)
 {
-	//HACK:今は1インスタンスの描画に特化
 	cmd_list_->DrawInstanced(vertex_num, 1, start_vertex_loc, 0);
 }
 
@@ -240,6 +242,11 @@ void DX12::GraphicsCommandList::ResetCommandList()
 void DX12::GraphicsCommandList::ResetCommandAllocator()
 {
 	cmd_allocator_->Reset();
+}
+
+bool DX12::GraphicsCommandList::IsValid() const
+{
+	return cmd_list_;
 }
 
 ID3D12GraphicsCommandList* DX12::GraphicsCommandList::GetCommandListRawPtr() const

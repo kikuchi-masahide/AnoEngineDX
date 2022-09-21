@@ -16,7 +16,6 @@ void DX12::RootSignature::Serialize(ComPtr<ID3D12Device> device)
 {
 	assert(!serialized_);
 	serialized_ = true;
-	//HACK:あとからルートパラメタやサンプラーを追加する
 	//RootParameterの設定
 	D3D12_ROOT_PARAMETER* params = nullptr;
 	if (root_params_.size() > 0) {
@@ -50,6 +49,8 @@ void DX12::RootSignature::Serialize(ComPtr<ID3D12Device> device)
 		0, root_sig_blob->GetBufferPointer(), root_sig_blob->GetBufferSize(),
 		IID_PPV_ARGS(root_signature_.ReleaseAndGetAddressOf())
 	);
+	root_params_.clear();
+	root_params_.shrink_to_fit();
 	if (FAILED(result)) {
 		Log::OutputCritical("RootSignature's initialization failed\n");
 		throw 0;
@@ -100,6 +101,11 @@ void DX12::RootSignature::AddRootParameterAsConstant(UINT shader_register, SIZE_
 	auto& param = root_params_.back();
 	int reg_num = static_cast<int>(const_size + 3) >> 2;
 	param.InitAsConstants(reg_num, shader_register, 0, static_cast<D3D12_SHADER_VISIBILITY>(vis));
+}
+
+bool DX12::RootSignature::IsSerialized() const
+{
+	return serialized_;
 }
 
 ID3D12RootSignature* DX12::RootSignature::GetRawPtr() const

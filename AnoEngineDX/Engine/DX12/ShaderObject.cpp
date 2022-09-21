@@ -6,6 +6,10 @@
 
 #include "Log.h"
 
+DX12::ShaderObject::ShaderObject()
+{
+}
+
 DX12::ShaderObject::ShaderObject(LPCWSTR filename, ShaderType type)
 {
 	LPCSTR shader_type = "";
@@ -33,16 +37,22 @@ DX12::ShaderObject::ShaderObject(LPCWSTR filename, ShaderType type)
 			std::copy_n((char*)errorBlob->GetBufferPointer(), errorBlob->GetBufferSize(), errstr.begin());
 			Log::OutputCritical(errstr);
 		}
+		blob_ = nullptr;
 		throw 0;
 	}
 }
 
-const void* DX12::ShaderObject::GetBufferPointer()
+bool DX12::ShaderObject::IsValid() const
+{
+	return blob_;
+}
+
+const void* DX12::ShaderObject::GetBufferPointer() const
 {
 	return blob_->GetBufferPointer();
 }
 
-SIZE_T DX12::ShaderObject::GetBufferSize()
+SIZE_T DX12::ShaderObject::GetBufferSize() const
 {
 	return blob_->GetBufferSize();
 }

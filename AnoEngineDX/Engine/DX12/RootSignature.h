@@ -1,4 +1,4 @@
-//================================================================================
+﻿//================================================================================
 //Copyright <2022> ano3. All rights reserved.
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
@@ -6,9 +6,10 @@
 #include "DescriptorRange.h"
 
 namespace DX12 {
-	class RootSignature final: public boost::noncopyable{
+	class RootSignature final {
 	public:
-		RootSignature(int root_param_num);
+		RootSignature(int root_param_num = 0);
+		//クライアントからのserializeはDX12::Masterから行う
 		void Serialize(ComPtr<ID3D12Device> device);
 		void AddRootParameterAsDescriptorTable(std::vector<DescriptorRange>& ranges,
 			D3D12_SHADER_VISIBILITY vis);
@@ -16,6 +17,7 @@ namespace DX12 {
 		void AddRootParameterAsSRV(UINT shader_register, D3D12_SHADER_VISIBILITY vis);
 		void AddRootParameterAsConstant(UINT shader_register, SIZE_T const_size,
 			D3D12_SHADER_VISIBILITY vis);
+		bool IsSerialized() const;
 		ID3D12RootSignature* GetRawPtr() const;
 	private:
 		ComPtr<ID3D12RootSignature> root_signature_;

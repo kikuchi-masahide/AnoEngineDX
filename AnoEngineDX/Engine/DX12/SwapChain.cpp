@@ -5,8 +5,11 @@
 #include "SwapChain.h"
 
 #include "Texture2D.h"
-#include "DescriptorHeap.h"
 #include "Log.h"
+
+DX12::SwapChain::SwapChain()
+{
+}
 
 DX12::SwapChain::SwapChain(ComPtr<IDXGIFactory6> factory, ComPtr<ID3D12CommandQueue> cmdqueue,
 	ComPtr<ID3D12Device> device, HWND hwnd, UINT width, UINT height)
@@ -23,21 +26,20 @@ DX12::SwapChain::SwapChain(ComPtr<IDXGIFactory6> factory, ComPtr<ID3D12CommandQu
 		Log::OutputCritical("Initialization of IDXGISwapCHain1 failed");
 		throw 0;
 	}
-	desc_heap_ = std::make_shared<DescriptorHeap>(device, 2,
-		D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+	desc_heap_ = DescriptorHeap(device, 2, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 	for (int n = 0; n < 2; n++) {
 		//このbackbuffer_[n]からRTVを作るので、formatはUNORM_SRGBにしておく
-		backbuffer_[n] = std::make_shared<Texture2D>(swapchain_, n, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		desc_heap_->CreateRenderTargetView(device, backbuffer_[n], n);
+		backbuffer_[n] = Texture2D(swapchain_, n, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		desc_heap_.CreateRenderTargetView(device, backbuffer_[n], n);
 	}
 }
 
 void DX12::SwapChain::SetDebugName(LPCWSTR debug_name)
 {
 #ifdef _DEBUG
-	backbuffer_[0]->SetDebugName(debug_name);
-	backbuffer_[1]->SetDebugName(debug_name);
-	desc_heap_->SetDebugName(debug_name);
+	backbuffer_[0].SetDebugName(debug_name);
+	backbuffer_[1].SetDebugName(debug_name);
+	desc_heap_.SetDebugName(debug_name);
 #endif
 }
 
@@ -46,17 +48,22 @@ void DX12::SwapChain::Flip()
 	swapchain_->Present(1, 0);
 }
 
+bool DX12::SwapChain::IsValid() const
+{
+	return swapchain_;
+}
+
 UINT DX12::SwapChain::GetCurrentBackBufferIndex() const
 {
 	return swapchain_->GetCurrentBackBufferIndex();
 }
 
-std::shared_ptr<DX12::Texture2D> DX12::SwapChain::GetCurrentBackBuffer() const
+DX12::Texture2D DX12::SwapChain::GetCurrentBackBuffer() const
 {
 	return backbuffer_[GetCurrentBackBufferIndex()];
 }
 
-std::shared_ptr<DX12::DescriptorHeap> DX12::SwapChain::GetDescriptorHeap() const
+const DX12::DescriptorHeap DX12::SwapChain::GetDescriptorHeap() const
 {
 	return desc_heap_;
 }

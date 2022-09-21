@@ -34,6 +34,11 @@ void DX12::Resource::Unmap()
 	resource_->Unmap(0,nullptr);
 }
 
+bool DX12::Resource::IsValid() const
+{
+	return resource_;
+}
+
 D3D12_GPU_VIRTUAL_ADDRESS DX12::Resource::GetGPUVirtualAddress() const
 {
 	return resource_->GetGPUVirtualAddress();

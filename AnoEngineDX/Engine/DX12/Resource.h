@@ -8,7 +8,7 @@ namespace DX12 {
 	/// <summary>
 	/// resourceを表す汎用クラス resourceに共通の操作を実装する
 	/// </summary>
-	class Resource :public boost::noncopyable {
+	class Resource {
 	public:
 		//Texture2DがSwapChainに対応するための空コンストラクタ
 		Resource();
@@ -23,6 +23,7 @@ namespace DX12 {
 		void SetDebugName(LPCWSTR debug_name);
 		void* Map();
 		void Unmap();
+		bool IsValid() const;
 		D3D12_GPU_VIRTUAL_ADDRESS GetGPUVirtualAddress() const;
 		ID3D12Resource* GetRawPtr() const;
 	protected:

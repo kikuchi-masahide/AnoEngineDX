@@ -24,5 +24,5 @@ namespace DX12 {
 	/// <summary>
 	///  imgのデータを一次元化しbufferにマップする
 	/// </summary>
-	void MapImageToBuffer(DirectX::ScratchImage& scratchimg, std::shared_ptr<Buffer> buffer);
+	void MapImageToBuffer(DirectX::ScratchImage& scratchimg, Buffer buffer);
 }

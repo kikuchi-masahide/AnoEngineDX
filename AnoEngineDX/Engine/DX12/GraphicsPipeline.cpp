@@ -8,18 +8,22 @@
 #include "RootSignature.h"
 #include "Log.h"
 
+DX12::GraphicsPipeline::GraphicsPipeline()
+{
+}
+
 DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
-	std::shared_ptr<ShaderObject> vertex_shader, std::shared_ptr<ShaderObject> pixel_shader,
+	ShaderObject vertex_shader, ShaderObject pixel_shader,
 	const std::vector<VertexLayoutUnit>& vertex_layout, bool dsbuffer,
-	D3D_PRIMITIVE_TOPOLOGY primitive_topology, std::shared_ptr<RootSignature> root_signature)
+	D3D_PRIMITIVE_TOPOLOGY primitive_topology, RootSignature root_signature)
 	:primitive_topology_(primitive_topology)
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline = {};
 	gpipeline.pRootSignature = nullptr;
-	gpipeline.VS.pShaderBytecode = vertex_shader->GetBufferPointer();
-	gpipeline.VS.BytecodeLength = vertex_shader->GetBufferSize();
-	gpipeline.PS.pShaderBytecode = pixel_shader->GetBufferPointer();
-	gpipeline.PS.BytecodeLength = pixel_shader->GetBufferSize();
+	gpipeline.VS.pShaderBytecode = vertex_shader.GetBufferPointer();
+	gpipeline.VS.BytecodeLength = vertex_shader.GetBufferSize();
+	gpipeline.PS.pShaderBytecode = pixel_shader.GetBufferPointer();
+	gpipeline.PS.BytecodeLength = pixel_shader.GetBufferSize();
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 	gpipeline.RasterizerState.MultisampleEnable = false;
 	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
@@ -70,7 +74,7 @@ DX12::GraphicsPipeline::GraphicsPipeline(ComPtr<ID3D12Device> device,
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	gpipeline.SampleDesc.Count = 1;
 	gpipeline.SampleDesc.Quality = 0;
-	gpipeline.pRootSignature = root_signature->GetRawPtr();
+	gpipeline.pRootSignature = root_signature.GetRawPtr();
 	auto result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(state_.ReleaseAndGetAddressOf()));
 	delete[] layouts;
 	if (FAILED(result)) {
@@ -84,6 +88,16 @@ void DX12::GraphicsPipeline::SetDebugName(LPCWSTR debug_name)
 #ifdef _DEBUG
 	state_->SetName(debug_name);
 #endif
+}
+
+bool DX12::GraphicsPipeline::IsValid() const
+{
+	return state_;
+}
+
+D3D_PRIMITIVE_TOPOLOGY DX12::GraphicsPipeline::GetPrimitiveTopology() const
+{
+	return primitive_topology_;
 }
 
 ID3D12PipelineState* DX12::GraphicsPipeline::GetRawPtr() const

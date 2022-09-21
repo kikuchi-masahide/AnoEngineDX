@@ -9,11 +9,14 @@ namespace DX12 {
 		VertexShader,
 		PixelShader
 	};
-	class ShaderObject final :public boost::noncopyable {
+	class ShaderObject final {
 	public:
+		ShaderObject();
+		//HACK:ƒƒ‚ƒŠ‚©‚ç‚Ì“Ç‚İ‚İ‚É‘Î‰‚·‚é
 		ShaderObject(LPCWSTR filename, ShaderType type);
-		const void* GetBufferPointer();
-		SIZE_T GetBufferSize();
+		bool IsValid() const;
+		const void* GetBufferPointer() const;
+		SIZE_T GetBufferSize() const;
 	private:
 		ComPtr<ID3DBlob> blob_;
 	};

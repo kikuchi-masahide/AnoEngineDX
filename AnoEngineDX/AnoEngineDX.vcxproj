@@ -23,7 +23,6 @@
     <ClCompile Include="Engine\CryptoMaster.cpp" />
     <ClCompile Include="Engine\DX12\Buffer.cpp" />
     <ClCompile Include="Engine\DX12\CommandQueue.cpp" />
-    <ClCompile Include="Engine\DX12\ConstBuffer.cpp" />
     <ClCompile Include="Engine\DX12\DepthStencilBuffer.cpp" />
     <ClCompile Include="Engine\DX12\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DX12\Fence.cpp" />
@@ -65,7 +64,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="test\Component1.cpp" />
-    <ClCompile Include="test\Component2.cpp" />
     <ClCompile Include="test\Game1.cpp" />
     <ClCompile Include="test\Scene1.cpp" />
     <ClCompile Include="test\Scene2.cpp" />
@@ -76,7 +74,6 @@
     <ClInclude Include="Engine\CryptoMaster.h" />
     <ClInclude Include="Engine\DX12\Buffer.h" />
     <ClInclude Include="Engine\DX12\CommandQueue.h" />
-    <ClInclude Include="Engine\DX12\ConstBuffer.h" />
     <ClInclude Include="Engine\DX12\DepthStencilBuffer.h" />
     <ClInclude Include="Engine\DX12\DescriptorHeap.h" />
     <ClInclude Include="Engine\DX12\DescriptorRange.h" />
@@ -117,7 +114,6 @@
     <ClInclude Include="Engine\window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="test\Component1.h" />
-    <ClInclude Include="test\Component2.h" />
     <ClInclude Include="test\Game1.h" />
     <ClInclude Include="test\Scene1.h" />
     <ClInclude Include="test\Scene2.h" />

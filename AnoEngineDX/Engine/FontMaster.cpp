@@ -58,7 +58,7 @@ void FontMaster::LoadFTMFile(std::string filename)
 	//フォントidとサイズの組の名前
 	int idsize_pair_num = ReadBuffer<int>(bufferpos);
 	//フォントのビットマップアップロードに用いる中間バッファ(サイズが足りなくなったら適宜作り直す)
-	std::shared_ptr<DX12::Buffer> texture_buffer;
+	DX12::Buffer texture_buffer;
 	//現在のbufferのサイズ
 	size_t texture_buffer_size = 0;
 	auto fenceevent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -91,7 +91,7 @@ void FontMaster::LoadFTMFile(std::string filename)
 					D3D12_HEAP_TYPE_UPLOAD, texture_buffer_size, D3D12_RESOURCE_STATE_GENERIC_READ
 				);
 			}
-			float* texture_buffer_map = static_cast<float*>(texture_buffer->Map());
+			float* texture_buffer_map = static_cast<float*>(texture_buffer.Map());
 			for (int y = 0; y < gmblackboxy; y++) {
 				for (int x = 0; x < gmblackboxx; x++) {
 					char val = ReadBuffer<char>(bufferpos);
@@ -100,28 +100,28 @@ void FontMaster::LoadFTMFile(std::string filename)
 				texture_buffer_map += al_width / sizeof(float);
 				//bufferpos += gmblackboxx;
 			}
-			texture_buffer->Unmap();
+			texture_buffer.Unmap();
 			//最終的なビットマップのコピー先
-			std::shared_ptr<DX12::Texture2D> final_bitmap = dx12_->CreateTexture2D(
+			DX12::Texture2D final_bitmap = dx12_->CreateTexture2D(
 				gmblackboxx, gmblackboxy, DXGI_FORMAT_R32_FLOAT, D3D12_HEAP_TYPE_DEFAULT,
 				D3D12_TEXTURE_LAYOUT_UNKNOWN, D3D12_RESOURCE_STATE_COPY_DEST
 			);
-			upload_cmd_list_->CopyBufferToTexture2D(
+			upload_cmd_list_.CopyBufferToTexture2D(
 				texture_buffer, gmblackboxx, gmblackboxy, DXGI_FORMAT_R32_FLOAT, sizeof(float)*gmblackboxx, final_bitmap
 			);
 			//描画するときのためにshader resourceに指定しておく
-			upload_cmd_list_->SetResourceBarrier(DX12::ResourceBarrierUnit(
+			upload_cmd_list_.SetResourceBarrier(DX12::ResourceBarrierUnit(
 				final_bitmap, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
 			));
-			upload_cmd_list_->Close();
-			std::vector<std::shared_ptr<DX12::GraphicsCommandList>> lists(1, upload_cmd_list_);
-			upload_cmd_queue_->ExecuteCommandLists(lists);
-			int fenceval = upload_fence_->GetCompletedValue();
-			upload_cmd_queue_->Signal(upload_fence_, fenceval + 1);
-			upload_fence_->SetEventOnCompletion(fenceval + 1, fenceevent);
+			upload_cmd_list_.Close();
+			std::vector<DX12::GraphicsCommandList> lists(1, upload_cmd_list_);
+			upload_cmd_queue_.ExecuteCommandLists(lists);
+			int fenceval = upload_fence_.GetCompletedValue();
+			upload_cmd_queue_.Signal(upload_fence_, fenceval + 1);
+			upload_fence_.SetEventOnCompletion(fenceval + 1, fenceevent);
 			WaitForSingleObject(fenceevent, INFINITE);
-			upload_cmd_list_->ResetCommandAllocator();
-			upload_cmd_list_->ResetCommandList();
+			upload_cmd_list_.ResetCommandAllocator();
+			upload_cmd_list_.ResetCommandList();
 			sizeinfo.bitmaps_.emplace(std::piecewise_construct, std::forward_as_tuple(codepoint),
 				std::forward_as_tuple(gmblackboxx,gmblackboxy,bmptglyphoriginx,bmptglyphoriginy,
 					gmcellincx,final_bitmap));

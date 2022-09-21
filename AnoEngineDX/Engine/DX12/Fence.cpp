@@ -4,6 +4,10 @@
 //================================================================================
 #include "Fence.h"
 
+DX12::Fence::Fence()
+{
+}
+
 DX12::Fence::Fence(ComPtr<ID3D12Device> device, UINT64 value0)
 {
 	device->CreateFence(value0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence_.ReleaseAndGetAddressOf()));
@@ -22,6 +26,11 @@ void DX12::Fence::SetEventOnCompletion(UINT64 value, HANDLE event)
 void DX12::Fence::Signal(UINT64 value)
 {
 	fence_->Signal(value);
+}
+
+bool DX12::Fence::IsValid() const
+{
+	return fence_;
 }
 
 UINT64 DX12::Fence::GetCompletedValue() const

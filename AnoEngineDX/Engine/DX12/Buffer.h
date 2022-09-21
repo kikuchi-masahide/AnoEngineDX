@@ -8,8 +8,11 @@
 namespace DX12 {
 	class Buffer:public Resource{
 	public:
+		Buffer();
 		Buffer(ComPtr<ID3D12Device> device, D3D12_HEAP_TYPE heap_type, SIZE_T size,
 			D3D12_RESOURCE_STATES state);
-		SIZE_T const size_;
+		SIZE_T GetSize() const;
+	private:
+		SIZE_T size_;
 	};
 }
