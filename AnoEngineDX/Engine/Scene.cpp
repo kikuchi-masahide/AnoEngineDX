@@ -3,11 +3,13 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #include "Scene.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "UIScreen.h"
 #include "Game.h"
 #include "window.h"
+#include "Log.h"
 
 void Scene::InitMemory()
 {
@@ -73,11 +75,11 @@ void Scene::PosteriorUniqueOutput()
 {
 }
 
-GameObjectHandle Scene::AddObject()
+std::weak_ptr<GameObject> Scene::AddObject()
 {
 	//デストラクタ実行中なので追加を行わない
 	if (is_executing_destructor_) {
-		return GameObjectHandle();
+		return std::weak_ptr<GameObject>();
 	}
 	return element_container_.AddObject(this);
 }
@@ -160,11 +162,6 @@ MatVec::Vector2 Scene::GetMouseScreenPos() const
 	}
 }
 
-void Scene::Erase(std::weak_ptr<GameObject> ptr)
-{
-	element_container_.Erase(ptr);
-}
-
 void Scene::Erase(std::weak_ptr<Component> ptr)
 {
 	element_container_.Erase(ptr);
@@ -245,7 +242,6 @@ void Scene::LaunchUIScreenUpdate()
 {
 	if (uiscreens_.size() == 0)return;
 	for (int n = 0; n < uiscreens_.size(); n++) {
-		//����UIScreen��Update����s����Ȃ�΁CInput�̎󂯎��ۂ�ݒ肵��Update��Ăяo��
 		if (update_flag_for_uiscreens_[n]) {
 			input_flag_ = input_flag_for_uiscreens_[n];
 			prev_mouse_pos_ = prev_mouse_pos_for_uiscreens_[n];
@@ -268,7 +264,6 @@ void Scene::ProcessPandingComps()
 
 void Scene::ProcessPandingUIScreens()
 {
-	//Panding�ɂ���UIScreen�̒ǉ�
 	for (int n = 0; n < panding_uiscreens_.size(); n++) {
 		uiscreens_.push_back(panding_uiscreens_[n]);
 		prev_mouse_pos_for_uiscreens_.push_back(GetMouseScreenPos());

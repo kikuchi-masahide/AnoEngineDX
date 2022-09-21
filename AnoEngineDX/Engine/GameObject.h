@@ -6,7 +6,6 @@
 
 class Game;
 #include "Scene.h"
-#include "ComponentHandle.h"
 #include "boost/pool/pool_alloc.hpp"
 
 /// <summary>
@@ -21,12 +20,12 @@ public:
 	/// UpdateComponentを追加
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddUpdateComponent(Args... args);
+	std::weak_ptr<T> AddUpdateComponent(Args... args);
 	/// <summary>
 	/// OutputComponentを追加
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddOutputComponent(Args... args);
+	std::weak_ptr<T> AddOutputComponent(Args... args);
 	void SetDeleteFlag();
 	bool GetDeleteFlag() const;
 	//すべての有効な子componentにdelete flagを付ける
@@ -35,8 +34,6 @@ public:
 	void UnregisterInvalidChilds();
 	//this_sh_をセットする(Scene::AddObjectから一度だけ呼び出される)
 	void SetSharedPtr(std::shared_ptr<GameObject> obj);
-	//this_sh_をリセットし、この関数の呼び出し直後にデストラクタ実行(引数は呼び出し元チェック用)
-	void ResetSharedPtr(std::shared_ptr<GameObject> obj);
 private:
 	//comps_のアロケータとして用いる
 	struct CompsAllocator {
@@ -53,41 +50,41 @@ private:
 	//HACK:子をGameObjectが把握する形にするならばこれが最速
 	//これを無くせれば、本当にGameObjectをインスタンスとして持つ必要はなくなりメモリも浮くが、とりあえずそれは後々考える
 	//あとこれをやるなら、main終わってもメモリ解放されないのはちょっとキモいので自分でプール作って載せたい
-	std::list<ComponentHandle<Component>,
-		boost::fast_pool_allocator<ComponentHandle<Component>,CompsAllocator>> comps_;
+	std::list<std::weak_ptr<Component>,
+		boost::fast_pool_allocator<std::weak_ptr<Component>,CompsAllocator>> comps_;
 	boost::mutex comps_mutex_;
 	bool delete_flag_;
-	//自分を指すshared_ptr
-	std::shared_ptr<GameObject> this_sh_;
+	//自分を指すweak_ptr
+	std::weak_ptr<GameObject> this_wk_;
 };
 
 template<class T, class ...Args>
-inline ComponentHandle<T> GameObject::AddUpdateComponent(Args ...args)
+inline std::weak_ptr<T> GameObject::AddUpdateComponent(Args ...args)
 {
-	auto handle = scene_->AddUpdateComponent<T>(this_sh_, args...);
-	if (handle) {
+	std::weak_ptr<T> handle = scene_->AddUpdateComponent<T>(this_wk_, args...);
+	if (!handle.expired()) {
 		{
 			boost::unique_lock<boost::mutex> lock(comps_mutex_);
 			comps_.push_back(handle);
 		}
 		if (delete_flag_) {
-			handle->SetDeleteFlag();
+			handle.lock()->SetDeleteFlag();
 		}
 	}
 	return handle;
 }
 
 template<class T, class ...Args>
-inline ComponentHandle<T> GameObject::AddOutputComponent(Args ...args)
+inline std::weak_ptr<T> GameObject::AddOutputComponent(Args ...args)
 {
-	auto handle = scene_->AddOutputComponent<T>(this_sh_, args...);
-	if (handle) {
+	std::weak_ptr<T> handle = scene_->AddOutputComponent<T>(this_wk_, args...);
+	if (!handle.expired()) {
 		{
 			boost::unique_lock<boost::mutex> lock(comps_mutex_);
 			comps_.push_back(handle);
 		}
 		if (delete_flag_) {
-			handle->SetDeleteFlag();
+			handle.lock()->SetDeleteFlag();
 		}
 	}
 	return handle;

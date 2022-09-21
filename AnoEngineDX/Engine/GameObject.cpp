@@ -18,22 +18,23 @@ GameObject::~GameObject()
 
 void GameObject::UnregisterInvalidChilds()
 {
-	std::erase_if(comps_, [](const ComponentHandle<Component>& comp) {
-		return !comp;
+	std::erase_if(comps_, [](const std::weak_ptr<Component>& comp) {
+		return comp.expired();
 	});
 }
 
 void GameObject::SetAllCompsFlag()
 {
-	std::for_each(comps_.begin(), comps_.end(), [](ComponentHandle<Component>& comp) {
-		comp->SetDeleteFlag();
+	std::for_each(comps_.begin(), comps_.end(), [](std::weak_ptr<Component>& comp) {
+		if (!comp.expired()) {
+			comp.lock()->SetDeleteFlag();
+		}
 	});
 }
 
 void GameObject::SetDeleteFlag()
 {
 	if (!delete_flag_) {
-		scene_->Erase(this_sh_);
 		SetAllCompsFlag();
 		delete_flag_ = true;
 	}
@@ -46,12 +47,6 @@ bool GameObject::GetDeleteFlag() const
 
 void GameObject::SetSharedPtr(std::shared_ptr<GameObject> obj)
 {
-	assert(!this_sh_);
-	this_sh_ = obj;
-}
-
-void GameObject::ResetSharedPtr(std::shared_ptr<GameObject> obj)
-{
-	assert(obj == this_sh_);
-	this_sh_.reset();
+	assert(this_wk_.expired());
+	this_wk_ = obj;
 }

@@ -3,9 +3,11 @@
 //This source code and a part of it must not be reproduced or used in any case.
 //================================================================================
 #pragma once
+#include "Log.h"
 
-#include "Component.h"
-#include "ComponentHandle.h"
+class Scene;
+class GameObject;
+class Component;
 
 //Sceneで用いる、Componentのコンテナや関連処理をまとめたクラス
 class ElementContainer
@@ -31,21 +33,19 @@ public:
 	//このフレーム内で生成されたComponentのInitialize実行および不要なComponentを削除する
 	void ProcessPandingElements();
 	//メモリプールにオブジェクトを確保
-	GameObjectHandle AddObject(Scene* scene);
+	std::weak_ptr<GameObject> AddObject(Scene* scene);
 	//objの指すGameObjectにUpdateComponentを追加(Scene::AddUpdateComponentから呼び出される)
 	template<class T, class... Args>
-	ComponentHandle<T> AddUpdateComponent(std::shared_ptr<GameObject> obj, Args... args);
+	std::weak_ptr<T> AddUpdateComponent(std::weak_ptr<GameObject> obj, Args... args);
 	//objの指すGameObjectにOutputComponentを追加(Scene::AddOutputComponentから呼び出される)
 	template<class T, class... Args>
-	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
+	std::weak_ptr<T> AddOutputComponent(std::weak_ptr<GameObject> obj, Args... args);
 	//このupd_prioを持つコンポーネントを実行する前に実行する関数を登録する
 	//(コンポーネントが存在しなければ実行しない)
 	void SetOutputCompsPreFunc(int upd_prio,std::function<void()> func);
 	//このupd_prioを持つ最後のコンポーネントを実行した後に実行する関数を登録する
 	//(コンポーネントが存在しなければ実行しない)
 	void SetOutputCompsPostFunc(int upd_prio, std::function<void()> func);
-	//このGameObjectを、今フレームOutput後に削除する(Scene::Eraseから呼び出される)
-	void Erase(std::weak_ptr<GameObject> ptr);
 	//このComponentを、今フレームOutput後に削除する(Scene::Eraseから呼び出される)
 	void Erase(std::weak_ptr<Component> ptr);
 	//このContainerのもつGameObject/Componentをすべて解放する
@@ -82,26 +82,26 @@ private:
 	static int comp_pool_used_chunk_128_;
 	//メモリプール上にアロケートしコンストラクタを実行する Scene::AddUpdate/OutputComponent用
 	template<class T, class... Args>
-	std::shared_ptr<T> AllocateComponentInPool(GameObjectHandle obj, Args... args);
+	std::shared_ptr<T> AllocateComponentInPool(std::weak_ptr<GameObject> obj, Args... args);
 	//Update中にComponentのInitialize()を別スレッドで実行する関数
 	void CompInitThreadFunc();
 	//update_components_とpanding_update_components_を整理し融合する(マルチスレッド用)
 	void MergeUpdateComponents();
 	//output_components_とpanding_output_components_を整理し融合する(マルチスレッド用)
 	void MergeOutputComponents();
-	std::vector<std::weak_ptr<GameObject>> objs_;
+	std::vector<std::shared_ptr<GameObject>> objs_;
 	//自身の持つ更新・出力コンポーネントのリスト，および保留コンポーネント
 	//HACK:余裕あったら別のコンテナに変えた場合のパフォーマンス比較
-	std::vector<std::weak_ptr<Component>> update_components_;
+	std::vector<std::shared_ptr<Component>> update_components_;
 	boost::mutex update_components_mutex_;
-	std::vector<std::weak_ptr<Component>> panding_update_components_;
-	std::vector<std::weak_ptr<Component>> output_components_;
+	std::vector<std::shared_ptr<Component>> panding_update_components_;
+	std::vector<std::shared_ptr<Component>> output_components_;
 	//このupd_priority_を持つOutputComponentのUpdateをはじめて実行する前に、このmapに登録した関数を呼び出す
 	std::map<int, std::function<void()>> output_func_in_;
 	//このupd_priority_を持つ最後のOutputComponentのUpdateを実行する前に、このmapに登録した関数を呼び出す
 	std::map<int, std::function<void()>> output_func_out_;
 	boost::mutex output_components_mutex_;
-	std::vector<std::weak_ptr<Component>> panding_output_components_;
+	std::vector<std::shared_ptr<Component>> panding_output_components_;
 	//Update中にComponentのInitialize()を実行するためのスレッド(CreateCompInitThreadInUpdate()で作成)
 	boost::thread comp_init_thread_;
 	//CompInitThreadFuncのcondition_variable用のもろもろ
@@ -110,9 +110,9 @@ private:
 	//これがtrueの間のみcomp_init_thread_in_update_を生存させる
 	bool comp_init_thread_flag_;
 	//Initiateを実行するべきComponentたち 後から追加し、前から実行していく
-	std::list<std::weak_ptr<Component>> update_comps_to_initiate_;
+	std::list<std::shared_ptr<Component>> update_comps_to_initiate_;
 	boost::mutex update_comps_to_initiate_mutex_;
-	std::list<std::weak_ptr<Component>> output_comps_to_initiate_;
+	std::list<std::shared_ptr<Component>> output_comps_to_initiate_;
 	boost::mutex output_comps_to_initiate_mutex_;
 	//次消すべきオブジェクトのid
 	std::list<std::weak_ptr<GameObject>> delete_objs_;
@@ -123,10 +123,9 @@ private:
 };
 
 template<class T, class ...Args>
-inline ComponentHandle<T> ElementContainer::AddUpdateComponent(std::shared_ptr<GameObject> obj, Args ...args)
+inline std::weak_ptr<T> ElementContainer::AddUpdateComponent(std::weak_ptr<GameObject> obj, Args ...args)
 {
-	GameObjectHandle handle(obj);
-	std::shared_ptr<T> shp = AllocateComponentInPool<T>(handle, args...);
+	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
 	shp->SetSharedPtr(shp);
 	{
 		boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
@@ -136,14 +135,13 @@ inline ComponentHandle<T> ElementContainer::AddUpdateComponent(std::shared_ptr<G
 		boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
 		comp_init_thread_func_cond_.notify_one();
 	}
-	return ComponentHandle<T>(shp);
+	return shp;
 }
 
 template<class T, class ...Args>
-inline ComponentHandle<T> ElementContainer::AddOutputComponent(std::shared_ptr<GameObject> obj, Args ...args)
+inline std::weak_ptr<T> ElementContainer::AddOutputComponent(std::weak_ptr<GameObject> obj, Args ...args)
 {
-	GameObjectHandle handle(obj);
-	std::shared_ptr<T> shp = AllocateComponentInPool<T>(handle, args...);
+	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
 	shp->SetSharedPtr(shp);
 	{
 		boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
@@ -153,11 +151,11 @@ inline ComponentHandle<T> ElementContainer::AddOutputComponent(std::shared_ptr<G
 		boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
 		comp_init_thread_func_cond_.notify_one();
 	}
-	return ComponentHandle<T>(shp);
+	return shp;
 }
 
 template<class T, class ...Args>
-inline std::shared_ptr<T> ElementContainer::AllocateComponentInPool(GameObjectHandle obj, Args ...args)
+inline std::shared_ptr<T> ElementContainer::AllocateComponentInPool(std::weak_ptr<GameObject> obj, Args ...args)
 {
 	std::shared_ptr<T> shp;
 	switch (GetSizeClass(sizeof(T))) {

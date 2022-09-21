@@ -62,9 +62,6 @@
     <ClCompile Include="Engine\ElementContainer.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObjectHandle.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DX12\Master.cpp">
       <Filter>Engine\DX12</Filter>
     </ClCompile>
@@ -149,9 +146,6 @@
     <ClInclude Include="Engine\Component.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ComponentHandle.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -198,9 +192,6 @@
       <Filter>Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ElementContainer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObjectHandle.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DX12\Master.h">

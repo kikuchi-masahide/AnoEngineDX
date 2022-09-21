@@ -42,7 +42,6 @@
     <ClCompile Include="Engine\FontMaster.cpp" />
     <ClCompile Include="Engine\Game.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
-    <ClCompile Include="Engine\GameObjectHandle.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
     <ClCompile Include="Engine\Log.cpp" />
     <ClCompile Include="Engine\Math\Matrix4x4.cpp" />
@@ -92,11 +91,9 @@
     <ClInclude Include="Engine\DX12\VertexBuffer.h" />
     <ClInclude Include="Engine\DX12\VertexLayout.h" />
     <ClInclude Include="Engine\ElementContainer.h" />
-    <ClInclude Include="Engine\ComponentHandle.h" />
     <ClInclude Include="Engine\FontMaster.h" />
     <ClInclude Include="Engine\Game.h" />
     <ClInclude Include="Engine\GameObject.h" />
-    <ClInclude Include="Engine\GameObjectHandle.h" />
     <ClInclude Include="Engine\InputSystem.h" />
     <ClInclude Include="Engine\Log.h" />
     <ClInclude Include="Engine\Math\Math.h" />

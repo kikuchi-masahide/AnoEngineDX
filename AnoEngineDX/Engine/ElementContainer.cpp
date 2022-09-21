@@ -6,6 +6,9 @@
 
 #include "Component.h"
 #include "GameObject.h"
+#include "Scene.h"
+#include <stack>
+#include "Log.h"
 
 void ElementContainer::MemoryInit()
 {
@@ -32,8 +35,8 @@ void ElementContainer::CreateCompInitThread()
 
 void ElementContainer::LaunchUpdateComponents()
 {
-	for (auto wkptr : update_components_) {
-		wkptr.lock()->Update();
+	for (auto ptr : update_components_) {
+		ptr->Update();
 	}
 }
 
@@ -41,26 +44,25 @@ void ElementContainer::LaunchOutputComponents()
 {
 	if (output_components_.size() > 0) {
 		//直前に実行したOutputComponentのupd_pirority_
-		int prev_upd_prio = output_components_[0].lock()->upd_priority_;
+		int prev_upd_prio = output_components_[0]->upd_priority_;
 		auto itr = output_func_in_.find(prev_upd_prio);
 		if (itr != output_func_in_.end()) {
 			(itr->second)();
 		}
-		for (auto wkptr : output_components_) {
-			auto shptr = wkptr.lock();
-			if (shptr->upd_priority_ != prev_upd_prio) {
+		for (auto ptr : output_components_) {
+			if (ptr->upd_priority_ != prev_upd_prio) {
 				itr = output_func_out_.find(prev_upd_prio);
 				if (itr != output_func_out_.end()) {
 					//登録した関数を実行
 					(itr->second)();
 				}
-				itr = output_func_in_.find(shptr->upd_priority_);
+				itr = output_func_in_.find(ptr->upd_priority_);
 				if (itr != output_func_in_.end()) {
 					(itr->second)();
 				}
-				prev_upd_prio = shptr->upd_priority_;
+				prev_upd_prio = ptr->upd_priority_;
 			}
-			shptr->Update();
+			ptr->Update();
 		}
 		itr = output_func_out_.find(prev_upd_prio);
 		if (itr != output_func_out_.end()) {
@@ -82,60 +84,51 @@ void ElementContainer::FinishCompInitThread()
 void ElementContainer::ProcessPandingElements()
 {
 	//HACK:マルチスレッド化できるか?
-	std::set<GameObjectHandle> obj_to_reset_childs;
+	//子Componentが消去されたのでそのリストを変更する必要があるオブジェクト(DeleteFlagがonの可能性あり)
+	std::queue<std::weak_ptr<GameObject>> obj_to_reset_childs;
 	while (true) {
 		if (!delete_comps_.empty()) {
 			auto shptr = delete_comps_.front().lock();
-			obj_to_reset_childs.insert(shptr->obj_);
-			shptr->ResetSharedPtr(shptr);
+			obj_to_reset_childs.push(shptr->obj_);
+			shptr->CleanUp();
 			delete_comps_.pop_front();
 			continue;
 		}
 		else if (!update_comps_to_initiate_.empty()) {
-			auto shptr = update_comps_to_initiate_.front().lock();
+			auto shptr = update_comps_to_initiate_.front();
 			shptr->AsyncInitialize();
 			panding_update_components_.push_back(shptr);
 			update_comps_to_initiate_.pop_front();
 			continue;
 		}
 		else if (!output_comps_to_initiate_.empty()) {
-			auto shptr = output_comps_to_initiate_.front().lock();
+			auto shptr = output_comps_to_initiate_.front();
 			shptr->AsyncInitialize();
 			panding_output_components_.push_back(shptr);
 			output_comps_to_initiate_.pop_front();
-			continue;
-		}
-		else if (!delete_objs_.empty()) {
-			auto shptr = delete_objs_.front().lock();
-			shptr->ResetSharedPtr(shptr);
-			delete_objs_.pop_front();
 			continue;
 		}
 		else {
 			break;
 		}
 	}
-	for (auto obj : obj_to_reset_childs) {
-		if (obj) {
-			obj->UnregisterInvalidChilds();
-		}
-	}
 	boost::thread thread_update(&ElementContainer::MergeUpdateComponents, this);
 	boost::thread thread_output(&ElementContainer::MergeOutputComponents, this);
-	for (auto obj : obj_to_reset_childs) {
-		if (obj) {
-			obj->UnregisterInvalidChilds();
-		}
-	}
-	obj_to_reset_childs.clear();
-	std::erase_if(objs_, [](const std::weak_ptr<GameObject>& wkptr) {
-		return wkptr.expired();
+	std::erase_if(objs_, [](const std::shared_ptr<GameObject>& ptr) {
+		return ptr->GetDeleteFlag();
 	});
+	while (!obj_to_reset_childs.empty()) {
+		auto obj = obj_to_reset_childs.front();
+		if (!obj.expired()) {
+			obj.lock()->UnregisterInvalidChilds();
+		}
+		obj_to_reset_childs.pop();
+	}
 	thread_update.join();
 	thread_output.join();
 }
 
-GameObjectHandle ElementContainer::AddObject(Scene* scene)
+std::weak_ptr<GameObject> ElementContainer::AddObject(Scene* scene)
 {
 	std::shared_ptr<GameObject> shp;
 	{
@@ -143,13 +136,12 @@ GameObjectHandle ElementContainer::AddObject(Scene* scene)
 			Log::OutputCritical("Object number exceeded limit");
 		}
 		boost::unique_lock<boost::mutex> lock(obj_pool_mutex_);
-		//HACK:make_sharedを使う(アロケータが必要?)
 		shp = std::shared_ptr<GameObject>(new(obj_pool_->malloc()) GameObject(scene), ObjPoolDeleter);
 		obj_pool_used_chunk_++;
 	}
 	shp->SetSharedPtr(shp);
 	objs_.push_back(shp);
-	return GameObjectHandle(shp);
+	return shp;
 }
 
 void ElementContainer::SetOutputCompsPreFunc(int upd_prio, std::function<void()> func)
@@ -163,12 +155,6 @@ void ElementContainer::SetOutputCompsPostFunc(int upd_prio, std::function<void()
 	output_func_out_[upd_prio] = func;
 }
 
-void ElementContainer::Erase(std::weak_ptr<GameObject> ptr)
-{
-	boost::unique_lock<boost::mutex> lock(delete_objs_mutex_);
-	delete_objs_.push_back(ptr);
-}
-
 void ElementContainer::Erase(std::weak_ptr<Component> ptr)
 {
 	boost::unique_lock<boost::mutex> lock(delete_comps_mutex_);
@@ -178,34 +164,22 @@ void ElementContainer::Erase(std::weak_ptr<Component> ptr)
 void ElementContainer::FreeAllElements()
 {
 	for (auto& comp : update_components_) {
-		auto shp = comp.lock();
-		shp->ResetSharedPtr(shp);
-		shp.reset();
+		comp->CleanUp();
 	}
 	update_components_.clear();
 	for (auto& comp : panding_update_components_) {
-		auto shp = comp.lock();
-		shp->ResetSharedPtr(shp);
-		shp.reset();
+		comp->CleanUp();
 	}
 	panding_update_components_.clear();
 	for (auto& comp : output_components_) {
-		auto shp = comp.lock();
-		shp->ResetSharedPtr(shp);
-		shp.reset();
+		comp->CleanUp();
 	}
 	output_components_.clear();
 	for (auto& comp : panding_output_components_) {
-		auto shp = comp.lock();
-		shp->ResetSharedPtr(shp);
-		shp.reset();
+		comp->CleanUp();
 	}
 	panding_output_components_.clear();
-	for (auto ptr : objs_) {
-		std::shared_ptr<GameObject> shptr = ptr.lock();
-		shptr->ResetSharedPtr(shptr);
-		shptr.reset();
-	}
+	objs_.clear();
 }
 
 int ElementContainer::GetGameObjectNumber() const
@@ -289,14 +263,14 @@ void ElementContainer::CompInitThreadFunc()
 		}
 		if (size > 0) {
 			//一時コピー先
-			std::list<std::weak_ptr<Component>> cmps;
+			std::list<std::shared_ptr<Component>> cmps;
 			{
 				boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
 				cmps.swap(update_comps_to_initiate_);
 			}
-			for (auto wkptr : cmps) {
-				wkptr.lock()->AsyncInitialize();
-				panding_update_components_.push_back(wkptr);
+			for (auto ptr : cmps) {
+				ptr->AsyncInitialize();
+				panding_update_components_.push_back(ptr);
 			}
 		}
 		{
@@ -305,14 +279,14 @@ void ElementContainer::CompInitThreadFunc()
 		}
 		if (size > 0) {
 			//一時コピー先
-			std::list<std::weak_ptr<Component>> cmps;
+			std::list<std::shared_ptr<Component>> cmps;
 			{
 				boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
 				cmps.swap(output_comps_to_initiate_);
 			}
-			for (auto wkptr : cmps) {
-				wkptr.lock()->AsyncInitialize();
-				panding_output_components_.push_back(wkptr);
+			for (auto ptr : cmps) {
+				ptr->AsyncInitialize();
+				panding_output_components_.push_back(ptr);
 			}
 		}
 		if (!comp_init_thread_flag_) {

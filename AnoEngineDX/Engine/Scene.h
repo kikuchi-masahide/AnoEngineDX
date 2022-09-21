@@ -4,7 +4,6 @@
 //================================================================================
 #pragma once
 
-#include "GameObjectHandle.h"
 #include "ElementContainer.h"
 #include "Component.h"
 #include "InputSystem.h"
@@ -61,17 +60,17 @@ public:
 	/// (このフレームでのGameObject，Component追加はまだ保留状態)
 	/// </summary>
 	virtual void PosteriorUniqueOutput();
-	GameObjectHandle AddObject();
+	std::weak_ptr<GameObject> AddObject();
 	/// <summary>
 	/// objの指すGameObjectにUpdateComponentを追加(GameObject::AddUpdateComponentから呼び出される)
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddUpdateComponent(std::shared_ptr<GameObject> obj, Args... args);
+	std::weak_ptr<T> AddUpdateComponent(std::weak_ptr<GameObject> obj, Args... args);
 	/// <summary>
 	/// objの指すGameObjectにOutputComponentを追加(GameObject::AddOutputComponentから呼び出される)
 	/// </summary>
 	template<class T, class... Args>
-	ComponentHandle<T> AddOutputComponent(std::shared_ptr<GameObject> obj, Args... args);
+	std::weak_ptr<T> AddOutputComponent(std::weak_ptr<GameObject> obj, Args... args);
 	/// <summary>
 	/// このupd_prioを持つコンポーネントを実行する前に実行する関数を登録する
 	/// (コンポーネントが存在しなければ実行しない)
@@ -129,9 +128,6 @@ public:
 	/// </summary>
 	MatVec::Vector2 GetMouseScreenPos() const;
 	Game& game_;
-
-	//このGameObjectを、フレーム切り替え前に消去する(GameObject::SetDeleteFlagから呼び出される)
-	void Erase(std::weak_ptr<GameObject> ptr);
 	void Erase(std::weak_ptr<Component> ptr);
 	int GetGameObjectNumber();
 	int GetUpdateComponentNumber();
@@ -179,19 +175,19 @@ private:
 };
 
 template<class T, class ...Args>
-inline ComponentHandle<T> Scene::AddUpdateComponent(std::shared_ptr<GameObject> obj, Args ...args)
+inline std::weak_ptr<T> Scene::AddUpdateComponent(std::weak_ptr<GameObject> obj, Args ...args)
 {
-	if (is_executing_destructor_) {
-		return ComponentHandle<T>();
+	if (is_executing_destructor_ || obj.expired()) {
+		return std::weak_ptr<T>();
 	}
 	return element_container_.AddUpdateComponent<T>(obj, args...);
 }
 
 template<class T, class ...Args>
-inline ComponentHandle<T> Scene::AddOutputComponent(std::shared_ptr<GameObject> obj, Args ...args)
+inline std::weak_ptr<T> Scene::AddOutputComponent(std::weak_ptr<GameObject> obj, Args ...args)
 {
-	if (is_executing_destructor_) {
-		return ComponentHandle<T>();
+	if (is_executing_destructor_ || obj.expired()) {
+		return std::weak_ptr<T>();
 	}
 	return element_container_.AddOutputComponent<T>(obj, args...);
 }

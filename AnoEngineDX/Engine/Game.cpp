@@ -8,6 +8,7 @@
 #include "GameObject.h"
 #include "boost/pool/pool_alloc.hpp"
 #include "CryptoMaster.h"
+#include "Log.h"
 
 #pragma comment(lib,"winmm.lib")
 
@@ -33,7 +34,7 @@ Game::~Game()
 		DeleteScene(panding_scene_);
 	}
 	audiomaster_.Shutdown();
-	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(ComponentHandle<Component>)>::purge_memory();
+	boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(std::weak_ptr<Component>)>::purge_memory();
 	Log::OutputTrivial("Game::~Game()");
 	Log::CleanUp();
 }
