@@ -22,14 +22,10 @@ public:
 	static void MemoryInit();
 	ElementContainer();
 	~ElementContainer();
-	//SceneのUpdateで呼び出し、Component::Initを呼び出すための専用スレッドを立てる
-	void CreateCompInitThread();
 	//このContainerに関数実行時点で含まれる、UpdateComponentのUpdateを順次実行する
 	void LaunchUpdateComponents();
 	//このContainerのOutputComponentのUpdateを順次実行する
 	void LaunchOutputComponents();
-	//現在溜まっているCompのInitが終わったらInitスレッドを終了させ、スレッド終了のタイミングで処理を返す
-	void FinishCompInitThread();
 	//このフレーム内で生成されたComponentのInitialize実行および不要なComponentを削除する
 	void ProcessPandingElements();
 	//メモリプールにオブジェクトを確保
@@ -54,6 +50,10 @@ public:
 	int GetUpdateComponentNumber() const;
 	int GetOutputComponentNumber() const;
 private:
+	//Component::Initを呼び出すための専用スレッドを立てる
+	void CreateCompInitThread();
+	//現在溜まっているCompのInitが終わったらInitスレッドを終了させ、スレッド終了のタイミングで処理を返す
+	void FinishCompInitThread();
 	//渡されたサイズから、Componentを格納すべきプールを決定する
 	static int GetSizeClass(std::size_t size);
 	//GameObjectを保存するメモリプール
@@ -92,32 +92,35 @@ private:
 	std::vector<std::shared_ptr<GameObject>> objs_;
 	//自身の持つ更新・出力コンポーネントのリスト，および保留コンポーネント
 	//HACK:余裕あったら別のコンテナに変えた場合のパフォーマンス比較
+	//update_components_は
+	//・LaunchUpdateComponentsでイテレートされ、
+	//・ProcessPandingElementsでpanding_update_components_と結合される
+	//が、二つが同時に起こることはないため、mutexは必要ない
 	std::vector<std::shared_ptr<Component>> update_components_;
-	boost::mutex update_components_mutex_;
+	//panding_update_components_は
+	//・CompInitThreadFuncで追加され
+	//・ProcessPandingElementsでupdate_components_と結合される
+	//が、AsyncInitializeはすべてProcessPandingElementsの前に完了するのでmutexは必要ない
 	std::vector<std::shared_ptr<Component>> panding_update_components_;
 	std::vector<std::shared_ptr<Component>> output_components_;
 	//このupd_priority_を持つOutputComponentのUpdateをはじめて実行する前に、このmapに登録した関数を呼び出す
 	std::map<int, std::function<void()>> output_func_in_;
 	//このupd_priority_を持つ最後のOutputComponentのUpdateを実行する前に、このmapに登録した関数を呼び出す
 	std::map<int, std::function<void()>> output_func_out_;
-	boost::mutex output_components_mutex_;
 	std::vector<std::shared_ptr<Component>> panding_output_components_;
 	//Update中にComponentのInitialize()を実行するためのスレッド(CreateCompInitThreadInUpdate()で作成)
 	boost::thread comp_init_thread_;
-	//CompInitThreadFuncのcondition_variable用のもろもろ
-	boost::condition_variable comp_init_thread_func_cond_;
-	boost::mutex comp_init_thread_func_mutex_;
-	//これがtrueの間のみcomp_init_thread_in_update_を生存させる
-	bool comp_init_thread_flag_;
 	//Initiateを実行するべきComponentたち 後から追加し、前から実行していく
-	std::list<std::shared_ptr<Component>> update_comps_to_initiate_;
-	boost::mutex update_comps_to_initiate_mutex_;
-	std::list<std::shared_ptr<Component>> output_comps_to_initiate_;
-	boost::mutex output_comps_to_initiate_mutex_;
+	std::queue<std::shared_ptr<Component>> update_comps_to_initiate_;
+	std::queue<std::shared_ptr<Component>> output_comps_to_initiate_;
+	//udpate/output_comps_to_initiate_両方に対するmutex
+	boost::mutex comps_to_initiate_mutex_;
+	//update_comps_to_initiate_とoutput_comps_to_initiate_の変更を通知するcondition_variable
+	boost::condition_variable initiate_comps_cv_;
 	//次消すべきオブジェクトのid
 	std::list<std::weak_ptr<GameObject>> delete_objs_;
 	boost::mutex delete_objs_mutex_;
-	//次削除予定のComponentのリスト
+	//次削除予定のComponentのリスト(LIFO)
 	std::list<std::weak_ptr<Component>> delete_comps_;
 	boost::mutex delete_comps_mutex_;
 };
@@ -128,12 +131,10 @@ inline std::weak_ptr<T> ElementContainer::AddUpdateComponent(std::weak_ptr<GameO
 	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
 	shp->SetSharedPtr(shp);
 	{
-		boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
-		update_comps_to_initiate_.push_back(shp);
-	}
-	{
-		boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
-		comp_init_thread_func_cond_.notify_one();
+		boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+		update_comps_to_initiate_.push(shp);
+		//別スレッドに変更を通知
+		initiate_comps_cv_.notify_all();
 	}
 	return shp;
 }
@@ -144,12 +145,10 @@ inline std::weak_ptr<T> ElementContainer::AddOutputComponent(std::weak_ptr<GameO
 	std::shared_ptr<T> shp = AllocateComponentInPool<T>(obj, args...);
 	shp->SetSharedPtr(shp);
 	{
-		boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
-		output_comps_to_initiate_.push_back(shp);
-	}
-	{
-		boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
-		comp_init_thread_func_cond_.notify_one();
+		boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+		output_comps_to_initiate_.push(shp);
+		//別スレッドに変更を通知
+		initiate_comps_cv_.notify_all();
 	}
 	return shp;
 }

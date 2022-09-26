@@ -32,7 +32,6 @@ void Scene::Update(const InputSystem* input)
 	input_system_ = input;
 	//ここからしばらくの間，追加されるオブジェクト・コンポーネントは保留に入れる
 	is_objcomp_addable_ = false;
-	element_container_.CreateCompInitThread();
 	PriorUniqueUpdate();
 	//UIScreenにブロックされてなければUpdateを実行
 	if (update_flag_for_comps_)
@@ -58,10 +57,8 @@ void Scene::Output()
 	element_container_.LaunchOutputComponents();
 	LaunchOutputUIScreens();
 	PosteriorUniqueOutput();
-	element_container_.FinishCompInitThread();
 	//保留していたオブジェクト・コンポーネントの処理を行う
-	//TODO:本格的なオブジェクトの初期化をOutputの後に行うようにしたいので、ProcessPanding->Delete~の順にする
-	ProcessPandingComps();
+	element_container_.ProcessPandingElements();
 	DeleteUIScreen();
 	is_objcomp_addable_ = true;
 	ProcessPandingUIScreens();
@@ -255,11 +252,6 @@ void Scene::LaunchOutputUIScreens()
 	for (int n = 0; n < uiscreens_.size(); n++) {
 		uiscreens_[n]->Output();
 	}
-}
-
-void Scene::ProcessPandingComps()
-{
-	element_container_.ProcessPandingElements();
 }
 
 void Scene::ProcessPandingUIScreens()

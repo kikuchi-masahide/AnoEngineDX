@@ -64,6 +64,8 @@ void Game::RunLoop()
 	//"微妙に"たまっている時間
 	double millisec = 0;
 	DWORD start = timeGetTime();
+	//GameのコンストラクタでSceneを更新した場合のため、一度panding_scene_をチェック
+	ProcessPandingScene();
 	//メッセージループ
 	while (true) {
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -73,7 +75,6 @@ void Game::RunLoop()
 		if (msg.message == WM_QUIT) {
 			break;
 		}
-		ProcessPandingScene();
 		DWORD now = timeGetTime();
 		double time = millisec + (double)(now - start);
 		if (time < kFrameTimeDelta) {
@@ -99,6 +100,7 @@ void Game::RunLoop()
 			update_time = timeGetTime() - update_time;
 			DWORD output_time = timeGetTime();
 			GenerateOutput();
+			ProcessPandingScene();
 			output_time = timeGetTime() - output_time;
 			Log::UpdateDatas(update_time, output_time, obj_num, update_comp_num, output_comp_num);
 			millisec -= kFrameTimeDelta;

@@ -20,17 +20,12 @@ void ElementContainer::MemoryInit()
 
 ElementContainer::ElementContainer()
 {
+	CreateCompInitThread();
 }
 
 ElementContainer::~ElementContainer()
 {
-}
-
-void ElementContainer::CreateCompInitThread()
-{
-	comp_init_thread_flag_ = true;
-	boost::thread th(&ElementContainer::CompInitThreadFunc, this);
-	comp_init_thread_.swap(th);
+	FinishCompInitThread();
 }
 
 void ElementContainer::LaunchUpdateComponents()
@@ -71,45 +66,38 @@ void ElementContainer::LaunchOutputComponents()
 	}
 }
 
-void ElementContainer::FinishCompInitThread()
-{
-	{
-		boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
-		comp_init_thread_flag_ = false;
-		comp_init_thread_func_cond_.notify_one();
-	}
-	comp_init_thread_.join();
-}
-
 void ElementContainer::ProcessPandingElements()
 {
-	//HACK:マルチスレッド化できるか?
 	//子Componentが消去されたのでそのリストを変更する必要があるオブジェクト(DeleteFlagがonの可能性あり)
 	std::queue<std::weak_ptr<GameObject>> obj_to_reset_childs;
 	while (true) {
-		if (!delete_comps_.empty()) {
-			auto shptr = delete_comps_.front().lock();
+		//一回もコンポーネント削除を行わなければtrue
+		bool no_delete = true;
+		std::list<std::weak_ptr<Component>> compswap;
+		{
+			boost::unique_lock<boost::mutex> lock(delete_comps_mutex_);
+			compswap.swap(delete_comps_);
+		}
+		while (!compswap.empty()) {
+			no_delete = false;
+			auto shptr = compswap.front().lock();
 			obj_to_reset_childs.push(shptr->obj_);
 			shptr->CleanUp();
-			delete_comps_.pop_front();
-			continue;
+			compswap.pop_front();
 		}
-		else if (!update_comps_to_initiate_.empty()) {
-			auto shptr = update_comps_to_initiate_.front();
-			shptr->AsyncInitialize();
-			panding_update_components_.push_back(shptr);
-			update_comps_to_initiate_.pop_front();
-			continue;
-		}
-		else if (!output_comps_to_initiate_.empty()) {
-			auto shptr = output_comps_to_initiate_.front();
-			shptr->AsyncInitialize();
-			panding_output_components_.push_back(shptr);
-			output_comps_to_initiate_.pop_front();
-			continue;
-		}
-		else {
-			break;
+		{
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			if (update_comps_to_initiate_.empty() && output_comps_to_initiate_.empty()) {
+				boost::unique_lock<boost::mutex> dlock(delete_comps_mutex_);
+				if (delete_comps_.empty()) {
+					break;
+				}
+			}
+			else {
+				//AsyncInitializeの完了を待つ
+				//HACK:多分これが一番安全だけど、もっと速い方法がある気がする なんとなくだけど
+				initiate_comps_cv_.wait(lock);
+			}
 		}
 	}
 	boost::thread thread_update(&ElementContainer::MergeUpdateComponents, this);
@@ -197,6 +185,19 @@ int ElementContainer::GetOutputComponentNumber() const
 	return output_components_.size();
 }
 
+void ElementContainer::CreateCompInitThread()
+{
+	boost::thread th(&ElementContainer::CompInitThreadFunc, this);
+	comp_init_thread_.swap(th);
+}
+
+void ElementContainer::FinishCompInitThread()
+{
+	//AsyncInitializeスレッドに中断を通知
+	comp_init_thread_.interrupt();
+	comp_init_thread_.join();
+}
+
 int ElementContainer::GetSizeClass(std::size_t size)
 {
 	if (size <= 64) {
@@ -255,57 +256,74 @@ void ElementContainer::CompPoolDeleter128(Component* p)
 
 void ElementContainer::CompInitThreadFunc()
 {
-	do {
-		int size = 0;
+	//スレッドの終了命令が飛んでいても、全AsyncInitializeは終わらせる
+	while (true) {
+		//次AsyncInitializeするコンポーネント
+		std::shared_ptr<Component> cmp;
 		{
-			boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
-			size = update_comps_to_initiate_.size();
-		}
-		if (size > 0) {
-			//一時コピー先
-			std::list<std::shared_ptr<Component>> cmps;
-			{
-				boost::unique_lock<boost::mutex> lock(update_comps_to_initiate_mutex_);
-				cmps.swap(update_comps_to_initiate_);
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			if (!update_comps_to_initiate_.empty()) {
+				cmp = update_comps_to_initiate_.front();
 			}
-			for (auto ptr : cmps) {
-				ptr->AsyncInitialize();
-				panding_update_components_.push_back(ptr);
+			else {
+				cmp = nullptr;
 			}
 		}
-		{
-			boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
-			size = output_comps_to_initiate_.size();
-		}
-		if (size > 0) {
-			//一時コピー先
-			std::list<std::shared_ptr<Component>> cmps;
-			{
-				boost::unique_lock<boost::mutex> lock(output_comps_to_initiate_mutex_);
-				cmps.swap(output_comps_to_initiate_);
+		while (cmp) {
+			cmp->AsyncInitialize();
+			panding_update_components_.push_back(cmp);
+			//AsyncInitializeを完了するまでpopはしない
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			update_comps_to_initiate_.pop();
+			if (!update_comps_to_initiate_.empty()) {
+				cmp = update_comps_to_initiate_.front();
 			}
-			for (auto ptr : cmps) {
-				ptr->AsyncInitialize();
-				panding_output_components_.push_back(ptr);
+			else {
+				cmp = nullptr;
 			}
-		}
-		if (!comp_init_thread_flag_) {
-			break;
 		}
 		{
-			boost::unique_lock<boost::mutex> lock(comp_init_thread_func_mutex_);
-			comp_init_thread_func_cond_.wait(lock);
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			if (!output_comps_to_initiate_.empty()) {
+				cmp = output_comps_to_initiate_.front();
+			}
+			else {
+				cmp = nullptr;
+			}
 		}
-	} while (true);
+		while (cmp) {
+			cmp->AsyncInitialize();
+			panding_output_components_.push_back(cmp);
+			//AsyncInitializeを完了するまでpopはしない
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			output_comps_to_initiate_.pop();
+			if (!output_comps_to_initiate_.empty()) {
+				cmp = output_comps_to_initiate_.front();
+			}
+			else {
+				cmp = nullptr;
+			}
+		}
+		{
+			boost::unique_lock<boost::mutex> lock(comps_to_initiate_mutex_);
+			if (update_comps_to_initiate_.empty() && output_comps_to_initiate_.empty()) {
+				//update_comps_to_initiate_/output_comps_to_initiate_の変更を通知
+				initiate_comps_cv_.notify_all();
+				//update_comps_to_initiate_/output_comps_to_initiate_が変更されるとwaitが切れる
+				//このスレッドがinterruptされた場合、このwaitでスレッド終了する
+				initiate_comps_cv_.wait(lock);
+			}
+		}
+	}//AsyncInitializeのループ
 }
 
 void ElementContainer::MergeUpdateComponents()
 {
-	std::erase_if(update_components_, [](const std::weak_ptr<Component>& wkptr) {
-		return wkptr.expired();
+	std::erase_if(update_components_, [](const std::shared_ptr<Component>& wkptr) {
+		return wkptr->GetDeleteFlag();
 	});
-	std::erase_if(panding_update_components_, [](const std::weak_ptr<Component>& wkptr) {
-		return wkptr.expired();
+	std::erase_if(panding_update_components_, [](const std::shared_ptr<Component>& wkptr) {
+		return wkptr->GetDeleteFlag();
 	});
 	update_components_.reserve(update_components_.size() + panding_update_components_.size());
 	std::copy(panding_update_components_.begin(), panding_update_components_.end(),
@@ -313,26 +331,26 @@ void ElementContainer::MergeUpdateComponents()
 	panding_update_components_.clear();
 	//HACK:listにして挿入する感じでいけばソートがO(N)になる?
 	std::sort(update_components_.begin(), update_components_.end(),
-		[](const std::weak_ptr<Component>& a, const std::weak_ptr<Component>& b) {
-		return a.lock()->upd_priority_ < b.lock()->upd_priority_;
+		[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
+		return a->upd_priority_ < b->upd_priority_;
 	});
 }
 
 void ElementContainer::MergeOutputComponents()
 {
-	std::erase_if(output_components_, [](const std::weak_ptr<Component>& wkptr) {
-		return wkptr.expired();
+	std::erase_if(output_components_, [](const std::shared_ptr<Component>& wkptr) {
+		return wkptr->GetDeleteFlag();
 	});
-	std::erase_if(panding_output_components_, [](const std::weak_ptr<Component>& wkptr) {
-		return wkptr.expired();
+	std::erase_if(panding_output_components_, [](const std::shared_ptr<Component>& wkptr) {
+		return wkptr->GetDeleteFlag();
 	});
 	output_components_.reserve(output_components_.size() + panding_output_components_.size());
 	std::copy(panding_output_components_.begin(), panding_output_components_.end(),
 		std::back_inserter(output_components_));
 	panding_output_components_.clear();
 	std::sort(output_components_.begin(), output_components_.end(),
-		[](const std::weak_ptr<Component>& a, const std::weak_ptr<Component>& b) {
-		return a.lock()->upd_priority_ < b.lock()->upd_priority_;
+		[](const std::shared_ptr<Component>& a, const std::shared_ptr<Component>& b) {
+		return a->upd_priority_ < b->upd_priority_;
 	});
 }
 

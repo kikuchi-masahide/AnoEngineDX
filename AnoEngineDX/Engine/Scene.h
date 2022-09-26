@@ -169,7 +169,6 @@ private:
 	std::vector<MatVec::Vector2> prev_mouse_pos_for_uiscreens_;
 	//デストラクタ実行時のみtrue
 	bool is_executing_destructor_;
-	void ProcessPandingComps();
 	void ProcessPandingUIScreens();
 	ElementContainer element_container_;
 };
