@@ -1,9 +1,0 @@
-{
-  "extends": ".",
-  "compilerOptions": {
-    "module": "CommonJS",
-    "outDir": "dist",
-    "jsx": "react-jsx"
-  },
-  "include": ["src/*.ts", "src/@types/*.d.ts"]
-}
